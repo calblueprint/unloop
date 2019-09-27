@@ -8,15 +8,14 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libjpeg-dev \
     libpng-dev \
-    nodejs \
-    && rm -rf /var/lib/apt/lists/* \
-    && curl -o- -L https://yarnpkg.com/install.sh | bash
+    nodejs
+    # && rm -rf /var/lib/apt/lists/* \
+    # && curl -o- -L https://yarnpkg.com/install.sh | bash
 
 # Configure the main working directory. This is the base 
 # directory used in any further RUN, COPY, and ENTRYPOINT 
 # commands.
-RUN mkdir -p /app 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Copy the Gemfile as well as the Gemfile.lock and install 
 # the RubyGems. This is a separate step so the dependencies 
@@ -32,7 +31,9 @@ COPY . ./
 # from the outside.
 EXPOSE 3000
 
+ENTRYPOINT [ "/bin/bash" ]
+
 # The main command to run when the container starts. Also 
 # tell the Rails dev server to bind to all interfaces by 
 # default.
-CMD ["rails", "server", "-b", "0.0.0.0"]
+# CMD ["rails", "server", "-b", "0.0.0.0"]

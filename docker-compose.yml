@@ -9,26 +9,26 @@ services:
     volumes:
       - $HOME/postgres-data:/var/lib/postgresql
     image: postgres:9.6.9
-  webpacker:
-    container_name: webpacker
-    build: .
-    command: ./bin/webpack-dev-server
-    volumes:
-      - .:/app
-    ports:
-      - '3035:3035'
-    env_file:
-      - '.env.docker'
+  # webpacker:
+  #   container_name: webpacker
+  #   build: .
+  #   command: ./bin/webpack-dev-server
+  #   volumes:
+  #     - .:/app
+  #   ports:
+  #     - '3035:3035'
+  #   env_file:
+  #     - '.env.docker'
   web:
     container_name: web
     build: .
     ports:
       - "3000:3000"
-    command: /bin/sh -c "rails s -b 0.0.0.0 -p 3000"
+    # command: /bin/sh -c "rails s -b 0.0.0.0 -p 3000"
     volumes:
-      - .:/app
+      - .:/usr/src/app
     depends_on:
       - postgres
-      - webpacker
+      # - webpacker
     env_file:
       - '.env.docker'
