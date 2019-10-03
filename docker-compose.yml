@@ -3,12 +3,13 @@ version: '3'
 
 services:
   postgres:
-    container_name: postgres
+    image: postgres:11
     ports:
       - "5432:5432"
-    volumes:
-      - $HOME/postgres-data:/var/lib/postgresql
-    image: postgres:9.6.9
+    # volumes:
+    #   - ./tmp/db:/var/lib/postgresql/data
+    # volumes:
+    #   - postgres-vol:/var/lib/postgresql/data
   # webpacker:
   #   container_name: webpacker
   #   build: .
@@ -20,13 +21,12 @@ services:
   #   env_file:
   #     - '.env.docker'
   web:
-    container_name: web
     build: .
     ports:
       - "3000:3000"
-    # command: /bin/sh -c "rails s -b 0.0.0.0 -p 3000"
+    command: -c "bundle exec rails s -b 0.0.0.0 -p 3000"
     volumes:
-      - .:/usr/src/app
+      - .:/app
     depends_on:
       - postgres
       # - webpacker
