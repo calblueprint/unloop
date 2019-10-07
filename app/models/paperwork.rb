@@ -1,4 +1,4 @@
 class Paperwork < ApplicationRecord
   belongs_to :staff
-  has_one :participant
+  belongs_to :participant
 end
