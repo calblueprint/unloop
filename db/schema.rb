@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_04_042135) do
+ActiveRecord::Schema.define(version: 2019_10_07_034933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,18 @@ ActiveRecord::Schema.define(version: 2019_10_04_042135) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["participant_id"], name: "index_casenotes_on_participant_id"
     t.index ["staff_id"], name: "index_casenotes_on_staff_id"
+  end
+
+  create_table "paperworks", force: :cascade do |t|
+    t.string "link"
+    t.string "title"
+    t.boolean "agree"
+    t.bigint "staff_id", null: false
+    t.bigint "participant_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["participant_id"], name: "index_paperworks_on_participant_id"
+    t.index ["staff_id"], name: "index_paperworks_on_staff_id"
   end
 
   create_table "participants", force: :cascade do |t|
@@ -48,4 +60,6 @@ ActiveRecord::Schema.define(version: 2019_10_04_042135) do
 
   add_foreign_key "casenotes", "participants"
   add_foreign_key "casenotes", "staffs"
+  add_foreign_key "paperworks", "participants"
+  add_foreign_key "paperworks", "staffs"
 end
