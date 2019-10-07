@@ -7,4 +7,5 @@ Rails.application.routes.draw do
 
   # On failed authorization redirect to sign in page
   get 'auth/failure', to: redirect('/omniusers/sign_in')
+  resources :paperworks
 end
