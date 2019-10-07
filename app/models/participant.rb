@@ -1,4 +1,4 @@
-class Participant < ApplicationRecord
+class Participant < Omniuser
     # Include default devise modules. Others available are:
     # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
    

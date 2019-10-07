@@ -10,13 +10,22 @@ class Omniuser < ApplicationRecord
          :omniauthable, omniauth_providers: [:google_oauth2]
 
 
-    def self.from_omniauth(auth)
-    # Either create a User record or update it based on the provider (Google) and the UID   
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.token = auth.credentials.token
-      user.expires = auth.credentials.expires
-      user.expires_at = auth.credentials.expires_at
-      user.refresh_token = auth.credentials.refresh_token
+  # https://medium.com/@_benrudolph/end-to-end-devise-omniauth-google-api-rails-7f432b38ed75
+  def self.from_omniauth(access_token)
+    data = access_token.info
+
+
+    omniuser = Omniuser.where(email: data['email']).first
+
+    # Uncomment the section below if you want users to be created if they don't exist
+    unless omniuser
+        omniuser = Omniuser.create(
+           email: data['email'],
+           password: Devise.friendly_token[0,20]
+        )
     end
+    omniuser
   end
+
+
 end
