@@ -1,0 +1,18 @@
+<%= link_to 'Edit', edit_paperwork_path(@paperwork) %>
+<%= link_to 'Delete', paperwork_path(@paperwork),
+                      method: :delete,
+                      data: { confirm: 'Are you sure?' } %>
+<p>
+  <strong>Title:</strong>
+  <%= @paperwork.title %>
+</p>
+<p>
+  <strong>Link:</strong>
+  <%= @paperwork.link %>
+</p>
+<p>
+  <strong>Agree:</strong>
+  <%= @paperwork.agree %>
+</p>
+<p>
+  <%= link_to 'Back', paperworks_path%>

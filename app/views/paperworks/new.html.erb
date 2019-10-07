@@ -1,0 +1,12 @@
+<h1>New Paperwork</h1>
+<%= form_with scope: :paperwork, url: paperworks_path, local: true do |form| %>
+	Title:<br>
+	<%= form.text_field :title %> <br>
+	Link: <br>
+	<%= form.text_field :link %>
+	<br>
+  Agree: <br>
+  <%= form.check_box :agree %> <Br>
+	<%= form.submit "Submit" %>
+<% end %>
+<%= link_to 'Back', paperworks_path %>
