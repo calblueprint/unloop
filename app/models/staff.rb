@@ -1,7 +1,7 @@
 class Staff < ApplicationRecord
-    # Include default devise modules. Others available are:
-    # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-    devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :validatable, 
-    :omniauthable, omniauth_providers: [:google_oauth2]
+    # i had devise here but now staff should have omniuser which has all the devise stuff
+    # do i still need this here
+    # devise :database_authenticatable, :registerable,
+    # :recoverable, :rememberable, :validatable 
+    
 end
