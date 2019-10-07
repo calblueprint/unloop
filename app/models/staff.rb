@@ -1,7 +1,6 @@
 class Staff < Omniuser
-    # i had devise here but now staff should have omniuser which has all the devise stuff
-    # do i still need this here
+    # uncomment if devise needs to be here
     # devise :database_authenticatable, :registerable,
     # :recoverable, :rememberable, :validatable 
-    
+    belongs_to :Omniuser
 end

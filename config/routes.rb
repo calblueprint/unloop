@@ -10,5 +10,7 @@ Rails.application.routes.draw do
 
   # unsure if this needs to be here
   get 'auth/:provider/callback', to: 'sessions#googleAuth'
-  get 'auth/failure', to: redirect('/')
+  
+  # ideally should have a log in failure page
+  get 'auth/failure', to: redirect('/staffs/sign_in')
 end
