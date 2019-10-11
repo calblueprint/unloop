@@ -6,6 +6,8 @@ class Participant < Omniuser
     # devise :database_authenticatable, :registerable,
     # :recoverable, :rememberable, :validatable
     belongs_to :omniuser
-    enum status: {r0: 0, r1: 1, r2: 2, studio: 3}
+    has_many :casenotes
+    has_many :paperworks
 
+    enum status: {r0: 0, r1: 1, r2: 2, studio: 3}
 end
