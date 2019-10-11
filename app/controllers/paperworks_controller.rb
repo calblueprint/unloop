@@ -34,6 +34,19 @@ class PaperworksController < ApplicationController
     end
   end
 
+  def complete
+    @paperwork = Paperwork.find(params[:id])
+    respond_to do |format|
+      if @paperwork.update(agree: true)
+        format.html { redirect_to @paperwork, notice: 'Paperwork has been marked as agreed.' }
+        format.json { render :show, status: :ok, location: @paperwork }
+      else
+        format.html { render :new }
+        format.json { render json: @paperwork.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def destroy
     @paperwork = Paperwork.find(params[:id])
     @paperwork.destroy
