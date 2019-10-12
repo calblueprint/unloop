@@ -3,4 +3,6 @@ class Staff < ApplicationRecord
     # devise :database_authenticatable, :registerable,
     # :recoverable, :rememberable, :validatable
     belongs_to :omniuser
+    has_many :casenotes
+    has_many :paperworks
 end
