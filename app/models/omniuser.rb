@@ -5,7 +5,7 @@
 
 class Omniuser < ApplicationRecord
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, 
+         :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2]
 
   has_one :participant
@@ -13,8 +13,6 @@ class Omniuser < ApplicationRecord
 
   def self.from_omniauth(access_token)
     data = access_token.info
-
-
     omniuser = Omniuser.where(email: data['email']).first
 
     unless omniuser
