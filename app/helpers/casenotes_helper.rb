@@ -1,0 +1,2 @@
+module CasenotesHelper
+end

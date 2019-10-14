@@ -9,10 +9,13 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/omniusers/sign_in')
 
   resources :paperworks, only: [:index, :show, :new, :edit]
+  resources :casenotes, :only => [:index, :new, :edit, :show]
 
   namespace :api, defaults: { format: 'json' } do
     resources :paperworks, only: [:show, :create, :update, :destroy] do
       patch 'complete', to: 'paperworks#complete'
     end
+    resources :casenotes, :only => [:create, :update, :destroy]
+    patch 'casenotes/:id/internal' => 'casenotes#internal'
   end
 end
