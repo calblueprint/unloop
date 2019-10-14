@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_04_042135) do
+ActiveRecord::Schema.define(version: 2019_10_11_034834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,18 @@ ActiveRecord::Schema.define(version: 2019_10_04_042135) do
     t.index ["staff_id"], name: "index_casenotes_on_staff_id"
   end
 
+  create_table "paperworks", force: :cascade do |t|
+    t.string "link"
+    t.string "title"
+    t.boolean "agree"
+    t.bigint "staff_id", null: false
+    t.bigint "participant_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["participant_id"], name: "index_paperworks_on_participant_id"
+    t.index ["staff_id"], name: "index_paperworks_on_staff_id"
+  end
+
   create_table "participants", force: :cascade do |t|
     t.string "name"
     t.string "google_token"
@@ -35,6 +47,44 @@ ActiveRecord::Schema.define(version: 2019_10_04_042135) do
     t.integer "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "personal_questionnaires", force: :cascade do |t|
+    t.string "contact_info"
+    t.string "emergency_contact"
+    t.string "doc_status"
+    t.string "housing"
+    t.string "mental_health"
+    t.string "medical"
+    t.string "transportation"
+    t.string "clothing"
+    t.string "significant_relationships"
+    t.string "support_systems"
+    t.string "doc_regulations"
+    t.string "treatment"
+    t.string "triggers_and_prevention"
+    t.string "personal_needs"
+    t.string "success_tools"
+    t.string "personal_goals"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "participant_id", null: false
+    t.index ["participant_id"], name: "index_personal_questionnaires_on_participant_id"
+  end
+
+  create_table "professional_questionnaires", force: :cascade do |t|
+    t.string "course_completion"
+    t.string "work_history"
+    t.string "job_search_materials"
+    t.string "professional_goals"
+    t.datetime "skills_assessment_date"
+    t.string "barriers"
+    t.string "mentorship_interest"
+    t.string "success_strategies"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "participant_id", null: false
+    t.index ["participant_id"], name: "index_professional_questionnaires_on_participant_id"
   end
 
   create_table "staffs", force: :cascade do |t|
@@ -48,4 +98,8 @@ ActiveRecord::Schema.define(version: 2019_10_04_042135) do
 
   add_foreign_key "casenotes", "participants"
   add_foreign_key "casenotes", "staffs"
+  add_foreign_key "paperworks", "participants"
+  add_foreign_key "paperworks", "staffs"
+  add_foreign_key "personal_questionnaires", "participants"
+  add_foreign_key "professional_questionnaires", "participants"
 end
