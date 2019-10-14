@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(version: 2019_10_12_044313) do
   add_foreign_key "paperworks", "participants"
   add_foreign_key "paperworks", "staffs"
   add_foreign_key "participants", "omniusers"
-  add_foreign_key "staffs", "omniusers"
   add_foreign_key "personal_questionnaires", "participants"
   add_foreign_key "professional_questionnaires", "participants"
+  add_foreign_key "staffs", "omniusers"
 end
