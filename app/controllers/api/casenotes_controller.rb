@@ -26,7 +26,6 @@ def destroy
 end
 
 def internal
-    puts "NLBAL BLAJ HABLAH ALBJ"
     @casenote = Casenote.find(params[:id])
 
     respond_to do |format|
