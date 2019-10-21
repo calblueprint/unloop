@@ -7,11 +7,11 @@ class CasenotesPolicy < ApplicationPolicy
       create?
     end
   
-    def delete?
+    def destroy?
         create?
     end
 
-    def view?
+    def show?
         create? or (user.user_type == "Participant" && user.id == resource.participant_id && resource.internal == false)
     end
 

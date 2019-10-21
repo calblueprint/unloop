@@ -1,10 +1,11 @@
 class ProfessionalQuestionnaireController < ApplicationController
   def index
     @questionnaires = ProfessionalQuestionnaire.all
+
   end
   
   def show
-    @questionnaire = ProfessionalQuestionnaire.find(params[:id])
+    @questionnaire = authorize ProfessionalQuestionnaire.find(params[:id])
   end
 
   def new
@@ -13,7 +14,7 @@ class ProfessionalQuestionnaireController < ApplicationController
 
   def create
     @questionnaire = ProfessionalQuestionnaire.new(questionnaire_params)
-
+    authorize @questionnaire
     saved = @questionnaire.save
     if saved
       redirect_to @questionnaire
@@ -24,17 +25,19 @@ class ProfessionalQuestionnaireController < ApplicationController
 
   def update
     @questionnaire = ProfessionalQuestionnaire.find(params[:id])
+    authorize @questionnaire
     if @questionnaire.update(questionnaire_params)
       redirect_to @questionnaire
     else
-      render 'edit'
+      render :edit
     end
   end
 
   def destroy
     @questionnaire = ProfessionalQuestionnaire.find(params[:id])
+    authorize @questionnaire
     @questionnaire.destroy
-    
+
     # may not work
     redirect_to professional_questionnaire_path
   end
