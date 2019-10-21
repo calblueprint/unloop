@@ -1,4 +1,6 @@
-class PaperworkPolicy < ApplicationPolicy
+class QuestionnairePolicy < ApplicationPolicy
+    # this will work with personal questionnaires and professional questionnaires, but must be called with
+    # authorize questionnaire otherwise will not be automatically called
     def create?
       user.present? && user.user_type == "Staff"
     end
@@ -13,10 +15,6 @@ class PaperworkPolicy < ApplicationPolicy
 
     def view?
         create? or (user.user_type == "Participant" && user.id == resource.participant_id)
-    end
-
-    def agree?
-        user.user_type == "Participant" && user.id == resource.participant_id
     end
 
     class Scope < Scope
