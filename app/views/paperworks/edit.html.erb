@@ -1,5 +1,5 @@
 <h1>Edit Paperwork</h1>
-<%= form_with(model: @paperwork, local: true) do |form| %>
+<%= form_with(model: @paperwork, url: api_paperwork_path, local: true) do |form| %>
   <p>
     <%= form.label :title %><br>
     <%= form.text_field :title %>
@@ -7,6 +7,10 @@
   <p>
     <%= form.label :link %><br>
     <%= form.text_field :link %>
+  </p>
+  <p>
+    Participant: <br>
+	  <%= form.collection_select :participant_id, @participants, :id, :name, prompt: true %>
   </p>
   <p>
     <%= form.label :agree %><br>

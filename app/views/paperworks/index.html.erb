@@ -3,6 +3,7 @@
   <tr>
     <th>Title</th>
     <th>Link</th>
+    <th>Participant</th>
     <th>Agree</th>
     <th colspan="3"></th>
   </tr>
@@ -11,10 +12,11 @@
     <tr>
       <td><%= paperwork.title %></td>
       <td><%= paperwork.link %></td>
+      <td><%= paperwork.participant.name %></td>
       <td><%= paperwork.agree %></td>
       <td><%= link_to 'Show', paperwork_path(paperwork) %></td>
       <td><%= link_to 'Edit', edit_paperwork_path(paperwork) %></td>
-      <td><%= link_to 'Delete', paperwork_path(paperwork),
+      <td><%= link_to 'Delete', api_paperwork_path(paperwork),
                                 method: :delete,
                                 data: { confirm: 'Are you sure?' } %></td>
     </tr>

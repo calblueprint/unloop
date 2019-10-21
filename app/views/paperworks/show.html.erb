@@ -1,5 +1,5 @@
 <%= link_to 'Edit', edit_paperwork_path(@paperwork) %>
-<%= link_to 'Delete', paperwork_path(@paperwork),
+<%= link_to 'Delete', api_paperwork_path(@paperwork),
                       method: :delete,
                       data: { confirm: 'Are you sure?' } %>
 <p>
