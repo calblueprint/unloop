@@ -1,4 +1,5 @@
 <h1>New Casenotes</h1>
+<%= react_component('NewCasenote') %>
 <%= form_with scope: :casenote, url: casenotes_path, local: true do |form| %>
     Title:<br>
     <%= form.text_field :title %> <br>
