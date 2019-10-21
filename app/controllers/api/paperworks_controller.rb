@@ -1,5 +1,6 @@
 class Api::PaperworksController < ApplicationController
   before_action :set_paperwork, only: [:show, :update, :complete, :destroy]
+  respond_to :json
 
   def show
     render json: @paperwork
@@ -51,7 +52,7 @@ class Api::PaperworksController < ApplicationController
                                                         :link,
                                                         :agree,
                                                         :participant_id)
-    # TODO: Replace staff_id with current_user
+    # TODO: Replace staff_id with current_omniuser
     paperwork_param.merge(staff_id: 1)
   end
 end
