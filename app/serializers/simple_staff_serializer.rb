@@ -1,4 +1,4 @@
-class Paperwork::PaperworkStaffSerializer < ActiveModel::Serializer
+class SimpleStaffSerializer < ActiveModel::Serializer
   attributes :id, :email, :name
 
   def email
