@@ -5,7 +5,7 @@ class ConnectStaffAndOmniuser < ActiveRecord::Migration[6.0]
     end
 
     change_table :participants do |t|
-      t.references :omniuser, null: true, foreign_key: true
+      t.references :omniuser, null: false, foreign_key: true
     end
   end
 
