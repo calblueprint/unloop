@@ -1,5 +1,5 @@
 <h1>Edit Casenote</h1>
-<%= form_with(model: @casenote, local: true) do |form| %>
+<%= form_with(model: @casenote, url: api_casenote_path, local: true) do |form| %>
   <p>
     <%= form.label :title %><br>
     <%= form.text_field :title %>
@@ -7,6 +7,10 @@
   <p>
     <%= form.label :description %><br>
     <%= form.text_field :description %>
+  </p>
+  <p>
+    Participant: <br>
+	  <%= form.collection_select :participant_id, @participants, :id, :name, prompt: true %>
   </p>
   <p>
     <%= form.label :internal %><br>
