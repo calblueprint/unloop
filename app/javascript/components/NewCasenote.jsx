@@ -1,6 +1,17 @@
-import React from "react"
-import PropTypes from "prop-types"
-import {Editor, EditorState, RichUtils} from 'draft-js';
+import React from "react";
+import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
+import {Editor, EditorState, RichUtils, KeyBindingUtil} from 'draft-js';
+import { DraftailEditor, BLOCK_TYPE, INLINE_STYLE, ENTITY_TYPE } from "draftail";
+import "draft-js/dist/Draft.css";
+import "draftail/dist/draftail.css";
+
+const initial = JSON.parse(sessionStorage.getItem("draftail:content"))
+
+const onSave = (content) => {
+  console.log("saving", content)
+  sessionStorage.setItem("draftail:content", JSON.stringify(content))
+}
 
 class NewCasenote extends React.Component {
   constructor(props) {
@@ -10,36 +21,30 @@ class NewCasenote extends React.Component {
     //this.handleKeyCommand = this.handleKeyCommand.bind(this);
   }
 
-  handleKeyCommand = (command, editorState) => {
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      this.onChange(newState);
-      return 'handled';
-    }
-    return 'not handled';
-  }
-
-  _onBoldClick() {
-    console.log('bold was clicked');
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
-  }
-
   render () {
     return (
-      <React.Fragment>
-        <button onClick={this._onBoldClick.bind(this)}>Bold</button>
-        <Editor editorState={this.state.editorState} 
-        handleKeyCommand={this.handleKeyCommand}
-        onChange={this.onChange} 
-        />
-      </React.Fragment>
+      <DraftailEditor
+        rawContentState={initial || null}
+        onSave={onSave}
+        blockTypes={[
+          { type: BLOCK_TYPE.HEADER_ONE },
+          { type: BLOCK_TYPE.HEADER_TWO },
+          { type: BLOCK_TYPE.HEADER_THREE },
+          { type: BLOCK_TYPE.UNORDERED_LIST_ITEM },
+          { type: BLOCK_TYPE.ORDERED_LIST_ITEM },
+        ]}
+        inlineStyles={[{ type: INLINE_STYLE.BOLD }, { type: INLINE_STYLE.ITALIC }, { type: INLINE_STYLE.UNDERLINE }]}
+        entityTypes={[
+          {
+            type: ENTITY_TYPE.LINK,
+            // [...]
+          },
+        ]}
+      />
     );
   }
 }
 
-// ReactDOM.render(
-//   <NewCasenote />,
-//   document.getElementById('container')
-// );
+//ReactDOM.render(editor, document.querySelector("[data-mount]"));
 
-export default NewCasenote
+export default NewCasenote;
