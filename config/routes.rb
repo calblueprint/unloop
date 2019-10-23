@@ -7,4 +7,12 @@ Rails.application.routes.draw do
 
   # On failed authorization redirect to sign in page
   get 'auth/failure', to: redirect('/omniusers/sign_in')
+
+  resources :paperworks, only: [:index, :show, :new, :edit]
+
+  namespace :api, defaults: { format: 'json' } do
+    resources :paperworks, only: [:show, :create, :update, :destroy] do
+      patch 'complete', to: 'paperworks#complete'
+    end
+  end
 end
