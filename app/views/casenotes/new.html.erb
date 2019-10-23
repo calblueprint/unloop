@@ -4,6 +4,9 @@
     <%= form.text_field :title %> <br>
     Description: <br>
     <%= react_component('NewCasenote', :description)  %>
+    Participant: <br>
+	<%= form.collection_select :participant_id, @participants, :id, :name, prompt: true %>
+	<br>
     Internal: <br>
     <%= form.check_box :agree %> <br>
     <%= form.submit "Submit" %>

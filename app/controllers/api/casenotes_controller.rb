@@ -1,46 +1,59 @@
-class CasenotesController < ApplicationController
+class Api::CasenotesController < ApplicationController
+  before_action :set_casenote, only: [:show, :update, :internal, :destroy]
+  respond_to :json
 
-def create
+  def show
+    render json: @casenote
+  end
+
+  def create
     @casenote = Casenote.new(casenotes_params)
     if @casenote.save
-        redirect_to @casenote
+      render json: @casenote, status: :created
     else
-        render 'new'
+      render json: { error: 'Could not create case note' }, status: :unprocessable_entity
     end
-end
+  end
 
-def update
-    @casenote = Casenote.find(params[:id])
+  def update
     if @casenote.update(casenotes_params)
-        redirect_to @casenote
+      render json: @casenote, status: :ok
     else
-        render 'edit'
+      render json: { error: 'Could not update case note' }, status: :unprocessable_entity
     end
-end
+  end
 
-def destroy
-    @casenote = Casenote.find(params[:id])
-    @casenote.destroy
-    
-    redirect_to casenotes_path
-end
-
-def internal
-    @casenote = Casenote.find(params[:id])
-
-    respond_to do |format|
-        if @casenote.update(internal: true)
-            format.html { redirect_to @casenote, notice: 'Casenote has been marked as internal.' }
-            format.json { render :show, status: :ok, location: @casenote }
-        else
-            format.html { render :new }
-            format.json { render json: @casenote.errors, status: :unprocessable_entity }
-        end
+  def destroy
+    if @casenote.destroy
+      render json: @casenote, status: :ok
+    else
+      render json: { error: 'Failed to delete case note' }, status: :unprocessable_entity
     end
-end
+  end
 
-private 
-def casenotes_params
-    casenotes_param = params.require(:casenote).permit(:title, :description, :internal)
-    casenotes_param.merge(staff_id: 1, participant_id: 1)
+  def internal
+    if @casenote.update(internal: true)
+      render json: @casenote, status: :ok
+    else
+      render json: { error: 'Failed to change internal to true' }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def set_casenote
+    @casenote = Casenote.find(params[:id])
+
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Could not find case note' }, status: :not_found
+  end
+
+  def casenotes_params
+    casenotes_param = params.require(:casenote).permit(:title, 
+                                                       :description, 
+                                                       :internal, 
+                                                       :participant_id)
+    # TODO: Replace staff_id with current_omniuser
+    casenotes_param.merge(staff_id: 1)
+  end
 end
