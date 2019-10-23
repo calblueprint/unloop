@@ -1,0 +1,22 @@
+<%= link_to 'Edit', edit_casenote_path(@casenote) %>
+<%= link_to 'Delete', api_casenote_path(@casenote),
+                      method: :delete,
+                      data: { confirm: 'Are you sure?' } %>
+<p>
+  <strong>Title:</strong>
+  <%= @casenote.title %>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%= @casenote.description %>
+</p>
+<p>
+  <strong>Participant:</strong>
+  <%= @casenote.participant.name %>
+</p>
+<p>
+  <strong>Internal:</strong>
+  <%= @casenote.internal %>
+</p>
+<p>
+  <%= link_to 'Back', casenotes_path%>
