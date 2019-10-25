@@ -43,8 +43,8 @@ class Api::PaperworksController < ApplicationController
 
   def set_paperwork
     @paperwork = Paperwork.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: 'Could not find paperwork' }, status: :not_found
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Could not find paperwork' }, status: :not_found
   end
 
   def paperwork_params

@@ -17,7 +17,6 @@ class Api::ProfessionalQuestionnaireController < ApplicationController
     end
   
     def update
-      @questionnaire = ProfessionalQuestionnaire.find(params[:id])
       authorize @questionnaire, policy_class: QuestionnairePolicy
       if @questionnaire.update(questionnaire_params)
         render json: @questionnaire, status: :ok
@@ -27,7 +26,6 @@ class Api::ProfessionalQuestionnaireController < ApplicationController
     end
   
     def destroy
-      @questionnaire = ProfessionalQuestionnaire.find(params[:id])
       authorize @questionnaire, policy_class: QuestionnairePolicy
       if @questionnaire.destroy
         render json: @questionnaire, status: :ok
