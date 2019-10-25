@@ -16,7 +16,13 @@ const onSave = (content) => {
 class NewCasenote extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
+    this.state = { 
+      editorState: EditorState.createEmpty(),
+      description: "",
+      title: "",
+      participant: "",
+      internal: false,
+    };
     this.onChange = (editorState) => this.setState({editorState});
     //this.handleKeyCommand = this.handleKeyCommand.bind(this);
   }
