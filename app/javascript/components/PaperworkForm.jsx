@@ -1,5 +1,6 @@
 import React from "react";
 import Button from '@material-ui/core/Button';
+import '../../assets/stylesheets/paperworks.scss';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -7,50 +8,52 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const styles = {
-  dialogActionsStyle: {
-    padding: '30px',
-  },
-  dialogTitleStyle: {
-    borderBottom: '5px solid',
-    borderImageSource: 'linear-gradient(to left, transparent 20%, #C4C4C4 20%)',
-    borderImageSlice: '1',
-  },
-  dialogContentTextStyle: {
-    color: 'black',
-    marginBottom: '2px',
-  },
-  dialogContentTextFieldStyle: {
-    marginTop: '2px',
-    borderStyle: 'solid 4px grey'
-  },
-  saveDocumentButtonStyle: {
-    borderStyle: 'solid 3px grey'
-  }
-}
 
 class PaperworkForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      participant_email: "",
-      participant_name: "",
-      staff_email: "",
-      staff_name: "",
-      google_drive_link: "",
+      participant_id: 1,
+      staff_id: 1,
+      link: "",
+      paperwork_title: "",
       due_date: null,
       open: false,
     };
     this.handleClose = this._handleClose.bind(this);
     this.handleOpen = this._handleOpen.bind(this);
+    this.handleSubmit = this._handleSubmit.bind(this);
   }
 
   _handleOpen() {
-    this.setState({open: true });
+    this.setState({open: true});
   }
 
   _handleClose() {
-    this.setState({open: false });
+    this.setState({open: false});
+  }
+
+  _handleSubmit() {
+    let body = {
+                "link": this.state.link,
+                "title": this.state.title,
+                "staff_id": this.state.staff_id,
+                "participant_id": this.state.participant_id,
+                "agree": false,
+              };
+    body = JSON.stringify({paperwork: body});
+    let request = `/api/paperworks/`;
+    fetch(request, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        "X_CSRF-Token": document.getElementsByName("csrf-token")[0].content
+      },
+      body: body,
+      credentials: 'same-origin',
+    }).then((data) => {console.log(data)}).catch((data) => { console.error(data) });
+
+    this.handleClose();
   }
 
   render() {
@@ -59,15 +62,17 @@ class PaperworkForm extends React.Component {
         <Button variant="outlined" color="primary" onClick={this.handleOpen}>
           Open form dialog
         </Button>
-        <Dialog style={styles.dialogStyle} open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title" maxWidth="sm" fullWidth>
-          <DialogTitle id="form-dialog-title">
-            <h2 style={styles.dialogTitleStyle}> Assign new paperwork </h2>
+        <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title" maxWidth="sm" fullWidth>
+          <DialogTitle>
+            <h2 className="dialogTitle"> Assign new paperwork </h2>
         </DialogTitle>
         <DialogContent maxWidth="sm" fullWidth>
-            <DialogContentText style={styles.dialogContentTextStyle}>
+            <DialogContentText className="dialogContentText">
               Assign Document Title
             </DialogContentText>
-            <TextField style={styles.dialogContentTextFieldStyle}
+            <TextField
+              className="dialogContentTextField"
+              onChange={(e) => this.setState({title: e.target.value})}
               variant="outlined"
               margin="dense"
               id="title"
@@ -78,10 +83,12 @@ class PaperworkForm extends React.Component {
           </DialogContent>
           <br/>
           <DialogContent maxWidth="sm" fullWidth>
-            <DialogContentText style={styles.dialogContentTextStyle}>
+            <DialogContentText className="dialogContentText">
               Insert Link to Document
             </DialogContentText>
-            <TextField style={styles.dialogContentTextFieldStyle}
+            <TextField
+              className="dialogContentTextField"
+              onChange={(e) => this.setState({link: e.target.value})}
               variant="outlined"
               margin="dense"
               id="paperwork-link"
@@ -92,23 +99,24 @@ class PaperworkForm extends React.Component {
           </DialogContent>
           <br/>
           <DialogContent maxWidth="sm" fullWidth>
-            <DialogContentText style={styles.dialogContentTextStyle}>
+            <DialogContentText className="dialogContentText">
               Assign Due Date
             </DialogContentText>
-            <TextField style={styles.dialogContentTextFieldStyle}
+            <TextField
+              className="dialogContentTextField"
+              onChange={(e) => this.setState({due_date: e.target.value})}
               variant="outlined"
               margin="dense"
               id="due-date"
-              label="MM/DD/YYYY"
-              type="text"
+              type="date"
               fullWidth
             />
           </DialogContent>
-          <DialogActions style={styles.dialogActionsStyle}>
+          <DialogActions className="dialogActions">
             <Button onClick={this.handleClose} variant="outlined" color="secondary">
               Cancel
             </Button>
-            <Button onClick={this.handleClose} variant="outlined" color="primary">
+            <Button onClick={this.handleSubmit} variant="outlined" color="primary">
               Save Document
             </Button>
           </DialogActions>
@@ -118,3 +126,5 @@ class PaperworkForm extends React.Component {
 
   }
 }
+
+export default PaperworkForm;
