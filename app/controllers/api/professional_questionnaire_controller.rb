@@ -1,5 +1,5 @@
 class Api::ProfessionalQuestionnaireController < ApplicationController
-    before_action :set_professional_questionnaire, only: [:show, :update, :destroy]
+    before_action :set_questionnaire, only: [:show, :update, :destroy]
     respond_to :json
   
     def show
@@ -37,6 +37,11 @@ class Api::ProfessionalQuestionnaireController < ApplicationController
     end
   
     private
+    def set_questionnaire
+      @questionnaire = authorize ProfessionalQuestionnaire.find(params[:id]), policy_class: QuestionnairePolicy
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Could not find professional questionnaire' }, status: :not_found
+    end
   
     # may not work
     def questionnaire_params

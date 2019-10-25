@@ -5,8 +5,12 @@ class QuestionnairePolicy < ApplicationPolicy
       user.present? && user.user_type == "Staff"
     end
   
+    def show?
+      user.present? && (user.user_type == "Staff" or (user.user_type == "Participant" && user.id == resource.participant_id))
+    end
+
     def update?
-      create?
+      show?
     end
   
     def destroy?
@@ -14,21 +18,12 @@ class QuestionnairePolicy < ApplicationPolicy
     end
 
     def index? 
-      user.present? && user.user_type == "Staff"
+      create?
     end
   
-    def show?
-      user.present? && (user.user_type == "Staff" or (user.user_type == "Participant" && user.id == resource.participant_id))
+    def set_questionnaire?
+      show?
     end
-
-    def new? 
-      user.present? && user.user_type == "Staff"
-    end
-    
-    def edit? 
-      user.present? && (user.user_type == "Staff" or (user.user_type == "Participant" && user.id == resource.participant_id))
-    end
-  
     
     class Scope < Scope
 #         The first argument is a user. In your controller, Pundit will call the current_user method 
