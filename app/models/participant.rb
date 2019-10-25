@@ -13,4 +13,6 @@ class Participant < ApplicationRecord
     has_one :professional_questionnaire
 
     enum status: {r0: 0, r1: 1, r2: 2, studio: 3}
+
+    delegate :name, to: :omniuser
 end

@@ -5,4 +5,6 @@ class Staff < ApplicationRecord
     belongs_to :omniuser
     has_many :casenotes
     has_many :paperworks
+
+    delegate :name, to: :omniuser    
 end
