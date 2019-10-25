@@ -1,20 +1,35 @@
 class CasenotesPolicy < ApplicationPolicy
-    def create?
+    def isStaff?
       user.present? && user.user_type == "Staff"
+    end
+
+    def index?
+      isStaff?
+    end
+
+    def create?
+      isStaff?
     end
   
     def update?
-      create?
+      isStaff?
     end
   
     def destroy?
-        create?
+      isStaff?
     end
 
     def show?
-        create? or (user.user_type == "Participant" && user.id == resource.participant_id && resource.internal == false)
+      create? or (user.user_type == "Participant" && user.id == resource.participant_id && resource.internal == false)
     end
 
+    def internal
+      isStaff?
+    end
+
+    def set_casenote?
+      show?
+    end
 
     class Scope < Scope
 #         The first argument is a user. In your controller, Pundit will call the current_user method 

@@ -1,18 +1,34 @@
 class PaperworkPolicy < ApplicationPolicy
-    def create?
+    def isStaff?
       user.present? && user.user_type == "Staff"
+    end
+
+    def index?
+      isStaff?
+    end
+    
+    def create?
+      isStaff?
     end
   
     def update?
-      create?
+      isStaff?
     end
   
     def destroy?
-        create?
+      isStaff?
+    end
+
+    def complete?
+      isStaff?
     end
 
     def show?
-        create? or (user.user_type == "Participant" && user.id == resource.participant_id)
+        isStaff? or (user.user_type == "Participant" && user.id == resource.participant_id)
+    end
+
+    def set_paperwork?
+      show?
     end
 
     def agree?
