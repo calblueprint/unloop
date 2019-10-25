@@ -10,13 +10,26 @@ class QuestionnairePolicy < ApplicationPolicy
     end
   
     def destroy?
-        create?
+      create?
     end
 
+    def index? 
+      user.present? && user.user_type == "Staff"
+    end
+  
     def show?
-        create? or (user.user_type == "Participant" && user.id == resource.participant_id)
+      user.present? && (user.user_type == "Staff" or (user.user_type == "Participant" && user.id == resource.participant_id))
     end
 
+    def new? 
+      user.present? && user.user_type == "Staff"
+    end
+    
+    def edit? 
+      user.present? && (user.user_type == "Staff" or (user.user_type == "Participant" && user.id == resource.participant_id))
+    end
+  
+    
     class Scope < Scope
 #         The first argument is a user. In your controller, Pundit will call the current_user method 
 #               to retrieve what to send into this argument.

@@ -12,7 +12,7 @@ class CasenotesPolicy < ApplicationPolicy
     end
 
     def show?
-        create? or (user.user_type == "Participant" && user.id == resource.participant_id && resource.internal == false)
+      user.present? && (user.user_type == "Staff" or (user.user_type == "Participant" && user.id == resource.participant_id))
     end
 
 

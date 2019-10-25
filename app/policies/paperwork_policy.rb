@@ -12,7 +12,7 @@ class PaperworkPolicy < ApplicationPolicy
     end
 
     def show?
-        create? or (user.user_type == "Participant" && user.id == resource.participant_id)
+      user.present? && (user.user_type == "Staff" or (user.user_type == "Participant" && user.id == resource.participant_id))
     end
 
     def agree?

@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  
-  resources :professional_questionnaire
-  resources :personal_questionnaire
-
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   # Routes for Google authentication
@@ -14,6 +10,8 @@ Rails.application.routes.draw do
 
   resources :paperworks, only: [:index, :show, :new, :edit]
   resources :casenotes, only: [:index, :new, :edit, :show]
+  resources :professional_questionnaire, only: [:index, :show, :new, :edit]
+  resources :personal_questionnaire, only: [:index, :new, :edit, :show]
 
   namespace :api, defaults: { format: :json } do
     resources :paperworks, only: [:show, :create, :update, :destroy] do
@@ -22,5 +20,7 @@ Rails.application.routes.draw do
     resources :casenotes, only: [:show, :create, :update, :destroy] do
       patch 'internal', to: 'casenotes#internal'
     end
+    resources :professional_questionnaire, only: [:show, :create, :update, :destroy]
+    resources :personal_questionnaire, only: [:show, :create, :update, :destroy]
   end
 end
