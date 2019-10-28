@@ -1,4 +1,4 @@
-class CasenotesPolicy < ApplicationPolicy
+class CasenotePolicy < ApplicationPolicy
     def isStaff?
       user.present? && user.user_type == "Staff"
     end
@@ -20,7 +20,12 @@ class CasenotesPolicy < ApplicationPolicy
     end
 
     def show?
-      create? or (user.user_type == "Participant" && user.id == resource.participant_id && resource.internal == false)
+      puts("user")
+      puts(user.user_type)
+      puts(user.id)
+      puts(user.participant.id)
+      puts(resource.participant_id)
+      create? or (user.user_type == "Participant" && user.participant.id == resource.participant_id && resource.internal == false)
     end
 
     def internal
@@ -40,7 +45,7 @@ class CasenotesPolicy < ApplicationPolicy
         if user.user_type == "Staff"
             scope.all
         else
-            scope.where([participant_id: user.id, internal: false])
+            scope.where([participant_id: user.participant.id, internal: false])
         end
       end
     end
