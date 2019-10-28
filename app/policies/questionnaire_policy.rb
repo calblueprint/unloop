@@ -10,11 +10,11 @@ class QuestionnairePolicy < ApplicationPolicy
     end
   
     def destroy?
-        create?
+      create?
     end
 
     def show?
-        create? or (user.user_type == "Participant" && user.id == resource.participant_id)
+        create? or (user.user_type == "Participant" && user.participant.id == resource.participant_id)
     end
 
     class Scope < Scope
@@ -26,7 +26,7 @@ class QuestionnairePolicy < ApplicationPolicy
             if user.user_type == "Staff"
                 scope.all
             else
-                scope.where(participant_id: user.id)
+                scope.where(participant_id: user.participant.id)
             end
         end
     end

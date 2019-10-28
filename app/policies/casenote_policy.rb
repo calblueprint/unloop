@@ -20,7 +20,7 @@ class CasenotePolicy < ApplicationPolicy
     end
 
     def show?
-      create? or (user.user_type == "Participant" && user.id == resource.participant_id && resource.internal == false)
+      create? or (user.user_type == "Participant" && user.participant.id == resource.participant_id && resource.internal == false)
     end
 
     def internal
@@ -40,7 +40,7 @@ class CasenotePolicy < ApplicationPolicy
         if user.user_type == "Staff"
             scope.all
         else
-            scope.where([participant_id: user.id, internal: false])
+            scope.where([participant_id: user.participant.id, internal: false])
         end
       end
     end

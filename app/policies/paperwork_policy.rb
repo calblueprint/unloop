@@ -11,10 +11,6 @@ class PaperworkPolicy < ApplicationPolicy
       isStaff?
     end
   
-    def update?
-      isStaff?
-    end
-  
     def destroy?
       isStaff?
     end
@@ -24,15 +20,19 @@ class PaperworkPolicy < ApplicationPolicy
     end
 
     def show?
-        isStaff? or (user.user_type == "Participant" && user.id == resource.participant_id)
+        isStaff? or (user.user_type == "Participant" && user.participant.id == resource.participant_id)
     end
 
+    def update?
+      show?
+    end
+    
     def set_paperwork?
       show?
     end
 
     def agree?
-        user.user_type == "Participant" && user.id == resource.participant_id
+        user.user_type == "Participant" && (user.participant.id == resource.participant_id)
     end
 
     class Scope < Scope
@@ -44,7 +44,7 @@ class PaperworkPolicy < ApplicationPolicy
             if user.user_type == "Staff"
                 scope.all
             else
-                scope.where(participant_id: user.id)
+                scope.where(participant_id: user.participant.id)
             end
         end
     end
