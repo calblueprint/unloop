@@ -20,11 +20,6 @@ class CasenotePolicy < ApplicationPolicy
     end
 
     def show?
-      puts("user")
-      puts(user.user_type)
-      puts(user.id)
-      puts(user.participant.id)
-      puts(resource.participant_id)
       create? or (user.user_type == "Participant" && user.participant.id == resource.participant_id && resource.internal == false)
     end
 
