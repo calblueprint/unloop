@@ -10,48 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_28_015857) do
+ActiveRecord::Schema.define(version: 2019_10_31_201428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "active_admin_comments", force: :cascade do |t|
-    t.string "namespace"
-    t.text "body"
-    t.string "resource_type"
-    t.bigint "resource_id"
-    t.string "author_type"
-    t.bigint "author_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
-    t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
-    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
-  end
-
-  create_table "admin_users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_admin_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
-  end
-
-  create_table "admins", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_admins_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
-  end
 
   create_table "casenotes", force: :cascade do |t|
     t.string "description"
@@ -73,9 +35,10 @@ ActiveRecord::Schema.define(version: 2019_10_28_015857) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "user_type"
     t.string "first_name"
     t.string "last_name"
+    t.integer "user_type", null: false
+    t.boolean "admin", default: false
     t.index ["email"], name: "index_omniusers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_omniusers_on_reset_password_token", unique: true
   end
@@ -83,7 +46,7 @@ ActiveRecord::Schema.define(version: 2019_10_28_015857) do
   create_table "paperworks", force: :cascade do |t|
     t.string "link"
     t.string "title"
-    t.boolean "agree"
+    t.boolean "agree", default: false
     t.bigint "staff_id", null: false
     t.bigint "participant_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -93,7 +56,7 @@ ActiveRecord::Schema.define(version: 2019_10_28_015857) do
   end
 
   create_table "participants", force: :cascade do |t|
-    t.integer "status"
+    t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "reset_password_token"

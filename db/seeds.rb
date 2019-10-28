@@ -10,21 +10,22 @@ STAFF_START_ID = Staff.count + 1
 STAFF_END_ID = STAFF_START_ID + NUM_STAFF - 1
 PARTICIPANT_START_ID = Participant.count + 1
 PARTICIPANT_END_ID = PARTICIPANT_START_ID + NUM_PARTICIPANTS - 1
-# PAPERWORK_START_ID = Paperwork.count + 1
-# PAPERWORK_END_ID = PAPERWORK_START_ID + NUM_PAPERWORKS - 1
-# CASENOTE_START_ID = Casenote.count + 1
-# CASENOTE_END_ID = CASENOTE_START_ID + NUM_CASENOTES - 1
-# PERSONAL_QUESTIONNAIRE_START_ID = PersonalQuestionnaire.count + 1
-# PERSONAL_QUESTIONNAIRE_END_ID = PERSONAL_QUESTIONNAIRE_START_ID + NUM_PERSONAL_QUESTIONNAIRES - 1
-# PROF_QUESTIONNAIRE_START_ID = ProfessionalQuestionnaire.count + 1
-# PROF_QUESTIONNAIRE_END_ID = PROF_QUESTIONNAIRE_START_ID + NUM_PROF_QUESTIONNAIRES - 1
 
 # Use Faker gem to randomly generate fields
 require 'faker'
 
 def create_admin
-  Admin.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
-  puts 'Created Master Admin'
+  unless Omniuser.exists?(email: 'admin@example.com')
+    Omniuser.create!(email: 'admin@example.com',
+                     first_name: 'Admin',
+                     last_name: 'Staff',
+                     password: 'password',
+                     password_confirmation: 'password',
+                     user_type: 1,
+                     admin: true
+                    )
+    puts 'Created Staff Admin'
+  end
 end
 
 def create_staff
@@ -34,7 +35,7 @@ def create_staff
                              last_name: Faker::Name.last_name,
                              password: 'password',
                              password_confirmation: 'password',
-                             user_type: 'Staff')
+                             user_type: 1)
     staff.create_staff!
   end
   puts "Created Staff ##{STAFF_START_ID}-#{STAFF_END_ID}"
@@ -47,7 +48,7 @@ def create_participants
                                    last_name: Faker::Name.last_name,
                                    password: 'password',
                                    password_confirmation: 'password',
-                                   user_type: 'Participant')
+                                   user_type: 0)
     participant.create_participant!
   end
   puts "Created Participant ##{PARTICIPANT_START_ID}-#{PARTICIPANT_END_ID}"
@@ -83,22 +84,32 @@ def create_questionnaires
   end
 end
 
-staff_member = Omniuser.create!(first_name: "Unloop",
-  last_name: "Staff",
-  email: "unloopauth@gmail.com",
-  user_type: "Staff",
-  password: "staffs")
-staff_member.create_staff!
-participant_member = Omniuser.create!(first_name: "Unloop",
-        last_name: "Participant",
-        email: "unlooptestparticipant@gmail.com",
-        user_type: "Participant",
-        password: "participant")
-participant_member.create_participant!
+def create_google_accounts
+  unless Omniuser.exists?(email: 'unloopauth@gmail.com')
+    staff_member = Omniuser.create!(first_name: "Unloop",
+                                    last_name: "Staff",
+                                    email: "unloopauth@gmail.com",
+                                    user_type: 1,
+                                    password: "staffs")
+    staff_member.create_staff!
+    puts 'Created Google staff user'
+  end
+  unless Omniuser.exists?(email: 'unlooptestparticipant@gmail.com')
+    participant_member = Omniuser.create!(first_name: "Unloop",
+                                          last_name: "Participant",
+                                          email: "unlooptestparticipant@gmail.com",
+                                          user_type: 0,
+                                          password: "participant")
+    participant_member.create_participant!
+    puts 'Created Google participant user'
+  end
+end
 
-create_admin
+
 create_staff
 create_participants
 create_paperworks
 create_casenotes
+create_admin
+create_google_accounts
 # create_questionnaires

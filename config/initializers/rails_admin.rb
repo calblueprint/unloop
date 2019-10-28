@@ -4,9 +4,13 @@ RailsAdmin.config do |config|
 
   ## == Devise ==
   config.authenticate_with do
-    warden.authenticate! scope: :admin
+    warden.authenticate! scope: :omniuser
   end
-  config.current_user_method(&:current_admin)
+  config.current_user_method(&:current_omniuser)
+
+  config.authorize_with do
+    redirect_to main_app.root_path unless current_omniuser.admin?
+  end
 
   ## == CancanCan ==
   # config.authorize_with :cancancan
