@@ -45,3 +45,4 @@ class CasenotePolicy < ApplicationPolicy
       end
     end
   end
+  

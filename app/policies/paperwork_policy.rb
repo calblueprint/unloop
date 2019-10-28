@@ -49,3 +49,4 @@ class PaperworkPolicy < ApplicationPolicy
         end
     end
   end
+  

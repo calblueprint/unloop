@@ -31,3 +31,4 @@ class QuestionnairePolicy < ApplicationPolicy
         end
     end
   end
+  
