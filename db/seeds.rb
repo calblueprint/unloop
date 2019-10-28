@@ -5,9 +5,15 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-    staff_member = Omniuser.create!(name: "UnloopStaff", email: "unloopauth@gmail.com",
-                                    user_type: "Staff", password: "staffs")
+    staff_member = Omniuser.create!(first_name: "Unloop",
+                                    last_name: "Staff",
+                                    email: "unloopauth@gmail.com",
+                                    user_type: "Staff",
+                                    password: "staffs")
     staff_member.create_staff!()
-    participant_member = Omniuser.create!(name: "TestParticipant", email: "unlooptestparticipant@gmail.com",
-                                          user_type: "Participant", password: "participant")
+    participant_member = Omniuser.create!(first_name: "Unloop",
+                                          last_name: "Participant",
+                                          email: "unlooptestparticipant@gmail.com",
+                                          user_type: "Participant",
+                                          password: "participant")
     participant_member.create_participant!()
