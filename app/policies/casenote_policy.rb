@@ -1,4 +1,4 @@
-class CasenotesPolicy < ApplicationPolicy
+class CasenotePolicy < ApplicationPolicy
     def isStaff?
       user.present? && user.user_type == "Staff"
     end
