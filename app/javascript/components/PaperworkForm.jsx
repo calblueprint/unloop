@@ -51,9 +51,7 @@ class PaperworkForm extends React.Component {
       },
       body: body,
       credentials: 'same-origin',
-    }).then((data) => {console.log(data)}).catch((data) => { console.error(data) });
-
-    this.handleClose();
+    }).then((data) => {window.location.reload()}).catch((data) => {console.error(data)});
   }
 
   render() {
