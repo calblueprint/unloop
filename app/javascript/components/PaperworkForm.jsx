@@ -25,6 +25,12 @@ class PaperworkForm extends React.Component {
     this.handleSubmit = this._handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    const { staff_id } = this.props;
+    console.log("STAFF MOUNTED!");
+    console.log(staff_id);
+  }
+
   _handleOpen() {
     this.setState({open: true});
   }
@@ -60,14 +66,14 @@ class PaperworkForm extends React.Component {
     return (
       <div>
         <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          Open form dialog
+          Create New Paperworks
         </Button>
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title" maxWidth="sm" fullWidth>
-          <DialogTitle>
-            <h2 className="dialogTitle"> Assign new paperwork </h2>
+        <DialogTitle>
+          <h2 className="dialogTitle"> Assign new paperwork </h2>
         </DialogTitle>
         <DialogContent maxWidth="sm" fullWidth>
-            <DialogContentText className="dialogContentText">
+            <DialogContentText>
               Assign Document Title
             </DialogContentText>
             <TextField
