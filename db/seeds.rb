@@ -53,7 +53,6 @@ def create_participants
       password_confirmation: 'password',
       user_type: 0
     )
-  end
   puts "Created Participant ##{PARTICIPANT_START_ID}-#{PARTICIPANT_END_ID}"
 end
 
