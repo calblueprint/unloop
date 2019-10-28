@@ -1,4 +1,6 @@
 class PaperworksController < ApplicationController
+  before_action :current_user
+
   def index
     @paperworks = Paperwork.all
   end

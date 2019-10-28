@@ -14,7 +14,7 @@ class PaperworkForm extends React.Component {
     super(props);
     this.state = {
       participant_id: 1,
-      staff_id: 1,
+      staff_id: 0,
       link: "",
       paperwork_title: "",
       due_date: null,
@@ -27,8 +27,7 @@ class PaperworkForm extends React.Component {
 
   componentDidMount() {
     const { staff_id } = this.props;
-    console.log("STAFF MOUNTED!");
-    console.log(staff_id);
+    this.setState({staff_id: staff_id});
   }
 
   _handleOpen() {
