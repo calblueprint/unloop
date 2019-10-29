@@ -10,8 +10,8 @@ Rails.application.routes.draw do
 
   resources :paperworks, only: [:index, :show, :new, :edit]
   resources :casenotes, only: [:index, :new, :edit, :show]
-  resources :professional_questionnaire, only: [:index, :show, :new, :edit]
-  resources :personal_questionnaire, only: [:index, :new, :edit, :show]
+  resources :professional_questionnaires, only: [:index, :show, :new, :edit]
+  resources :personal_questionnaires, only: [:index, :new, :edit, :show]
 
   namespace :api, defaults: { format: :json } do
     resources :paperworks, only: [:show, :create, :update, :destroy] do
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     resources :casenotes, only: [:show, :create, :update, :destroy] do
       patch 'internal', to: 'casenotes#internal'
     end
-    resources :professional_questionnaire, only: [:show, :create, :update, :destroy]
-    resources :personal_questionnaire, only: [:show, :create, :update, :destroy]
+    resources :professional_questionnaires, only: [:show, :create, :update, :destroy]
+    resources :personal_questionnaires, only: [:show, :create, :update, :destroy]
   end
 end

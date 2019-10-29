@@ -25,6 +25,10 @@ class QuestionnairePolicy < ApplicationPolicy
       show?
     end
     
+    def show?
+        create? or (user.user_type == "Participant" && user.participant.id == resource.participant_id)
+    end
+
     class Scope < Scope
 #         The first argument is a user. In your controller, Pundit will call the current_user method 
 #               to retrieve what to send into this argument.
@@ -34,8 +38,9 @@ class QuestionnairePolicy < ApplicationPolicy
             if user.user_type == "Staff"
                 scope.all
             else
-                scope.where(participant_id: user.id)
+                scope.where(participant_id: user.participant.id)
             end
         end
     end
   end
+  

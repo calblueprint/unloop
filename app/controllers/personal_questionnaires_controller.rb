@@ -1,4 +1,4 @@
-class PersonalQuestionnaireController < ApplicationController
+class PersonalQuestionnairesController < ApplicationController
   def index
     @questionnaires = authorize PersonalQuestionnaire.all,  policy_class: QuestionnairePolicy
   end
@@ -9,6 +9,7 @@ class PersonalQuestionnaireController < ApplicationController
 
   def new
     @questionnaire = authorize PersonalQuestionnaire.new,  policy_class: QuestionnairePolicy
+    @participants = Participant.all
   end
 
   def edit

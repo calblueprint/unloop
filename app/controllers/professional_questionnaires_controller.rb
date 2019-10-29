@@ -1,4 +1,4 @@
-class ProfessionalQuestionnaireController < ApplicationController
+class ProfessionalQuestionnairesController < ApplicationController
   def index
     @questionnaires = authorize ProfessionalQuestionnaire.all,  policy_class: QuestionnairePolicy
   end

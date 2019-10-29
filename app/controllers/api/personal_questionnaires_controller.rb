@@ -1,4 +1,4 @@
-class Api::PersonalQuestionnaireController < ApplicationController
+class Api::PersonalQuestionnairesController < ApplicationController
     before_action :set_questionnaire, only: [:show, :update, :destroy]
     respond_to :json
   
@@ -43,7 +43,24 @@ class Api::PersonalQuestionnaireController < ApplicationController
   
     # may not work
     def questionnaire_params
-      questionnaire_params = params.require(:questionnaire).permit(:participant_id)
+      questionnaire_params = params.require(:personal_questionnaire).permit(:participant_id, 
+        :contact_info,
+        :emergency_contact,
+        :doc_status,
+        :housing,
+        :mental_health,
+        :medical,
+        :transportation,
+        :clothing,
+        :significant_relationships,
+        :support_systems,
+        :doc_regulations,
+        :treatment,
+        :triggers_and_prevention,
+        :personal_needs,
+        :success_tools,
+        :personal_goals,)
+    
     end
   
   end

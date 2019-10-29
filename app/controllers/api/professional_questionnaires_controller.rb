@@ -1,4 +1,4 @@
-class Api::ProfessionalQuestionnaireController < ApplicationController
+class Api::ProfessionalQuestionnairesController < ApplicationController
     before_action :set_questionnaire, only: [:show, :update, :destroy]
     respond_to :json
   
@@ -43,7 +43,7 @@ class Api::ProfessionalQuestionnaireController < ApplicationController
   
     # may not work
     def questionnaire_params
-      questionnaire_params = params.require(:questionnaire).permit(:participant_id, :course_completion,
+      questionnaire_params = params.require(:professional_questionnaire).permit(:participant_id, :course_completion,
         :work_history, :job_search_materials, :professional_goals, :skills_assessment_date, 
         :barriers, :mentorship_interest,:success_strategies)
     end
