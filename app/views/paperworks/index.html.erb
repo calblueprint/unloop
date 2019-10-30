@@ -3,7 +3,8 @@
   <tr>
     <th>Title</th>
     <th>Link</th>
-    <th>Participant</th>
+    <th>Participant First</th>
+    <th>Participant Last</th>
     <th>Agree</th>
     <th colspan="3"></th>
   </tr>
@@ -12,7 +13,8 @@
     <tr>
       <td><%= paperwork.title %></td>
       <td><%= paperwork.link %></td>
-      <td><%= paperwork.participant.name %></td>
+      <td><%= paperwork.participant.first_name %></td>
+      <td><%= paperwork.participant.last_name %></td>
       <td><%= paperwork.agree %></td>
       <td><%= link_to 'Show', paperwork_path(paperwork) %></td>
       <td><%= link_to 'Edit', edit_paperwork_path(paperwork) %></td>

@@ -58,14 +58,14 @@ class PaperworkForm extends React.Component {
     return (
       <div>
         <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          Create New Paperworks
+          Create New Paperwork
         </Button>
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title" maxWidth="sm" fullWidth>
-        <DialogTitle>
-          <h2 className="dialogTitle"> Assign new paperwork </h2>
-        </DialogTitle>
-        <DialogContent maxWidth="sm" fullWidth>
-            <DialogContentText>
+          <DialogTitle>
+            <h2 className="dialogTitle"> Assign new paperwork </h2>
+          </DialogTitle>
+          <DialogContent maxWidth="sm" fullWidth>
+            <DialogContentText className="dialogContentText">
               Assign Document Title
             </DialogContentText>
             <TextField
@@ -120,8 +120,7 @@ class PaperworkForm extends React.Component {
           </DialogActions>
         </Dialog>
       </div>
-    )
-
+    );
   }
 }
 
