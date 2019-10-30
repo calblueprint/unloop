@@ -96,7 +96,7 @@ class PaperworkForm extends React.Component {
             />
           </DialogContent>
           <br/>
-          <DialogContent maxWidth="sm" fullWidth>
+          {/* <DialogContent maxWidth="sm" fullWidth>
             <DialogContentText className="dialogContentText">
               Assign Due Date
             </DialogContentText>
@@ -109,7 +109,7 @@ class PaperworkForm extends React.Component {
               type="date"
               fullWidth
             />
-          </DialogContent>
+          </DialogContent> */}
           <DialogActions className="dialogActions">
             <Button onClick={this.handleClose} variant="outlined" color="secondary">
               Cancel
