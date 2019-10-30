@@ -11,6 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Switch from '@material-ui/core/Switch';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import MUIRichTextEditor from 'mui-rte';
 import axios from 'axios';
 
@@ -35,6 +36,20 @@ const styles = {
     borderStyle: 'solid 3px grey'
   }
 }
+
+const defaultTheme = createMuiTheme()
+
+Object.assign(defaultTheme, {
+  overrides: {
+      MUIRichTextEditor: {
+          root: {
+          },
+          editorContainer: {
+              border: "1px solid gray" 
+          }
+      }
+  }
+})
 
 class NewCasenote extends React.Component {
   constructor(props) {
@@ -129,13 +144,16 @@ class NewCasenote extends React.Component {
             <DialogContentText style={styles.dialogContentTextStyle}>
               Casenote Description
             </DialogContentText>
-            <MUIRichTextEditor
-              name="description"
-              value={this.state.description.text}
-              onChange={this.handleDescriptionChange("description")}
-              variant="outlined"
-              margin="dense"
-            />
+            <MuiThemeProvider theme={defaultTheme}>
+              <MUIRichTextEditor
+                name="description"
+                value={this.state.description.text}
+                onChange={this.handleDescriptionChange("description")}
+                variant="outlined"
+                margin="dense"
+              />
+            </MuiThemeProvider>
+            
           </DialogContent>
           <br/>
 
