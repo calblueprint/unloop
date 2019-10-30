@@ -1,27 +1,21 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
 import { convertToRaw } from 'draft-js';
 import "draft-js/dist/Draft.css";
 import "draftail/dist/draftail.css";
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Switch from '@material-ui/core/Switch';
+import { Button, TextField, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Switch } from '@material-ui/core/';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import MUIRichTextEditor from 'mui-rte';
-import axios from 'axios';
 
 const styles = {
   dialogActionsStyle: {
     padding: '30px',
   },
-  dialogTitleStyle: {
-    borderBottom: '5px solid',
-    borderImageSource: 'linear-gradient(to left, transparent 20%, #C4C4C4 20%)',
-    borderImageSlice: '1',
+  MUIRichTextEditorStyle: {
+    border: '5px solid',
+    padding: '10px'
+  },
+  dialogStyle: {
+    padding: '20px'
   },
   dialogContentTextStyle: {
     color: 'black',
@@ -36,6 +30,23 @@ const styles = {
   }
 }
 
+const defaultTheme = createMuiTheme()
+
+Object.assign(defaultTheme, {
+  overrides: {
+    MUIRichTextEditor: {
+      root: {
+        border: 'solid 1px #C4C4C4',
+        borderRadius: '4px'
+      },
+      editor: {
+        padding: '20px',
+      },
+    }
+  }
+});
+
+
 class NewCasenote extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +54,7 @@ class NewCasenote extends React.Component {
       description: "",
       title: "",
       participant: "",
-      internal: false,
+      internal: true,
       open: false,
     };
     this.onChange = (editorState) => this.setState({editorState});
@@ -80,7 +91,6 @@ class NewCasenote extends React.Component {
   }
 
   handleSubmit() {
-    alert('A name was submitted: ' + this.state.title + this.state.description + this.state.internal);
     let body = {
       "title": this.state.title,
       "description": this.state.description,
@@ -97,20 +107,27 @@ class NewCasenote extends React.Component {
       },
       body: body,
       credentials: 'same-origin',
-    }).then((data) => {console.log(data)}).catch((data) => { console.error(data) });
-    this.handleClose();
+    }).then((data) => {window.location.reload()}).catch((data) => { console.error(data) });
   }
 
   render () {
     return (
       <React.Fragment>
          <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          Open form dialog
+          Create New Casenote
         </Button>
 
-        <Dialog style={styles.dialogStyle} open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title" maxWidth="sm" fullWidth>
-
-          <DialogContent maxwidth="sm" fullwidth>
+        <Dialog 
+          style={styles.dialogStyle} 
+          open={this.state.open} 
+          onClose={this.handleClose} 
+          aria-labelledby="form-dialog-title" 
+          maxWidth="sm"
+        >
+          <DialogContent maxwidth="sm">
+            <DialogContentText style={styles.dialogContentTextStyle}>
+              Title
+            </DialogContentText>
             <TextField style={styles.dialogContentTextFieldStyle}
               name="title"
               value={this.state.title}
@@ -118,24 +135,27 @@ class NewCasenote extends React.Component {
               variant="outlined"
               margin="dense"
               id="title"
-              label="Insert Casenote Title"
+              label="Casenote title"
               type="text"
               fullWidth
             />
           </DialogContent>
           <br/>
 
-          <DialogContent maxwidth="sm" fullwidth>
+          <DialogContent maxwidth="sm">
             <DialogContentText style={styles.dialogContentTextStyle}>
-              Casenote Description
+              Description
             </DialogContentText>
-            <MUIRichTextEditor
-              name="description"
-              value={this.state.description.text}
-              onChange={this.handleDescriptionChange("description")}
-              variant="outlined"
-              margin="dense"
-            />
+            <MuiThemeProvider theme={defaultTheme}>
+              <MUIRichTextEditor
+                name="description"
+                value={this.state.description.text}
+                onChange={this.handleDescriptionChange("description")}
+                variant="outlined"
+                label="Casenote description"
+                style={styles.MUIRichTextEditorStyle}
+              />
+            </MuiThemeProvider>
           </DialogContent>
           <br/>
 
@@ -158,17 +178,16 @@ class NewCasenote extends React.Component {
 
           <DialogContent>
             <DialogContentText style={styles.dialogContentTextStyle}>
-              visible to participant
+              Visible to Participant
               <Switch 
                 name="internal"
-                defaultChecked={this.state.internal}
+                defaultChecked={false}
                 onChange={this.handleInternalChange("internal")}
                 value={this.state.internal}
                 color="primary"
                 inputProps={{ 'aria-label': 'primary checkbox' }}
               />
             </DialogContentText>
-            
           </DialogContent>
 
           <DialogActions style={styles.dialogActionsStyle}>
@@ -182,7 +201,6 @@ class NewCasenote extends React.Component {
         </Dialog>
 
       </React.Fragment>
-      
     );
   }
 }
