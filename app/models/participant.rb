@@ -14,5 +14,6 @@ class Participant < ApplicationRecord
 
     enum status: {r0: 0, r1: 1, r2: 2, studio: 3}
 
-    delegate :name, to: :omniuser
+    delegate :first_name, to: :omniuser
+    delegate :last_name, to: :omniuser
 end

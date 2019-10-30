@@ -6,5 +6,6 @@ class Staff < ApplicationRecord
     has_many :casenotes
     has_many :paperworks
 
-    delegate :name, to: :omniuser    
+    delegate :first_name, to: :omniuser
+    delegate :last_name, to: :omniuser
 end
