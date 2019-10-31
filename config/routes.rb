@@ -19,4 +19,6 @@ Rails.application.routes.draw do
       patch 'internal', to: 'casenotes#internal'
     end
   end
+
+  root 'paperworks#index'
 end

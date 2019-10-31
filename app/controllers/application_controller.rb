@@ -1,9 +1,11 @@
 class ApplicationController < ActionController::Base
-    devise_group :omniuser, contains: [:participant, :staff]
-    include Pundit
-    protect_from_forgery
-    def current_user
-        return unless session[:omniuser_id]
-        @current_user ||= Omniuser.find(session[:omniuser_id])
-    end
+  include Pundit
+  protect_from_forgery with: :exception
+  before_action :authenticate_omniuser!
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  def pundit_user
+    current_omniuser
+  end
 end
