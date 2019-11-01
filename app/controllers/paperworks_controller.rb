@@ -1,8 +1,7 @@
 class PaperworksController < ApplicationController
-  before_action :current_user
-
   def index
-    @paperworks = authorize Paperwork.all
+    @paperworks = Paperwork.all
+    @user = current_omniuser
   end
 
   def show
