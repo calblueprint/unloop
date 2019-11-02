@@ -26,6 +26,6 @@
     </tr>
   <% end %>
 </table>
-<% if @user.present? and @user.user_type == "Staff" %>
+<% if @user.present? and @user.staff? %>
   <%= react_component('PaperworkForm', { staff_id: @user.staff.id }) %>
 <% end %>

@@ -5,7 +5,7 @@ class CreateParticipants < ActiveRecord::Migration[6.0]
       t.string :google_token
       t.string :google_refresh_token
       t.string :email
-      t.integer :status
+      t.integer :status, default: 0
       t.timestamps
     end
   end
