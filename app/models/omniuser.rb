@@ -16,6 +16,14 @@ class Omniuser < ApplicationRecord
   validates :user_type, presence: true
   validates :admin, exclusion: { in: [true] }, if: -> { !staff? }
 
+  after_create do
+    if staff?
+      create_staff!
+    elsif participant?
+      create_participant!
+    end
+  end
+
   def self.from_omniauth(access_token)
     data = access_token.info
     omniuser = Omniuser.find_by(email: data['email'])

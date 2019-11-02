@@ -16,40 +16,43 @@ require 'faker'
 
 def create_admin
   unless Omniuser.exists?(email: 'admin@example.com')
-    Omniuser.create!(email: 'admin@example.com',
-                     first_name: 'Admin',
-                     last_name: 'Staff',
-                     password: 'password',
-                     password_confirmation: 'password',
-                     user_type: 1,
-                     admin: true
-                    )
+    Omniuser.create!(
+      email: 'admin@example.com',
+      first_name: 'Admin',
+      last_name: 'Staff',
+      password: 'password',
+      password_confirmation: 'password',
+      user_type: 1,
+      admin: true
+    )
     puts 'Created Staff Admin'
   end
 end
 
 def create_staff
   STAFF_START_ID.upto(STAFF_END_ID) do |i|
-    staff = Omniuser.create!(email: "staff#{i}@gmail.com",
-                             first_name: Faker::Name.first_name,
-                             last_name: Faker::Name.last_name,
-                             password: 'password',
-                             password_confirmation: 'password',
-                             user_type: 1)
-    staff.create_staff!
+    Omniuser.create!(
+      email: "staff#{i}@gmail.com",
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      password: 'password',
+      password_confirmation: 'password',
+      user_type: 1
+    )
   end
   puts "Created Staff ##{STAFF_START_ID}-#{STAFF_END_ID}"
 end
 
 def create_participants
   PARTICIPANT_START_ID.upto(PARTICIPANT_END_ID) do |i|
-    participant = Omniuser.create!(email: "participant#{i}@gmail.com",
-                                   first_name: Faker::Name.first_name,
-                                   last_name: Faker::Name.last_name,
-                                   password: 'password',
-                                   password_confirmation: 'password',
-                                   user_type: 0)
-    participant.create_participant!
+    Omniuser.create!(
+      email: "participant#{i}@gmail.com",
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      password: 'password',
+      password_confirmation: 'password',
+      user_type: 0
+    )
   end
   puts "Created Participant ##{PARTICIPANT_START_ID}-#{PARTICIPANT_END_ID}"
 end
@@ -86,21 +89,23 @@ end
 
 def create_google_accounts
   unless Omniuser.exists?(email: 'unloopauth@gmail.com')
-    staff_member = Omniuser.create!(first_name: "Unloop",
-                                    last_name: "Staff",
-                                    email: "unloopauth@gmail.com",
-                                    user_type: 1,
-                                    password: "staffs")
-    staff_member.create_staff!
+    Omniuser.create!(
+      first_name: "Unloop",
+      last_name: "Staff",
+      email: "unloopauth@gmail.com",
+      user_type: 1,
+      password: "staffs"
+    )
     puts 'Created Google staff user'
   end
   unless Omniuser.exists?(email: 'unlooptestparticipant@gmail.com')
-    participant_member = Omniuser.create!(first_name: "Unloop",
-                                          last_name: "Participant",
-                                          email: "unlooptestparticipant@gmail.com",
-                                          user_type: 0,
-                                          password: "participant")
-    participant_member.create_participant!
+    Omniuser.create!(
+      first_name: "Unloop",
+      last_name: "Participant",
+      email: "unlooptestparticipant@gmail.com",
+      user_type: 0,
+      password: "participant"
+    )
     puts 'Created Google participant user'
   end
 end
