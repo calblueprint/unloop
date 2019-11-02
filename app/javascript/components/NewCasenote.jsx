@@ -13,7 +13,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import Switch from '@material-ui/core/Switch';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import MUIRichTextEditor from 'mui-rte';
-import axios from 'axios';
 
 const styles = {
   dialogActionsStyle: {
@@ -95,7 +94,6 @@ class NewCasenote extends React.Component {
   }
 
   handleSubmit() {
-    alert('A name was submitted: ' + this.state.title + this.state.description + this.state.internal);
     let body = {
       "title": this.state.title,
       "description": this.state.description,
@@ -120,7 +118,7 @@ class NewCasenote extends React.Component {
     return (
       <React.Fragment>
          <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          Open form dialog
+           CREATE CASENOTE
         </Button>
 
         <Dialog style={styles.dialogStyle} open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title" maxWidth="sm" fullWidth>
