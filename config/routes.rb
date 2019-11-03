@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # Routes for Google authentication
-  devise_for :users, controllers: { omniauth_callbacks: 'user/omniauth_callbacks' }
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   get 'auth/:provider/callback', to: 'sessions#googleAuth'
   # On failed authorization redirect to sign in page
   get 'auth/failure', to: redirect('/users/sign_in')

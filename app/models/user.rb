@@ -19,15 +19,79 @@ class
   before_validation :generate_password, on: :create
   after_create :create_child_model
 
-  def self.from_omniauth(access_token)
-    data = access_token.info
+  def self.from_omniauth(auth)
+    data = auth.info
+    credentials = auth.credentials
     user = User.find_by(email: data['email'])
-    byebug
-    user&.update(
-      first_name: data['first_name'],
-      last_name: data['last_name']
-    )
+
+    if user && !(user.provider && user.uid)
+      user&.update(
+        provider: auth.provider,
+        uid: auth.uid,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        token: credentials.token,
+        expires: credentials.expires,
+        expires_at: credentials.expires_at,
+        refresh_token: credentials.refresh_token
+      )
+    end
     user
+  end
+
+  rails_admin do
+    weight -2
+    object_label_method do
+      :full_name
+    end
+    list do
+      field :email
+      field :user_type
+      field :first_name
+      field :last_name
+      field :staff
+      field :participant
+      field :admin
+      field :provider
+      field :created_at
+      field :updated_at
+    end
+    edit do
+      group :default do
+        label 'User Information'
+        field :email
+        field :user_type
+        field :first_name
+        field :last_name
+        field :admin do
+          help 'Only staffs can be admin'
+        end
+      end
+    end
+    show do
+      group :default do
+        field :email
+        field :participant
+        field :user_type
+        field :first_name
+        field :last_name
+        field :staff
+        field :admin
+      end
+      group :oauth do
+        label 'oAuth Information'
+        field :provider
+        field :uid
+        field :token
+        field :expires_at
+        field :expires
+        field :refresh_token
+      end
+    end
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
   end
 
   private
