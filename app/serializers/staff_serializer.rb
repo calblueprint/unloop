@@ -5,14 +5,14 @@ class StaffSerializer < ActiveModel::Serializer
   has_many :paperworks
 
   def email
-    object.omniuser.email
+    object.user.email
   end
 
   def first_name
-    object.omniuser.first_name
+    object.user.first_name
   end
 
   def last_name
-    object.omniuser.last_name
+    object.user.last_name
   end
 end

@@ -55,7 +55,6 @@ class Api::PaperworksController < ApplicationController
                                                         :link,
                                                         :agree,
                                                         :participant_id)
-    # TODO: Replace staff_id with current_omniuser
-    paperwork_param.merge(staff_id: 1)
+    paperwork_param.merge(staff_id: current_user.staff.id)
   end
 end

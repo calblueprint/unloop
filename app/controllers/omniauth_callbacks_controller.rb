@@ -1,15 +1,13 @@
-class Omniuser::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def google_oauth2
-      @omniuser = Omniuser.from_omniauth(request.env['omniauth.auth'])
+    @user = User.from_omniauth(request.env['omniauth.auth'])
 
-      if @omniuser and @omniuser.persisted?
-        session[:omniuser_id] = @omniuser.id
-        flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Google'
-        sign_in_and_redirect @omniuser, event: :authentication
-      else
-        # Removing extra as it can overflow some session stores
-        session['devise.google_data'] = request.env['omniauth.auth'].except(:extra).except(:id_token)
-        redirect_to new_omniuser_session_path
-      end
+    if @user and @user.persisted?
+      session[:user_id] = @user.id
+      flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Google'
+      sign_in_and_redirect @user, event: :authentication
+    else
+      redirect_to root_path
+    end
   end
 end

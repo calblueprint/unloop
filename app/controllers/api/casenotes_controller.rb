@@ -47,8 +47,8 @@ class Api::CasenotesController < ApplicationController
   def set_casenote
     @casenote = authorize Casenote.find(params[:id])
 
-    rescue ActiveRecord::RecordNotFound
-      render json: { error: 'Could not find case note' }, status: :not_found
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Could not find case note' }, status: :not_found
   end
 
   def casenotes_params
@@ -56,7 +56,6 @@ class Api::CasenotesController < ApplicationController
                                                        :description, 
                                                        :internal, 
                                                        :participant_id)
-    # TODO: Replace staff_id with current_omniuser
-    casenotes_param.merge(staff_id: 1)
+    casenotes_param.merge(staff_id: current_user.staff.id)
   end
 end

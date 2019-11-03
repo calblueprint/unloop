@@ -15,8 +15,8 @@ PARTICIPANT_END_ID = PARTICIPANT_START_ID + NUM_PARTICIPANTS - 1
 require 'faker'
 
 def create_admin
-  unless Omniuser.exists?(email: 'admin@example.com')
-    Omniuser.create!(
+  unless User.exists?(email: 'admin@example.com')
+    User.create!(
       email: 'admin@example.com',
       first_name: 'Admin',
       last_name: 'Staff',
@@ -31,7 +31,7 @@ end
 
 def create_staff
   STAFF_START_ID.upto(STAFF_END_ID) do |i|
-    Omniuser.create!(
+    User.create!(
       email: "staff#{i}@gmail.com",
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
@@ -45,7 +45,7 @@ end
 
 def create_participants
   PARTICIPANT_START_ID.upto(PARTICIPANT_END_ID) do |i|
-    Omniuser.create!(
+    User.create!(
       email: "participant#{i}@gmail.com",
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
@@ -87,23 +87,17 @@ def create_questionnaires
 end
 
 def create_google_accounts
-  unless Omniuser.exists?(email: 'unloopauth@gmail.com')
-    Omniuser.create!(
-      first_name: "Unloop",
-      last_name: "Staff",
+  unless User.exists?(email: 'unloopauth@gmail.com')
+    User.create!(
       email: "unloopauth@gmail.com",
       user_type: 1,
-      password: "staffs"
     )
     puts 'Created Google staff user'
   end
-  unless Omniuser.exists?(email: 'unlooptestparticipant@gmail.com')
-    Omniuser.create!(
-      first_name: "Unloop",
-      last_name: "Participant",
+  unless User.exists?(email: 'unlooptestparticipant@gmail.com')
+    User.create!(
       email: "unlooptestparticipant@gmail.com",
       user_type: 0,
-      password: "participant"
     )
     puts 'Created Google participant user'
   end

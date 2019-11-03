@@ -4,12 +4,12 @@ RailsAdmin.config do |config|
 
   ## == Devise ==
   config.authenticate_with do
-    warden.authenticate! scope: :omniuser
+    warden.authenticate! scope: :user
   end
-  config.current_user_method(&:current_omniuser)
+  config.current_user_method(&:current_user)
 
   config.authorize_with do
-    redirect_to main_app.root_path unless current_omniuser.admin?
+    redirect_to main_app.root_path unless current_user.admin?
   end
 
   ## == CancanCan ==
@@ -25,7 +25,40 @@ RailsAdmin.config do |config|
 
   ## == Gravatar integration ==
   ## To disable Gravatar integration in Navigation Bar set to false
-  # config.show_gravatar = true
+  config.show_gravatar = false
+
+  config.model 'User' do
+    list do
+      field :email
+      field :user_type
+      field :first_name
+      field :last_name
+      field :staff
+      field :participant
+      field :admin
+      field :created_at
+    end
+    edit do
+      group :default do
+        label 'User Information'
+        field :email
+        field :user_type
+        field :first_name
+        field :last_name
+        field :admin
+        field :staff
+        field :participant
+      end
+    end
+  end
+
+  config.model 'Staff' do
+    visible false
+  end
+
+  config.model 'Participant' do
+    visible false
+  end
 
   config.actions do
     dashboard                     # mandatory

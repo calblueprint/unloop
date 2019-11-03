@@ -8,14 +8,14 @@ class ParticipantSerializer < ActiveModel::Serializer
   has_one :professional_questionnaire
 
   def email
-    object.omniuser.email
+    object.user.email
   end
 
   def first_name
-    object.omniuser.first_name
+    object.user.first_name
   end
 
   def last_name
-    object.omniuser.last_name
+    object.user.last_name
   end
 end
