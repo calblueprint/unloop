@@ -2,8 +2,9 @@
 # it allows for google authentication with both user types, staff and participant
 # it has a user_type column which allows us to identify if the user is a staff member or participant
 # staffs and participants inherit from users
-class
-   User < ApplicationRecord
+class User < ApplicationRecord
+  # We want to remove database_authenticatable during production
+  # Keeping it for easy testing
   devise :database_authenticatable,
          :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2]
@@ -21,7 +22,6 @@ class
 
   def self.from_omniauth(auth)
     data = auth.info
-    credentials = auth.credentials
     user = User.find_by(email: data['email'])
 
     if user && !(user.provider && user.uid)
@@ -29,11 +29,7 @@ class
         provider: auth.provider,
         uid: auth.uid,
         first_name: data.first_name,
-        last_name: data.last_name,
-        token: credentials.token,
-        expires: credentials.expires,
-        expires_at: credentials.expires_at,
-        refresh_token: credentials.refresh_token
+        last_name: data.last_name
       )
     end
     user
@@ -82,10 +78,6 @@ class
         label 'oAuth Information'
         field :provider
         field :uid
-        field :token
-        field :expires_at
-        field :expires
-        field :refresh_token
       end
     end
   end
