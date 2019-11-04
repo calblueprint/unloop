@@ -1,19 +1,19 @@
 class CasenotesController < ApplicationController
   def index
-    @casenotes = Casenote.all
+    @casenotes = authorize Casenote.all
   end
 
   def new
-    @casenote = Casenote.new
+    @casenote = authorize Casenote.new
     @participants = Participant.all
   end
 
   def edit
-    @casenote = Casenote.find(params[:id])
+    @casenote = authorize Casenote.find(params[:id])
     @participants = Participant.all
   end
 
   def show
-    @casenote = Casenote.find(params[:id])
+    @casenote = authorize Casenote.find(params[:id])
   end
 end

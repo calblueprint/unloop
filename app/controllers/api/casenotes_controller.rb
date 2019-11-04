@@ -7,7 +7,7 @@ class Api::CasenotesController < ApplicationController
   end
 
   def create
-    @casenote = Casenote.new(casenotes_params)
+    @casenote = authorize Casenote.new(casenotes_params)
     if @casenote.save
       render json: @casenote, status: :created
     else
@@ -16,6 +16,7 @@ class Api::CasenotesController < ApplicationController
   end
 
   def update
+    authorize @casenote
     if @casenote.update(casenotes_params)
       render json: @casenote, status: :ok
     else
@@ -24,6 +25,7 @@ class Api::CasenotesController < ApplicationController
   end
 
   def destroy
+    authorize @casenote
     if @casenote.destroy
       render json: @casenote, status: :ok
     else
@@ -32,6 +34,7 @@ class Api::CasenotesController < ApplicationController
   end
 
   def internal
+    authorize @casenote
     if @casenote.update(internal: true)
       render json: @casenote, status: :ok
     else
@@ -42,10 +45,10 @@ class Api::CasenotesController < ApplicationController
   private
 
   def set_casenote
-    @casenote = Casenote.find(params[:id])
+    @casenote = authorize Casenote.find(params[:id])
 
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: 'Could not find case note' }, status: :not_found
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Could not find case note' }, status: :not_found
   end
 
   def casenotes_params

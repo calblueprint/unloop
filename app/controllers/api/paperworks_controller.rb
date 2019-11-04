@@ -7,7 +7,7 @@ class Api::PaperworksController < ApplicationController
   end
 
   def create
-    @paperwork = Paperwork.new(paperwork_params)
+    @paperwork = authorize Paperwork.new(paperwork_params)
     if @paperwork.save
       render json: @paperwork, status: :created
     else
@@ -16,6 +16,7 @@ class Api::PaperworksController < ApplicationController
   end
 
   def update
+    authorize @paperwork
     if @paperwork.update(paperwork_params)
       render json: @paperwork, status: :ok
     else
@@ -24,6 +25,7 @@ class Api::PaperworksController < ApplicationController
   end
 
   def complete
+    authorize @paperwork
     if @paperwork.update(agree: true)
       render json: @paperwork, status: :ok
     else
@@ -32,6 +34,7 @@ class Api::PaperworksController < ApplicationController
   end
 
   def destroy
+    authorize @destroy
     if @paperwork.destroy
       render json: @paperwork, status: :ok
     else
@@ -42,7 +45,7 @@ class Api::PaperworksController < ApplicationController
   private
 
   def set_paperwork
-    @paperwork = Paperwork.find(params[:id])
+    @paperwork = authorize Paperwork.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Could not find paperwork' }, status: :not_found
   end
