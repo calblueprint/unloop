@@ -2,7 +2,7 @@
 NUM_STAFF = 10
 NUM_PARTICIPANTS = 30
 NUM_PAPERWORKS = 25
-NUM_CASENOTES = 25
+NUM_CASE_NOTES = 25
 NUM_PERSONAL_QUESTIONNAIRE = 25
 NUM_PROF_QUESTIONNAIRE = 25
 
@@ -68,16 +68,16 @@ def create_paperworks
   puts "Created #{NUM_PAPERWORKS} Paperworks"
 end
 
-def create_casenotes
-  1.upto(NUM_CASENOTES) do |i|
-    Casenote.create!(title: Faker::Job.title,
+def create_case_notes
+  1.upto(NUM_CASE_NOTES) do |i|
+    CaseNote.create!(title: Faker::Job.title,
                      description: Faker::Hipster.paragraph,
                      internal: Faker::Boolean.boolean,
                      staff_id: Faker::Number.between(from: STAFF_START_ID, to: STAFF_END_ID),
                      participant_id: Faker::Number.between(from: PARTICIPANT_START_ID, to: PARTICIPANT_END_ID)
                     )
   end
-  puts "Created #{NUM_CASENOTES} Case Notes"
+  puts "Created #{NUM_CASE_NOTES} Case Notes"
 end
 
 def create_questionnaires
@@ -107,7 +107,7 @@ end
 create_staff
 create_participants
 create_paperworks
-create_casenotes
+create_case_notes
 create_admin
 create_google_accounts
 # create_questionnaires

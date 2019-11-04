@@ -1,6 +1,6 @@
 class Staff < ApplicationRecord
   belongs_to :user, dependent: :destroy
-  has_many :casenotes
+  has_many :case_notes
   has_many :paperworks
 
   delegate :first_name, to: :user
@@ -17,7 +17,7 @@ class Staff < ApplicationRecord
     list do
       field :email
       field :user
-      field :casenotes
+      field :case_notes
       field :paperworks
       field :created_at
       field :updated_at
@@ -26,7 +26,7 @@ class Staff < ApplicationRecord
       group :default do
         label 'Staff Information'
         field :user
-        field :casenotes
+        field :case_notes
         field :paperworks
       end
     end

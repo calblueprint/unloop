@@ -5,6 +5,9 @@ class Paperwork < ApplicationRecord
   validates :title, :link, presence: true
 
   rails_admin do
+    object_label_method do
+      :title_with_association
+    end
     list do
       field :title
       field :link
@@ -24,5 +27,9 @@ class Paperwork < ApplicationRecord
         field :agree
       end
     end
+  end
+
+  def title_with_association
+    "#{title} for #{participant.full_name}"
   end
 end

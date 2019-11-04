@@ -1,0 +1,27 @@
+<h1>All Case Notes</h1>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Participant First</th>
+    <th>Participant Last</th>
+    <th>Internal</th>
+    <th colspan="3"></th>
+  </tr>
+  
+  <% @case_notes.each do |case_note| %>
+    <tr>
+      <td><%= case_note.title %></td>
+      <td><%= case_note.description %></td>
+      <td><%= case_note.participant.first_name %></td>
+      <td><%= case_note.participant.last_name %></td>
+      <td><%= case_note.internal %></td>
+      <td><%= link_to 'Show', case_note_path(case_note) %></td>
+      <td><%= link_to 'Edit', edit_case_note_path(case_note) %></td>
+      <td><%= link_to 'Delete', api_case_note_path(case_note),
+                                method: :delete,
+                                data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</table>
+<%= react_component('NewCasenote', :description)  %>

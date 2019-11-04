@@ -1,42 +1,42 @@
-class Api::CasenotesController < ApplicationController
-  before_action :set_casenote, only: [:show, :update, :internal, :destroy]
+class Api::CaseNotesController < ApplicationController
+  before_action :set_case_note, only: [:show, :update, :internal, :destroy]
   respond_to :json
 
   def show
-    render json: @casenote
+    render json: @case_note
   end
 
   def create
-    @casenote = authorize Casenote.new(casenotes_params)
-    if @casenote.save
-      render json: @casenote, status: :created
+    @case_note = authorize CaseNote.new(case_notes_params)
+    if @case_note.save
+      render json: @case_note, status: :created
     else
       render json: { error: 'Could not create case note' }, status: :unprocessable_entity
     end
   end
 
   def update
-    authorize @casenote
-    if @casenote.update(casenotes_params)
-      render json: @casenote, status: :ok
+    authorize @case_note
+    if @case_note.update(case_notes_params)
+      render json: @case_note, status: :ok
     else
       render json: { error: 'Could not update case note' }, status: :unprocessable_entity
     end
   end
 
   def destroy
-    authorize @casenote
-    if @casenote.destroy
-      render json: @casenote, status: :ok
+    authorize @case_note
+    if @case_note.destroy
+      render json: @case_note, status: :ok
     else
       render json: { error: 'Failed to delete case note' }, status: :unprocessable_entity
     end
   end
 
   def internal
-    authorize @casenote
-    if @casenote.update(internal: true)
-      render json: @casenote, status: :ok
+    authorize @case_note
+    if @case_note.update(internal: true)
+      render json: @case_note, status: :ok
     else
       render json: { error: 'Failed to change internal to true' }, status: :unprocessable_entity
     end
@@ -44,18 +44,18 @@ class Api::CasenotesController < ApplicationController
 
   private
 
-  def set_casenote
-    @casenote = authorize Casenote.find(params[:id])
+  def set_case_note
+    @case_note = authorize CaseNote.find(params[:id])
 
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Could not find case note' }, status: :not_found
   end
 
-  def casenotes_params
-    casenotes_param = params.require(:casenote).permit(:title, 
+  def case_notes_params
+    case_notes_param = params.require(:case_note).permit(:title, 
                                                        :description, 
                                                        :internal, 
                                                        :participant_id)
-    casenotes_param.merge(staff_id: current_user.staff.id)
+    case_notes_param.merge(staff_id: current_user.staff.id)
   end
 end

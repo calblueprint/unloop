@@ -1,10 +1,13 @@
-class Casenote < ApplicationRecord
+class CaseNote < ApplicationRecord
   belongs_to :staff
   belongs_to :participant
 
   validates :title, presence: true
 
   rails_admin do
+    object_label_method do
+      :title_with_association
+    end
     list do
       field :title
       field :description
@@ -24,5 +27,9 @@ class Casenote < ApplicationRecord
         field :internal
       end
     end
+  end
+
+  def title_with_association
+    "#{title} for #{participant.full_name}"
   end
 end

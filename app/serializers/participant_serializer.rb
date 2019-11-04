@@ -1,7 +1,7 @@
 class ParticipantSerializer < ActiveModel::Serializer
   attributes :id, :email, :first_name, :last_name, :status
 
-  has_many :casenotes
+  has_many :case_notes
   has_many :paperworks
 
   has_one :personal_questionnaire

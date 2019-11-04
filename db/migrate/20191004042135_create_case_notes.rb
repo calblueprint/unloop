@@ -1,6 +1,6 @@
-class CreateCasenotes < ActiveRecord::Migration[6.0]
+class CreateCaseNotes < ActiveRecord::Migration[6.0]
   def change
-    create_table :casenotes do |t|
+    create_table :case_notes do |t|
       t.string :description
       t.boolean :internal
       t.references :staff, null: false, foreign_key: true

@@ -1,6 +1,6 @@
 class Participant < ApplicationRecord
   belongs_to :user, dependent: :destroy
-  has_many :casenotes
+  has_many :case_notes
   has_many :paperworks
 
   has_one :personal_questionnaire
@@ -25,7 +25,7 @@ class Participant < ApplicationRecord
       field :email
       field :user
       field :status
-      field :casenotes
+      field :case_notes
       field :paperworks
       field :created_at
       field :updated_at
@@ -35,7 +35,7 @@ class Participant < ApplicationRecord
         label 'Participant Information'
         field :user
         field :status
-        field :casenotes
+        field :case_notes
         field :paperworks
       end
     end
