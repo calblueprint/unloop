@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 2019_10_31_201428) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "reset_password_token"
-    t.bigint "omniuser_id"
+    t.bigint "omniuser_id", null: false
     t.index ["omniuser_id"], name: "index_participants_on_omniuser_id"
     t.index ["reset_password_token"], name: "index_participants_on_reset_password_token", unique: true
   end

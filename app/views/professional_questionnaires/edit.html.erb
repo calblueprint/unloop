@@ -1,5 +1,5 @@
 <h1>Edit Questionnaire</h1>
-<%= form_with(model: @questionnaire, url: api_personal_questionnaire_path, local: true) do |form| %>
+<%= form_with(model: @questionnaire, url: api_professional_questionnaire_path, local: true) do |form| %>
   Medical:<br>
   <%= form.text_field :medical %> <br>
   Contact Info: <br>
@@ -9,4 +9,4 @@
   <br>
   <%= form.submit "Submit" %>
 <% end %>
-<%= link_to 'Back', personal_questionnaires_path %>
+<%= link_to 'Back', professional_questionnaires_path %>

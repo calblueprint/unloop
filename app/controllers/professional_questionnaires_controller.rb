@@ -1,6 +1,8 @@
 class ProfessionalQuestionnairesController < ApplicationController
   def index
     @questionnaires = authorize ProfessionalQuestionnaire.all,  policy_class: QuestionnairePolicy
+    @questionnaireFields = ProfessionalQuestionnaire.column_names
+    @user = current_omniuser
   end
   
   def show
@@ -9,6 +11,7 @@ class ProfessionalQuestionnairesController < ApplicationController
 
   def new
     @questionnaire = authorize ProfessionalQuestionnaire.new,  policy_class: QuestionnairePolicy
+    @participants = Participant.all
   end
 
   def edit

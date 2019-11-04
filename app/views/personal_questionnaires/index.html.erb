@@ -13,7 +13,7 @@
       <td><%= q.medical %></td>
       <td><%= q.contact_info %></td>
       <td><%= q.emergency_contact %></td>
-      <td><%= q.participant.name %></td>
+      <td><%= q.participant.first_name %></td>
       <td><%= link_to 'Show', personal_questionnaire_path(q) %></td>
       <td><%= link_to 'Edit', edit_personal_questionnaire_path(q) %></td>
       <td><%= link_to 'Delete', api_personal_questionnaire_path(q),
@@ -22,4 +22,6 @@
     </tr>
   <% end %>
 </table>
-<%= link_to 'New Personal Questionnaire', new_personal_questionnaire_path %>
+<% if @user.present? && @user.staff? %>
+  <%= react_component("QuestionnaireForm", {questionnaireType: "Personal", fields: @questionnaireFields, participant_id: 1}) %>
+<% end %>

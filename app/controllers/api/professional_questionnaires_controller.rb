@@ -12,7 +12,7 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
       if @questionnaire.save
         render json: @questionnaire, status: :created
       else
-        render json: { error: 'Could not create professional questionnaire' }, status: :unprocessable_entity
+        render json: { error: 'Could not create professional questionnaire' }
       end
     end
   
