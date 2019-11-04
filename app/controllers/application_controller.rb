@@ -1,11 +1,21 @@
 class ApplicationController < ActionController::Base
-    # before_action :authenticate_omniuser!
-    devise_group :omniuser, contains: [:participant, :staff]
-    include Pundit
-    protect_from_forgery
+  # before_action :authenticate_omniuser!
+  include Pundit
+  protect_from_forgery with: :exception
+  before_action :authenticate_omniuser!
 
-    def current_user
-        return unless session[:omniuser_id]
-        @current_user ||= Omniuser.find(session[:omniuser_id])
-    end
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  def pundit_user
+    current_omniuser
+  end
+
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) ||
+      if resource.is_a?(Omniuser) && resource.admin?
+        dashboard_path
+      else
+        super
+      end
+  end
 end
