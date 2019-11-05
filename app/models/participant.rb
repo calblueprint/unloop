@@ -22,6 +22,7 @@ class Participant < ApplicationRecord
       :cond_full_name
     end
     list do
+      field :id
       field :email
       field :user
       field :status

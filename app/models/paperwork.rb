@@ -9,6 +9,7 @@ class Paperwork < ApplicationRecord
       :title_with_association
     end
     list do
+      field :id
       field :title
       field :link
       field :agree

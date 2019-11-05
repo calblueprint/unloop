@@ -9,6 +9,7 @@ class CaseNote < ApplicationRecord
       :title_with_association
     end
     list do
+      field :id
       field :title
       field :description
       field :internal
