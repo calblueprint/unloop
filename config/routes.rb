@@ -8,20 +8,20 @@ Rails.application.routes.draw do
 
   resources :paperworks, :case_notes, only: [:index, :show, :new, :edit]
 
-  resources :staffs do
+  resources :staffs, only: [] do
     collection do
       get 'dashboard', to: 'staffs#dashboard'
     end
   end
 
-  resources :participants do
+  resources :participants, only: [:show] do
     collection do
       get 'dashboard', to: 'participants#dashboard'
     end
   end
 
   namespace :api, defaults: { format: :json } do
-    resources :paperworks, only: [:show, :create, :update, :destroy] do
+    resources :paperworks, only: [:create, :update, :destroy] do
       patch 'complete', to: 'paperworks#complete', on: :member
     end
     resources :case_notes, only: [:show, :create, :update, :destroy] do

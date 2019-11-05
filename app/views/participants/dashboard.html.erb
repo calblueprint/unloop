@@ -1,3 +1,19 @@
-Participant Dashboard
 <%= link_to 'Sign In', new_user_session_path if @user.nil? %>
 <%= link_to 'Sign Out', destroy_user_session_path, method: :delete if @user %>
+<h1>Participant Dashboard</h1>
+<h2>Upcoming Assignments</h2>
+<table>
+  <% @paperworks.each do |paperwork| %>
+    <tr>
+      <td><%= link_to paperwork.title, paperwork_path(paperwork) %></td>
+    </tr>
+  <% end %>
+</table>
+<h2>Case Notes</h2>
+<table>
+  <% @case_notes.each do |case_note| %>
+    <tr>
+      <td><%= link_to case_note.title, case_note_path(case_note) %>
+    </tr>
+  <% end %>
+</table>

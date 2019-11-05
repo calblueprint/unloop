@@ -1,0 +1,21 @@
+<h1><%= @participant.full_name %></h1>
+<h2>Paperworks</h2>
+<table>
+  <% @paperworks.each do |paperwork| %>
+    <tr>
+      <td><%= link_to paperwork.title, paperwork_path(paperwork) %>
+    </tr>
+  <% end %>
+</table>
+<%= link_to 'New Paperwork', new_paperwork_path %>
+<h2>Case Notes</h2>
+<table>
+  <% @case_notes.each do |case_note| %>
+    <tr>
+      <td><%= link_to case_note.title, case_note_path(case_note) %>
+    </tr>
+  <% end %>
+</table>
+<%= link_to 'New Case Note', new_case_note_path%>
+<br>
+<%= link_to 'Back', root_path %>

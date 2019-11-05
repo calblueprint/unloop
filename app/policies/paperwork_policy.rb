@@ -1,34 +1,26 @@
 class PaperworkPolicy < ApplicationPolicy
   def index?
-    staff?
+    user.staff?
   end
 
   def create?
-    staff?
+    user.staff?
   end
 
   def destroy?
-    staff?
+    user.staff?
   end
 
   def complete?
-    staff?
+    user.participant? && user.participant.id == resource.participant_id
   end
 
   def show?
-    staff? || (user.participant? && user.participant.id == resource.participant_id)
+    user.staff? || (user.participant? && user.participant.id == resource.participant_id)
   end
 
   def update?
-    show?
-  end
-
-  def set_paperwork?
-    show?
-  end
-
-  def agree?
-    user.participant? && (user.participant.id == resource.participant_id)
+    user.staff?
   end
 
   class Scope < Scope
@@ -43,11 +35,5 @@ class PaperworkPolicy < ApplicationPolicy
         scope.where(participant_id: user.participant.id)
       end
     end
-  end
-
-  private
-
-  def staff?
-    user.present? && user.staff?
   end
 end

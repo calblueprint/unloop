@@ -3,6 +3,7 @@ class CaseNotesController < ApplicationController
 
   def index
     @case_notes = authorize CaseNote.all
+    skip_policy_scope
   end
 
   def new
@@ -11,19 +12,16 @@ class CaseNotesController < ApplicationController
   end
 
   def edit
-    @case_note = authorize CaseNote.find(params[:id])
     @participants = Participant.all
   end
 
   def show
-    @case_note = authorize CaseNote.find(params[:id])
   end
 
   private
 
   def set_case_note
     @case_note = authorize CaseNote.find(params[:id])
-
   rescue ActiveRecord::RecordNotFound
     redirect_to case_notes_path
   end  
