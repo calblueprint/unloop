@@ -47,7 +47,7 @@ Object.assign(defaultTheme, {
 });
 
 
-class NewCasenote extends React.Component {
+class NewCaseNote extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -207,4 +207,4 @@ class NewCasenote extends React.Component {
 
 //ReactDOM.render(editor, document.querySelector("[data-mount]"));
 
-export default NewCasenote;
+export default NewCaseNote;

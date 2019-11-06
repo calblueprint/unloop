@@ -53,6 +53,7 @@ def create_participants
       password_confirmation: 'password',
       user_type: 0
     )
+  end
   puts "Created Participant ##{PARTICIPANT_START_ID}-#{PARTICIPANT_END_ID}"
 end
 
@@ -110,4 +111,4 @@ create_paperworks
 create_case_notes
 create_admin
 create_google_accounts
-# create_questionnaires
+create_questionnaires
