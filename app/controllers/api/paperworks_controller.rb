@@ -16,7 +16,6 @@ class Api::PaperworksController < ApplicationController
   end
 
   def update
-    authorize @paperwork
     if @paperwork.update(paperwork_params)
       render json: @paperwork, status: :ok
     else
@@ -25,7 +24,6 @@ class Api::PaperworksController < ApplicationController
   end
 
   def complete
-    authorize @paperwork
     if @paperwork.update(agree: true)
       render json: @paperwork, status: :ok
     else
@@ -34,12 +32,15 @@ class Api::PaperworksController < ApplicationController
   end
 
   def destroy
-    authorize @destroy
     if @paperwork.destroy
       render json: @paperwork, status: :ok
     else
       render json: { error: 'Failed to delete paperwork' }, status: :unprocessable_entity
     end
+  end
+
+  def user_not_authorized
+    render json: { error: 'You are not authorized to perform this action' }, status: :unauthorized
   end
 
   private
@@ -55,7 +56,6 @@ class Api::PaperworksController < ApplicationController
                                                         :link,
                                                         :agree,
                                                         :participant_id)
-    # TODO: Replace staff_id with current_omniuser
-    paperwork_param.merge(staff_id: 1)
+    paperwork_param.merge(staff_id: current_user.staff.id)
   end
 end

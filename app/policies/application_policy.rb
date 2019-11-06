@@ -3,7 +3,6 @@ class ApplicationPolicy
 
   # In your controller, Pundit will call the current_user method
   #  to retrieve what to send into the argument
-  # Assumes this user is an omniuser
   def initialize(user, resource)
     @user = user
     @resource = resource
