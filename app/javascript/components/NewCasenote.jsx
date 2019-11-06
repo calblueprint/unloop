@@ -53,7 +53,7 @@ class NewCasenote extends React.Component {
     this.state = { 
       description: "",
       title: "",
-      participant: "",
+      participant_id: this.props.participant_id,
       internal: true,
       open: false,
     };
@@ -95,7 +95,7 @@ class NewCasenote extends React.Component {
       "title": this.state.title,
       "description": this.state.description,
       "internal": this.state.internal,
-      "participant_id": 1,
+      "participant_id": this.state.participant_id,
     };
     body = JSON.stringify({case_note: body});
     let req = '/api/case_notes/';
