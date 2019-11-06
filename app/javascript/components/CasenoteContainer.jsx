@@ -28,9 +28,9 @@ class CasenoteContainer extends React.Component {
         };
     }
 
-    
-
     render () {
+        let participant_id = 1;
+        
         return (
             <React.Fragment>
                  <CssBaseline />
@@ -47,15 +47,12 @@ class CasenoteContainer extends React.Component {
                                         <NewCasenote/>
                                     </Grid>
                                 </Grid>
-
                                 <CasenoteCard/>
                                 <CasenoteCard/>
                                 <CasenoteCard/>
                             </div>
                         </Typography>
                     </Grid>
-                    
-                    
                 </Container>
             </React.Fragment>
         );

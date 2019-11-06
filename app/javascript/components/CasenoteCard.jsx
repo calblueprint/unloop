@@ -29,8 +29,19 @@ class CasenoteCard extends React.Component {
     }
 
     componentDidMount() {
+        fetch('/casenotes/index')
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Something went wrong");
+            }
+        })
+        .then(data => {
+            console.log(data)
+        });
         if (this.props.casenote_id !== null) {
-            fetch('api/casenotes/16')
+            fetch('api/casenotes/1')
             .then(response => {
                 if (response.ok) {
                     return response.json();   
@@ -46,7 +57,6 @@ class CasenoteCard extends React.Component {
                     participant: data.participant,
                     internal: data.internal,
                  })
-                console.log(this.state);
             });
              
         } else {
