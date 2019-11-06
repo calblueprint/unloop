@@ -1,7 +1,7 @@
 class PaperworksController < ApplicationController
   def index
     @paperworks = Paperwork.all
-    @user = current_omniuser
+    @user = current_user
   end
 
   def show

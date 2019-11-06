@@ -1,5 +1,5 @@
-<h1>Edit Casenote</h1>
-<%= form_with(model: @casenote, url: api_casenote_path, local: true) do |form| %>
+<h1>Edit Case Note</h1>
+<%= form_with(model: @case_note, url: api_case_note_path, local: true) do |form| %>
   <p>
     <%= form.label :title %><br>
     <%= form.text_field :title %>
@@ -20,4 +20,4 @@
     <%= form.submit %>
   </p>
 <% end %>
-<%= link_to 'Back', casenotes_path %>
+<%= link_to 'Back', case_notes_path %>

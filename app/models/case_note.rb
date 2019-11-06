@@ -1,8 +1,8 @@
-class Paperwork < ApplicationRecord
+class CaseNote < ApplicationRecord
   belongs_to :staff
   belongs_to :participant
 
-  validates :title, :link, presence: true
+  validates :title, presence: true
 
   rails_admin do
     object_label_method do
@@ -10,8 +10,8 @@ class Paperwork < ApplicationRecord
     end
     list do
       field :title
-      field :link
-      field :agree
+      field :description
+      field :internal
       field :participant
       field :staff
       field :created_at
@@ -19,12 +19,12 @@ class Paperwork < ApplicationRecord
     end
     edit do
       group :default do
-        label 'Paperwork Information'
+        label 'Case Note Information'
         field :title
-        field :link
+        field :description
         field :participant
         field :staff
-        field :agree
+        field :internal
       end
     end
   end

@@ -2,7 +2,7 @@
 NUM_STAFF = 10
 NUM_PARTICIPANTS = 30
 NUM_PAPERWORKS = 25
-NUM_CASENOTES = 25
+NUM_CASE_NOTES = 25
 NUM_PERSONAL_QUESTIONNAIRE = 25
 NUM_PROF_QUESTIONNAIRE = 25
 
@@ -15,8 +15,8 @@ PARTICIPANT_END_ID = PARTICIPANT_START_ID + NUM_PARTICIPANTS - 1
 require 'faker'
 
 def create_admin
-  unless Omniuser.exists?(email: 'admin@example.com')
-    Omniuser.create!(
+  unless User.exists?(email: 'admin@example.com')
+    User.create!(
       email: 'admin@example.com',
       first_name: 'Admin',
       last_name: 'Staff',
@@ -31,7 +31,7 @@ end
 
 def create_staff
   STAFF_START_ID.upto(STAFF_END_ID) do |i|
-    Omniuser.create!(
+    User.create!(
       email: "staff#{i}@gmail.com",
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
@@ -45,7 +45,7 @@ end
 
 def create_participants
   PARTICIPANT_START_ID.upto(PARTICIPANT_END_ID) do |i|
-    Omniuser.create!(
+    User.create!(
       email: "participant#{i}@gmail.com",
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
@@ -69,16 +69,16 @@ def create_paperworks
   puts "Created #{NUM_PAPERWORKS} Paperworks"
 end
 
-def create_casenotes
-  1.upto(NUM_CASENOTES) do |i|
-    Casenote.create!(title: Faker::Job.title,
+def create_case_notes
+  1.upto(NUM_CASE_NOTES) do |i|
+    CaseNote.create!(title: Faker::Job.title,
                      description: Faker::Hipster.paragraph,
                      internal: Faker::Boolean.boolean,
                      staff_id: Faker::Number.between(from: STAFF_START_ID, to: STAFF_END_ID),
                      participant_id: Faker::Number.between(from: PARTICIPANT_START_ID, to: PARTICIPANT_END_ID)
                     )
   end
-  puts "Created #{NUM_CASENOTES} Case Notes"
+  puts "Created #{NUM_CASE_NOTES} Case Notes"
 end
 
 def create_questionnaires
@@ -88,23 +88,17 @@ def create_questionnaires
 end
 
 def create_google_accounts
-  unless Omniuser.exists?(email: 'unloopauth@gmail.com')
-    Omniuser.create!(
-      first_name: "Unloop",
-      last_name: "Staff",
+  unless User.exists?(email: 'unloopauth@gmail.com')
+    User.create!(
       email: "unloopauth@gmail.com",
       user_type: 1,
-      password: "staffs"
     )
     puts 'Created Google staff user'
   end
-  unless Omniuser.exists?(email: 'unlooptestparticipant@gmail.com')
-    Omniuser.create!(
-      first_name: "Unloop",
-      last_name: "Participant",
+  unless User.exists?(email: 'unlooptestparticipant@gmail.com')
+    User.create!(
       email: "unlooptestparticipant@gmail.com",
       user_type: 0,
-      password: "participant"
     )
     puts 'Created Google participant user'
   end
@@ -114,7 +108,7 @@ end
 create_staff
 create_participants
 create_paperworks
-create_casenotes
+create_case_notes
 create_admin
 create_google_accounts
-# create_questionnaires
+create_questionnaires

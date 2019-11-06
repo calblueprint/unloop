@@ -1,4 +1,4 @@
-class CasenotePolicy < ApplicationPolicy
+class CaseNotePolicy < ApplicationPolicy
   def index?
     staff?
   end
@@ -23,7 +23,7 @@ class CasenotePolicy < ApplicationPolicy
     staff?
   end
 
-  def set_casenote?
+  def set_case_note?
     show?
   end
 

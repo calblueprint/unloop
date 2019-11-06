@@ -47,7 +47,7 @@ Object.assign(defaultTheme, {
 });
 
 
-class NewCasenote extends React.Component {
+class NewCaseNote extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -97,8 +97,8 @@ class NewCasenote extends React.Component {
       "internal": this.state.internal,
       "participant_id": 1,
     };
-    body = JSON.stringify({casenote: body});
-    let req = '/api/casenotes/';
+    body = JSON.stringify({case_note: body});
+    let req = '/api/case_notes/';
     fetch(req, {
       method: 'POST',
       headers: {
@@ -114,7 +114,7 @@ class NewCasenote extends React.Component {
     return (
       <React.Fragment>
          <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          Create New Casenote
+          Create New Case Note
         </Button>
 
         <Dialog 
@@ -135,7 +135,7 @@ class NewCasenote extends React.Component {
               variant="outlined"
               margin="dense"
               id="title"
-              label="Casenote title"
+              label="Case Note title"
               type="text"
               fullWidth
             />
@@ -152,7 +152,7 @@ class NewCasenote extends React.Component {
                 value={this.state.description.text}
                 onChange={this.handleDescriptionChange("description")}
                 variant="outlined"
-                label="Casenote description"
+                label="Case Note description"
                 style={styles.MUIRichTextEditorStyle}
               />
             </MuiThemeProvider>
@@ -195,7 +195,7 @@ class NewCasenote extends React.Component {
               Cancel
             </Button>
             <Button onClick={this.handleSubmit} variant="outlined" color="primary">
-              Submit Casenote
+              Submit Case Note
             </Button>
           </DialogActions>
         </Dialog>
@@ -207,4 +207,4 @@ class NewCasenote extends React.Component {
 
 //ReactDOM.render(editor, document.querySelector("[data-mount]"));
 
-export default NewCasenote;
+export default NewCaseNote;

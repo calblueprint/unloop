@@ -9,7 +9,6 @@ class PaperworkForm extends React.Component {
     super(props);
     this.state = {
       participant_id: 1,
-      staff_id: 0,
       link: "",
       paperwork_title: "",
       due_date: null,
@@ -18,11 +17,6 @@ class PaperworkForm extends React.Component {
     this.handleClose = this._handleClose.bind(this);
     this.handleOpen = this._handleOpen.bind(this);
     this.handleSubmit = this._handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    const { staff_id } = this.props;
-    this.setState({staff_id: staff_id});
   }
 
   _handleOpen() {
@@ -37,7 +31,6 @@ class PaperworkForm extends React.Component {
     let body = {
                 "link": this.state.link,
                 "title": this.state.title,
-                "staff_id": this.state.staff_id,
                 "participant_id": this.state.participant_id,
                 "agree": false,
               };

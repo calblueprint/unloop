@@ -1,5 +1,5 @@
-<h1>New Casenotes</h1>
-<%= form_with scope: :casenote, url: api_casenotes_path, local: true do |form| %>
+<h1>New Case Notes</h1>
+<%= form_with scope: :case_note, url: api_case_notes_path, local: true do |form| %>
   Title:<br>
   <%= form.text_field :title %> <br>
   Description: <br>
@@ -9,7 +9,7 @@
 	<br>
     Internal: <br>
     <%= form.check_box :agree %> <br>
-    <%= react_component('NewCasenote', :description)  %>
+    <%= react_component('NewCaseNote', :description)  %>
     
     <%= form.submit "Submit" %>
 <% end %>
