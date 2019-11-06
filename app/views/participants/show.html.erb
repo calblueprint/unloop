@@ -16,6 +16,6 @@
     </tr>
   <% end %>
 </table>
-<%= react_component('NewCaseNote', {participant_id: @participant.id}) %>
+<%= react_component('CaseNoteContainer', {case_notes: @case_notes, participant: @participant}) %>
 <br>
 <%= link_to 'Back', root_path %>

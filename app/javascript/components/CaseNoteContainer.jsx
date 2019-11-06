@@ -1,0 +1,71 @@
+import React from "react";
+import { makeStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import NewCaseNote from 'components/NewCaseNote';
+import CaseNoteCard from 'components/CaseNoteCard';
+
+const classes = makeStyles(theme => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+}));
+
+class CaseNoteContainer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { 
+            case_notes: this.props.case_notes,
+            participant: this.props.participant
+        };
+        console.log(this.state);
+    }
+
+    render () {
+        let participant_id = 1;
+        let case_note_cards = this.state.case_notes.map((case_note, index) => {
+                return <div key={index}>
+                    <CaseNoteCard 
+                    title={case_note.title} 
+                    description={case_note.description}
+                    internal = {case_note.internal}
+                    />
+                </div>
+            }
+        );
+        
+        return (
+            <React.Fragment>
+                <CssBaseline />
+                <Container maxWidth="sm">
+                    <Grid>
+                        <Typography component="div" style={{ backgroundColor: '#F4F4F4', height: '100vh' }}>
+                            <div className={classes.root}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={6}>
+                                        <h2>Casenotes</h2>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <NewCaseNote/>
+                                    </Grid>
+                                </Grid>
+                                {case_note_cards}
+                            </div>
+                        </Typography>
+                    </Grid>
+                </Container>
+            </React.Fragment>
+        );
+    }
+}
+
+export default CaseNoteContainer;
+
