@@ -91,6 +91,8 @@ def create_google_accounts
   unless User.exists?(email: 'unloopauth@gmail.com')
     User.create!(
       email: "unloopauth@gmail.com",
+      first_name: "UnloopGoogle",
+      last_name: "Staff",
       user_type: 1,
     )
     puts 'Created Google staff user'
@@ -98,6 +100,8 @@ def create_google_accounts
   unless User.exists?(email: 'unlooptestparticipant@gmail.com')
     User.create!(
       email: "unlooptestparticipant@gmail.com",
+      first_name: "UnloopGoogle",
+      last_name: "Participant",
       user_type: 0,
     )
     puts 'Created Google participant user'

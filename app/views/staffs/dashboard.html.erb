@@ -1,0 +1,20 @@
+<%= link_to 'Sign In', new_user_session_path if @user.nil? %>
+<%= link_to 'Sign Out', destroy_user_session_path, method: :delete if @user %>
+<%= link_to 'Admin', rails_admin_path if @user.admin? %>
+<h1>Staff Dashboard</h1>
+<h2>All Participants</h2>
+<table>
+  <tr>
+    <th>Participant Name</th>
+    <th>Participant Status</th>
+    <th colspan="1"></th>
+  </tr>
+
+  <% @participants.each do |participant| %>
+    <tr>
+      <td><%= participant.full_name %></td>
+      <td><%= participant.status %></td>
+      <td><%= link_to 'Show', participant_path(participant) %></td>
+    </tr>
+  <% end %>
+</table>

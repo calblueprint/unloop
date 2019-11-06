@@ -16,7 +16,6 @@ class Api::CaseNotesController < ApplicationController
   end
 
   def update
-    authorize @case_note
     if @case_note.update(case_notes_params)
       render json: @case_note, status: :ok
     else
@@ -25,7 +24,6 @@ class Api::CaseNotesController < ApplicationController
   end
 
   def destroy
-    authorize @case_note
     if @case_note.destroy
       render json: @case_note, status: :ok
     else
@@ -34,7 +32,6 @@ class Api::CaseNotesController < ApplicationController
   end
 
   def internal
-    authorize @case_note
     if @case_note.update(internal: true)
       render json: @case_note, status: :ok
     else
@@ -42,11 +39,14 @@ class Api::CaseNotesController < ApplicationController
     end
   end
 
+  def user_not_authorized
+    render json: { error: 'You are not authorized to perform this action' }, status: :unauthorized
+  end  
+
   private
 
   def set_case_note
     @case_note = authorize CaseNote.find(params[:id])
-
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Could not find case note' }, status: :not_found
   end

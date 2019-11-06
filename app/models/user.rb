@@ -41,10 +41,9 @@ class User < ApplicationRecord
       :full_name
     end
     list do
+      field :id
       field :email
       field :user_type
-      field :first_name
-      field :last_name
       field :staff
       field :participant
       field :admin
