@@ -1,0 +1,14 @@
+<h1>New Case Notes</h1>
+<%= form_with scope: :case_note, url: api_case_notes_path, local: true do |form| %>
+  Title:<br>
+  <%= form.text_field :title %> <br>
+  Description: <br>
+  <%= form.text_field :description %> <br>
+  Participant: <br>
+	<%= form.collection_select :participant_id, @participants, :id, :first_name, prompt: true %>
+	<br>
+    Internal: <br>
+    <%= form.check_box :agree %> <br>
+    
+    <%= form.submit "Submit" %>
+<% end %>

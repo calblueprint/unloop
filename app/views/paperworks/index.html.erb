@@ -1,5 +1,3 @@
-<%= link_to 'Sign In', new_omniuser_session_path %>
-<%= link_to 'Sign Out', destroy_omniuser_session_path, method: :delete %>
 <h1>All Paperworks</h1>
 <table>
   <tr>
@@ -26,6 +24,3 @@
     </tr>
   <% end %>
 </table>
-<% if @user.present? and @user.staff? %>
-  <%= react_component('PaperworkForm', { staff_id: @user.staff.id }) %>
-<% end %>

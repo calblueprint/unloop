@@ -282,8 +282,12 @@ Devise.setup do |config|
   #
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:
-  config.omniauth_path_prefix = '/my_engine/omniuser/auth'
-  config.omniauth :google_oauth2, Rails.application.secrets.client_id, Rails.application.secrets.client_secret, {}
+  config.omniauth_path_prefix = '/my_engine/users/auth'
+  client_id = Rails.application.secrets.client_id
+  client_secret = Rails.application.secrets.client_secret
+  config.omniauth :google_oauth2, client_id, client_secret, {
+    scope: 'userinfo.profile, userinfo.email'
+  }
   # ==> Turbolinks configuration
   # If your app is using Turbolinks, Turbolinks::Controller needs to be included to make redirection work correctly:
   #

@@ -2,20 +2,16 @@ class ApplicationController < ActionController::Base
   # before_action :authenticate_omniuser!
   include Pundit
   protect_from_forgery with: :exception
-  before_action :authenticate_omniuser!
+  before_action :authenticate_user!
+  after_action :verify_authorized, except: :index, unless: :devise_controller?
+  after_action :verify_policy_scoped, only: :index
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  def pundit_user
-    current_omniuser
-  end
+  private
 
-  def after_sign_in_path_for(resource)
-    stored_location_for(resource) ||
-      if resource.is_a?(Omniuser) && resource.admin?
-        dashboard_path
-      else
-        super
-      end
-  end
+  def user_not_authorized
+    flash[:alert] = "You are not authorized to perform this action."
+    redirect_to(request.referrer || root_path)
+  end  
 end
