@@ -1,12 +1,13 @@
 class PaperworksController < ApplicationController
-  before_action :current_user
+  before_action :set_paperwork, only: [:show, :edit]
 
   def index
     @paperworks = authorize Paperwork.all
+    @user = current_user
+    skip_policy_scope
   end
 
   def show
-    @paperwork = authorize Paperwork.find(params[:id])
   end
 
   def new
@@ -15,7 +16,14 @@ class PaperworksController < ApplicationController
   end
 
   def edit
-    @paperwork = authorize Paperwork.find(params[:id])
     @participants = Participant.all
+  end
+
+  private
+
+  def set_paperwork
+    @paperwork = authorize Paperwork.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to paperworks_path
   end
 end

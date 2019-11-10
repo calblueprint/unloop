@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_28_015857) do
+ActiveRecord::Schema.define(version: 2019_11_03_045614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "casenotes", force: :cascade do |t|
+  create_table "case_notes", force: :cascade do |t|
     t.string "description"
     t.boolean "internal"
     t.bigint "staff_id", null: false
@@ -23,23 +23,8 @@ ActiveRecord::Schema.define(version: 2019_10_28_015857) do
     t.string "title"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["participant_id"], name: "index_casenotes_on_participant_id"
-    t.index ["staff_id"], name: "index_casenotes_on_staff_id"
-  end
-
-  create_table "omniusers", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "user_type"
-    t.string "first_name"
-    t.string "last_name"
-    t.index ["email"], name: "index_omniusers_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_omniusers_on_reset_password_token", unique: true
+    t.index ["participant_id"], name: "index_case_notes_on_participant_id"
+    t.index ["staff_id"], name: "index_case_notes_on_staff_id"
   end
 
   create_table "paperworks", force: :cascade do |t|
@@ -55,13 +40,11 @@ ActiveRecord::Schema.define(version: 2019_10_28_015857) do
   end
 
   create_table "participants", force: :cascade do |t|
-    t.integer "status"
+    t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "reset_password_token"
-    t.bigint "omniuser_id", null: false
-    t.index ["omniuser_id"], name: "index_participants_on_omniuser_id"
-    t.index ["reset_password_token"], name: "index_participants_on_reset_password_token", unique: true
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_participants_on_user_id"
   end
 
   create_table "personal_questionnaires", force: :cascade do |t|
@@ -105,18 +88,34 @@ ActiveRecord::Schema.define(version: 2019_10_28_015857) do
   create_table "staffs", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "reset_password_token"
-    t.bigint "omniuser_id", null: false
-    t.index ["omniuser_id"], name: "index_staffs_on_omniuser_id"
-    t.index ["reset_password_token"], name: "index_staffs_on_reset_password_token", unique: true
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_staffs_on_user_id"
   end
 
-  add_foreign_key "casenotes", "participants"
-  add_foreign_key "casenotes", "staffs"
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_type", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.boolean "admin", default: false
+    t.string "provider"
+    t.string "uid"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  add_foreign_key "case_notes", "participants"
+  add_foreign_key "case_notes", "staffs"
   add_foreign_key "paperworks", "participants"
   add_foreign_key "paperworks", "staffs"
-  add_foreign_key "participants", "omniusers"
+  add_foreign_key "participants", "users"
   add_foreign_key "personal_questionnaires", "participants"
   add_foreign_key "professional_questionnaires", "participants"
-  add_foreign_key "staffs", "omniusers"
+  add_foreign_key "staffs", "users"
 end

@@ -1,13 +1,20 @@
-<h2>Log in</h2>
+
+<head>
+  <link rel="stylesheet" href='../../assets/stylesheets/login.scss'>
+</head>
+
 <%- if devise_mapping.omniauthable? %>
   <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= react_component("Login", {path: omniauth_authorize_path(resource_name, provider)}) %>
-    # <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %><br />
+    <div class="background">
+      <%= react_component("Login", {path: omniauth_authorize_path(resource_name, provider)}) %>
+    </div>
   <% end %>
 <% end %>
 
 
 <% if false %>
+# <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %><br />
+
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field">
       <%= f.label :email %><br />
