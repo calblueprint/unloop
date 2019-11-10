@@ -1,5 +1,6 @@
 <h1><%= @participant.full_name %></h1>
 <h2>Paperworks</h2>
+<%= react_component("PaperworkList", {paperworks: @paperworks.all}) %>
 <table>
   <% @paperworks.each do |paperwork| %>
     <tr>
