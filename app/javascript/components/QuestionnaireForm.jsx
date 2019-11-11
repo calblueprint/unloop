@@ -2,14 +2,11 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import '../../assets/stylesheets/personal_questionnaires.scss';
 import {
-  MenuItem,
-  Select,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  TextareaAutosize,
   TextField,
 } from '@material-ui/core/';
 import PropTypes from 'prop-types';
@@ -18,11 +15,29 @@ class QuestionnaireForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: true,
+      open: false,
     };
     this.handleClose = this._handleClose.bind(this);
     this.handleOpen = this._handleOpen.bind(this);
     this.handleSubmit = this._handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    // store the information from this.props.questionnaire into state
+    let questionnaire = {};
+    Object.keys(this.props.questionnaire).forEach(k => {
+      if (
+        k !== 'id' &&
+        k !== "created_at" &&
+        k !== 'updated_at' &&
+        k !== 'participant_id'
+      ) {
+        questionnaire[k] = this.props.questionnaire[k];
+      }
+    });
+    this.setState({
+      questionnaire: questionnaire
+    })
   }
 
   _handleOpen() {
@@ -34,22 +49,20 @@ class QuestionnaireForm extends React.Component {
   }
 
   _handleSubmit() {
-    let qType = this.props.questionnaireType.toLowerCase() + "_questionnaire"
-    let fields = this.getProperFields();
+    let qType = this.props.questionnaireType.toLowerCase() + '_questionnaire';
     let body = {};
 
-    fields.map(f => {
-      body[f] = this.state[f];
+    Object.keys(this.state.questionnaire).map(f => {
+      body[f] = this.state.questionnaire[f];
     });
     body['participant_id'] = this.props.participant_id;
 
-
     body = JSON.stringify({ [qType]: body });
 
-    let request =
-      '/api/' + qType + 's/';
+    let id = this.props.questionnaire["id"];
+    let request = '/api/' + qType + 's/' + id;
     fetch(request, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'X_CSRF-Token': document.getElementsByName('csrf-token')[0].content,
@@ -65,51 +78,56 @@ class QuestionnaireForm extends React.Component {
       });
   }
 
-  createTextForm(fieldName, contentText) {
+  _handleTextFormChange(e) {
+    let id = e.target.id
+    let value = e.target.value
+    this.setState(s => ({
+      questionnaire: {                 
+          ...s.questionnaire,    
+          [id]: value
+      }
+  }))
+  }
+
+
+  createTextForm(fieldName, fieldValue, contentText) {
     // content text is prompt/title for the text box
     // field name is the name of the field that will be filled in the database
     return (
       <DialogContent>
+        <DialogContentText>{contentText}</DialogContentText>
         <TextField
-          className="dialogContentTextField"
-          onChange={e => this.setState({ [fieldName]: e.target.value })}
+          className="dialogContentTextField questionnaireTextField"
+          onChange={(e) => this._handleTextFormChange(e)}
           variant="outlined"
           id={fieldName}
-          label={contentText}
           multiline
           type="text"
           margin="dense"
+          defaultValue={fieldValue}
+          maxRows={20}
         />
       </DialogContent>
     );
   }
 
-  getProperFields() {
-    return this.props.fields.filter(f => {
-      return (
-        f !== 'id' &&
-        f !== 'created_at' &&
-        f !== 'updated_at' &&
-        f !== 'participant_id'
-      );
-    });
-  }
-
   createTextForms() {
-    let fields = this.getProperFields();
+    if (this.state.questionnaire)  {
+      let questionnaire = this.state.questionnaire;
 
-    let form = fields.map(f => {
-      let sentenceCase = f.charAt(0).toUpperCase() + f.substring(1);
-      sentenceCase = sentenceCase.replace(/([-_][a-z])/gi, $1 => {
-        return $1
-          .toUpperCase()
-          .replace('-', ' ')
-          .replace('_', ' ');
+      let questionnaires = Object.keys(questionnaire).map(f => {
+        let sentenceCase = f.charAt(0).toUpperCase() + f.substring(1);
+        sentenceCase = sentenceCase.replace(/([-_][a-z])/gi, $1 => {
+          return $1
+            .toUpperCase()
+            .replace('-', ' ')
+            .replace('_', ' ');
+        });
+  
+        return this.createTextForm(f, questionnaire[f], sentenceCase);
       });
-
-      return this.createTextForm(f, sentenceCase);
-    });
-    return <div>{form}</div>;
+      return <div>{questionnaires}</div>;
+    }
   }
 
   render() {
@@ -127,7 +145,7 @@ class QuestionnaireForm extends React.Component {
           fullWidth
         >
           <DialogTitle>
-            <h2 className="dialogTitle"> Intake Form </h2>
+            <h2 className="dialogTitle"> {qType} Questionnaire </h2>
           </DialogTitle>
           {this.createTextForms()}
           <DialogActions className="dialogActions">
@@ -153,7 +171,7 @@ class QuestionnaireForm extends React.Component {
 }
 
 QuestionnaireForm.propTypes = {
-  fields: PropTypes.array,
+  questionnaire: PropTypes.array,
   participant_id: PropTypes.number,
 };
 

@@ -1,8 +1,9 @@
 class PersonalQuestionnairesController < ApplicationController
   def index
-    @questionnaires = authorize PersonalQuestionnaire.all,  policy_class: QuestionnairePolicy
+    skip_policy_scope 
+    @questionnaires = PersonalQuestionnaire.all
     @questionnaireFields = PersonalQuestionnaire.column_names
-    @user = current_omniuser
+    @user = current_user
   end
   
   def show

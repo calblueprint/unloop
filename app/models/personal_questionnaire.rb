@@ -1,3 +1,3 @@
 class PersonalQuestionnaire < ApplicationRecord
-    belongs_to :participants
+    belongs_to :participant
 end

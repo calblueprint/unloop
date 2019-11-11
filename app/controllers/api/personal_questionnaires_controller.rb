@@ -41,7 +41,6 @@ class Api::PersonalQuestionnairesController < ApplicationController
       render json: { error: 'Could not find personal questionnaire' }, status: :not_found
     end
   
-    # may not work
     def questionnaire_params
       questionnaire_params = params.require(:personal_questionnaire).permit(:participant_id, 
         :contact_info,
@@ -59,7 +58,7 @@ class Api::PersonalQuestionnairesController < ApplicationController
         :triggers_and_prevention,
         :personal_needs,
         :success_tools,
-        :personal_goals,)
+        :personal_goals)
     
     end
   
