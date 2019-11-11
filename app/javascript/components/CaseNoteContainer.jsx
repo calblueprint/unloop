@@ -63,7 +63,7 @@ class CaseNoteContainer extends React.Component {
                                         <NewCaseNote participant_id={this.state.participant.id}/>
                                     </Grid>
                                 </Grid>
-                                <div style={{ maxHeight: '80%', overflowX: 'hidden', overflowY: 'auto'}}>
+                                <div style={{ maxHeight: '80vh', overflowX: 'hidden', overflowY: 'auto'}}>
                                     {case_note_cards}
                                 </div>
                             </div>
