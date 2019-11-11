@@ -11,6 +11,7 @@ import CaseNoteCard from 'components/CaseNoteCard';
 const styles = {
     headerStyle: {
         marginLeft: '20px',
+        marginTop: '0px',
     }
 }
 
@@ -52,13 +53,13 @@ class CaseNoteContainer extends React.Component {
                 <CssBaseline />
                 <Container maxWidth="sm">
                     <Grid>
-                        <Typography component="div" style={{ backgroundColor: '#F4F4F4', height: '100vh' }}>
-                            <div className={classes.root}>
+                        <Typography component="div" style={{ backgroundColor: '#F4F4F4', height: '100vh'}}>
+                            <div className={classes.root} style={{paddingTop: '20px'}}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={6}>
                                         <h2 style={styles.headerStyle}>Casenotes</h2>
                                     </Grid>
-                                    <Grid item xs={4}>
+                                    <Grid item xs={5}>
                                         <NewCaseNote participant_id={this.state.participant.id}/>
                                     </Grid>
                                 </Grid>
