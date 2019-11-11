@@ -12,6 +12,7 @@ const styles = {
     headerStyle: {
         marginLeft: '20px',
         marginTop: '0px',
+        fontSize: '24px', 
     }
 }
 
