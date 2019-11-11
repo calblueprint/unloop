@@ -53,7 +53,7 @@ class CaseNoteContainer extends React.Component {
                 <CssBaseline />
                 <Container maxWidth="sm">
                     <Grid>
-                        <Typography component="div" style={{ backgroundColor: '#F4F4F4', height: '100vh'}}>
+                        <Typography component="div" style={{ backgroundColor: '#F4F4F4', height: '100vh', maxHeight: '700px'}}>
                             <div className={classes.root} style={{paddingTop: '20px'}}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={6}>
@@ -63,7 +63,9 @@ class CaseNoteContainer extends React.Component {
                                         <NewCaseNote participant_id={this.state.participant.id}/>
                                     </Grid>
                                 </Grid>
-                                {case_note_cards}
+                                <div style={{ maxHeight: '80%', overflowX: 'hidden', overflowY: 'auto'}}>
+                                    {case_note_cards}
+                                </div>
                             </div>
                         </Typography>
                     </Grid>

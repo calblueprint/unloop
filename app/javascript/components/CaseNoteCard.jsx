@@ -21,6 +21,7 @@ const styles = {
     casenoteCardStyle: {
         marginLeft: '20px',
         padding: '5px',
+        paddingRight: '10px',
     },
     casenoteTextStyle: {
         marginLeft: '15px',
