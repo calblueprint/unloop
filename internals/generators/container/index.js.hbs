@@ -1,0 +1,67 @@
+/**
+ *
+ * {{properCase name }}
+ *
+ */
+
+{{#if memo}}
+import React, { memo } from 'react';
+{{else}}
+import React from 'react';
+{{/if}}
+import PropTypes from 'prop-types';
+{{#if wantHeaders}}
+import { Helmet } from 'react-helmet';
+{{/if}}
+{{#if wantMessages}}
+import { FormattedMessage } from 'react-intl';
+{{/if}}
+import { compose } from 'compose-function';
+{{#if wantStyles}}
+import { withStyles } from '@material-ui/core/styles';
+import styles from './styles';
+{{/if}}
+{{#if wantMessages}}
+import messages from './messages';
+{{/if}}
+
+export function {{ properCase name }}() {
+  return (
+    <div>
+    {{#if wantHeaders}}
+      <Helmet>
+        <title>{{properCase name}}</title>
+        <meta name="description" content="Description of {{properCase name}}" />
+      </Helmet>
+    {{/if}}
+    {{#if wantMessages}}
+      <FormattedMessage {...messages.header} />
+    {{/if}}
+    </div>
+  );
+}
+
+{{ properCase name }}.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+{{#if wantActionsAndReducer}}
+const mapStateToProps = createStructuredSelector({
+  {{ camelCase name }}: makeSelect{{properCase name}}(),
+});
+{{/if}}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
+export default compose(
+{{#if wantStyles}}
+  withStyles(styles),
+{{/if}}
+{{#if memo}}
+  memo,
+{{/if}}
+)({{ properCase name }});
