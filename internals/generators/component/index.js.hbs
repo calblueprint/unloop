@@ -1,0 +1,47 @@
+/**
+ *
+ * {{ properCase name }}
+ *
+ */
+
+{{#if memo}}
+import React, { memo } from 'react';
+{{else}}
+import React from 'react';
+{{/if}}
+// import PropTypes from 'prop-types';
+import compose from 'compose-function'
+{{#if wantStyles}}
+import { withStyles } from '@material-ui/core/styles';
+{{/if}}
+{{!-- {{#if wantMessages}}
+import { FormattedMessage } from 'react-intl';
+{{/if}} --}}
+
+{{#if wantStyles}}
+import styles from './styles';
+{{/if}}
+{{!-- {{#if wantMessages}}
+import messages from './messages';
+{{/if}} --}}
+
+function {{ properCase name }}() {
+  return (
+    <div>
+    {{!-- {{#if wantMessages}}
+      <FormattedMessage {...messages.header} />
+    {{/if}} --}}
+    </div>
+  );
+}
+
+{{ properCase name }}.propTypes = {};
+
+export default compose(
+{{#if wantStyles}}
+  withStyles(styles),
+{{/if}}
+{{#if memo}}
+  memo,
+{{/if}}
+)({{ properCase name }});
