@@ -22,6 +22,8 @@ const styles = {
         marginLeft: '20px',
         padding: '5px',
         paddingRight: '10px',
+        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
+        borderRadius: '10px',
     },
     casenoteTextStyle: {
         marginLeft: '15px',
