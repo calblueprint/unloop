@@ -17,6 +17,16 @@ const classes = makeStyles(theme => ({
     },
 }));
 
+const styles = {
+    casenoteCardStyle: {
+        marginLeft: '20px',
+        padding: '5px',
+    },
+    casenoteTextStyle: {
+        marginLeft: '15px',
+    },
+}
+
 class CaseNoteCard extends React.Component {
     constructor(props) {
         super(props);
@@ -35,9 +45,9 @@ class CaseNoteCard extends React.Component {
         return (
             <React.Fragment>
                 <Grid container spacing={3}>
-                    <Grid item xs={8}>
-                        <Paper className={classes.paper}>
-                            <div>
+                    <Grid item xs={11}>
+                        <Paper className={classes.paper} style={styles.casenoteCardStyle}>
+                            <div style={styles.casenoteTextStyle}>
                                 <h3>{this.state.title}</h3>
                                 <p>{this.state.description}</p>
                             </div>

@@ -8,6 +8,12 @@ import Paper from '@material-ui/core/Paper';
 import NewCaseNote from 'components/NewCaseNote';
 import CaseNoteCard from 'components/CaseNoteCard';
 
+const styles = {
+    headerStyle: {
+        marginLeft: '20px',
+    }
+}
+
 const classes = makeStyles(theme => ({
     root: {
         flexGrow: 1,
@@ -26,7 +32,6 @@ class CaseNoteContainer extends React.Component {
             case_notes: this.props.case_notes,
             participant: this.props.participant
         };
-        console.log(this.state);
     }
 
     render () {
@@ -51,10 +56,10 @@ class CaseNoteContainer extends React.Component {
                             <div className={classes.root}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={6}>
-                                        <h2>Casenotes</h2>
+                                        <h2 style={styles.headerStyle}>Casenotes</h2>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <NewCaseNote/>
+                                        <NewCaseNote participant_id={this.state.participant.id}/>
                                     </Grid>
                                 </Grid>
                                 {case_note_cards}
