@@ -8,8 +8,8 @@ class PagesController < ApplicationController
               dashboard_staffs_path
             when 'participant'
               @user = current_user
-              @paperworks = policy_scope @user.participant.paperworks
-              @case_notes = policy_scope @user.participant.case_notes
+              @paperworks = @user.participant.paperworks
+              @case_notes = @user.participant.case_notes
               authorize Participant
               dashboard_participants_path
             else
