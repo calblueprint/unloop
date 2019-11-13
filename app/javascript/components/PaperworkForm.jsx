@@ -1,7 +1,8 @@
 import React from "react";
 import Button from '@material-ui/core/Button';
 import '../../assets/stylesheets/paperworks.scss';
-import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core/';
+import Fab from '@material-ui/core/Fab';
+import { TextField, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core/';
 
 
 class PaperworkForm extends React.Component {
@@ -50,9 +51,9 @@ class PaperworkForm extends React.Component {
   render() {
     return (
       <div>
-        <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          Create New Paperwork
-        </Button>
+        <Fab variant="extended" size={'small'} style={{borderStyle: 'solid 3px grey', background: '#FFFFFF'}} onClick={this.handleOpen}>
+            + New Assignment
+        </Fab>
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title" maxWidth="sm" fullWidth>
           <DialogTitle>
             <h2 className="dialogTitle"> Assign new paperwork </h2>

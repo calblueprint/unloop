@@ -1,14 +1,7 @@
 <h1><%= @participant.full_name %></h1>
-<h2>Paperworks</h2>
-<%= react_component("PaperworkList", {paperworks: @paperworks.all}) %>
-<table>
-  <% @paperworks.each do |paperwork| %>
-    <tr>
-      <td><%= link_to paperwork.title, paperwork_path(paperwork) %>
-    </tr>
-  <% end %>
-</table>
-<%= react_component("PaperworkForm", {participant_id: @participant.id}) %>
+<%= react_component("PaperworkPage", {paperworks: @paperworks.all,
+                                      participant_id: @participant.id}) %>
+
 <h2>Case Notes</h2>
 <table>
   <% @case_notes.each do |case_note| %>
