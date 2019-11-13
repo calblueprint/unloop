@@ -1,4 +1,9 @@
 <h1><%= @participant.full_name %></h1>
+
+<h2>Case Notes</h2>
+<%= react_component("QuestionnaireForm", {questionnaireType: "Personal", questionnaire: @personal_questionnaire, participant_id: @participant.id}) %>
+<%= react_component("QuestionnaireForm", {questionnaireType: "Professional", questionnaire: @professional_questionnaire, participant_id: @participant.id}) %>
+
 <h2>Paperworks</h2>
 <table>
   <% @paperworks.each do |paperwork| %>
