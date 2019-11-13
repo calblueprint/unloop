@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/IconButton';
 import { CardActionArea, Grid, Typography, Container, List, ListItem } from '@material-ui/core';
 
 
-
 const styles = {
   darkGreyAvatar: {
     color: '#fff',
@@ -36,7 +35,7 @@ const styles = {
   },
   cardStyle: {
     width: '100%',
-    borderBottom: '.5px solid #000000'
+    borderBottom: '.5px solid grey'
 
   },
   containerStyle: {
@@ -53,6 +52,7 @@ function formatDate(date_string) {
   const dt = date_object.getDate();
   return month.toString() + '/' + dt.toString() + '/' + year.toString();
 }
+
 
 function PaperworkEntry(props) {
   const dateString = formatDate(props.date);
@@ -71,7 +71,7 @@ function PaperworkEntry(props) {
                   </IconButton>
                   }
             avatar={ <Avatar variant="circle"
-                            style={ props.agree ? styles.darkGreyAvatar : styles.lightGreyAvatar }
+                        style={ props.agree ? styles.darkGreyAvatar : styles.lightGreyAvatar }
                       /> }
             title={props.title}
             titleTypographyProps = {{variant : "h6"}}
@@ -94,7 +94,11 @@ class PaperworkPage extends React.Component {
   render() {
     return (
       <Container maxWidth={"sm"} style={styles.containerStyle}>
-          <Grid container direction={'row'} style={styles.componentTitle} spacing={2}>
+          <Grid 
+            container direction={'row'} 
+            style={styles.componentTitle} 
+            spacing={2}
+          >
             <Grid item>
               <Typography variant="h4">
                 Paperworks
@@ -107,11 +111,12 @@ class PaperworkPage extends React.Component {
            <List style={styles.listStyle} dense={true}>
             {
               this.state.list_of_paperworks.map(paperwork => {
-                return <PaperworkEntry agree={paperwork.agree}
-                                        key={paperwork.id}
-                                        link={paperwork.link}
-                                        title={paperwork.title}
-                                        date={paperwork.created_at}
+                return <PaperworkEntry 
+                          agree={paperwork.agree}
+                          key={paperwork.id}
+                          link={paperwork.link}
+                          title={paperwork.title}
+                          date={paperwork.created_at}
                         />;
               })
             }
