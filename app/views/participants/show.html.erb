@@ -1,18 +1,10 @@
 <h1><%= @participant.full_name %></h1>
-
-<h2>Case Notes</h2>
 <%= react_component("QuestionnaireForm", {questionnaireType: "Personal", questionnaire: @personal_questionnaire, participant_id: @participant.id}) %>
 <%= react_component("QuestionnaireForm", {questionnaireType: "Professional", questionnaire: @professional_questionnaire, participant_id: @participant.id}) %>
-
-<h2>Paperworks</h2>
-<table>
-  <% @paperworks.each do |paperwork| %>
-    <tr>
-      <td><%= link_to paperwork.title, paperwork_path(paperwork) %>
-    </tr>
-  <% end %>
-</table>
-<%= react_component("PaperworkForm", {participant_id: @participant.id}) %>
-<%= react_component('CaseNoteContainer', {case_notes: @case_notes, participant: @participant}) %>
+<div class="participant-show">
+  <%= react_component("PaperworkPage", {paperworks: @paperworks.all, participant_id: @participant.id}) %>
+  <%= react_component('CaseNoteContainer', {case_notes: @case_notes, participant: @participant}) %>
+</div>
+  
 <br>
 <%= link_to 'Back', root_path %>
