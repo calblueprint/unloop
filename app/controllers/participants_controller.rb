@@ -13,7 +13,7 @@ class ParticipantsController < ApplicationController
     if @participant.professional_questionnaire.nil?
       @professional_questionnaire = ProfessionalQuestionnaire.create("participant_id": @participant.id)
     else
-      @professional_questionnaire = @participant.personal_questionnaire
+      @professional_questionnaire = @participant.professional_questionnaire
     end
     
   end
