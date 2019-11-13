@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   # On failed authorization redirect to sign in page
   get 'auth/failure', to: redirect('/users/sign_in')
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  
 
-  resources :paperworks, :case_notes, only: [:index, :show, :new, :edit]
+  resources :paperworks, :case_notes, :professional_questionnaires, :personal_questionnaires, only: [:index, :show, :new, :edit]
 
   resources :staffs, only: [] do
     collection do
@@ -27,6 +28,8 @@ Rails.application.routes.draw do
     resources :case_notes, only: [:show, :create, :update, :destroy] do
       patch 'internal', to: 'case_notes#internal', on: :member
     end
+    resources :professional_questionnaires, only: [:show, :create, :update, :destroy]
+    resources :personal_questionnaires, only: [:show, :create, :update, :destroy]
   end
 
   root 'pages#dashboard'
