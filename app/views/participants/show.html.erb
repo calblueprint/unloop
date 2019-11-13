@@ -8,14 +8,6 @@
   <% end %>
 </table>
 <%= react_component("PaperworkForm", {participant_id: @participant.id}) %>
-<h2>Case Notes</h2>
-<table>
-  <% @case_notes.each do |case_note| %>
-    <tr>
-      <td><%= link_to case_note.title, case_note_path(case_note) %>
-    </tr>
-  <% end %>
-</table>
-<%= react_component('NewCaseNote', {participant_id: @participant.id}) %>
+<%= react_component('CaseNoteContainer', {case_notes: @case_notes, participant: @participant}) %>
 <br>
 <%= link_to 'Back', root_path %>
