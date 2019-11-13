@@ -24,9 +24,15 @@ const styles = {
         paddingRight: '10px',
         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
         borderRadius: '10px',
+        height: '200px'
     },
     casenoteTextStyle: {
-        marginLeft: '15px',
+        marginLeft: '15px'
+    },
+    casenoteDescStyle: {
+        overflow: 'auto',
+        height: '100px',
+        marginTop: '-10px'
     },
 }
 
@@ -52,7 +58,7 @@ class CaseNoteCard extends React.Component {
                         <Paper className={classes.paper} style={styles.casenoteCardStyle}>
                             <div style={styles.casenoteTextStyle}>
                                 <h3>{this.state.title}</h3>
-                                <p>{this.state.description}</p>
+                                <p style={styles.casenoteDescStyle}>{this.state.description}</p>
                             </div>
                         </Paper>
                     </Grid>
