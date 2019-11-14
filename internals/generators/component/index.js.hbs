@@ -1,8 +1,8 @@
 /**
- *
- * {{ properCase name }}
- *
- */
+*
+* {{ properCase name }}
+*
+*/
 
 {{#if memo}}
 import React, { memo } from 'react';
@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 {{else}}
 // import PropTypes from 'prop-types';
 {{/if}}
-import compose from 'redux'
+import { compose } from 'redux';
 {{#if wantStyles}}
 import { withStyles } from '@material-ui/core/styles';
 {{/if}}
@@ -30,26 +30,26 @@ import messages from './messages';
 {{/if}} --}}
 
 function {{ properCase name }}({{#if wantStyles}}{ classes }{{/if}}) {
-  return (
-    <div{{#if wantStyles}} className={ classes.root }{{/if}}>
-    {{!-- {{#if wantMessages}}
+return (
+<div{{#if wantStyles}} className={ classes.root }{{/if}}>
+  {{!-- {{#if wantMessages}}
       <FormattedMessage {...messages.header} />
     {{/if}} --}}
-    </div>
+  </div>
   );
-}
+  }
 
-{{ properCase name }}.propTypes = {
+  {{ properCase name }}.propTypes = {
   {{#if wantStyles}}
   classes: PropTypes.object.isRequired,
   {{/if}}
-};
+  };
 
-export default compose(
-{{#if wantStyles}}
+  export default compose(
+  {{#if wantStyles}}
   withStyles(styles),
-{{/if}}
-{{#if memo}}
+  {{/if}}
+  {{#if memo}}
   memo,
-{{/if}}
-)({{ properCase name }});
+  {{/if}}
+  )({{ properCase name }});
