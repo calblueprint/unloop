@@ -72,6 +72,7 @@ module.exports = {
     'react/jsx-no-target-blank': 0,
     'react/jsx-uses-vars': 2,
     'react/jsx-props-no-spreading': 0,
+    'react/prefer-stateless-function': 0,
     'react/require-default-props': 0,
     'react/require-extension': 0,
     'react/self-closing-comp': 0,

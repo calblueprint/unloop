@@ -1,8 +1,8 @@
 /**
- *
- * {{properCase name }}
- *
- */
+*
+* {{properCase name }}
+*
+*/
 
 {{#if memo}}
 import React, { memo } from 'react';
@@ -29,33 +29,36 @@ import styles from './styles';
 import messages from './messages';
 {{/if}} --}}
 
-export function {{ properCase name }}({{#if wantStyles}}{ classes }{{/if}}) {
-  return (
-    <div{{#if wantStyles}} className={ classes.root }{{/if}}>
-    {{#if wantHeaders}}
-      <Helmet>
-        <title>{{properCase name}}</title>
-        <meta name="description" content="Description of {{properCase name}}" />
-      </Helmet>
-    {{/if}}
-    {{!-- {{#if wantMessages}}
+class {{ properCase name }} extends React.Component {
+render() {
+{{#if wantStyles}}const { classes } = this.props;{{/if}}
+return (
+<div{{#if wantStyles}} className={ classes.root }{{/if}}>
+  {{#if wantHeaders}}
+  <Helmet>
+    <title>{{properCase name}}</title>
+    <meta name="description" content="Description of {{properCase name}}" />
+  </Helmet>
+  {{/if}}
+  {{!-- {{#if wantMessages}}
       <FormattedMessage {...messages.header} />
     {{/if}} --}}
-    </div>
+  </div>
   );
-}
+  }
+  }
 
-{{ properCase name }}.propTypes = {
+  {{ properCase name }}.propTypes = {
   {{#if wantStyles}}
   classes: PropTypes.object.isRequired,
   {{/if}}
-};
+  };
 
-export default compose(
-{{#if wantStyles}}
+  export default compose(
+  {{#if wantStyles}}
   withStyles(styles),
-{{/if}}
-{{#if memo}}
+  {{/if}}
+  {{#if memo}}
   memo,
-{{/if}}
-)({{ properCase name }});
+  {{/if}}
+  )({{ properCase name }});
