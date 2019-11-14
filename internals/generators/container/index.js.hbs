@@ -11,6 +11,7 @@ import React from 'react';
 {{/if}}
 {{#if wantStyles}}
 import PropTypes from 'prop-types';
+import theme from 'utils/theme';
 {{else}}
 // import PropTypes from 'prop-types';
 {{/if}}
@@ -22,26 +23,32 @@ import { FormattedMessage } from 'react-intl';
 {{/if}} --}}
 import { compose } from 'redux';
 {{#if wantStyles}}
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import styles from './styles';
+{{else}}
+import { ThemeProvider } from '@material-ui/core/styles';
 {{/if}}
 {{!-- {{#if wantMessages}}
 import messages from './messages';
 {{/if}} --}}
 
-export function {{ properCase name }}({{#if wantStyles}}{ classes }{{/if}}) {
-  return (
-    <div{{#if wantStyles}} className={ classes.root }{{/if}}>
-    {{#if wantHeaders}}
-      <Helmet>
-        <title>{{properCase name}}</title>
-        <meta name="description" content="Description of {{properCase name}}" />
-      </Helmet>
-    {{/if}}
-    {{!-- {{#if wantMessages}}
+class {{ properCase name }} extends React.Component {
+render() {
+{{#if wantStyles}}const { classes } = this.props;{{/if}}
+return (
+<ThemeProvider theme={theme}>
+<div{{#if wantStyles}} className={ classes.root }{{/if}}>
+  {{#if wantHeaders}}
+  <Helmet>
+    <title>{{properCase name}}</title>
+    <meta name="description" content="Description of {{properCase name}}" />
+  </Helmet>
+  {{/if}}
+  {{!-- {{#if wantMessages}}
       <FormattedMessage {...messages.header} />
     {{/if}} --}}
-    </div>
+  </div>
+  </ThemeProvider>
   );
 }
 
