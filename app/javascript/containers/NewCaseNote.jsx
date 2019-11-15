@@ -53,7 +53,7 @@ class NewCaseNote extends React.Component {
     this.state = { 
       description: "",
       title: "",
-      participant_id: this.props.participant_id,
+      participant_id: this.props.participantId,
       internal: true,
       open: false,
     };

@@ -87,7 +87,7 @@ class PaperworkPage extends React.Component {
     super(props);
     this.state = {
       list_of_paperworks : this.props.paperworks,
-      participant_id: this.props.participant_id,
+      participant_id: this.props.participantId,
     };
   }
 

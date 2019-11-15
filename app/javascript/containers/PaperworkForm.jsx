@@ -17,7 +17,7 @@ class PaperworkForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      participant_id: this.props.participant_id,
+      participant_id: this.props.participantId,
       link: "",
       paperwork_title: "",
       due_date: null,
