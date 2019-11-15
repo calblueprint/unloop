@@ -5,6 +5,12 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import Button from '@material-ui/core/Button';
+
 
 const classes = makeStyles(theme => ({
     root: {
@@ -36,6 +42,56 @@ const styles = {
     },
 }
 
+class SimpleMenu extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            anchorEl: null,
+        }
+        this.handleClick = this.handleClick.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    }
+
+    handleClick(event) {
+        this.setState({ anchorEl: event.currentTarget });
+    }
+
+    handleClose() {
+        this.setState({ anchorEl: null });
+    }
+
+    render () {
+        return(
+            <div>
+                <IconButton
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={this.handleClick}
+                >
+                    <MoreHorizIcon />
+                </IconButton>
+                <Menu
+                    id="long-menu"
+                    anchorEl={this.state.anchorEl}
+                    keepMounted
+                    open={Boolean(this.state.anchorEl)}
+                    onClose={this.handleClose}
+                    PaperProps={{
+                        style: {
+                        maxHeight: 40 * 4.5,
+                        width: 200,
+                        },
+                    }}
+                >
+                    <MenuItem>Edit</MenuItem>
+                    <MenuItem>Delete</MenuItem>
+                </Menu>
+            </div>
+        );
+    }
+}
+
 class CaseNoteCard extends React.Component {
     constructor(props) {
         super(props);
@@ -46,9 +102,14 @@ class CaseNoteCard extends React.Component {
         };
     }
 
+    handleOpen() {
+        
+    }
+
     componentDidMount() {
         
     }
+    
     
     render () {
         return (
@@ -57,7 +118,14 @@ class CaseNoteCard extends React.Component {
                     <Grid item xs={11}>
                         <Paper className={classes.paper} style={styles.casenoteCardStyle}>
                             <div style={styles.casenoteTextStyle}>
-                                <h3>{this.state.title}</h3>
+                                <Grid container spacing={2}>
+                                <Grid item xs={10}>
+                                    <h3>{this.state.title}</h3>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <SimpleMenu/>
+                                </Grid>
+                                </Grid>
                                 <p style={styles.casenoteDescStyle}>{this.state.description}</p>
                             </div>
                         </Paper>
