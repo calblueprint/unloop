@@ -85,8 +85,9 @@ class NewCaseNote extends React.Component {
   
   handleDescriptionChange = name => (state) => {
     // TODO: the line below is the rtf representation. Update to this once rtf on /casenotes
-    // const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
-    const value = state.getCurrentContent().getPlainText();
+    const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
+    console.log(value);
+    //const value = state.getCurrentContent().getPlainText();
     this.setState({ [name]: value });
   }
 

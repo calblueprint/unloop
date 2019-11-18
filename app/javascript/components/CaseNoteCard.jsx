@@ -85,6 +85,7 @@ class SimpleMenu extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleInternalChange = this.handleInternalChange.bind(this);
+        console.log(this.state.description);
     }
 
     handleClick(event) {
@@ -219,7 +220,7 @@ class CaseNoteCard extends React.Component {
         this.state = {
             description: this.props.description,
             title: this.props.title,
-            internal:this.props.interal,
+            internal:this.props.internal,
         };
     }
 
