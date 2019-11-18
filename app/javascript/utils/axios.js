@@ -1,6 +1,10 @@
 import axios from 'axios';
 
 const config = {
+  headers: {
+    'Content-Type': 'application/json',
+    'X_CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+  },
   withCredentials: true,
 };
 
