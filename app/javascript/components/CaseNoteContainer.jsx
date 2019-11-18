@@ -54,7 +54,7 @@ class CaseNoteContainer extends React.Component {
                 <CssBaseline />
                 <Container maxWidth="sm">
                     <Grid>
-                        <Typography component="div" style={{ backgroundColor: '#F4F4F4', height: '100vh', maxHeight: '700px'}}>
+                        <Typography component="div" style={{ height: '100vh', maxHeight: '700px'}}>
                             <div className={classes.root} style={{paddingTop: '20px'}}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={6}>
