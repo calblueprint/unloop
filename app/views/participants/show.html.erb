@@ -1,11 +1,13 @@
-<h1><%= @participant.full_name %></h1>
-<%= react_component('ParticipantShowPage', { personal_questionnaire: @personal_questionnaire, professional_questionnaire: @professional_questionnaire, participant_id: @participant_id }) %>
-<%= react_component("", {questionnaireType: "Personal", questionnaire: @personal_questionnaire, participant_id: @participant.id}) %>
-<%= react_component("", {questionnaireType: "Professional", questionnaire: @professional_questionnaire, participant_id: @participant.id}) %>
-<div class="participant-show">
-  <%= react_component("PaperworkPage", {paperworks: @paperworks.all, participant_id: @participant.id}) %>
-  <%= react_component('CaseNoteContainer', {case_notes: @case_notes, participant: @participant}) %>
-</div>
-  
+<%= react_component('ParticipantShowPage', {
+  participant: @participant,
+  fullName: @participant.full_name,
+  status: @participant.status,
+  participant_id: @participant.id,
+  paperworks: @paperworks.all,
+  case_notes: @case_notes.all,
+  personal_questionnaire: @personal_questionnaire,
+  professional_questionnaire: @professional_questionnaire
+}) %>
+
 <br>
 <%= link_to 'Back', root_path %>
