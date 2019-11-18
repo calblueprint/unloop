@@ -1,6 +1,6 @@
 /**
  *
- * Tests for StaffDashboardPage
+ * Tests for PaperworkEntry
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -10,13 +10,12 @@ import React from 'react';
 import { render } from 'react-testing-library';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import StaffDashboardPage from '../index';
+import PaperworkEntry from '../index';
 
-describe('<StaffDashboardPage />', () => {
+describe('<PaperworkEntry />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
-    const dispatch = jest.fn();
-    render(<StaffDashboardPage dispatch={dispatch} />);
+    render(<PaperworkEntry />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -32,7 +31,7 @@ describe('<StaffDashboardPage />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(<StaffDashboardPage />);
+    } = render(<PaperworkEntry />);
     expect(firstChild).toMatchSnapshot();
   });
 });

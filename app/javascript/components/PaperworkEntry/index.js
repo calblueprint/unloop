@@ -6,6 +6,7 @@
 
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 import {
   Avatar,
@@ -15,21 +16,28 @@ import {
   CardHeader,
   Grid,
 } from '@material-ui/core';
-import PaperworkForm from 'components/PaperworkForm';
 
 import styles from './styles';
 
 function PaperworkEntry({
   classes,
   agree,
+  id,
   date,
   link,
   title,
-  participantId,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
 }) {
+  const formatDate = dateString => {
+    const dateObj = new Date(dateString);
+    const year = dateObj.getFullYear();
+    const month = dateObj.getMonth() + 1;
+    const dt = dateObj.getDate();
+    return `${month.toString()}/${dt.toString()}/${year.toString()}`;
+  };
+
   const avatar = (
     <Avatar
       variant="circle"
@@ -37,6 +45,7 @@ function PaperworkEntry({
     />
   );
 
+  const dateString = formatDate(date);
   return (
     <Card className={classes.card}>
       <Grid
@@ -48,7 +57,7 @@ function PaperworkEntry({
         <CardHeader
           avatar={avatar}
           title={title}
-          subheader={<i>Assigned: {date}</i>}
+          subheader={<i>Assigned: {dateString}</i>}
           titleTypographyProps={{ variant: 'h6' }}
         />
         <CardActions>
@@ -60,12 +69,13 @@ function PaperworkEntry({
           >
             View
           </Button>
-          <PaperworkForm
-            type="edit"
-            participantId={participantId}
-            paperworkTitle={title}
-            paperworkLink={link}
-          />
+          <Button
+            variant="contained"
+            color="primary"
+            href={`/paperworks/${id}`}
+          >
+            Edit
+          </Button>
         </CardActions>
       </Grid>
     </Card>
@@ -75,11 +85,11 @@ function PaperworkEntry({
 PaperworkEntry.propTypes = {
   classes: PropTypes.object.isRequired,
   agree: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
   date: PropTypes.string.isRequired,
   link: PropTypes.string,
   title: PropTypes.string,
-  participantId: PropTypes.number.isRequired,
   lastEntry: PropTypes.bool,
 };
 
-export default memo(withStyles(styles)(PaperworkEntry));
+export default compose(withStyles(styles), memo)(PaperworkEntry);

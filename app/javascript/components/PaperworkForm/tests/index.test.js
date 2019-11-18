@@ -1,6 +1,6 @@
 /**
  *
- * Tests for QuestionnaireForm
+ * Tests for PaperworkForm
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -10,12 +10,12 @@ import React from 'react';
 import { render } from 'react-testing-library';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import QuestionnaireForm from '../index';
+import PaperworkForm from '../index';
 
-describe('<QuestionnaireForm />', () => {
+describe('<PaperworkForm />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
-    render(<QuestionnaireForm />);
+    render(<PaperworkForm />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -31,7 +31,7 @@ describe('<QuestionnaireForm />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(<QuestionnaireForm />);
+    } = render(<PaperworkForm />);
     expect(firstChild).toMatchSnapshot();
   });
 });

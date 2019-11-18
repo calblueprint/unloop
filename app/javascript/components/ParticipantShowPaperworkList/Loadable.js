@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for QuestionnaireForm
+ * Asynchronously loads the component for ParticipantShowPaperworkList
  *
  */
 
