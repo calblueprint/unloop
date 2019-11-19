@@ -8,7 +8,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Container, List } from '@material-ui/core';
+import { Grid, Typography, Paper, List } from '@material-ui/core';
 import PaperworkEntry from 'components/PaperworkEntry';
 import PaperworkForm from 'components/PaperworkForm';
 
@@ -24,7 +24,7 @@ function PaperworkList({
   formatDate,
 }) {
   return (
-    <Container className={classes.containerStyle}>
+    <Paper elevation={3} className={classes.containerStyle}>
       <Grid
         container
         direction="row"
@@ -67,7 +67,7 @@ function PaperworkList({
           />
         ))}
       </List>
-    </Container>
+    </Paper>
   );
 }
 
