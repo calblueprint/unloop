@@ -77,6 +77,7 @@ class ParticipantShowPage extends React.Component {
       apiPost('/api/paperworks', { paperwork: body })
         .then(() => window.location.reload())
         .catch(error => console.error(error));
+      // TODO: Change this to flash an error message
     }
   };
 
