@@ -12,6 +12,7 @@ import { ThemeProvider, withStyles } from '@material-ui/core/styles';
 import QuestionnaireForm from 'containers/QuestionnaireForm';
 import PaperworkList from 'components/ParticipantShowPaperworkList';
 import CaseNoteContainer from 'containers/CaseNoteContainer';
+import CaseNoteList from 'components/CaseNoteList';
 import theme from 'utils/theme';
 import { apiPost } from 'utils/axios';
 import { Grid, Typography } from '@material-ui/core';
@@ -91,7 +92,6 @@ class ParticipantShowPage extends React.Component {
       classes,
       paperworks,
       caseNotes,
-      participant,
       fullName,
       status,
       participantId,
@@ -137,10 +137,11 @@ class ParticipantShowPage extends React.Component {
             </Grid>
           </Grid>
           <Grid item xs={6} className={classes.rightHalf}>
-            <CaseNoteContainer
-              participant={participant}
+            {/* <CaseNoteContainer
+              participantId={participantId}
               caseNotes={caseNotes}
-            />
+            /> */}
+            <CaseNoteList caseNotes={caseNotes} formatDate={this.formatDate} />
           </Grid>
         </Grid>
       </ThemeProvider>
@@ -152,7 +153,6 @@ ParticipantShowPage.propTypes = {
   classes: PropTypes.object.isRequired,
   paperworks: PropTypes.array.isRequired,
   caseNotes: PropTypes.array.isRequired,
-  participant: PropTypes.object.isRequired,
   fullName: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   participantId: PropTypes.number.isRequired,

@@ -6,13 +6,10 @@
 
 export const styles = theme => ({
   leftHalf: {
-    paddingLeft: 28,
-    paddingRight: 28,
-    paddingTop: 40,
+    padding: '40px 28px',
   },
   rightHalf: {
-    paddingTop: 40,
-    paddingLeft: 28,
+    padding: '40px 28px',
     backgroundColor: theme.palette.common.lightBlue,
   },
 });
