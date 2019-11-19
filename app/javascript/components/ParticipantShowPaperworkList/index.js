@@ -17,7 +17,6 @@ import styles from './styles';
 function ParticipantShowPaperworkList({
   classes,
   paperworks,
-  participantId,
   paperworkErrors,
   checkPaperworkErrors,
   onFormFieldChange,
@@ -37,7 +36,6 @@ function ParticipantShowPaperworkList({
         </Grid>
         <Grid item>
           <PaperworkForm
-            participantId={participantId}
             errors={paperworkErrors}
             checkErrors={checkPaperworkErrors}
             onChange={onFormFieldChange}
@@ -75,7 +73,6 @@ function ParticipantShowPaperworkList({
 ParticipantShowPaperworkList.propTypes = {
   classes: PropTypes.object.isRequired,
   paperworks: PropTypes.array.isRequired,
-  participantId: PropTypes.number.isRequired,
   paperworkErrors: PropTypes.object.isRequired,
   checkPaperworkErrors: PropTypes.func.isRequired,
   onFormFieldChange: PropTypes.func.isRequired,

@@ -128,7 +128,6 @@ class ParticipantShowPage extends React.Component {
               <Grid item>
                 <PaperworkList
                   paperworks={paperworks}
-                  participantId={participantId}
                   paperworkErrors={this.state.paperworkErrors}
                   checkPaperworkErrors={this.checkPaperworkErrors}
                   onFormFieldChange={this.onFormFieldChange}
