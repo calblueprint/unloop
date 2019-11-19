@@ -32,7 +32,7 @@ function PaperworkEntry({
 }) {
   const avatar = (
     <Avatar
-      variant="circe"
+      variant="circle"
       className={agree ? classes.darkGreyAvatar : classes.lightGreyAvatar}
     />
   );
