@@ -24,7 +24,7 @@ function ParticipantShowPaperworkList({
   handleSubmitPaperwork,
 }) {
   return (
-    <Container maxWidth="sm" className={classes.containerStyle}>
+    <Container className={classes.containerStyle}>
       <Grid
         container
         direction="row"
