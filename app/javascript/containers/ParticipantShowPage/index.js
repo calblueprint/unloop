@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import validator from 'validator';
 import { ThemeProvider, withStyles } from '@material-ui/core/styles';
 import QuestionnaireForm from 'containers/QuestionnaireForm';
-import PaperworkList from 'components/ParticipantShowPaperworkList';
+import PaperworkList from 'components/PaperworkList';
 import CaseNoteContainer from 'containers/CaseNoteContainer';
 import theme from 'utils/theme';
 import { apiPost } from 'utils/axios';

@@ -1,7 +1,7 @@
 /*
- * ParticipantShowPaperworkList Styles
+ * PaperworkList Styles
  *
- * This contains all the styles for the ParticipantShowPaperworkList component.
+ * This contains all the styles for the PaperworkList component.
  */
 
 export const styles = theme => ({
