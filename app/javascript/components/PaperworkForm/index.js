@@ -62,7 +62,7 @@ function PaperworkForm({
           </Typography>
           <TextField
             className={classes.textField}
-            onChange={e => onChange('paperworkTitle', e.target.value)}
+            onChange={e => onChange('title', e.target.value)}
             onBlur={checkErrors('title')}
             autoFocus
             variant="outlined"
@@ -81,7 +81,7 @@ function PaperworkForm({
           </Typography>
           <TextField
             className={classes.textField}
-            onChange={e => onChange('paperworkLink', e.target.value)}
+            onChange={e => onChange('link', e.target.value)}
             onBlur={checkErrors('link')}
             variant="outlined"
             margin="dense"

@@ -21,9 +21,10 @@ class ParticipantShowPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      paperworkLink: '',
-      paperworkTitle: '',
-      // dueDate: null,
+      paperwork: {
+        title: '',
+        link: '',
+      },
       paperworkErrors: {
         title: '',
         link: '',
@@ -34,7 +35,7 @@ class ParticipantShowPage extends React.Component {
   checkPaperworkErrors = field => () => {
     let errorMessage = '';
     if (field === 'title') {
-      const title = this.state.paperworkTitle;
+      const { title } = this.state.paperwork;
       if (
         title === '' ||
         validator.isEmpty(title, { ignore_whitespace: true })
@@ -42,7 +43,7 @@ class ParticipantShowPage extends React.Component {
         errorMessage = 'Title is required';
       }
     } else if (field === 'link') {
-      const link = this.state.paperworkLink;
+      const { link } = this.state.paperwork;
       if (link === '' || validator.isEmpty(link, { ignore_whitespace: true })) {
         errorMessage = 'Link is required';
       } else if (!validator.isURL(link, { require_protocol: true })) {
@@ -60,8 +61,7 @@ class ParticipantShowPage extends React.Component {
 
   handleSubmitPaperwork = () => {
     const body = {
-      link: this.state.paperworkLink,
-      title: this.state.paperworkTitle,
+      ...this.state.paperwork,
       participant_id: this.props.participantId,
       agree: false,
     };
@@ -81,10 +81,13 @@ class ParticipantShowPage extends React.Component {
     }
   };
 
-  onFormFieldChange = (field, value) => {
-    this.setState({
-      [field]: value,
-    });
+  onFormFieldChange = model => (field, value) => {
+    this.setState(prevState => ({
+      [model]: {
+        ...prevState[model],
+        [field]: value,
+      },
+    }));
   };
 
   formatDate = dateString => {
@@ -138,7 +141,7 @@ class ParticipantShowPage extends React.Component {
                   paperworks={paperworks}
                   paperworkErrors={this.state.paperworkErrors}
                   checkPaperworkErrors={this.checkPaperworkErrors}
-                  onFormFieldChange={this.onFormFieldChange}
+                  onFormFieldChange={this.onFormFieldChange('paperwork')}
                   handleSubmitPaperwork={this.handleSubmitPaperwork}
                   formatDate={this.formatDate}
                 />
