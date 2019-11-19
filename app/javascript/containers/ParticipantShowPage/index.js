@@ -87,6 +87,14 @@ class ParticipantShowPage extends React.Component {
     });
   };
 
+  formatDate = dateString => {
+    const dateObj = new Date(dateString);
+    const year = dateObj.getFullYear();
+    const month = dateObj.getMonth() + 1;
+    const dt = dateObj.getDate();
+    return `${month.toString()}/${dt.toString()}/${year.toString()}`;
+  };
+
   render() {
     const {
       classes,
@@ -132,6 +140,7 @@ class ParticipantShowPage extends React.Component {
                   checkPaperworkErrors={this.checkPaperworkErrors}
                   onFormFieldChange={this.onFormFieldChange}
                   handleSubmitPaperwork={this.handleSubmitPaperwork}
+                  formatDate={this.formatDate}
                 />
               </Grid>
             </Grid>

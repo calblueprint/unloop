@@ -21,6 +21,7 @@ function PaperworkList({
   checkPaperworkErrors,
   onFormFieldChange,
   handleSubmitPaperwork,
+  formatDate,
 }) {
   return (
     <Container className={classes.containerStyle}>
@@ -51,7 +52,7 @@ function PaperworkList({
             id={paperwork.id}
             link={paperwork.link}
             title={paperwork.title}
-            date={paperwork.created_at}
+            date={formatDate(paperwork.created_at)}
           />
         ))}
         {paperworks.slice(-1).map(paperwork => (
@@ -61,7 +62,7 @@ function PaperworkList({
             id={paperwork.id}
             link={paperwork.link}
             title={paperwork.title}
-            date={paperwork.created_at}
+            date={formatDate(paperwork.created_at)}
             lastEntry
           />
         ))}
@@ -77,6 +78,7 @@ PaperworkList.propTypes = {
   checkPaperworkErrors: PropTypes.func.isRequired,
   onFormFieldChange: PropTypes.func.isRequired,
   handleSubmitPaperwork: PropTypes.func.isRequired,
+  formatDate: PropTypes.func.isRequired,
 };
 
 export default compose(withStyles(styles), memo)(PaperworkList);

@@ -30,22 +30,13 @@ function PaperworkEntry({
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
 }) {
-  const formatDate = dateString => {
-    const dateObj = new Date(dateString);
-    const year = dateObj.getFullYear();
-    const month = dateObj.getMonth() + 1;
-    const dt = dateObj.getDate();
-    return `${month.toString()}/${dt.toString()}/${year.toString()}`;
-  };
-
   const avatar = (
     <Avatar
-      variant="circle"
+      variant="circe"
       className={agree ? classes.darkGreyAvatar : classes.lightGreyAvatar}
     />
   );
 
-  const dateString = formatDate(date);
   return (
     <Card className={classes.card}>
       <Grid
@@ -57,7 +48,7 @@ function PaperworkEntry({
         <CardHeader
           avatar={avatar}
           title={title}
-          subheader={<i>Assigned: {dateString}</i>}
+          subheader={<i>Assigned: {date}</i>}
           titleTypographyProps={{ variant: 'h6' }}
         />
         <CardActions>
