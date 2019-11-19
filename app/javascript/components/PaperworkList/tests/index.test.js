@@ -1,6 +1,6 @@
 /**
  *
- * Tests for ParticipantShowPaperworkList
+ * Tests for PaperworkList
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -10,12 +10,12 @@ import React from 'react';
 import { render } from 'react-testing-library';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import ParticipantShowPaperworkList from '../index';
+import PaperworkList from '../index';
 
-describe('<ParticipantShowPaperworkList />', () => {
+describe('<PaperworkList />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
-    render(<ParticipantShowPaperworkList />);
+    render(<PaperworkList />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -31,7 +31,7 @@ describe('<ParticipantShowPaperworkList />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(<ParticipantShowPaperworkList />);
+    } = render(<PaperworkList />);
     expect(firstChild).toMatchSnapshot();
   });
 });

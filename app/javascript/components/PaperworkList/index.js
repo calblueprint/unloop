@@ -1,6 +1,6 @@
 /**
  *
- * ParticipantShowPaperworkList
+ * PaperworkList
  *
  */
 
@@ -14,7 +14,7 @@ import PaperworkForm from 'components/PaperworkForm';
 
 import styles from './styles';
 
-function ParticipantShowPaperworkList({
+function PaperworkList({
   classes,
   paperworks,
   paperworkErrors,
@@ -70,7 +70,7 @@ function ParticipantShowPaperworkList({
   );
 }
 
-ParticipantShowPaperworkList.propTypes = {
+PaperworkList.propTypes = {
   classes: PropTypes.object.isRequired,
   paperworks: PropTypes.array.isRequired,
   paperworkErrors: PropTypes.object.isRequired,
@@ -79,4 +79,4 @@ ParticipantShowPaperworkList.propTypes = {
   handleSubmitPaperwork: PropTypes.func.isRequired,
 };
 
-export default compose(withStyles(styles), memo)(ParticipantShowPaperworkList);
+export default compose(withStyles(styles), memo)(PaperworkList);
