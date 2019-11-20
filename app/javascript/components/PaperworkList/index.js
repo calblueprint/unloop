@@ -4,25 +4,18 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Paper, List } from '@material-ui/core';
+import { Button, Grid, Typography, Paper, List } from '@material-ui/core';
 import PaperworkEntry from 'components/PaperworkEntry';
-import PaperworkForm from 'components/PaperworkForm';
+import PaperworkFormContainer from 'containers/PaperworkFormContainer';
 
 import styles from './styles';
 
-function PaperworkList({
-  classes,
-  paperworks,
-  paperworkErrors,
-  checkPaperworkErrors,
-  onFormFieldChange,
-  handleSubmitPaperwork,
-  formatDate,
-}) {
+function PaperworkList({ classes, paperworks, participantId, formatDate }) {
+  const [openForm, setOpenForm] = useState(false);
   return (
     <Paper elevation={3} className={classes.containerStyle}>
       <Grid
@@ -36,11 +29,17 @@ function PaperworkList({
           <Typography variant="h4">Paperworks</Typography>
         </Grid>
         <Grid item>
-          <PaperworkForm
-            errors={paperworkErrors}
-            checkErrors={checkPaperworkErrors}
-            onChange={onFormFieldChange}
-            handleSubmit={handleSubmitPaperwork}
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => setOpenForm(true)}
+          >
+            ASSIGN PAPERWORK +
+          </Button>
+          <PaperworkFormContainer
+            participantId={participantId}
+            open={openForm}
+            onClose={() => setOpenForm(false)}
           />
         </Grid>
       </Grid>
@@ -74,10 +73,7 @@ function PaperworkList({
 PaperworkList.propTypes = {
   classes: PropTypes.object.isRequired,
   paperworks: PropTypes.array.isRequired,
-  paperworkErrors: PropTypes.object.isRequired,
-  checkPaperworkErrors: PropTypes.func.isRequired,
-  onFormFieldChange: PropTypes.func.isRequired,
-  handleSubmitPaperwork: PropTypes.func.isRequired,
+  participantId: PropTypes.number.isRequired,
   formatDate: PropTypes.func.isRequired,
 };
 

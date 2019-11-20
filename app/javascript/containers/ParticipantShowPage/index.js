@@ -7,80 +7,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import validator from 'validator';
 import { ThemeProvider, withStyles } from '@material-ui/core/styles';
 import QuestionnaireForm from 'containers/QuestionnaireForm';
 import PaperworkList from 'components/PaperworkList';
 import CaseNoteContainer from 'containers/CaseNoteContainer';
 import theme from 'utils/theme';
-import { apiPost } from 'utils/axios';
 import { Grid, Typography } from '@material-ui/core';
 import styles from './styles';
 
 class ParticipantShowPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      paperwork: {
-        title: '',
-        link: '',
-      },
-      paperworkErrors: {
-        title: '',
-        link: '',
-      },
-    };
-  }
-
-  checkPaperworkErrors = field => () => {
-    let errorMessage = '';
-    if (field === 'title') {
-      const { title } = this.state.paperwork;
-      if (
-        title === '' ||
-        validator.isEmpty(title, { ignore_whitespace: true })
-      ) {
-        errorMessage = 'Title is required';
-      }
-    } else if (field === 'link') {
-      const { link } = this.state.paperwork;
-      if (link === '' || validator.isEmpty(link, { ignore_whitespace: true })) {
-        errorMessage = 'Link is required';
-      } else if (!validator.isURL(link, { require_protocol: true })) {
-        errorMessage = 'Link is not valid';
-      }
-    }
-
-    this.setState(prevState => ({
-      paperworkErrors: {
-        ...prevState.paperworkErrors,
-        [field]: errorMessage,
-      },
-    }));
-  };
-
-  handleSubmitPaperwork = () => {
-    const body = {
-      ...this.state.paperwork,
-      participant_id: this.props.participantId,
-      agree: false,
-    };
-
-    const errors = this.state.paperworkErrors;
-    let hasErrors = false;
-    Object.keys(errors).forEach(field => {
-      this.checkPaperworkErrors(field)();
-      hasErrors = hasErrors || errors[field] !== '';
-    });
-
-    if (!hasErrors) {
-      apiPost('/api/paperworks', { paperwork: body })
-        .then(() => window.location.reload())
-        .catch(error => console.error(error));
-      // TODO: Change this to flash an error message
-    }
-  };
-
   onFormFieldChange = model => (field, value) => {
     this.setState(prevState => ({
       [model]: {
@@ -139,10 +74,7 @@ class ParticipantShowPage extends React.Component {
               <Grid item>
                 <PaperworkList
                   paperworks={paperworks}
-                  paperworkErrors={this.state.paperworkErrors}
-                  checkPaperworkErrors={this.checkPaperworkErrors}
-                  onFormFieldChange={this.onFormFieldChange('paperwork')}
-                  handleSubmitPaperwork={this.handleSubmitPaperwork}
+                  participantId={participantId}
                   formatDate={this.formatDate}
                 />
               </Grid>
