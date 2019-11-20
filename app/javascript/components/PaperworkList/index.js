@@ -4,9 +4,8 @@
  *
  */
 
-import React, { memo, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 import { Button, Grid, Typography, Paper, List } from '@material-ui/core';
 import PaperworkEntry from 'components/PaperworkEntry';
@@ -77,4 +76,4 @@ PaperworkList.propTypes = {
   formatDate: PropTypes.func.isRequired,
 };
 
-export default compose(withStyles(styles), memo)(PaperworkList);
+export default withStyles(styles)(PaperworkList);
