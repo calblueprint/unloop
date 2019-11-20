@@ -24,12 +24,6 @@ module.exports = {
     },
     {
       type: 'confirm',
-      name: 'memo',
-      default: false,
-      message: 'Do you want to wrap your component in React.memo?',
-    },
-    {
-      type: 'confirm',
       name: 'wantHeaders',
       default: false,
       message: 'Do you want headers?',
