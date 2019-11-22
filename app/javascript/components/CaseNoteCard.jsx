@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
+import { convertToRaw } from 'draft-js';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
@@ -78,6 +79,9 @@ class SimpleMenu extends React.Component {
             title: this.props.title,
             description: this.props.description,
             internal: this.props.internal,
+            tempTitle: this.props.title,
+            tempDescription: this.props.description,
+            tempInternal: this.props.internal,
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -86,6 +90,7 @@ class SimpleMenu extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleInternalChange = this.handleInternalChange.bind(this);
+        this.handleEditSubmit = this.handleEditSubmit.bind(this);
     }
 
     handleClick(event) {
@@ -117,8 +122,26 @@ class SimpleMenu extends React.Component {
         this.setState({ [name]: value });
     }
 
-    handleEditSubmit = name => (event) => {
-        const { value } = event.target;
+    handleEditSubmit() {
+        let newTitle = this.state.tempTitle;
+        let newDescription = this.state.tempDescription;
+        let newInternal = this.state.tempInternal;
+        this.setState({
+            title: newTitle,
+            description: newDescription,
+            internal: newInternal,
+        });
+
+        let body = {
+            "title": this.state.title,
+            "description": this.state.description,
+            "internal": this.state.internal,
+            "participant_id": this.state.participant_id,
+        };
+    }
+
+    handleDescriptionChange = name => (state) => {
+        const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
         this.setState({ [name]: value });
     }
 
@@ -126,7 +149,6 @@ class SimpleMenu extends React.Component {
         this.setState({ [name]: !this.state.internal });
     };    
 
-    
     render () {
         return(
             <div>
@@ -158,7 +180,6 @@ class SimpleMenu extends React.Component {
                 <Dialog 
                     style={styles.dialogStyle}
                     open={this.state.editOpen} 
-                    onClose={this.handleEditClose}
                     aria-labelledby="form-dialog-title"
                     maxWidth="sm"
                 >
@@ -168,8 +189,8 @@ class SimpleMenu extends React.Component {
                         </DialogContentText>
                         <TextField style={styles.dialogContentTextFieldStyle}
                         name="title"
-                        value={this.state.title}
-                        onChange={this.handleChange("title")}
+                        onChange={this.handleChange("tempTitle")}
+                        value={this.state.tempTitle}
                         variant="outlined"
                         margin="dense"
                         id="title"
@@ -186,8 +207,8 @@ class SimpleMenu extends React.Component {
                         <MuiThemeProvider theme={defaultTheme}>
                         <MUIRichTextEditor
                             name="description"
+                            onChange={this.handleDescriptionChange("tempDescription")}
                             value={this.state.description}
-                            onChange={this.handleDescriptionChange("description")}
                             variant="outlined"
                             label="Case Note description"
                             style={styles.MUIRichTextEditorStyle}
@@ -202,13 +223,22 @@ class SimpleMenu extends React.Component {
                         <Switch
                             name="internal"
                             defaultChecked={false}
-                            onChange={this.handleInternalChange("internal")}
                             value={this.state.internal}
+                            onChange={this.handleChange("tempInternal")}
                             color="primary"
                             inputProps={{ 'aria-label': 'primary checkbox' }}
                         />
                         </DialogContentText>
                     </DialogContent>
+
+                    <DialogActions style={styles.dialogActionsStyle}>
+                        <Button onClick={this.handleEditClose} variant="outlined" color="secondary">
+                        Cancel
+                        </Button>
+                        <Button onClick={this.handleEditSubmit} variant="outlined" color="primary">
+                        Submit Case Note
+                        </Button>
+                    </DialogActions>
                 </Dialog>
             </div>
         );
