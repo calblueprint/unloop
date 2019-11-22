@@ -5,8 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import NewCaseNote from 'containers/NewCaseNote';
-import CaseNoteCard from 'containers/CaseNoteCard';
+import NewCaseNote from 'components/NewCaseNote';
+import CaseNoteCard from 'components/CaseNoteCard';
 
 const styles = {
     headerStyle: {
