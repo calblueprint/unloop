@@ -6,7 +6,6 @@
 
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 import {
   Avatar,
@@ -83,4 +82,4 @@ PaperworkEntry.propTypes = {
   lastEntry: PropTypes.bool,
 };
 
-export default compose(withStyles(styles), memo)(PaperworkEntry);
+export default memo(withStyles(styles)(PaperworkEntry));

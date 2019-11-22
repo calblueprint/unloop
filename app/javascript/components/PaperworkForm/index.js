@@ -6,7 +6,6 @@
 
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 import {
   Button,
@@ -114,4 +113,4 @@ PaperworkForm.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default compose(withStyles(styles), memo)(PaperworkForm);
+export default memo(withStyles(styles)(PaperworkForm));
