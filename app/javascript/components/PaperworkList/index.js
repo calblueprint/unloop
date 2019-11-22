@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Button, Grid, Typography, Paper, List } from '@material-ui/core';
 import PaperworkEntry from 'components/PaperworkEntry';
-import PaperworkFormContainer from 'containers/PaperworkFormContainer';
+import PaperworkFormContainer from 'components/PaperworkFormContainer';
 
 import styles from './styles';
 

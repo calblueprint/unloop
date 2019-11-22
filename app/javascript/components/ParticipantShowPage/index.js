@@ -6,11 +6,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
 import { ThemeProvider, withStyles } from '@material-ui/core/styles';
-import QuestionnaireForm from 'containers/QuestionnaireForm';
+import QuestionnaireForm from 'components/QuestionnaireForm';
 import PaperworkList from 'components/PaperworkList';
-import CaseNoteContainer from 'containers/CaseNoteContainer';
+import CaseNoteContainer from 'components/CaseNoteContainer';
 import theme from 'utils/theme';
 import { Grid, Typography } from '@material-ui/core';
 import styles from './styles';
@@ -104,4 +103,4 @@ ParticipantShowPage.propTypes = {
   professionalQuestionnaire: PropTypes.object.isRequired,
 };
 
-export default compose(withStyles(styles))(ParticipantShowPage);
+export default withStyles(styles)(ParticipantShowPage);
