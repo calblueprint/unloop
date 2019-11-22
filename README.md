@@ -30,10 +30,11 @@ Containers components should be React components that handle how things **work**
 yarn generate container
 ```
 ### Generate Components
-Presentational components should be React components that handle how the page will look like. These should usually be functional components that are stateless. Any state that does exist should be only for UI.
+Functional components are components that are made of a function. You need to use hooks in order to use state or lifecycle methods. Most frequently used for components that are stateless but not always. Class components are components that use a class structure. This has been the standard format for React components.
 ```bash
-yarn generate component
+yarn generate
 ```
+You can also attach `functional` or `class` after generate to quickly specify which component to generate.
 1. Do you want to wrap your component in React.memo?
   * This adds memoization to the component. A rule of thumb to think about whether or not your component needs `memo` is if it
     1. Renders the same thing given the same props

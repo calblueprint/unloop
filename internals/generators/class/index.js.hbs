@@ -14,18 +14,12 @@ import theme from 'utils/theme';
 {{#if wantHeaders}}
 import { Helmet } from 'react-helmet';
 {{/if}}
-{{!-- {{#if wantMessages}}
-import { FormattedMessage } from 'react-intl';
-{{/if}} --}}
 {{#if wantStyles}}
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import styles from './styles';
 {{else}}
 import { ThemeProvider } from '@material-ui/core/styles';
 {{/if}}
-{{!-- {{#if wantMessages}}
-import messages from './messages';
-{{/if}} --}}
 
 class {{ properCase name }} extends React.Component {
 render() {
@@ -39,9 +33,6 @@ return (
     <meta name="description" content="Description of {{properCase name}}" />
   </Helmet>
   {{/if}}
-  {{!-- {{#if wantMessages}}
-      <FormattedMessage {...messages.header} />
-    {{/if}} --}}
   </div>
   </ThemeProvider>
   );
