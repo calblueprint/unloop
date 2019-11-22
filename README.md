@@ -23,12 +23,7 @@ rails db:setup
 # This runs db:create, db:schema:load, and db:seed
 ```
 
-## Create React Components/Containers
-### Generate Containers
-Containers components should be React components that handle how things **work**. These components can be stateful and most of the data management should be handle here. Think of them as the root for each page.
-```bash
-yarn generate container
-```
+## Create React Components
 ### Generate Components
 Functional components are components that are made of a function. You need to use hooks in order to use state or lifecycle methods. Most frequently used for components that are stateless but not always. Class components are components that use a class structure. This has been the standard format for React components.
 ```bash
@@ -47,3 +42,5 @@ You can also attach `functional` or `class` after generate to quickly specify wh
   * This uses `withStyles` higher order component to add styles from `styles.js` to override Material UI default styles. Use `classes` in `className` to assign properties.
 4. Do you want to load resources asynchronously?
   * This adds React lazy and Suspense before importing. In order to use this, you need to import the Loadable file rather than the index file. This only works with importing on an existing React component, and doesn't work in Rails.
+### After Generating
+If your component is not a root for a page or shared component, move your component to the folder that matches the page or shared component that it will live under.
