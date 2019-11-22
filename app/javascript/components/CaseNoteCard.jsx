@@ -65,7 +65,8 @@ const styles = {
     }
 }
 
-const defaultTheme = createMuiTheme()
+const defaultTheme = createMuiTheme();
+
 
 class SimpleMenu extends React.Component {
     constructor(props) {
@@ -85,7 +86,6 @@ class SimpleMenu extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleInternalChange = this.handleInternalChange.bind(this);
-        console.log(this.state.description);
     }
 
     handleClick(event) {
@@ -126,6 +126,7 @@ class SimpleMenu extends React.Component {
         this.setState({ [name]: !this.state.internal });
     };    
 
+    
     render () {
         return(
             <div>
@@ -185,7 +186,7 @@ class SimpleMenu extends React.Component {
                         <MuiThemeProvider theme={defaultTheme}>
                         <MUIRichTextEditor
                             name="description"
-                            value={this.state.description.text}
+                            value={this.state.description}
                             onChange={this.handleDescriptionChange("description")}
                             variant="outlined"
                             label="Case Note description"
@@ -227,7 +228,7 @@ class CaseNoteCard extends React.Component {
     componentDidMount() {
         
     }
-    
+
     render () {
         return (
             <React.Fragment>
@@ -247,7 +248,10 @@ class CaseNoteCard extends React.Component {
                                     />
                                 </Grid>
                                 </Grid>
-                                <p style={styles.casenoteDescStyle}>{this.state.description}</p>
+                                <MUIRichTextEditor
+                                    value={this.state.description}
+                                    readOnly={true}
+                                />
                             </div>
                         </Paper>
                     </Grid>
