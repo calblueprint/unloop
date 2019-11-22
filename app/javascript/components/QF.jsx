@@ -17,18 +17,18 @@ class QuestionnaireForm extends React.Component {
     this.state = {
       open: false,
     };
-    this.handleClose = this._handleClose.bind(this);
-    this.handleOpen = this._handleOpen.bind(this);
-    this.handleSubmit = this._handleSubmit.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     // store the information from this.props.questionnaire into state
-    let questionnaire = {};
+    const questionnaire = {};
     Object.keys(this.props.questionnaire).forEach(k => {
       if (
         k !== 'id' &&
-        k !== "created_at" &&
+        k !== 'created_at' &&
         k !== 'updated_at' &&
         k !== 'participant_id'
       ) {
@@ -36,38 +36,38 @@ class QuestionnaireForm extends React.Component {
       }
     });
     this.setState({
-      questionnaire: questionnaire
-    })
+      questionnaire,
+    });
   }
 
-  _handleOpen() {
+  handleOpen() {
     this.setState({ open: true });
   }
 
-  _handleClose() {
+  handleClose() {
     this.setState({ open: false });
   }
 
-  _handleSubmit() {
-    let qType = this.props.questionnaireType.toLowerCase() + '_questionnaire';
+  handleSubmit() {
+    const qType = `${this.props.questionnaireType.toLowerCase()}_questionnaire`;
     let body = {};
 
     Object.keys(this.state.questionnaire).map(f => {
       body[f] = this.state.questionnaire[f];
     });
-    body['participant_id'] = this.props.participantId;
+    body.participant_id = this.props.participantId;
 
     body = JSON.stringify({ [qType]: body });
 
-    let id = this.props.questionnaire["id"];
-    let request = '/api/' + qType + 's/' + id;
+    const { id } = this.props.questionnaire;
+    const request = `/api/${qType}s/${id}`;
     fetch(request, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'X_CSRF-Token': document.getElementsByName('csrf-token')[0].content,
       },
-      body: body,
+      body,
       credentials: 'same-origin',
     })
       .then(data => {
@@ -78,17 +78,16 @@ class QuestionnaireForm extends React.Component {
       });
   }
 
-  _handleTextFormChange(e) {
-    let id = e.target.id
-    let value = e.target.value
+  handleTextFormChange(e) {
+    const { id } = e.target;
+    const { value } = e.target;
     this.setState(s => ({
-      questionnaire: {                 
-          ...s.questionnaire,    
-          [id]: value
-      }
-  }))
+      questionnaire: {
+        ...s.questionnaire,
+        [id]: value,
+      },
+    }));
   }
-
 
   createTextForm(fieldName, fieldValue, contentText) {
     // content text is prompt/title for the text box
@@ -98,7 +97,7 @@ class QuestionnaireForm extends React.Component {
         <DialogContentText>{contentText}</DialogContentText>
         <TextField
           className="dialogContentTextField questionnaireTextField"
-          onChange={(e) => this._handleTextFormChange(e)}
+          onChange={e => this.handleTextFormChange(e)}
           variant="outlined"
           id={fieldName}
           multiline
@@ -111,19 +110,20 @@ class QuestionnaireForm extends React.Component {
     );
   }
 
+  // eslint-disable-next-line consistent-return
   createTextForms() {
-    if (this.state.questionnaire)  {
-      let questionnaire = this.state.questionnaire;
+    if (this.state.questionnaire) {
+      const { questionnaire } = this.state;
 
-      let questionnaires = Object.keys(questionnaire).map(f => {
+      const questionnaires = Object.keys(questionnaire).map(f => {
         let sentenceCase = f.charAt(0).toUpperCase() + f.substring(1);
-        sentenceCase = sentenceCase.replace(/([-_][a-z])/gi, $1 => {
-          return $1
+        sentenceCase = sentenceCase.replace(/([-_][a-z])/gi, $1 =>
+          $1
             .toUpperCase()
             .replace('-', ' ')
-            .replace('_', ' ');
-        });
-  
+            .replace('_', ' '),
+        );
+
         return this.createTextForm(f, questionnaire[f], sentenceCase);
       });
       return <div>{questionnaires}</div>;
@@ -172,7 +172,8 @@ class QuestionnaireForm extends React.Component {
 
 QuestionnaireForm.propTypes = {
   questionnaire: PropTypes.array,
-  participant_id: PropTypes.number,
+  participantId: PropTypes.number,
+  questionnaireType: PropTypes.string,
 };
 
 export default QuestionnaireForm;

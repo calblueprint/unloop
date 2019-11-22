@@ -1,106 +1,125 @@
-import React from "react";
-import Button from '@material-ui/core/Button';
+import React from 'react';
 import '../../assets/stylesheets/paperworks.scss';
-import Fab from '@material-ui/core/Fab';
-import { TextField, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core/';
+import {
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Fab,
+} from '@material-ui/core/';
 
-const isValidUrl = (string) => {
+const isValidUrl = string => {
   try {
-    new URL(string);
+    let test = new URL(string);
     return true;
   } catch (_) {
-    return false;  
+    return false;
   }
-}
+};
 
 class PaperworkForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       participant_id: this.props.participantId,
-      link: "",
-      paperwork_title: "",
+      link: '',
+      paperwork_title: '',
       due_date: null,
       open: false,
       errors: {
-        link: ""
-      }
+        link: '',
+      },
     };
-    this.handleClose = this._handleClose.bind(this);
-    this.handleOpen = this._handleOpen.bind(this);
-    this.handleSubmit = this._handleSubmit.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  _handleOpen() {
-    this.setState({open: true});
+  handleOpen() {
+    this.setState({ open: true });
   }
 
-  _handleClose() {
-    this.setState({open: false});
+  handleClose() {
+    this.setState({ open: false });
   }
 
   checkErrors() {
-    let errors = {
-      link: ""
+    const errors = {
+      link: '',
     };
 
     if (!isValidUrl(this.state.link)) {
-      errors["link"] = "Please use a valid link beginning with http://"
+      errors.link = 'Please use a valid link beginning with http://';
     }
-    
+
     return errors;
   }
 
-  _handleSubmit() {
-
+  handleSubmit() {
     let body = {
-                "link": this.state.link,
-                "title": this.state.title,
-                "participant_id": this.state.participant_id,
-                "agree": false,
-              };
+      link: this.state.link,
+      title: this.state.title,
+      participant_id: this.state.participant_id,
+      agree: false,
+    };
 
-    let errors = this.checkErrors();
+    const errors = this.checkErrors();
 
     let hasErrors = false;
-    Object.keys(errors).forEach((key) => {
+    Object.keys(errors).forEach(key => {
       if (errors[key]) {
         hasErrors = true;
       }
     });
 
     if (hasErrors) {
-      this.setState({ errors: errors });
+      this.setState({ errors });
     } else {
-      body = JSON.stringify({paperwork: body});
-      let request = `/api/paperworks/`;
+      body = JSON.stringify({ paperwork: body });
+      const request = `/api/paperworks/`;
       fetch(request, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          "X_CSRF-Token": document.getElementsByName("csrf-token")[0].content
+          'X_CSRF-Token': document.getElementsByName('csrf-token')[0].content,
         },
-        body: body,
+        body,
         credentials: 'same-origin',
-      }).then((data) => {window.location.reload()}).catch((data) => {console.error(data)});
+      })
+        .then(data => {
+          window.location.reload();
+        })
+        .catch(data => {
+          console.error(data);
+        });
     }
   }
 
   renderError() {
-    return (
-      <div style={{color: 'red'}}>
-        {this.state.errors.link}
-      </div>
-    )
+    return <div style={{ color: 'red' }}>{this.state.errors.link}</div>;
   }
 
   render() {
     return (
       <div>
-        <Fab variant="extended" size={'small'} style={{borderStyle: 'solid 3px grey', background: '#FFFFFF'}} onClick={this.handleOpen}>
-            + New Assignment
+        <Fab
+          variant="extended"
+          size="small"
+          style={{ borderStyle: 'solid 3px grey', background: '#FFFFFF' }}
+          onClick={this.handleOpen}
+        >
+          + New Assignment
         </Fab>
-        <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title" maxWidth="sm" fullWidth>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+          maxWidth="sm"
+          fullWidth
+        >
           <DialogTitle>
             <h2 className="dialogTitle"> Assign new paperwork </h2>
           </DialogTitle>
@@ -110,7 +129,7 @@ class PaperworkForm extends React.Component {
             </DialogContentText>
             <TextField
               className="dialogContentTextField"
-              onChange={(e) => this.setState({title: e.target.value})}
+              onChange={e => this.setState({ title: e.target.value })}
               variant="outlined"
               margin="dense"
               id="title"
@@ -119,14 +138,14 @@ class PaperworkForm extends React.Component {
               fullWidth
             />
           </DialogContent>
-          <br/>
+          <br />
           <DialogContent maxWidth="sm" fullWidth>
             <DialogContentText className="dialogContentText">
               Insert Link to Document
             </DialogContentText>
             <TextField
               className="dialogContentTextField"
-              onChange={(e) => this.setState({link: e.target.value})}
+              onChange={e => this.setState({ link: e.target.value })}
               variant="outlined"
               margin="dense"
               id="paperwork-link"
@@ -136,7 +155,7 @@ class PaperworkForm extends React.Component {
             />
             {this.renderError()}
           </DialogContent>
-          <br/>
+          <br />
           {/* <DialogContent maxWidth="sm" fullWidth>
             <DialogContentText className="dialogContentText">
               Assign Due Date
@@ -152,10 +171,18 @@ class PaperworkForm extends React.Component {
             />
           </DialogContent> */}
           <DialogActions className="dialogActions">
-            <Button onClick={this.handleClose} variant="outlined" color="secondary">
+            <Button
+              onClick={this.handleClose}
+              variant="outlined"
+              color="secondary"
+            >
               Cancel
             </Button>
-            <Button onClick={this.handleSubmit} variant="outlined" color="primary">
+            <Button
+              onClick={this.handleSubmit}
+              variant="outlined"
+              color="primary"
+            >
               Save Document
             </Button>
           </DialogActions>

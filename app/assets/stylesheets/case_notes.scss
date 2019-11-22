@@ -1,3 +1,42 @@
 // Place all the styles related to the case notes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+  .case-note-card {
+      margin-left: 20px;
+      padding: 20px;
+      padding-right: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+      border-radius: 10px;
+      height: 200px;
+  }
+
+  .case-note-text {
+      margin-left: 15px;
+  }
+
+  .case-note-desc {
+      overflow: auto;
+      height: 100px;
+      margin-top: -10px;
+  }
+
+  .case-note-container {
+      background-color: #F4F4F4;
+      height: 100vh;
+      max-height: 700px;
+      padding-top: 20px;
+  }
+
+  .case-note-header {
+      margin-left: 20px;
+      margin-top: 0px;
+      font-size: 24px;
+  }
+
+  .case-note-cards {
+      max-height: 80vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      height: 100vh;
+  }
