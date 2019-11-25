@@ -5,3 +5,14 @@ internals/scripts/
 package-lock.json
 yarn.lock
 package.json
+vendor/
+tmp/
+storage/
+spec/
+public/
+log/
+lib/
+db/
+config/
+bin/
+.github/
