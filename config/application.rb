@@ -31,5 +31,6 @@ module Unloop
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.react.camelize_props = true
   end
 end

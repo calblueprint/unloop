@@ -2,7 +2,7 @@ import React from "react";
 import { grey } from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
-import PaperworkForm from './PaperworkForm.jsx';
+import PaperworkForm from './PaperworkForm1.jsx';
 import CardHeader from '@material-ui/core/CardHeader';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import IconButton from '@material-ui/core/IconButton';
@@ -87,7 +87,7 @@ class PaperworkPage extends React.Component {
     super(props);
     this.state = {
       list_of_paperworks : this.props.paperworks,
-      participant_id: this.props.participant_id,
+      participant_id: this.props.participantId,
     };
   }
 

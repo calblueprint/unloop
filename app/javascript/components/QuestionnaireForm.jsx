@@ -55,7 +55,7 @@ class QuestionnaireForm extends React.Component {
     Object.keys(this.state.questionnaire).map(f => {
       body[f] = this.state.questionnaire[f];
     });
-    body['participant_id'] = this.props.participant_id;
+    body['participant_id'] = this.props.participantId;
 
     body = JSON.stringify({ [qType]: body });
 
