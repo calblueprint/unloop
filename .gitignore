@@ -34,3 +34,6 @@ yarn-debug.log*
 
 # Ignore database.yml because it differs between OS
 /config/database.yml
+
+# Ignore vscode settings
+.vscode/
