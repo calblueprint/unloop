@@ -297,6 +297,7 @@ class CaseNoteCard extends React.Component {
                                 <MUIRichTextEditor
                                     value={this.state.description}
                                     readOnly={true}
+                                    toolbar={false}
                                 />
                             </div>
                         </Paper>
