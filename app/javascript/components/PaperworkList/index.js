@@ -4,17 +4,16 @@
  *
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Button, Grid, Typography, Paper, List } from '@material-ui/core';
+import { Grid, Typography, Paper, List } from '@material-ui/core';
 import PaperworkEntry from 'components/PaperworkEntry';
-import PaperworkFormContainer from 'components/PaperworkFormContainer';
+import PaperworkForm from 'components/PaperworkForm';
 
 import styles from './styles';
 
 function PaperworkList({ classes, paperworks, participantId, formatDate }) {
-  const [openForm, setOpenForm] = useState(false);
   return (
     <Paper elevation={3} className={classes.containerStyle}>
       <Grid
@@ -28,40 +27,20 @@ function PaperworkList({ classes, paperworks, participantId, formatDate }) {
           <Typography variant="h4">Paperworks</Typography>
         </Grid>
         <Grid item>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => setOpenForm(true)}
-          >
-            ASSIGN PAPERWORK +
-          </Button>
-          <PaperworkFormContainer
-            participantId={participantId}
-            open={openForm}
-            onClose={() => setOpenForm(false)}
-          />
+          <PaperworkForm type="create" participantId={participantId} />
         </Grid>
       </Grid>
       <List style={styles.listStyle} dense>
-        {paperworks.slice(0, -1).map(paperwork => (
+        {paperworks.map((paperwork, i) => (
           <PaperworkEntry
             key={paperwork.id}
             agree={paperwork.agree}
             id={paperwork.id}
+            participantId={participantId}
             link={paperwork.link}
             title={paperwork.title}
             date={formatDate(paperwork.created_at)}
-          />
-        ))}
-        {paperworks.slice(-1).map(paperwork => (
-          <PaperworkEntry
-            key={paperwork.id}
-            agree={paperwork.agree}
-            id={paperwork.id}
-            link={paperwork.link}
-            title={paperwork.title}
-            date={formatDate(paperwork.created_at)}
-            lastEntry
+            lastEntry={paperworks.length - 1 === i}
           />
         ))}
       </List>

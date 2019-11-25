@@ -15,16 +15,17 @@ import {
   CardHeader,
   Grid,
 } from '@material-ui/core';
+import PaperworkForm from 'components/PaperworkForm';
 
 import styles from './styles';
 
 function PaperworkEntry({
   classes,
   agree,
-  id,
   date,
   link,
   title,
+  participantId,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
@@ -59,13 +60,12 @@ function PaperworkEntry({
           >
             View
           </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            href={`/paperworks/${id}`}
-          >
-            Edit
-          </Button>
+          <PaperworkForm
+            type="edit"
+            participantId={participantId}
+            paperworkTitle={title}
+            paperworkLink={link}
+          />
         </CardActions>
       </Grid>
     </Card>
@@ -75,10 +75,10 @@ function PaperworkEntry({
 PaperworkEntry.propTypes = {
   classes: PropTypes.object.isRequired,
   agree: PropTypes.bool.isRequired,
-  id: PropTypes.number.isRequired,
   date: PropTypes.string.isRequired,
   link: PropTypes.string,
   title: PropTypes.string,
+  participantId: PropTypes.number.isRequired,
   lastEntry: PropTypes.bool,
 };
 
