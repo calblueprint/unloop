@@ -103,6 +103,7 @@ class SimpleMenu extends React.Component {
     }
 
     handleEditOpen() {
+        this.setState({ anchorEl: null });
         this.setState({ editOpen: true });
     }
 
