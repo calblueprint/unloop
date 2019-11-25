@@ -1,5 +1,4 @@
 import React from 'react';
-import { apiPost } from 'utils/axios';
 import { convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
@@ -62,7 +61,7 @@ class NewCaseNote extends React.Component {
     this.state = {
       description: '',
       title: '',
-      participant_id: this.props.participantId,
+      participant_id: this.props.participant_id,
       internal: true,
       open: false,
     };
@@ -100,22 +99,41 @@ class NewCaseNote extends React.Component {
   };
 
   handleSubmit() {
-    const body = {
+    let body = {
       title: this.state.title,
       description: this.state.description,
       internal: this.state.internal,
-      participant_id: this.props.participantId,
+      participant_id: this.state.participant_id,
     };
-    apiPost('/api/case_notes', { case_note: body })
-      .then(() => window.location.reload())
-      .catch(error => console.error(error));
+    body = JSON.stringify({ case_note: body });
+    let req = '/api/case_notes/';
+    fetch(req, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X_CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+      },
+      body: body,
+      credentials: 'same-origin',
+    })
+      .then(data => {
+        window.location.reload();
+      })
+      .catch(data => {
+        console.error(data);
+      });
   }
 
   render() {
     return (
-      <>
-        <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          Create New Case Note
+      <React.Fragment>
+        <Button
+          className="primary-button"
+          variant="contained"
+          color="primary"
+          onClick={this.handleOpen}
+        >
+          New Casenote +
         </Button>
 
         <Dialog
@@ -209,7 +227,7 @@ class NewCaseNote extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-      </>
+      </React.Fragment>
     );
   }
 }

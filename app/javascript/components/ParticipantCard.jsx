@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NewCaseNote from './NewCaseNote';
 import PaperworkFrom from './PaperworkForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 class ParticipantCard extends React.Component {
   constructor(props) {
@@ -15,16 +17,25 @@ class ParticipantCard extends React.Component {
 
   render() {
     let p = this.props.participant;
-    let name = this.props.name;
+    let status = p.status.toUpperCase();
+    let name = p.name;
     return (
-      <tr onClick={this.showParticipant}>
-        <td>{name}</td>
-        <td><div className="status">{p.status}</div></td>
+      <tr>
+        <td style={{"cursor": "pointer"}} onClick={this.showParticipant}>{name}</td>
+        <td>
+          <div className="status">{status}</div>
+        </td>
         <td className="new-assignment">
-          <PaperworkFrom  participant_id={p.id}></PaperworkFrom>
+          <div>
+            <FontAwesomeIcon icon={faEdit} size="lg"></FontAwesomeIcon>
+            <PaperworkFrom participant_id={p.id}></PaperworkFrom>
+          </div>
         </td>
         <td className="new-casenote">
-          <NewCaseNote  participant_id={p.id} />
+          <div>
+            <FontAwesomeIcon icon={faEdit} size="lg"></FontAwesomeIcon>
+            <NewCaseNote participant_id={p.id} />
+          </div>
         </td>
       </tr>
     );

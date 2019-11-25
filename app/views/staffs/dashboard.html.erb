@@ -1,4 +1,4 @@
 <%= link_to 'Sign In', new_user_session_path if @user.nil? %>
 <%= link_to 'Sign Out', destroy_user_session_path, method: :delete if @user %>
 <%= link_to 'Admin', rails_admin_path if @user.admin? %>
-<%= react_component("StaffDashboard", {participants: @participants, participant_names: @participant_names}) %>
+<%= react_component("StaffDashboard", {participants: @participants_list}) %>
