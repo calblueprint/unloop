@@ -26,7 +26,7 @@ function CaseNoteEntry({ classes, id, title, date, description }) {
   };
 
   return (
-    <Card>
+    <Card className={classes.card}>
       <CardActionArea onClick={viewMore}>
         <CardHeader
           title={title}
@@ -38,11 +38,11 @@ function CaseNoteEntry({ classes, id, title, date, description }) {
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.justifyActions}>
-        <Button size="small" color="primary">
-          Edit
+        <Button color="primary">
+          <b>Edit</b>
         </Button>
-        <Button size="small" color="primary" onClick={viewMore}>
-          View More
+        <Button color="primary" onClick={viewMore}>
+          <b>View More</b>
         </Button>
       </CardActions>
     </Card>

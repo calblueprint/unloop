@@ -5,6 +5,9 @@
  */
 
 export const styles = (/* theme */) => ({
+  card: {
+    borderRadius: 10,
+  },
   headerBorder: {
     borderBottom: '2px solid #C4CACD',
     paddingBottom: 8,

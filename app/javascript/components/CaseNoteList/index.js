@@ -14,23 +14,38 @@ import CaseNoteEntry from 'components/CaseNoteEntry';
 
 import styles from './styles';
 
-function CaseNoteList({ classes, caseNotes, formatDate }) {
+function CaseNoteList({
+  classes,
+  caseNotes,
+  formErrors,
+  checkErrors,
+  onFormFieldChange,
+  handleSubmit,
+  formatDate,
+}) {
   return (
     <Grid container direction="column">
-      <Grid item container>
-        <Typography variant="h2">Case Notes</Typography>
-        {/* <CaseNoteForm /> */}
+      <Grid item container className={classes.header}>
+        <Typography variant="h4">Case Notes</Typography>
+        {/* <CaseNoteForm
+          formErrors={formErrors}
+          checkErrors={checkErrors}
+          onFormFieldChange={onFormFieldChange}
+          handleSubmit={handleSubmit}
+        /> */}
       </Grid>
-      <Grid item container direction="column">
+      <Grid item container direction="column" spacing={2}>
         {caseNotes.map(caseNote => (
-          <CaseNoteEntry
-            key={caseNote.id}
-            id={caseNote.id}
-            title={caseNote.title}
-            date={formatDate(caseNote.created_at)}
-            description={caseNote.description}
-            internal={caseNote.internal}
-          />
+          <Grid item>
+            <CaseNoteEntry
+              key={caseNote.id}
+              id={caseNote.id}
+              title={caseNote.title}
+              date={formatDate(caseNote.created_at)}
+              description={caseNote.description}
+              internal={caseNote.internal}
+            />
+          </Grid>
         ))}
       </Grid>
     </Grid>
@@ -40,6 +55,10 @@ function CaseNoteList({ classes, caseNotes, formatDate }) {
 CaseNoteList.propTypes = {
   classes: PropTypes.object.isRequired,
   caseNotes: PropTypes.array.isRequired,
+  formErrors: PropTypes.object.isRequired,
+  checkErrors: PropTypes.func.isRequired,
+  onFormFieldChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
   formatDate: PropTypes.func.isRequired,
 };
 

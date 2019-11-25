@@ -29,6 +29,15 @@ class ParticipantShowPage extends React.Component {
         title: '',
         link: '',
       },
+      caseNote: {
+        title: '',
+        description: '',
+        internal: true,
+      },
+      caseNoteErrors: {
+        title: '',
+        description: '',
+      },
     };
   }
 
@@ -81,10 +90,62 @@ class ParticipantShowPage extends React.Component {
     }
   };
 
-  onFormFieldChange = (field, value) => {
-    this.setState({
-      [field]: value,
+  checkCaseNoteErrors = field => () => {
+    let errorMessage = '';
+    if (field === 'title') {
+      const { title } = this.state.caseNote;
+      if (
+        title === '' ||
+        validator.isEmpty(title, { ignore_whitespace: true })
+      ) {
+        errorMessage = 'Title is required';
+      }
+    }
+
+    this.setState(prevState => ({
+      caseNoteErrors: {
+        ...prevState.caseNoteErrors,
+        [field]: errorMessage,
+      },
+    }));
+  };
+
+  handleSubmitCaseNote = () => {
+    const body = {
+      ...this.state.caseNote,
+      participant_id: this.props.participantId,
+    };
+
+    const errors = this.state.caseNoteErrors;
+    let hasErrors = false;
+    Object.keys(errors).forEach(field => {
+      this.checkCaseNoteErrors(field)();
+      hasErrors = hasErrors || errors[field] !== '';
     });
+
+    if (!hasErrors) {
+      apiPost('/api/case_notes', { case_note: body })
+        .then(() => window.location.reload())
+        .catch(error => console.error(error));
+      // TODO: Change this to flash an error message
+    }
+  };
+
+  onFormFieldChange = model => (field, value) => {
+    this.setState(prevState => ({
+      [model]: {
+        ...prevState[model],
+        [field]: value,
+      },
+    }));
+  };
+
+  formatDate = dateString => {
+    const dateObj = new Date(dateString);
+    const year = dateObj.getFullYear();
+    const month = dateObj.getMonth() + 1;
+    const dt = dateObj.getDate();
+    return `${month.toString()}/${dt.toString()}/${year.toString()}`;
   };
 
   render() {
@@ -141,7 +202,14 @@ class ParticipantShowPage extends React.Component {
               participantId={participantId}
               caseNotes={caseNotes}
             /> */}
-            <CaseNoteList caseNotes={caseNotes} formatDate={this.formatDate} />
+            <CaseNoteList
+              caseNotes={caseNotes}
+              formErrors={this.state.caseNoteErrors}
+              checkErrors={this.checkCaseNoteErrors}
+              onFormFieldChange={this.onFormFieldChange('caseNote')}
+              handleSubmit={this.handleSubmitCaseNote}
+              formatDate={this.formatDate}
+            />
           </Grid>
         </Grid>
       </ThemeProvider>
