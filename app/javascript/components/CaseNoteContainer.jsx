@@ -45,6 +45,7 @@ class CaseNoteContainer extends React.Component {
             title={case_note.title}
             description={case_note.description}
             internal={case_note.internal}
+            id={case_note.id}
           />
         </div>
       );
