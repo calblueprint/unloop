@@ -79,6 +79,7 @@ class SimpleMenu extends React.Component {
             title: this.props.title,
             description: this.props.description,
             internal: this.props.internal,
+            id: this.props.id,
             tempTitle: this.props.title,
             tempDescription: this.props.description,
             tempInternal: this.props.internal,
@@ -133,11 +134,24 @@ class SimpleMenu extends React.Component {
         });
 
         let body = {
-            "title": this.state.title,
-            "description": this.state.description,
-            "internal": this.state.internal,
+            "title": this.state.tempTitle,
+            "description": this.state.tempDescription,
+            "internal": this.state.tempInternal,
             "participant_id": this.state.participant_id,
         };
+
+        body = JSON.stringify({case_note: body});
+        let req = '/api/case_notes/' + this.state.id;
+
+        fetch(req, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            "X_CSRF-Token": document.getElementsByName("csrf-token")[0].content
+          },
+          body: body,
+          credentials: 'same-origin',
+        }).then((data) => {window.location.reload()}).catch((data) => { console.error(data) });
     }
 
     handleDescriptionChange = name => (state) => {
@@ -251,7 +265,8 @@ class CaseNoteCard extends React.Component {
         this.state = {
             description: this.props.description,
             title: this.props.title,
-            internal:this.props.internal,
+            internal: this.props.internal,
+            id: this.props.id,
         };
     }
 
@@ -275,6 +290,7 @@ class CaseNoteCard extends React.Component {
                                     title={this.state.title} 
                                     description={this.state.description}
                                     internal = {this.state.internal}
+                                    id = {this.state.id}
                                     />
                                 </Grid>
                                 </Grid>
