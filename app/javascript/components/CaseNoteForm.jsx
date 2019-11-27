@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { apiPost } from 'utils/axios';
 import { convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
@@ -11,6 +11,7 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
+  MenuItem,
   Switch,
 } from '@material-ui/core/';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
@@ -67,6 +68,9 @@ class CaseNoteForm extends React.Component {
       open: false,
       type: this.props.type,
       id: this.props.id,
+      tempTitle: this.props.title,
+      tempDescription: this.props.description,
+      tempInternal: this.props.internal,
     };
     this.onChange = editorState => this.setState({ editorState });
     this.handleClose = this.handleClose.bind(this);
@@ -113,7 +117,35 @@ class CaseNoteForm extends React.Component {
         .then(() => window.location.reload())
         .catch(error => console.error(error));
     } else if (this.state.type === "edit") {
+      let newTitle = this.state.tempTitle;
+      let newDescription = this.state.tempDescription;
+      let newInternal = this.state.tempInternal;
 
+      this.setState({
+        title: newTitle,
+        description: newDescription,
+        internal: newInternal,
+      });
+
+      let body = {
+        "title": this.state.tempTitle,
+        "description": this.state.tempDescription,
+        "internal": this.state.tempInternal,
+        "participant_id": this.state.participant_id,
+      };
+
+      body = JSON.stringify({case_note: body});
+      let req = '/api/case_notes/' + this.state.id;
+
+      fetch(req, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          "X_CSRF-Token": document.getElementsByName("csrf-token")[0].content
+        },
+        body: body,
+        credentials: 'same-origin',
+      }).then((data) => {window.location.reload()}).catch((data) => { console.error(data) });
     }
     
   }
@@ -139,11 +171,26 @@ class CaseNoteForm extends React.Component {
   }
 
   render() {
+    let title;
+
+    if (this.state.type === "create") {
+      title = "title"
+    } else if (this.state.type === "edit") {
+      title = "tempTitle"
+    }
+
     let description;
     if (this.state.type === "create") {
-      description = this.state.description.text;
+      description = "description"
     } else if (this.state.type === "edit") {
-      description = this.state.description;
+      description = "tempDescription";
+    }
+
+    let internal;
+    if (this.state.type === "create") {
+      internal = "internal";
+    } else if (this.state.type === "edit") {
+      internal = "tempInternal";
     }
 
     return (
@@ -161,11 +208,10 @@ class CaseNoteForm extends React.Component {
               Title
             </DialogContentText>
             <TextField
-              value={this.state.title}
+              value={this.state.type === "create" ? this.state.title : this.state.tempTitle}
               style={styles.dialogContentTextFieldStyle}
               name="title"
-              value={this.state.title}
-              onChange={this.handleChange('title')}
+              onChange={this.handleChange(title)}
               variant="outlined"
               margin="dense"
               id="title"
@@ -183,8 +229,8 @@ class CaseNoteForm extends React.Component {
             <MuiThemeProvider theme={defaultTheme}>
               <MUIRichTextEditor
                 name="description"
-                value={description}
-                onChange={this.handleDescriptionChange('description')}
+                value={this.state.type === "create" ? this.state.description.text : this.state.description}
+                onChange={this.handleDescriptionChange(description)}
                 variant="outlined"
                 label="Case Note description"
                 style={styles.MUIRichTextEditorStyle}
@@ -200,8 +246,8 @@ class CaseNoteForm extends React.Component {
               <Switch
                 name="internal"
                 defaultChecked={false}
-                onChange={this.handleInternalChange('internal')}
                 value={this.state.internal}
+                onChange={this.handleInternalChange(internal)}
                 color="primary"
                 inputProps={{ 'aria-label': 'primary checkbox' }}
               />

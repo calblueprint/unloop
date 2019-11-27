@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import {TextField, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Switch } from '@material-ui/core/';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import MUIRichTextEditor from 'mui-rte';
+import CaseNoteForm from 'components/CaseNoteForm'; 
 
 const classes = makeStyles(theme => ({
     root: {
@@ -188,7 +189,13 @@ class SimpleMenu extends React.Component {
                         },
                     }}
                 >
-                    <MenuItem onClick={this.handleEditOpen}>Edit</MenuItem>
+                    <CaseNoteForm 
+                    type="edit"
+                    title={this.state.title}
+                    description={this.state.description}
+                    internal={this.state.internal}
+                    participantId={this.state.participant_id}
+                    id={this.state.id} />
                     <MenuItem>Delete</MenuItem>
                 </Menu>
 
