@@ -37,7 +37,7 @@ const styles = {
         height: '200px',
     },
     casenoteTextStyle: {
-        marginLeft: '15px'
+        marginLeft: '15px',
     },
     casenoteDescStyle: {
         overflow: 'auto',
@@ -49,10 +49,10 @@ const styles = {
     },
     MUIRichTextEditorStyle: {
         border: '5px solid',
-        padding: '10px'
+        padding: '10px',
     },
     dialogStyle: {
-        padding: '20px'
+        padding: '20px',
     },
     dialogContentTextStyle: {
         color: 'black',

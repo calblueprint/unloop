@@ -202,6 +202,7 @@ class CaseNoteForm extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
           maxWidth="sm"
+          fullWidth
         >
           <DialogContent maxwidth="sm">
             <DialogContentText style={styles.dialogContentTextStyle}>
