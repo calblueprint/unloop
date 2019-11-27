@@ -33,7 +33,7 @@ const styles = {
         paddingRight: '10px',
         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
         borderRadius: '10px',
-        height: '200px'
+        height: '200px',
     },
     casenoteTextStyle: {
         marginLeft: '15px'
@@ -227,6 +227,7 @@ class SimpleMenu extends React.Component {
                             variant="outlined"
                             label="Case Note description"
                             style={styles.MUIRichTextEditorStyle}
+                            controls={["bold", "italic", "underline", "link", "numberList", "bulletList"]}
                         />
                         </MuiThemeProvider>
                     </DialogContent>
@@ -251,7 +252,7 @@ class SimpleMenu extends React.Component {
                         Cancel
                         </Button>
                         <Button onClick={this.handleEditSubmit} variant="outlined" color="primary">
-                        Submit Case Note
+                        Save Note
                         </Button>
                     </DialogActions>
                 </Dialog>

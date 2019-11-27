@@ -56,15 +56,17 @@ Object.assign(defaultTheme, {
   },
 });
 
-class NewCaseNote extends React.Component {
+class CaseNoteForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      description: '',
-      title: '',
+      title: this.props.title,
+      description: this.props.description,
       participant_id: this.props.participantId,
       internal: true,
       open: false,
+      type: this.props.type,
+      id: this.props.id,
     };
     this.onChange = editorState => this.setState({ editorState });
     this.handleClose = this.handleClose.bind(this);
@@ -100,24 +102,53 @@ class NewCaseNote extends React.Component {
   }
 
   handleSubmit() {
-    const body = {
-      title: this.state.title,
-      description: this.state.description,
-      internal: this.state.internal,
-      participant_id: this.props.participantId,
-    };
-    apiPost('/api/case_notes', { case_note: body })
-      .then(() => window.location.reload())
-      .catch(error => console.error(error));
+    if (this.state.type === "create") {
+      const body = {
+        title: this.state.title,
+        description: this.state.description,
+        internal: this.state.internal,
+        participant_id: this.props.participantId,
+      };
+      apiPost('/api/case_notes', { case_note: body })
+        .then(() => window.location.reload())
+        .catch(error => console.error(error));
+    } else if (this.state.type === "edit") {
+
+    }
+    
+  }
+
+  button = () => {
+    let ret;
+    if (this.state.type === "create") {
+      ret = (
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={this.handleOpen}
+        >
+          CREATE NEW CASENOTE
+        </Button>
+      );
+    } else if (this.state.type === "edit") {
+      ret = (
+        <MenuItem onClick={this.handleOpen}>Edit</MenuItem>
+      );
+    }
+    return ret;
   }
 
   render() {
+    let description;
+    if (this.state.type === "create") {
+      description = this.state.description.text;
+    } else if (this.state.type === "edit") {
+      description = this.state.description;
+    }
+
     return (
       <>
-        <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          Create New Case Note
-        </Button>
-
+        {this.button()}
         <Dialog
           style={styles.dialogStyle}
           open={this.state.open}
@@ -130,6 +161,7 @@ class NewCaseNote extends React.Component {
               Title
             </DialogContentText>
             <TextField
+              value={this.state.title}
               style={styles.dialogContentTextFieldStyle}
               name="title"
               value={this.state.title}
@@ -151,32 +183,16 @@ class NewCaseNote extends React.Component {
             <MuiThemeProvider theme={defaultTheme}>
               <MUIRichTextEditor
                 name="description"
-                value={this.state.description.text}
+                value={description}
                 onChange={this.handleDescriptionChange('description')}
                 variant="outlined"
                 label="Case Note description"
                 style={styles.MUIRichTextEditorStyle}
+                controls={["bold", "italic", "underline", "numberList", "bulletList", "link"]}
               />
             </MuiThemeProvider>
           </DialogContent>
           <br />
-
-          {/* <DialogContent>
-            <DialogContentText style={styles.dialogContentTextStyle}>
-              Participant
-            </DialogContentText>
-            <TextField style={styles.dialogContentTextFieldStyle}
-              name="participant"
-              value={this.state.participant}
-              variant="outlined"
-              select
-              margin="dense"
-              id="title"
-              label="Select Participant"
-              type="text"
-              fullWidth
-            />
-          </DialogContent> */}
 
           <DialogContent>
             <DialogContentText style={styles.dialogContentTextStyle}>
@@ -214,6 +230,12 @@ class NewCaseNote extends React.Component {
   }
 }
 
-//ReactDOM.render(editor, document.querySelector("[data-mount]"));
+CaseNoteForm.defaultProps = {
+  type: 'create',
+  title: '',
+  description: '',
+  internal: true,
+  open: false,
+};
 
-export default NewCaseNote;
+export default CaseNoteForm;

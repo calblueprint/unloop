@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import NewCaseNote from 'components/NewCaseNote';
+import CaseNoteForm from 'components/CaseNoteForm';
 import CaseNoteCard from 'components/CaseNoteCard';
 
 const styles = {
@@ -66,7 +66,7 @@ class CaseNoteContainer extends React.Component {
                     <h2 style={styles.headerStyle}>Casenotes</h2>
                   </Grid>
                   <Grid item xs={5}>
-                    <NewCaseNote participantId={this.state.participant.id} />
+                    <CaseNoteForm type="create" participantId={this.state.participant.id} />
                   </Grid>
                 </Grid>
                 <div
