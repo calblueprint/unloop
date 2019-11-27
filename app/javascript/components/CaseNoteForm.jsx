@@ -267,7 +267,7 @@ class CaseNoteForm extends React.Component {
               variant="outlined"
               color="primary"
             >
-              Submit Case Note
+              {this.state.type === "create" ? 'Submit Case Note' : 'Edit Casenote'}
             </Button>
           </DialogActions>
         </Dialog>

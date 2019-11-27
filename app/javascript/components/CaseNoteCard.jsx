@@ -75,24 +75,13 @@ class SimpleMenu extends React.Component {
         super(props);
         this.state = {
             anchorEl: null,
-            editOpen: false,
-            deleteOpen: false,
             title: this.props.title,
             description: this.props.description,
             internal: this.props.internal,
             id: this.props.id,
-            tempTitle: this.props.title,
-            tempDescription: this.props.description,
-            tempInternal: this.props.internal,
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.handleEditOpen = this.handleEditOpen.bind(this);
-        this.handleEditClose = this.handleEditClose.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-        this.handleInternalChange = this.handleInternalChange.bind(this);
-        this.handleEditSubmit = this.handleEditSubmit.bind(this);
     }
 
     handleClick(event) {
@@ -102,68 +91,6 @@ class SimpleMenu extends React.Component {
     handleClose() {
         this.setState({ anchorEl: null });
     }
-
-    handleEditOpen() {
-        this.setState({ anchorEl: null });
-        this.setState({ editOpen: true });
-    }
-
-    handleEditClose() {
-        this.setState({ editOpen: false });
-    }
-
-    handleDescriptionChange = name => (state) => {
-        // TODO: the line below is the rtf representation. Update to this once rtf on /casenotes
-        // const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
-        const value = state.getCurrentContent().getPlainText();
-        this.setState({ [name]: value });
-    }
-    
-    // edit so that we set state only when submitting something is true
-    handleChange = name => (event) => {
-        const { value } = event.target;
-        this.setState({ [name]: value });
-    }
-
-    handleEditSubmit() {
-        let newTitle = this.state.tempTitle;
-        let newDescription = this.state.tempDescription;
-        let newInternal = this.state.tempInternal;
-        this.setState({
-            title: newTitle,
-            description: newDescription,
-            internal: newInternal,
-        });
-
-        let body = {
-            "title": this.state.tempTitle,
-            "description": this.state.tempDescription,
-            "internal": this.state.tempInternal,
-            "participant_id": this.state.participant_id,
-        };
-
-        body = JSON.stringify({case_note: body});
-        let req = '/api/case_notes/' + this.state.id;
-
-        fetch(req, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            "X_CSRF-Token": document.getElementsByName("csrf-token")[0].content
-          },
-          body: body,
-          credentials: 'same-origin',
-        }).then((data) => {window.location.reload()}).catch((data) => { console.error(data) });
-    }
-
-    handleDescriptionChange = name => (state) => {
-        const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
-        this.setState({ [name]: value });
-    }
-
-    handleInternalChange = name => (event) => {
-        this.setState({ [name]: !this.state.internal });
-    };    
 
     render () {
         return(
@@ -198,71 +125,6 @@ class SimpleMenu extends React.Component {
                     id={this.state.id} />
                     <MenuItem>Delete</MenuItem>
                 </Menu>
-
-                <Dialog 
-                    style={styles.dialogStyle}
-                    open={this.state.editOpen} 
-                    aria-labelledby="form-dialog-title"
-                    maxWidth="sm"
-                >
-                    <DialogContent maxwidth="sm">
-                        <DialogContentText style={styles.dialogContentTextStyle}>
-                        Title
-                        </DialogContentText>
-                        <TextField style={styles.dialogContentTextFieldStyle}
-                        name="title"
-                        onChange={this.handleChange("tempTitle")}
-                        value={this.state.tempTitle}
-                        variant="outlined"
-                        margin="dense"
-                        id="title"
-                        label="Case Note title"
-                        type="text"
-                        fullWidth
-                        />
-                    </DialogContent>
-
-                    <DialogContent maxwidth="sm">
-                        <DialogContentText style={styles.dialogContentTextStyle}>
-                        Description
-                        </DialogContentText>
-                        <MuiThemeProvider theme={defaultTheme}>
-                        <MUIRichTextEditor
-                            name="description"
-                            onChange={this.handleDescriptionChange("tempDescription")}
-                            value={this.state.description}
-                            variant="outlined"
-                            label="Case Note description"
-                            style={styles.MUIRichTextEditorStyle}
-                            controls={["bold", "italic", "underline", "link", "numberList", "bulletList"]}
-                        />
-                        </MuiThemeProvider>
-                    </DialogContent>
-                    <br/>
-
-                    <DialogContent>
-                        <DialogContentText style={styles.dialogContentTextStyle}>
-                        Visible to Participant
-                        <Switch
-                            name="internal"
-                            defaultChecked={false}
-                            value={this.state.internal}
-                            onChange={this.handleChange("tempInternal")}
-                            color="primary"
-                            inputProps={{ 'aria-label': 'primary checkbox' }}
-                        />
-                        </DialogContentText>
-                    </DialogContent>
-
-                    <DialogActions style={styles.dialogActionsStyle}>
-                        <Button onClick={this.handleEditClose} variant="outlined" color="secondary">
-                        Cancel
-                        </Button>
-                        <Button onClick={this.handleEditSubmit} variant="outlined" color="primary">
-                        Save Note
-                        </Button>
-                    </DialogActions>
-                </Dialog>
             </div>
         );
     }
