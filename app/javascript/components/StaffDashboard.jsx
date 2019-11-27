@@ -46,9 +46,15 @@ class StaffDashboard extends React.Component {
   }
 
   render() {
+    console.log(this.state.participants)
     let participantsList = this.state.participants.map((p, i) => {
       return <ParticipantCard key={i} participant={p}></ParticipantCard>;
     });
+
+    if (this.state.participants.length == 0) {
+      console.log("no participants");
+      participantsList = <p>There are no participants to show.</p>
+    }
 
     return (
       <div className="dashboard">
