@@ -21,37 +21,37 @@ class QuestionnaireForm extends React.Component {
 
   componentDidMount() {
     // store the information from this.props.questionnaire into state
-    let questionnaire = {};
+    const questionnaire = {};
     Object.keys(this.props.questionnaire).forEach(k => {
       if (k !== 'id' && k !== 'participant') {
         questionnaire[k] = this.props.questionnaire[k];
       }
     });
     this.setState({
-      questionnaire: questionnaire,
+      questionnaire,
     });
   }
 
   handleSubmit() {
-    let qType = this.props.type + '_questionnaire';
+    const qType = `${this.props.type}_questionnaire`;
     let body = {};
 
     Object.keys(this.state.questionnaire).map(f => {
       body[f] = this.state.questionnaire[f];
     });
-    body['participant_id'] = this.props.participantId;
+    body.participant_id = this.props.participantId;
 
     body = JSON.stringify({ [qType]: body });
 
-    let id = this.props.questionnaire['id'];
-    let request = '/api/' + qType + 's/' + id;
+    const { id } = this.props.questionnaire;
+    const request = `/api/${qType}s/${id}`;
     fetch(request, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'X_CSRF-Token': document.getElementsByName('csrf-token')[0].content,
       },
-      body: body,
+      body,
       credentials: 'same-origin',
     })
       .then(data => {
@@ -63,8 +63,8 @@ class QuestionnaireForm extends React.Component {
   }
 
   handleTextFormChange(e) {
-    let id = e.target.id;
-    let value = e.target.value;
+    const { id } = e.target;
+    const { value } = e.target;
     this.setState(s => ({
       questionnaire: {
         ...s.questionnaire,
@@ -96,16 +96,16 @@ class QuestionnaireForm extends React.Component {
 
   createTextForms() {
     if (this.state.questionnaire) {
-      let questionnaire = this.state.questionnaire;
+      const { questionnaire } = this.state;
 
-      let questionnaires = Object.keys(questionnaire).map(f => {
+      const questionnaires = Object.keys(questionnaire).map(f => {
         let sentenceCase = f.charAt(0).toUpperCase() + f.substring(1);
-        sentenceCase = sentenceCase.replace(/([-_][a-z])/gi, $1 => {
-          return $1
+        sentenceCase = sentenceCase.replace(/([-_][a-z])/gi, $1 =>
+          $1
             .toUpperCase()
             .replace('-', ' ')
-            .replace('_', ' ');
-        });
+            .replace('_', ' '),
+        );
 
         return this.createTextForm(f, questionnaire[f], sentenceCase);
       });
