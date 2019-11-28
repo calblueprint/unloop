@@ -1,55 +1,39 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import '../../assets/stylesheets/personal_questionnaires.scss';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import {
-  Dialog,
+  Button,
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
   TextField,
 } from '@material-ui/core/';
-import PropTypes from 'prop-types';
+
+import styles from './styles';
+import '../../../assets/stylesheets/personal_questionnaires.scss';
 
 class QuestionnaireForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      open: false,
-    };
-    this.handleClose = this._handleClose.bind(this);
-    this.handleOpen = this._handleOpen.bind(this);
-    this.handleSubmit = this._handleSubmit.bind(this);
+    this.state = {};
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     // store the information from this.props.questionnaire into state
     let questionnaire = {};
     Object.keys(this.props.questionnaire).forEach(k => {
-      if (
-        k !== 'id' &&
-        k !== "created_at" &&
-        k !== 'updated_at' &&
-        k !== 'participant_id'
-      ) {
+      if (k !== 'id' && k !== 'participant') {
         questionnaire[k] = this.props.questionnaire[k];
       }
     });
     this.setState({
-      questionnaire: questionnaire
-    })
+      questionnaire: questionnaire,
+    });
   }
 
-  _handleOpen() {
-    this.setState({ open: true });
-  }
-
-  _handleClose() {
-    this.setState({ open: false });
-  }
-
-  _handleSubmit() {
-    let qType = this.props.questionnaireType.toLowerCase() + '_questionnaire';
+  handleSubmit() {
+    let qType = this.props.type + '_questionnaire';
     let body = {};
 
     Object.keys(this.state.questionnaire).map(f => {
@@ -59,7 +43,7 @@ class QuestionnaireForm extends React.Component {
 
     body = JSON.stringify({ [qType]: body });
 
-    let id = this.props.questionnaire["id"];
+    let id = this.props.questionnaire['id'];
     let request = '/api/' + qType + 's/' + id;
     fetch(request, {
       method: 'PUT',
@@ -78,17 +62,16 @@ class QuestionnaireForm extends React.Component {
       });
   }
 
-  _handleTextFormChange(e) {
-    let id = e.target.id
-    let value = e.target.value
+  handleTextFormChange(e) {
+    let id = e.target.id;
+    let value = e.target.value;
     this.setState(s => ({
-      questionnaire: {                 
-          ...s.questionnaire,    
-          [id]: value
-      }
-  }))
+      questionnaire: {
+        ...s.questionnaire,
+        [id]: value,
+      },
+    }));
   }
-
 
   createTextForm(fieldName, fieldValue, contentText) {
     // content text is prompt/title for the text box
@@ -98,7 +81,7 @@ class QuestionnaireForm extends React.Component {
         <DialogContentText>{contentText}</DialogContentText>
         <TextField
           className="dialogContentTextField questionnaireTextField"
-          onChange={(e) => this._handleTextFormChange(e)}
+          onChange={e => this.handleTextFormChange(e)}
           variant="outlined"
           id={fieldName}
           multiline
@@ -112,7 +95,7 @@ class QuestionnaireForm extends React.Component {
   }
 
   createTextForms() {
-    if (this.state.questionnaire)  {
+    if (this.state.questionnaire) {
       let questionnaire = this.state.questionnaire;
 
       let questionnaires = Object.keys(questionnaire).map(f => {
@@ -123,7 +106,7 @@ class QuestionnaireForm extends React.Component {
             .replace('-', ' ')
             .replace('_', ' ');
         });
-  
+
         return this.createTextForm(f, questionnaire[f], sentenceCase);
       });
       return <div>{questionnaires}</div>;
@@ -131,48 +114,34 @@ class QuestionnaireForm extends React.Component {
   }
 
   render() {
-    const qType = this.props.questionnaireType;
     return (
       <div>
-        <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          {qType} Questionnaire
-        </Button>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-          maxWidth="sm"
-          fullWidth
-        >
-          <DialogTitle>
-            <h2 className="dialogTitle"> {qType} Questionnaire </h2>
-          </DialogTitle>
-          {this.createTextForms()}
-          <DialogActions className="dialogActions">
-            <Button
-              onClick={this.handleClose}
-              variant="outlined"
-              color="secondary"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={this.handleSubmit}
-              variant="outlined"
-              color="primary"
-            >
-              Save Document
-            </Button>
-          </DialogActions>
-        </Dialog>
+        {this.createTextForms()}
+        <DialogActions className="dialogActions">
+          <Button
+            onClick={this.handleClose}
+            variant="outlined"
+            color="secondary"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={this.handleSubmit}
+            variant="outlined"
+            color="primary"
+          >
+            Save Document
+          </Button>
+        </DialogActions>
       </div>
     );
   }
 }
 
 QuestionnaireForm.propTypes = {
-  questionnaire: PropTypes.array,
-  participant_id: PropTypes.number,
+  type: PropTypes.oneOf(['personal', 'professional']).isRequired,
+  participantId: PropTypes.number.isRequired,
+  questionnaire: PropTypes.object.isRequired,
 };
 
-export default QuestionnaireForm;
+export default withStyles(styles)(QuestionnaireForm);

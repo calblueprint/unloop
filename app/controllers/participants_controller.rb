@@ -1,22 +1,23 @@
 class ParticipantsController < ApplicationController
   def show
-    puts params
     @participant = authorize Participant.find(params[:id])
     @paperworks = @participant.paperworks
     @case_notes = @participant.case_notes
 
     if @participant.personal_questionnaire.nil?
-      @personal_questionnaire = PersonalQuestionnaire.create("participant_id": @participant.id)
+      personal_q = PersonalQuestionnaire.create("participant_id": @participant.id)
     else
-      @personal_questionnaire = @participant.personal_questionnaire
+      personal_q = @participant.personal_questionnaire
     end
+    @personal_questionnaire = PersonalQuestionnaireSerializer.new(personal_q)
 
-    if @participant.professional_questionnaire.nil?
-      @professional_questionnaire = ProfessionalQuestionnaire.create("participant_id": @participant.id)
-    else
-      @professional_questionnaire = @participant.professional_questionnaire
-    end
     
+    if @participant.professional_questionnaire.nil?
+      professional_q = ProfessionalQuestionnaire.create("participant_id": @participant.id)
+    else
+      professional_q = @participant.professional_questionnaire
+    end
+    @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
   end
 
   def dashboard
