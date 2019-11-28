@@ -10,7 +10,6 @@ import {
 } from '@material-ui/core/';
 
 import styles from './styles';
-import '../../../assets/stylesheets/personal_questionnaires.scss';
 
 class QuestionnaireForm extends React.Component {
   constructor(props) {
@@ -77,7 +76,7 @@ class QuestionnaireForm extends React.Component {
     // content text is prompt/title for the text box
     // field name is the name of the field that will be filled in the database
     return (
-      <DialogContent>
+      <>
         <DialogContentText>{contentText}</DialogContentText>
         <TextField
           className="dialogContentTextField questionnaireTextField"
@@ -90,7 +89,7 @@ class QuestionnaireForm extends React.Component {
           defaultValue={fieldValue}
           maxRows={20}
         />
-      </DialogContent>
+      </>
     );
   }
 
@@ -115,8 +114,8 @@ class QuestionnaireForm extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.createTextForms()}
+      <>
+        <DialogContent>{this.createTextForms()}</DialogContent>
         <DialogActions className="dialogActions">
           <Button
             onClick={this.handleClose}
@@ -133,7 +132,7 @@ class QuestionnaireForm extends React.Component {
             Save Document
           </Button>
         </DialogActions>
-      </div>
+      </>
     );
   }
 }
