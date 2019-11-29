@@ -306,7 +306,7 @@ class CaseNoteForm extends React.Component {
               </DialogContentText>
 
               <DialogContentText style={styles.dialogContentTextStyle}>
-                {this.state.title}
+                <h3>{this.state.title}</h3>
               </DialogContentText>
 
               <MUIRichTextEditor
