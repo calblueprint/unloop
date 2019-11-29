@@ -123,7 +123,13 @@ class SimpleMenu extends React.Component {
                     internal={this.state.internal}
                     participantId={this.state.participant_id}
                     id={this.state.id} />
-                    <MenuItem>Delete</MenuItem>
+                    <CaseNoteForm 
+                    type="delete"
+                    title={this.state.title}
+                    description={this.state.description}
+                    internal={this.state.internal}
+                    participantId={this.state.participant_id}
+                    id={this.state.id} />
                 </Menu>
             </div>
         );

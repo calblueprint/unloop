@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from 'react';
-import { apiPost } from 'utils/axios';
+import { apiPost, apiDelete } from 'utils/axios';
 import { convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
@@ -117,9 +117,9 @@ class CaseNoteForm extends React.Component {
         .then(() => window.location.reload())
         .catch(error => console.error(error));
     } else if (this.state.type === "edit") {
-      let newTitle = this.state.tempTitle;
-      let newDescription = this.state.tempDescription;
-      let newInternal = this.state.tempInternal;
+      const newTitle = this.state.tempTitle;
+      const newDescription = this.state.tempDescription;
+      const newInternal = this.state.tempInternal;
 
       this.setState({
         title: newTitle,
@@ -127,7 +127,7 @@ class CaseNoteForm extends React.Component {
         internal: newInternal,
       });
 
-      let body = {
+      const body = {
         "title": this.state.tempTitle,
         "description": this.state.tempDescription,
         "internal": this.state.tempInternal,
@@ -146,6 +146,18 @@ class CaseNoteForm extends React.Component {
         body: body,
         credentials: 'same-origin',
       }).then((data) => {window.location.reload()}).catch((data) => { console.error(data) });
+    } else if (this.state.type === "delete") {
+      const body = {
+        "title": this.state.title,
+        "description": this.state.description,
+        "internal": this.state.internal,
+        "participant_id": this.state.participant_id,
+      };
+      let req = '/api/case_notes/' + this.state.id;
+
+      apiDelete(req, { case_note: body })
+        .then(() => window.location.reload())
+        .catch(error => console.error(error));
     }
     
   }
@@ -165,6 +177,11 @@ class CaseNoteForm extends React.Component {
     } else if (this.state.type === "edit") {
       ret = (
         <MenuItem onClick={this.handleOpen}>Edit</MenuItem>
+      );
+    }
+    else if (this.state.type === "delete") {
+      ret = (
+        <MenuItem onClick={this.handleOpen}>Delete</MenuItem>
       );
     }
     return ret;
@@ -193,9 +210,9 @@ class CaseNoteForm extends React.Component {
       internal = "tempInternal";
     }
 
-    return (
-      <>
-        {this.button()}
+    let dialog;
+    if (this.state.type === "create" || this.state.type === "edit") {
+      dialog = (
         <Dialog
           style={styles.dialogStyle}
           open={this.state.open}
@@ -272,6 +289,58 @@ class CaseNoteForm extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+      );
+    }
+    else if (this.state.type === "delete") {
+      dialog = (
+        <Dialog
+          style={styles.dialogStyle}
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+          maxWidth="sm"
+          fullWidth>
+            <DialogContent maxwidth="sm">
+              <DialogContentText style={styles.dialogContentTextStyle}>
+                Are you sure you want to delete the following casenote?
+              </DialogContentText>
+
+              <DialogContentText style={styles.dialogContentTextStyle}>
+                {this.state.title}
+              </DialogContentText>
+
+              <MUIRichTextEditor
+                  value={this.state.description}
+                  readOnly={true}
+                  toolbar={false}
+              />
+            </DialogContent>
+
+            <DialogActions style={styles.dialogActionsStyle}>
+              <Button
+                onClick={this.handleClose}
+                variant="outlined"
+                color="secondary"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={this.handleSubmit}
+                variant="outlined"
+                color="primary"
+              >
+                Delete
+              </Button>
+            </DialogActions>
+
+        </Dialog>
+      );
+    }
+
+    return (
+      <>
+        {this.button()}
+        {dialog}
       </>
     );
   }
