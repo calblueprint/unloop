@@ -15,13 +15,12 @@ import {
 } from '@material-ui/core/';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import MUIRichTextEditor from 'mui-rte';
-
 const styles = {
   dialogActionsStyle: {
     padding: '30px',
   },
   MUIRichTextEditorStyle: {
-    border: '5px solid',
+    border: '5px solid',
     padding: '10px',
   },
   dialogStyle: {
@@ -33,20 +32,18 @@ const styles = {
   },
   dialogContentTextFieldStyle: {
     marginTop: '2px',
-    borderStyle: 'solid 4px grey',
+    borderStyle: 'solid 4px grey',
   },
   saveDocumentButtonStyle: {
-    borderStyle: 'solid 3px grey',
+    borderStyle: 'solid 3px grey',
   },
 };
-
 const defaultTheme = createMuiTheme();
-
 Object.assign(defaultTheme, {
   overrides: {
     MUIRichTextEditor: {
       root: {
-        border: 'solid 1px #C4C4C4',
+        border: 'solid 1px #C4C4C4',
         borderRadius: '4px',
       },
       editor: {
@@ -55,7 +52,6 @@ Object.assign(defaultTheme, {
     },
   },
 });
-
 class NewCaseNote extends React.Component {
   constructor(props) {
     super(props);
@@ -74,31 +70,25 @@ class NewCaseNote extends React.Component {
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
   handleOpen() {
     this.setState({ open: true });
   }
-
   handleClose() {
     this.setState({ open: false });
   }
-
   handleChange = name => event => {
     const { value } = event.target;
     this.setState({ [name]: value });
   };
-
   handleInternalChange = name => event => {
     this.setState({ [name]: !this.state.internal });
   };
-
   handleDescriptionChange = name => state => {
-    // TODO: the line below is the rtf representation. Update to this once rtf on /casenotes
-    // const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
+    // TODO: the line below is the rtf representation. Update to this once rtf on /casenotes
+    // const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
     const value = state.getCurrentContent().getPlainText();
     this.setState({ [name]: value });
   };
-
   handleSubmit() {
     const body = {
       title: this.state.title,
@@ -110,14 +100,17 @@ class NewCaseNote extends React.Component {
       .then(() => window.location.reload())
       .catch(error => console.error(error));
   }
-
   render() {
     return (
       <>
-        <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          Create New Case Note
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={this.handleOpen}
+        >
+          NEW CASENOTE +
         </Button>
-
         <Dialog
           style={styles.dialogStyle}
           open={this.state.open}
@@ -137,13 +130,12 @@ class NewCaseNote extends React.Component {
               variant="outlined"
               margin="dense"
               id="title"
-              label="Case Note title"
+              label="Case Note title"
               type="text"
               fullWidth
             />
           </DialogContent>
           <br />
-
           <DialogContent maxwidth="sm">
             <DialogContentText style={styles.dialogContentTextStyle}>
               Description
@@ -154,44 +146,41 @@ class NewCaseNote extends React.Component {
                 value={this.state.description.text}
                 onChange={this.handleDescriptionChange('description')}
                 variant="outlined"
-                label="Case Note description"
+                label="Case Note description"
                 style={styles.MUIRichTextEditorStyle}
               />
             </MuiThemeProvider>
           </DialogContent>
           <br />
-
-          {/* <DialogContent>
-            <DialogContentText style={styles.dialogContentTextStyle}>
+          {/* <DialogContent>
+            <DialogContentText style={styles.dialogContentTextStyle}>
               Participant
             </DialogContentText>
-            <TextField style={styles.dialogContentTextFieldStyle}
+            <TextField style={styles.dialogContentTextFieldStyle}
               name="participant"
               value={this.state.participant}
               variant="outlined"
               select
               margin="dense"
               id="title"
-              label="Select Participant"
+              label="Select Participant"
               type="text"
               fullWidth
             />
-          </DialogContent> */}
-
+          </DialogContent> */}
           <DialogContent>
             <DialogContentText style={styles.dialogContentTextStyle}>
-              Visible to Participant
+              Visible to Participant
               <Switch
                 name="internal"
                 defaultChecked={false}
                 onChange={this.handleInternalChange('internal')}
                 value={this.state.internal}
                 color="primary"
-                inputProps={{ 'aria-label': 'primary checkbox' }}
+                inputProps={{ 'aria-label': 'primary checkbox' }}
               />
             </DialogContentText>
           </DialogContent>
-
           <DialogActions style={styles.dialogActionsStyle}>
             <Button
               onClick={this.handleClose}
@@ -205,7 +194,7 @@ class NewCaseNote extends React.Component {
               variant="outlined"
               color="primary"
             >
-              Submit Case Note
+              Submit Case Note
             </Button>
           </DialogActions>
         </Dialog>
@@ -213,7 +202,5 @@ class NewCaseNote extends React.Component {
     );
   }
 }
-
-//ReactDOM.render(editor, document.querySelector("[data-mount]"));
-
+//ReactDOM.render(editor, document.querySelector("[data-mount]"));
 export default NewCaseNote;

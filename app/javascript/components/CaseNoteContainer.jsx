@@ -7,15 +7,14 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import NewCaseNote from 'components/NewCaseNote';
 import CaseNoteCard from 'components/CaseNoteCard';
-
 const styles = {
   headerStyle: {
     marginLeft: '20px',
     marginTop: '0px',
+    marginBottom: '0px',
     fontSize: '24px',
   },
 };
-
 const classes = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -26,16 +25,25 @@ const classes = makeStyles(theme => ({
     color: theme.palette.text.secondary,
   },
 }));
-
 class CaseNoteContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       case_notes: this.props.caseNotes,
       participant: this.props.participant,
+      userType: this.props.userType,
     };
   }
-
+  renderCaseNoteCreationIfStaff() {
+    if (this.state.userType === 'staff') {
+      return (
+        <Grid item xs={4} style={{ paddingBottom: '5px' }}>
+          <NewCaseNote participant_id={this.state.participant.id} />
+        </Grid>
+      );
+    }
+    return null;
+  }
   render() {
     let participant_id = 1;
     let case_note_cards = this.state.case_notes.map((case_note, index) => {
@@ -49,7 +57,6 @@ class CaseNoteContainer extends React.Component {
         </div>
       );
     });
-
     return (
       <>
         <CssBaseline />
@@ -60,20 +67,24 @@ class CaseNoteContainer extends React.Component {
               style={{ height: '100vh', maxHeight: '700px' }}
             >
               <div className={classes.root} style={{ paddingTop: '20px' }}>
-                <Grid container spacing={3}>
-                  <Grid item xs={6}>
+                <Grid
+                  container
+                  justify="space-between"
+                  style={{
+                    borderBottom: '5px solid #EB6658',
+                    marginBottom: '10px',
+                  }}
+                >
+                  <Grid item xs={4} style={{ paddingBottom: '5px' }}>
                     <h2 style={styles.headerStyle}>Casenotes</h2>
                   </Grid>
-                  <Grid item xs={5}>
-                    <NewCaseNote participantId={this.state.participant.id} />
-                  </Grid>
+                  {this.renderCaseNoteCreationIfStaff()}
                 </Grid>
                 <div
                   style={{
                     maxHeight: '80vh',
                     overflowX: 'hidden',
                     overflowY: 'auto',
-                    height: '100vh',
                   }}
                 >
                   {case_note_cards}
@@ -86,5 +97,4 @@ class CaseNoteContainer extends React.Component {
     );
   }
 }
-
 export default CaseNoteContainer;

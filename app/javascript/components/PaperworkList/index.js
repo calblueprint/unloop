@@ -13,7 +13,13 @@ import PaperworkForm from 'components/PaperworkForm';
 
 import styles from './styles';
 
-function PaperworkList({ classes, paperworks, participantId, formatDate }) {
+function PaperworkList({
+  classes,
+  paperworks,
+  participantId,
+  userType,
+  formatDate,
+}) {
   return (
     <Paper elevation={3} className={classes.containerStyle}>
       <Grid
@@ -27,10 +33,14 @@ function PaperworkList({ classes, paperworks, participantId, formatDate }) {
           <Typography variant="h4">Paperworks</Typography>
         </Grid>
         <Grid item>
-          <PaperworkForm type="create" participantId={participantId} />
+          <PaperworkForm
+            type="create"
+            hide={userType !== 'staff'}
+            participantId={participantId}
+          />
         </Grid>
       </Grid>
-      <List style={styles.listStyle} dense>
+      <List className={classes.listStyle} dense>
         {paperworks.map((paperwork, i) => (
           <PaperworkEntry
             key={paperwork.id}
@@ -49,6 +59,7 @@ function PaperworkList({ classes, paperworks, participantId, formatDate }) {
 }
 
 PaperworkList.propTypes = {
+  userType: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   paperworks: PropTypes.array.isRequired,
   participantId: PropTypes.number.isRequired,
