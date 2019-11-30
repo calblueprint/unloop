@@ -58,7 +58,6 @@ class NewCaseNote extends React.Component {
     this.state = {
       description: '',
       title: '',
-      participant_id: this.props.participantId,
       internal: true,
       open: false,
     };
@@ -70,25 +69,31 @@ class NewCaseNote extends React.Component {
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   handleOpen() {
     this.setState({ open: true });
   }
+
   handleClose() {
     this.setState({ open: false });
   }
+
   handleChange = name => event => {
     const { value } = event.target;
     this.setState({ [name]: value });
   };
+
   handleInternalChange = name => event => {
     this.setState({ [name]: !this.state.internal });
   };
+
   handleDescriptionChange = name => state => {
     // TODO: the line below is the rtf representation. Update to this once rtf on /casenotes
     // const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
     const value = state.getCurrentContent().getPlainText();
     this.setState({ [name]: value });
   };
+
   handleSubmit() {
     const body = {
       title: this.state.title,
@@ -100,6 +105,7 @@ class NewCaseNote extends React.Component {
       .then(() => window.location.reload())
       .catch(error => console.error(error));
   }
+
   render() {
     return (
       <>

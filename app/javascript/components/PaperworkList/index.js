@@ -20,6 +20,19 @@ function PaperworkList({
   userType,
   formatDate,
 }) {
+  const paperworkEntries = paperworks.map((paperwork, i) => (
+    <PaperworkEntry
+      key={paperwork.id}
+      agree={paperwork.agree}
+      id={paperwork.id}
+      participantId={participantId}
+      link={paperwork.link}
+      title={paperwork.title}
+      date={formatDate(paperwork.created_at)}
+      lastEntry={paperworks.length - 1 === i}
+    />
+  ));
+
   return (
     <Paper elevation={3} className={classes.containerStyle}>
       <Grid
@@ -41,18 +54,25 @@ function PaperworkList({
         </Grid>
       </Grid>
       <List className={classes.listStyle} dense>
-        {paperworks.map((paperwork, i) => (
-          <PaperworkEntry
-            key={paperwork.id}
-            agree={paperwork.agree}
-            id={paperwork.id}
-            participantId={participantId}
-            link={paperwork.link}
-            title={paperwork.title}
-            date={formatDate(paperwork.created_at)}
-            lastEntry={paperworks.length - 1 === i}
-          />
-        ))}
+        {paperworks.length !== 0 ? (
+          paperworkEntries
+        ) : (
+          <div>
+            <img
+              src="/assets/noPaperworks.svg"
+              className="no-paperworks-img"
+              alt="no Case Notes"
+            />
+            <div className="no-paperworks-txt">
+              <h3>No paperworks yet</h3>
+              {userType === 'staff' ? (
+                <p>Click on ASSIGN PAPERWORK + to assign one.</p>
+              ) : (
+                <div />
+              )}
+            </div>
+          </div>
+        )}
       </List>
     </Paper>
   );

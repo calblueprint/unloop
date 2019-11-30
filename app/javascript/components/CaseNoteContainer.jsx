@@ -4,7 +4,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import NewCaseNote from 'components/NewCaseNote';
 import CaseNoteCard from 'components/CaseNoteCard';
 const styles = {
@@ -29,34 +28,57 @@ class CaseNoteContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      case_notes: this.props.caseNotes,
+      caseNotes: this.props.caseNotes,
       participant: this.props.participant,
       userType: this.props.userType,
     };
   }
+
   renderCaseNoteCreationIfStaff() {
     if (this.state.userType === 'staff') {
       return (
         <Grid item xs={4} style={{ paddingBottom: '5px' }}>
-          <NewCaseNote participant_id={this.state.participant.id} />
+          <NewCaseNote participantId={this.state.participant.id} />
         </Grid>
       );
     }
     return null;
   }
-  render() {
-    let participant_id = 1;
-    let case_note_cards = this.state.case_notes.map((case_note, index) => {
-      return (
-        <div key={index}>
+
+  renderCaseNoteCards() {
+    if (this.state.caseNotes.length != 0) {
+      const caseNoteCards = this.state.caseNotes.map(caseNote => (
+        <div key={caseNote.id}>
           <CaseNoteCard
-            title={case_note.title}
-            description={case_note.description}
-            internal={case_note.internal}
+            title={caseNote.title}
+            description={caseNote.description}
+            internal={caseNote.internal}
           />
         </div>
-      );
-    });
+      ));
+      return caseNoteCards;
+    }
+
+    return (
+      <div>
+        <img
+          src="/assets/noCaseNotes.svg"
+          className="no-case-notes-img"
+          alt="no Case Notes"
+        />
+        <div className="no-case-notes-txt">
+          <h3>No case notes yet</h3>
+          {this.state.userType === 'staff' ? (
+            <p>Click on NEW CASENOTE + to create one.</p>
+          ) : (
+            <div />
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  render() {
     return (
       <>
         <CssBaseline />
@@ -76,7 +98,7 @@ class CaseNoteContainer extends React.Component {
                   }}
                 >
                   <Grid item xs={4} style={{ paddingBottom: '5px' }}>
-                    <h2 style={styles.headerStyle}>Casenotes</h2>
+                    <h2 style={styles.headerStyle}>Case Notes</h2>
                   </Grid>
                   {this.renderCaseNoteCreationIfStaff()}
                 </Grid>
@@ -87,7 +109,7 @@ class CaseNoteContainer extends React.Component {
                     overflowY: 'auto',
                   }}
                 >
-                  {case_note_cards}
+                  {this.renderCaseNoteCards()}
                 </div>
               </div>
             </Typography>
