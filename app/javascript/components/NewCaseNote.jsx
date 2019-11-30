@@ -62,7 +62,7 @@ class NewCaseNote extends React.Component {
     this.state = {
       description: '',
       title: '',
-      participant_id: this.props.participantId,
+      participantId: this.props.participantId,
       internal: true,
       open: false,
     };
@@ -100,11 +100,11 @@ class NewCaseNote extends React.Component {
   };
 
   handleSubmit() {
-    const body = {
+    let body = {
       title: this.state.title,
       description: this.state.description,
       internal: this.state.internal,
-      participant_id: this.props.participantId,
+      participant_id: this.state.participantId,
     };
     apiPost('/api/case_notes', { case_note: body })
       .then(() => window.location.reload())
@@ -113,9 +113,14 @@ class NewCaseNote extends React.Component {
 
   render() {
     return (
-      <>
-        <Button variant="outlined" color="primary" onClick={this.handleOpen}>
-          Create New Case Note
+      <React.Fragment>
+        <Button
+          className="primary-button"
+          variant="contained"
+          color="primary"
+          onClick={this.handleOpen}
+        >
+          New Casenote +
         </Button>
 
         <Dialog
@@ -209,7 +214,7 @@ class NewCaseNote extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-      </>
+      </React.Fragment>
     );
   }
 }
