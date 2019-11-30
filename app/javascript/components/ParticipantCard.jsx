@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import NewCaseNote from './NewCaseNote';
-import PaperworkFrom from './PaperworkForm';
+import PaperworkForm from './PaperworkForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
@@ -28,13 +28,13 @@ class ParticipantCard extends React.Component {
         <td className="new-assignment">
           <div>
             <FontAwesomeIcon icon={faEdit} size="lg"></FontAwesomeIcon>
-            <PaperworkFrom participant_id={p.id}></PaperworkFrom>
+            <PaperworkForm participantId={p.id}></PaperworkForm>
           </div>
         </td>
         <td className="new-casenote">
           <div>
             <FontAwesomeIcon icon={faEdit} size="lg"></FontAwesomeIcon>
-            <NewCaseNote participant_id={p.id} />
+            <NewCaseNote participantId={p.id}></NewCaseNote>
           </div>
         </td>
       </tr>

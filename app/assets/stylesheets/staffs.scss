@@ -18,6 +18,8 @@ body {
 table {
   border-collapse: collapse;
   font-size: 20px;
+  font-family: 'Roboto', sans-serif;	
+  font-style: normal;
 
   th,
   td {
@@ -36,6 +38,8 @@ table {
 .dashboard {
   height: 100%;
   width: 100%;
+  font-family: 'Roboto', sans-serif;	
+  font-style: normal;
 
   h1 {
     font-weight: 500;

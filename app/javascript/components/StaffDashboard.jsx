@@ -2,16 +2,16 @@ import React from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import { TextField } from '@material-ui/core';
-import ParticipantCard from './ParticipantCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome,
   faSignOutAlt,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
+import ParticipantCard from './ParticipantCard';
+import PropTypes from 'prop-types';
 
-var TrieSearch = require('trie-search');
+const TrieSearch = require('trie-search');
 
 class StaffDashboard extends React.Component {
   constructor(props) {
@@ -23,37 +23,35 @@ class StaffDashboard extends React.Component {
   }
 
   componentDidMount() {
-    let participants = this.props.participants;
-    let trie = new TrieSearch('name');
+    const { participants } = this.props;
+    const trie = new TrieSearch('name');
     trie.addAll(participants);
     this.setState({
-      trie: trie,
+      trie,
     });
   }
 
   handleChange(e) {
-    let searchVal = e.target.value;
-    if (searchVal == '') {
+    const searchVal = e.target.value;
+    if (searchVal === '') {
       this.setState({
         participants: this.props.participants,
       });
       return;
     }
-    let participants = this.state.trie.get(searchVal);
+    const participants = this.state.trie.get(searchVal);
     this.setState({
-      participants: participants,
+      participants,
     });
   }
 
   render() {
-    console.log(this.state.participants)
-    let participantsList = this.state.participants.map((p, i) => {
-      return <ParticipantCard key={i} participant={p}></ParticipantCard>;
-    });
+    let participantsList = this.state.participants.map((p, i) => (
+      <ParticipantCard key={i} participant={p}></ParticipantCard>
+    ));
 
     if (this.state.participants.length == 0) {
-      console.log("no participants");
-      participantsList = <p>There are no participants to show.</p>
+      participantsList = <p>There are no participants to show.</p>;
     }
 
     return (
@@ -71,17 +69,14 @@ class StaffDashboard extends React.Component {
           <h1>Dashboard</h1>
           <div className="table-container">
             <div>
-            <div className='search-bar'>
-              <InputBase
-                placeholder="filter participants"
-                onChange={this.handleChange}
-              />
-              <IconButton
-                type="submit"
-                aria-label="search"
-              >
-                <SearchIcon />
-              </IconButton>
+              <div className="search-bar">
+                <InputBase
+                  placeholder="filter participants"
+                  onChange={this.handleChange}
+                />
+                <IconButton type="submit" aria-label="search">
+                  <SearchIcon />
+                </IconButton>
               </div>
               <table>
                 <thead>
@@ -101,5 +96,9 @@ class StaffDashboard extends React.Component {
     );
   }
 }
+
+StaffDashboard.propTypes = {
+  participants: PropTypes.array,
+};
 
 export default StaffDashboard;
