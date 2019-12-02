@@ -3,6 +3,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { Menu, MenuItem, IconButton, Grid, Paper } from '@material-ui/core/';
 import MUIRichTextEditor from 'mui-rte';
 import CaseNoteForm from 'components/CaseNoteForm';
+import DeleteModal from 'components/DeleteModal';
 import PropTypes from 'prop-types';
 
 const styles = {
@@ -95,7 +96,16 @@ class CaseNoteCard extends React.Component {
             participantId={this.state.participantId}
             id={this.state.id}
           />
-          <MenuItem>Delete</MenuItem>
+          <DeleteModal
+            message="Are you sure you want to delete this casenote?"
+            body={{
+              title: this.state.title,
+              description: this.state.description,
+              internal: this.state.internal,
+              participant_id: this.props.participantId,
+            }}
+            req={'/api/case_notes/' + this.state.id}
+          />
         </Menu>
       </div>
     );

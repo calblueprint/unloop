@@ -46,6 +46,7 @@ class CaseNoteContainer extends React.Component {
             description={case_note.description}
             internal={case_note.internal}
             id={case_note.id}
+            participantId={case_note.participant_id}
           />
         </div>
       );

@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core/';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import MUIRichTextEditor from 'mui-rte';
+import DeleteModal from 'components/DeleteModal';
 
 const styles = {
   dialogActionsStyle: {
@@ -50,14 +51,9 @@ Object.assign(defaultTheme, {
         border: 'solid 1px #C4C4C4',
         borderRadius: '4px',
       },
-      editorContainer: {
+      editor: {
         padding: '20px',
-        overflow: 'auto',
-        height: '130px',
       },
-      toolbar: {
-        backgroundColor: '#F4F4F4',
-      }
     },
   },
 });
@@ -73,9 +69,7 @@ class CaseNoteForm extends React.Component {
       open: false,
       type: this.props.type,
       id: this.props.id,
-      tempTitle: this.props.title,
       tempDescription: this.props.description,
-      tempInternal: this.props.internal,
       editorState: EditorState.createEmpty(),
     };
     this.onChange = editorState => this.setState({ editorState });
@@ -92,7 +86,16 @@ class CaseNoteForm extends React.Component {
   }
 
   handleClose() {
-    this.setState({ open: false });
+    this.setState({ 
+      open: false,
+      title: this.props.title,
+      internal: this.props.internal,
+     });
+    if (this.state.type === "edit") {
+      this.state.title = this.props.title;
+      this.state.description = this.props.description;
+      this.state.internal = this.props.internal;
+    }
   }
 
   handleChange = name => event => {
@@ -123,9 +126,9 @@ class CaseNoteForm extends React.Component {
         .then(() => window.location.reload())
         .catch(error => console.error(error));
     } else if (this.state.type === "edit") {
-      const newTitle = this.state.tempTitle;
+      const newTitle = this.state.title;
       const newDescription = this.state.tempDescription;
-      const newInternal = this.state.tempInternal;
+      const newInternal = this.state.internal;
 
       this.setState({
         title: newTitle,
@@ -134,9 +137,9 @@ class CaseNoteForm extends React.Component {
       });
 
       const body = {
-        "title": this.state.tempTitle,
+        "title": this.state.title,
         "description": this.state.tempDescription,
-        "internal": this.state.tempInternal,
+        "internal": this.state.internal,
         "participant_id": this.state.participant_id,
       };
 
@@ -152,18 +155,6 @@ class CaseNoteForm extends React.Component {
         body: body,
         credentials: 'same-origin',
       }).then((data) => {window.location.reload()}).catch((data) => { console.error(data) });
-    } else if (this.state.type === "delete") {
-      const body = {
-        "title": this.state.title,
-        "description": this.state.description,
-        "internal": this.state.internal,
-        "participant_id": this.state.participant_id,
-      };
-      let req = '/api/case_notes/' + this.state.id;
-
-      apiDelete(req, { case_note: body })
-        .then(() => window.location.reload())
-        .catch(error => console.error(error));
     }
     
   }
@@ -185,22 +176,11 @@ class CaseNoteForm extends React.Component {
         <MenuItem onClick={this.handleOpen}>Edit</MenuItem>
       );
     }
-    else if (this.state.type === "delete") {
-      ret = (
-        <MenuItem onClick={this.handleOpen}>Delete</MenuItem>
-      );
-    }
     return ret;
   }
 
   render() {
-    let title;
-
-    if (this.state.type === "create") {
-      title = "title"
-    } else if (this.state.type === "edit") {
-      title = "tempTitle"
-    }
+    let title = "title";
 
     let description;
     if (this.state.type === "create") {
@@ -209,12 +189,7 @@ class CaseNoteForm extends React.Component {
       description = "tempDescription";
     }
 
-    let internal;
-    if (this.state.type === "create") {
-      internal = "internal";
-    } else if (this.state.type === "edit") {
-      internal = "tempInternal";
-    }
+    let internal = "internal";
 
     let dialog;
     if (this.state.type === "create" || this.state.type === "edit") {
@@ -232,10 +207,10 @@ class CaseNoteForm extends React.Component {
               Title
             </DialogContentText>
             <TextField
-              value={this.state.type === "create" ? this.state.title : this.state.tempTitle}
+              value={this.state.title}
               style={styles.dialogContentTextFieldStyle}
               name="title"
-              onChange={this.handleChange(title)}
+              onChange={this.handleChange("title")}
               variant="outlined"
               margin="dense"
               id="title"
@@ -271,7 +246,7 @@ class CaseNoteForm extends React.Component {
                 name="internal"
                 defaultChecked={false}
                 value={this.state.internal}
-                onChange={this.handleInternalChange(internal)}
+                onChange={this.handleInternalChange("internal")}
                 color="primary"
                 inputProps={{ 'aria-label': 'primary checkbox' }}
               />
@@ -294,51 +269,6 @@ class CaseNoteForm extends React.Component {
               {this.state.type === "create" ? 'Submit Case Note' : 'Edit Casenote'}
             </Button>
           </DialogActions>
-        </Dialog>
-      );
-    }
-    else if (this.state.type === "delete") {
-      dialog = (
-        <Dialog
-          style={styles.dialogStyle}
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-          maxWidth="sm"
-          fullWidth>
-            <DialogContent maxwidth="sm">
-              <DialogContentText style={styles.dialogContentTextStyle}>
-                Are you sure you want to delete the following casenote?
-              </DialogContentText>
-
-              <DialogContentText style={styles.dialogContentTextStyle}>
-                <h3>{this.state.title}</h3>
-              </DialogContentText>
-
-              <MUIRichTextEditor
-                  value={this.state.description}
-                  readOnly={true}
-                  toolbar={false}
-              />
-            </DialogContent>
-
-            <DialogActions style={styles.dialogActionsStyle}>
-              <Button
-                onClick={this.handleClose}
-                variant="outlined"
-                color="secondary"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={this.handleSubmit}
-                variant="outlined"
-                color="primary"
-              >
-                Delete
-              </Button>
-            </DialogActions>
-
         </Dialog>
       );
     }
