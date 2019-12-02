@@ -4,9 +4,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import CaseNoteForm from 'components/CaseNoteForm';
 import CaseNoteCard from 'components/CaseNoteCard';
+import PropTypes from 'prop-types';
 
 const styles = {
   headerStyle: {
@@ -37,20 +37,17 @@ class CaseNoteContainer extends React.Component {
   }
 
   render() {
-    let participant_id = 1;
-    let case_note_cards = this.state.case_notes.map((case_note, index) => {
-      return (
-        <div key={index}>
-          <CaseNoteCard
-            title={case_note.title}
-            description={case_note.description}
-            internal={case_note.internal}
-            id={case_note.id}
-            participantId={case_note.participant_id}
-          />
-        </div>
-      );
-    });
+    const caseNoteCards = this.state.case_notes.map(caseNote => (
+      <div key={caseNote.id}>
+        <CaseNoteCard
+          title={caseNote.title}
+          description={caseNote.description}
+          internal={caseNote.internal}
+          id={caseNote.id}
+          participantId={caseNote.participant_id}
+        />
+      </div>
+    ));
 
     return (
       <>
@@ -64,10 +61,13 @@ class CaseNoteContainer extends React.Component {
               <div className={classes.root} style={{ paddingTop: '20px' }}>
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
-                    <h2 style={styles.headerStyle}>Casenotes</h2>
+                    <h2 style={styles.headerStyle}>Case Notes</h2>
                   </Grid>
                   <Grid item xs={5}>
-                    <CaseNoteForm type="create" participantId={this.state.participant.id} />
+                    <CaseNoteForm
+                      type="create"
+                      participantId={this.state.participant.id}
+                    />
                   </Grid>
                 </Grid>
                 <div
@@ -78,7 +78,7 @@ class CaseNoteContainer extends React.Component {
                     height: '100vh',
                   }}
                 >
-                  {case_note_cards}
+                  {caseNoteCards}
                 </div>
               </div>
             </Typography>
@@ -88,5 +88,10 @@ class CaseNoteContainer extends React.Component {
     );
   }
 }
+
+CaseNoteContainer.propTypes = {
+  caseNotes: PropTypes.array,
+  participant: PropTypes.object,
+};
 
 export default CaseNoteContainer;

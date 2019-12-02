@@ -1,13 +1,12 @@
-import React, { memo, useState, useEffect } from 'react';
-import { apiPost, apiDelete } from 'utils/axios';
-import { Editor, EditorState, convertToRaw } from 'draft-js';
+import React from 'react';
+import { apiPost, apiPatch } from 'utils/axios';
+import { EditorState, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
 import {
   Button,
   TextField,
   Dialog,
-  DialogTitle,
   DialogActions,
   DialogContent,
   DialogContentText,
@@ -17,6 +16,7 @@ import {
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import MUIRichTextEditor from 'mui-rte';
 import DeleteModal from 'components/DeleteModal';
+import PropTypes from 'prop-types';
 
 const styles = {
   dialogActionsStyle: {
@@ -51,8 +51,13 @@ Object.assign(defaultTheme, {
         border: 'solid 1px #C4C4C4',
         borderRadius: '4px',
       },
-      editor: {
+      editorContainer: {
         padding: '20px',
+        overflow: 'auto',
+        height: '130px',
+      },
+      toolbar: {
+        backgroundColor: '#F4F4F4',
       },
     },
   },
@@ -86,12 +91,12 @@ class CaseNoteForm extends React.Component {
   }
 
   handleClose() {
-    this.setState({ 
+    this.setState({
       open: false,
       title: this.props.title,
       internal: this.props.internal,
-     });
-    if (this.state.type === "edit") {
+    });
+    if (this.state.type === 'edit') {
       this.state.title = this.props.title;
       this.state.description = this.props.description;
       this.state.internal = this.props.internal;
@@ -108,24 +113,24 @@ class CaseNoteForm extends React.Component {
   };
 
   handleDescriptionChange = name => state => {
-    // TODO: the line below is the rtf representation. Update to this once rtf on /casenotes
-    const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
-    //const value = state.getCurrentContent().getPlainText();
-    this.setState({ [name]: value });
-  }
+    // TODO: the line below is the rtf representation. Update to this once rtf on /casenotes
+    const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
+    // const value = state.getCurrentContent().getPlainText();
+    this.setState({ [name]: value });
+  };
 
   handleSubmit() {
-    if (this.state.type === "create") {
+    if (this.state.type === 'create') {
       const body = {
         title: this.state.title,
         description: this.state.description,
         internal: this.state.internal,
-        participant_id: this.props.participantId,
+        participant_id: this.state.participant_id,
       };
       apiPost('/api/case_notes', { case_note: body })
         .then(() => window.location.reload())
         .catch(error => console.error(error));
-    } else if (this.state.type === "edit") {
+    } else if (this.state.type === 'edit') {
       const newTitle = this.state.title;
       const newDescription = this.state.tempDescription;
       const newInternal = this.state.internal;
@@ -136,63 +141,48 @@ class CaseNoteForm extends React.Component {
         internal: newInternal,
       });
 
-      const body = {
-        "title": this.state.title,
-        "description": this.state.tempDescription,
-        "internal": this.state.internal,
-        "participant_id": this.state.participant_id,
+      const body = {
+        title: this.state.title,
+        description: this.state.tempDescription,
+        internal: this.state.internal,
+        participant_id: this.state.participantId,
       };
 
-      body = JSON.stringify({case_note: body});
-      let req = '/api/case_notes/' + this.state.id;
-
-      fetch(req, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          "X_CSRF-Token": document.getElementsByName("csrf-token")[0].content
-        },
-        body: body,
-        credentials: 'same-origin',
-      }).then((data) => {window.location.reload()}).catch((data) => { console.error(data) });
+      apiPatch(`/api/case_notes/${this.state.id}`, { case_note: body })
+        .then(() => window.location.reload())
+        .catch(error => console.error(error));
     }
-    
   }
 
   button = () => {
     let ret;
-    if (this.state.type === "create") {
+    if (this.state.type === 'create') {
       ret = (
         <Button
+          className="primary-button"
           variant="contained"
-          color="secondary"
+          color="primary"
           onClick={this.handleOpen}
         >
-          CREATE NEW CASENOTE
+          NEW CASENOTE +
         </Button>
       );
-    } else if (this.state.type === "edit") {
-      ret = (
-        <MenuItem onClick={this.handleOpen}>Edit</MenuItem>
-      );
+    } else if (this.state.type === 'edit') {
+      ret = <MenuItem onClick={this.handleOpen}>Edit</MenuItem>;
     }
     return ret;
-  }
+  };
 
   render() {
-    let title = "title";
-
     let description;
-    if (this.state.type === "create") {
-      description = "description"
-    } else if (this.state.type === "edit") {
-      description = "tempDescription";
+    if (this.state.type === 'create') {
+      description = 'description';
+    } else if (this.state.type === 'edit') {
+      description = 'tempDescription';
     }
 
-    let internal = "internal";
-
     let dialog;
-    if (this.state.type === "create" || this.state.type === "edit") {
+    if (this.state.type === 'create' || this.state.type === 'edit') {
       dialog = (
         <Dialog
           style={styles.dialogStyle}
@@ -210,7 +200,7 @@ class CaseNoteForm extends React.Component {
               value={this.state.title}
               style={styles.dialogContentTextFieldStyle}
               name="title"
-              onChange={this.handleChange("title")}
+              onChange={this.handleChange('title')}
               variant="outlined"
               margin="dense"
               id="title"
@@ -228,12 +218,23 @@ class CaseNoteForm extends React.Component {
             <MuiThemeProvider theme={defaultTheme}>
               <MUIRichTextEditor
                 name="description"
-                value={this.state.type === "create" ? this.state.description.text : this.state.description}
+                value={
+                  this.state.type === 'create'
+                    ? this.state.description.text
+                    : this.state.description
+                }
                 onChange={this.handleDescriptionChange(description)}
                 variant="outlined"
                 label="Case Note description"
                 style={styles.MUIRichTextEditorStyle}
-                controls={["bold", "italic", "underline", "numberList", "bulletList", "link"]}
+                controls={[
+                  'bold',
+                  'italic',
+                  'underline',
+                  'numberList',
+                  'bulletList',
+                  'link',
+                ]}
               />
             </MuiThemeProvider>
           </DialogContent>
@@ -246,7 +247,7 @@ class CaseNoteForm extends React.Component {
                 name="internal"
                 defaultChecked={false}
                 value={this.state.internal}
-                onChange={this.handleInternalChange("internal")}
+                onChange={this.handleInternalChange('internal')}
                 color="primary"
                 inputProps={{ 'aria-label': 'primary checkbox' }}
               />
@@ -266,7 +267,9 @@ class CaseNoteForm extends React.Component {
               variant="outlined"
               color="primary"
             >
-              {this.state.type === "create" ? 'Submit Case Note' : 'Edit Casenote'}
+              {this.state.type === 'create'
+                ? 'Submit Case Note'
+                : 'Edit Casenote'}
             </Button>
           </DialogActions>
         </Dialog>
@@ -288,6 +291,15 @@ CaseNoteForm.defaultProps = {
   description: '',
   internal: true,
   open: false,
+};
+
+CaseNoteForm.propTypes = {
+  type: PropTypes.string,
+  title: PropTypes.string,
+  internal: PropTypes.bool,
+  description: PropTypes.string,
+  open: PropTypes.bool,
+  participantId: PropTypes.number,
 };
 
 export default CaseNoteForm;
