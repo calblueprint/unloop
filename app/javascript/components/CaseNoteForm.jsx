@@ -1,6 +1,6 @@
 import React, { memo, useState, useEffect } from 'react';
 import { apiPost, apiDelete } from 'utils/axios';
-import { convertToRaw } from 'draft-js';
+import { Editor, EditorState, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
 import {
@@ -71,6 +71,7 @@ class CaseNoteForm extends React.Component {
       tempTitle: this.props.title,
       tempDescription: this.props.description,
       tempInternal: this.props.internal,
+      editorState: EditorState.createEmpty(),
     };
     this.onChange = editorState => this.setState({ editorState });
     this.handleClose = this.handleClose.bind(this);
