@@ -50,9 +50,14 @@ Object.assign(defaultTheme, {
         border: 'solid 1px #C4C4C4',
         borderRadius: '4px',
       },
-      editor: {
+      editorContainer: {
         padding: '20px',
+        overflow: 'auto',
+        height: '130px',
       },
+      toolbar: {
+        backgroundColor: '#F4F4F4',
+      }
     },
   },
 });
