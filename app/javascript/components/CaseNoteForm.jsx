@@ -68,7 +68,7 @@ class CaseNoteForm extends React.Component {
     this.state = {
       title: this.props.title,
       description: this.props.description,
-      participant_id: this.props.participantId,
+      participantId: this.props.participantId,
       internal: true,
       open: false,
       type: this.props.type,
@@ -124,7 +124,7 @@ class CaseNoteForm extends React.Component {
         title: this.state.title,
         description: this.state.description,
         internal: this.state.internal,
-        participant_id: this.props.participantId,
+        participant_id: this.state.participantId,
       };
       apiPost('/api/case_notes', { case_note: body })
         .then(() => window.location.reload())
@@ -144,7 +144,7 @@ class CaseNoteForm extends React.Component {
         title: this.state.title,
         description: this.state.tempDescription,
         internal: this.state.internal,
-        participant_id: this.state.participant_id,
+        participant_id: this.state.participantId,
       };
 
       apiPatch(`/api/case_notes/${this.state.id}`, { case_note: body })
@@ -157,7 +157,12 @@ class CaseNoteForm extends React.Component {
     let ret;
     if (this.state.type === 'create') {
       ret = (
-        <Button variant="contained" color="secondary" onClick={this.handleOpen}>
+        <Button
+          className="primary-button"
+          variant="contained"
+          color="primary"
+          onClick={this.handleOpen}
+        >
           NEW CASENOTE +
         </Button>
       );

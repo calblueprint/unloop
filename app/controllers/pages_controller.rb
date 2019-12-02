@@ -4,6 +4,11 @@ class PagesController < ApplicationController
             when 'staff'
               @user = current_user
               @participants = Participant.all
+              @participants_list = []
+              @participants.each do |p|
+                d = {"name" => p.full_name, "status" => p.status, "id" => p.id}
+                @participants_list.push(d)
+              end
               authorize Staff
               dashboard_staffs_path
             when 'participant'
