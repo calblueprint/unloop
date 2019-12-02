@@ -14,7 +14,7 @@ class PagesController < ApplicationController
             when 'participant'
               @user = current_user
               @paperworks = @user.participant.paperworks
-              @case_notes = @user.participant.case_notes
+              @case_notes = @user.participant.case_notes.where(internal: false)
               authorize Participant
               dashboard_participants_path
             else
