@@ -7,7 +7,6 @@
 import React from 'react';
 {{#if wantStyles}}
 import PropTypes from 'prop-types';
-import theme from 'utils/theme';
 {{else}}
 // import PropTypes from 'prop-types';
 {{/if}}
@@ -15,17 +14,27 @@ import theme from 'utils/theme';
 import { Helmet } from 'react-helmet';
 {{/if}}
 {{#if wantStyles}}
-import { withStyles, ThemeProvider } from '@material-ui/core/styles';
-import styles from './styles';
+import { withStyles, {{#if wantTheme }}ThemeProvider{{/if}} } from '@material-ui/core/styles';
 {{else}}
+{{#if wantTheme}}
 import { ThemeProvider } from '@material-ui/core/styles';
+{{/if}}
+{{/if}}
+{{#if wantTheme}}
+import theme from 'utils/theme';
+{{/if}}
+
+{{#if wantStyles}}
+import styles from './styles';
 {{/if}}
 
 class {{ properCase name }} extends React.Component {
 render() {
 {{#if wantStyles}}const { classes } = this.props;{{/if}}
 return (
+{{#if wantTheme}}
 <ThemeProvider theme={theme}>
+{{/if}}
 <div{{#if wantStyles}} className={ classes.root }{{/if}}>
   {{#if wantHeaders}}
   <Helmet>
@@ -34,7 +43,9 @@ return (
   </Helmet>
   {{/if}}
   </div>
+{{#if wantTheme}}
   </ThemeProvider>
+{{/if}}
   );
 }
 }
