@@ -7,7 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ThemeProvider, withStyles } from '@material-ui/core/styles';
-import QuestionnaireForm from 'components/QuestionnaireForm';
+import QuestionnaireModal from 'components/QuestionnaireModal';
 import PaperworkList from 'components/PaperworkList';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import theme from 'utils/theme';
@@ -126,15 +126,17 @@ class ParticipantShowPage extends React.Component {
               </Grid>
               <Grid item container direction="row" spacing={1}>
                 <Grid item>
-                  <QuestionnaireForm
-                    questionnaireType="Personal"
+                  <QuestionnaireModal
+                    userType={userType}
+                    questionnaireType="personal"
                     participantId={participantId}
                     questionnaire={personalQuestionnaire}
                   />
                 </Grid>
                 <Grid item>
-                  <QuestionnaireForm
-                    questionnaireType="Professional"
+                  <QuestionnaireModal
+                    userType={userType}
+                    questionnaireType="professional"
                     participantId={participantId}
                     questionnaire={professionalQuestionnaire}
                   />
@@ -164,7 +166,7 @@ class ParticipantShowPage extends React.Component {
 }
 
 ParticipantShowPage.propTypes = {
-  userType: PropTypes.object.isRequired,
+  userType: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   paperworks: PropTypes.array.isRequired,
   caseNotes: PropTypes.array.isRequired,
