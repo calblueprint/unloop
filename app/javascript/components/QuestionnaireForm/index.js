@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, createMuiTheme } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import { apiPut } from 'utils/axios';
 import {
   Button,
@@ -10,23 +10,6 @@ import {
   TextField,
 } from '@material-ui/core/';
 import styles from './styles';
-
-const defaultTheme = createMuiTheme();
-Object.assign(defaultTheme, {
-  overrides: {
-    MuiFormControl: {
-      marginDense: {
-        marginBottom: '10px',
-      },
-    },
-    MUIDialogContentText: {
-      root: {
-        marginBottom: '5px',
-        marginTop: '12px',
-      },
-    },
-  },
-});
 
 class QuestionnaireForm extends React.Component {
   constructor(props) {
