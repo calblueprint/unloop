@@ -30,6 +30,7 @@ function QuestionnaireModal({
         type={questionnaireType}
         participantId={participantId}
         questionnaire={questionnaire}
+        handleClose={() => setOpen(false)}
       />
     );
   } else if (userType === 'participant') {
@@ -37,6 +38,7 @@ function QuestionnaireModal({
       <QuestionnaireView
         type={questionnaireType}
         questionnaire={questionnaire}
+        handleClose={() => setOpen(false)}
       />
     );
   }
@@ -44,7 +46,7 @@ function QuestionnaireModal({
   return (
     <>
       <Button variant="outlined" color="primary" onClick={() => setOpen(true)}>
-        {qType} INTAKE
+        {qType} INTAKE FORM
       </Button>
       <Dialog
         open={open}
@@ -55,7 +57,7 @@ function QuestionnaireModal({
         classes={{ paper: classes.dialog }}
       >
         <Grid container direction="row" className={classes.title}>
-          <Typography variant="h4">{qType} INFO</Typography>   
+          <Typography variant="h4">{qType} INFORMATION</Typography>   
         </Grid>
         {content}
       </Dialog>

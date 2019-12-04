@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, createMuiTheme } from '@material-ui/core/styles';
+import { apiPut } from 'utils/axios';
 import {
   Button,
   DialogActions,
@@ -8,8 +9,24 @@ import {
   DialogContentText,
   TextField,
 } from '@material-ui/core/';
-
 import styles from './styles';
+
+const defaultTheme = createMuiTheme();
+Object.assign(defaultTheme, {
+  overrides: {
+    MuiFormControl: {
+      marginDense: {
+        marginBottom: '10px',
+      },
+    },
+    MUIDialogContentText: {
+      root: {
+        marginBottom: '5px',
+        marginTop: '12px',
+      },
+    },
+  },
+});
 
 class QuestionnaireForm extends React.Component {
   constructor(props) {
@@ -33,32 +50,19 @@ class QuestionnaireForm extends React.Component {
 
   handleSubmit() {
     const qType = `${this.props.type}_questionnaire`;
-    let body = {};
+    const body = {};
 
-    Object.keys(this.state.questionnaire).map(f => {
+    Object.keys(this.state.questionnaire).forEach(f => {
       body[f] = this.state.questionnaire[f];
     });
     body.participant_id = this.props.participantId;
 
-    body = JSON.stringify({ [qType]: body });
-
     const { id } = this.props.questionnaire;
     const request = `/api/${qType}s/${id}`;
-    fetch(request, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X_CSRF-Token': document.getElementsByName('csrf-token')[0].content,
-      },
-      body,
-      credentials: 'same-origin',
-    })
-      .then(data => {
-        window.location.reload();
-      })
-      .catch(data => {
-        console.error(data);
-      });
+
+    apiPut(request, { [qType]: body })
+      .then(() => window.location.reload())
+      .catch(error => console.error(error));
   }
 
   handleTextFormChange(e) {
@@ -76,7 +80,7 @@ class QuestionnaireForm extends React.Component {
     // content text is prompt/title for the text box
     // field name is the name of the field that will be filled in the database
     return (
-      <>
+      <div className="questionnaireEntry">
         <DialogContentText>{contentText}</DialogContentText>
         <TextField
           className="dialogContentTextField questionnaireTextField"
@@ -89,10 +93,11 @@ class QuestionnaireForm extends React.Component {
           defaultValue={fieldValue}
           maxRows={20}
         />
-      </>
+      </div>
     );
   }
 
+  // eslint-disable-next-line consistent-return
   createTextForms() {
     if (this.state.questionnaire) {
       const { questionnaire } = this.state;
@@ -108,7 +113,7 @@ class QuestionnaireForm extends React.Component {
 
         return this.createTextForm(f, questionnaire[f], sentenceCase);
       });
-      return <div>{questionnaires}</div>;
+      return <div className={styles.container}>{questionnaires}</div>;
     }
   }
 
@@ -116,22 +121,24 @@ class QuestionnaireForm extends React.Component {
     return (
       <>
         <DialogContent>{this.createTextForms()}</DialogContent>
-        <DialogActions className="dialogActions">
-          <Button
-            onClick={this.handleClose}
-            variant="outlined"
-            color="secondary"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={this.handleSubmit}
-            variant="outlined"
-            color="primary"
-          >
-            Save Document
-          </Button>
-        </DialogActions>
+        <div className="buttonContainer">
+          <DialogActions className="dialogActions">
+            <Button
+              onClick={this.props.handleClose}
+              variant="outlined"
+              color="secondary"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={this.handleSubmit}
+              variant="outlined"
+              color="primary"
+            >
+              Save Document
+            </Button>
+          </DialogActions>
+        </div>
       </>
     );
   }
@@ -141,6 +148,7 @@ QuestionnaireForm.propTypes = {
   type: PropTypes.oneOf(['personal', 'professional']).isRequired,
   participantId: PropTypes.number.isRequired,
   questionnaire: PropTypes.object.isRequired,
+  handleClose: PropTypes.func,
 };
 
 export default withStyles(styles)(QuestionnaireForm);

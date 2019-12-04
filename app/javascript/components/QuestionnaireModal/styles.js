@@ -11,7 +11,7 @@ export const styles = theme => ({
   title: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    padding: '56px 114px',
+    padding: '56px 114px 56px 56px',
   },
 });
 
