@@ -127,7 +127,7 @@ class ParticipantShowPage extends React.Component {
               <Grid item container direction="row" spacing={1}>
                 <Grid item>
                   <QuestionnaireModal
-                    userType="staff"
+                    userType={userType}
                     questionnaireType="personal"
                     participantId={participantId}
                     questionnaire={personalQuestionnaire}
@@ -135,7 +135,7 @@ class ParticipantShowPage extends React.Component {
                 </Grid>
                 <Grid item>
                   <QuestionnaireModal
-                    userType="staff"
+                    userType={userType}
                     questionnaireType="professional"
                     participantId={participantId}
                     questionnaire={professionalQuestionnaire}
@@ -166,7 +166,7 @@ class ParticipantShowPage extends React.Component {
 }
 
 ParticipantShowPage.propTypes = {
-  userType: PropTypes.object.isRequired,
+  userType: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   paperworks: PropTypes.array.isRequired,
   caseNotes: PropTypes.array.isRequired,
