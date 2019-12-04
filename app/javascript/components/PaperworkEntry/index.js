@@ -7,16 +7,10 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import {
-  Avatar,
-  Button,
-  Card,
-  CardActions,
-  CardHeader,
-  Grid,
-} from '@material-ui/core';
+import { Button, Card, CardActions, CardHeader, Grid } from '@material-ui/core';
 import PaperworkForm from 'components/PaperworkForm';
-
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+import DoneIcon from '@material-ui/icons/Done';
 import styles from './styles';
 
 function PaperworkEntry({
@@ -30,12 +24,7 @@ function PaperworkEntry({
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
 }) {
-  const avatar = (
-    <Avatar
-      variant="circle"
-      className={agree ? classes.darkGreyAvatar : classes.lightGreyAvatar}
-    />
-  );
+  const avatar = agree ? <DoneIcon /> : <NotificationsNoneIcon />;
 
   return (
     <Card className={classes.card}>
@@ -45,12 +34,14 @@ function PaperworkEntry({
         justify="space-between"
         alignItems="center"
       >
-        <CardHeader
-          avatar={avatar}
-          title={title}
-          subheader={<i>Assigned: {date}</i>}
-          titleTypographyProps={{ variant: 'h6' }}
-        />
+        <Grid item xs={6}>
+          <CardHeader
+            avatar={avatar}
+            title={title}
+            subheader={<i>Assigned: {date}</i>}
+            titleTypographyProps={{ variant: 'h6' }}
+          />
+        </Grid>
         <CardActions>
           <Button
             variant="contained"

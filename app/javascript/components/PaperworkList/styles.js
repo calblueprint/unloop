@@ -15,6 +15,14 @@ export const styles = theme => ({
     paddingBottom: 16,
     borderBottom: `5px solid ${theme.palette.primary.main}`,
   },
+  listStyle: {
+    maxHeight: '700px',
+    height: '60vh',
+    overflow: 'auto',
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    paddingRight: '10px',
+  },
 });
 
 export default styles;

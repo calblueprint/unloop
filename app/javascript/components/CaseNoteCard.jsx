@@ -66,49 +66,51 @@ class CaseNoteCard extends React.Component {
   }
 
   renderMenuItems() {
-    return (
-      <div>
-        <IconButton
-          aria-label="more"
-          aria-controls="long-menu"
-          aria-haspopup="true"
-          onClick={this.handleClick}
-        >
-          <MoreHorizIcon />
-        </IconButton>
-        <Menu
-          id="long-menu"
-          anchorEl={this.state.anchorEl}
-          open={Boolean(this.state.anchorEl)}
-          onClose={this.handleMenuClose}
-          PaperProps={{
-            style: {
-              maxHeight: 180,
-              width: 200,
-            },
-          }}
-        >
-          <CaseNoteForm
-            type="edit"
-            title={this.state.title}
-            description={this.state.description}
-            internal={this.state.internal}
-            participantId={this.state.participantId}
-            id={this.state.id}
-          />
-          <DeleteModal
-            message="Are you sure you want to delete this casenote?"
-            body={{
-              title: this.state.title,
-              description: this.state.description,
-              internal: this.state.internal,
-              participant_id: this.props.participantId,
+    if (this.props.showMenu) {
+      return (
+        <div>
+          <IconButton
+            aria-label="more"
+            aria-controls="long-menu"
+            aria-haspopup="true"
+            onClick={this.handleClick}
+          >
+            <MoreHorizIcon />
+          </IconButton>
+          <Menu
+            id="long-menu"
+            anchorEl={this.state.anchorEl}
+            open={Boolean(this.state.anchorEl)}
+            onClose={this.handleMenuClose}
+            PaperProps={{
+              style: {
+                maxHeight: 180,
+                width: 200,
+              },
             }}
-            req={'/api/case_notes/' + this.state.id}
-          />
-        </Menu>
-      </div>
-    );
+          >
+            <CaseNoteForm
+              type="edit"
+              title={this.state.title}
+              description={this.state.description}
+              internal={this.state.internal}
+              participantId={this.state.participantId}
+              id={this.state.id}
+            />
+            <DeleteModal
+              message="Are you sure you want to delete this casenote?"
+              body={{
+                title: this.state.title,
+                description: this.state.description,
+                internal: this.state.internal,
+                participant_id: this.props.participantId,
+              }}
+              req={`/api/case_notes/${this.state.id}`}
+            />
+          </Menu>
+        </div>
+      );
+    }
   }
 
   render() {
@@ -147,6 +149,7 @@ CaseNoteCard.propTypes = {
   id: PropTypes.number,
   anchorEl: PropTypes.bool,
   participantId: PropTypes.number,
+  showMenu: PropTypes.bool,
 };
 
 export default CaseNoteCard;
