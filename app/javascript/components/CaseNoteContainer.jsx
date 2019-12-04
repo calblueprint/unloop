@@ -4,8 +4,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import NewCaseNote from 'components/NewCaseNote';
+import CaseNoteForm from 'components/CaseNoteForm';
 import CaseNoteCard from 'components/CaseNoteCard';
+import PropTypes from 'prop-types';
+
 const styles = {
   headerStyle: {
     marginLeft: '20px',
@@ -37,8 +39,11 @@ class CaseNoteContainer extends React.Component {
   renderCaseNoteCreationIfStaff() {
     if (this.state.userType === 'staff') {
       return (
-        <Grid item xs={4} style={{ paddingBottom: '5px' }}>
-          <NewCaseNote participantId={this.state.participant.id} />
+        <Grid item xs={4} style={{ paddingBottom: '20px' }}>
+          <CaseNoteForm
+            type="create"
+            participantId={this.state.participant.id}
+          />
         </Grid>
       );
     }
@@ -46,13 +51,15 @@ class CaseNoteContainer extends React.Component {
   }
 
   renderCaseNoteCards() {
-    if (this.state.caseNotes.length != 0) {
+    if (this.state.caseNotes.length !== 0) {
       const caseNoteCards = this.state.caseNotes.map(caseNote => (
         <div key={caseNote.id}>
           <CaseNoteCard
             title={caseNote.title}
             description={caseNote.description}
             internal={caseNote.internal}
+            id={caseNote.id}
+            participantId={this.state.participant.id}
           />
         </div>
       ));
@@ -94,17 +101,17 @@ class CaseNoteContainer extends React.Component {
                   justify="space-between"
                   style={{
                     borderBottom: '5px solid #EB6658',
-                    marginBottom: '10px',
+                    marginBottom: '25px',
                   }}
                 >
-                  <Grid item xs={4} style={{ paddingBottom: '5px' }}>
+                  <Grid item xs={4}>
                     <h2 style={styles.headerStyle}>Case Notes</h2>
                   </Grid>
                   {this.renderCaseNoteCreationIfStaff()}
                 </Grid>
                 <div
                   style={{
-                    maxHeight: '80vh',
+                    height: '80vh',
                     overflowX: 'hidden',
                     overflowY: 'auto',
                   }}
@@ -119,4 +126,10 @@ class CaseNoteContainer extends React.Component {
     );
   }
 }
+
+CaseNoteContainer.propTypes = {
+  caseNotes: PropTypes.array,
+  participant: PropTypes.object,
+};
+
 export default CaseNoteContainer;

@@ -28,6 +28,12 @@ module.exports = {
     },
     {
       type: 'confirm',
+      name: 'wantHeaders',
+      default: false,
+      message: 'Do you want headers?',
+    },
+    {
+      type: 'confirm',
       name: 'memo',
       default: false,
       message: 'Do you want to wrap your component in React.memo?',
@@ -37,6 +43,12 @@ module.exports = {
       name: 'wantStyles',
       default: true,
       message: 'Do you want styles?',
+    },
+    {
+      type: 'confirm',
+      name: 'wantTheme',
+      default: false,
+      message: 'Do you want to wrap your component with ThemeProvider?',
     },
     {
       type: 'confirm',

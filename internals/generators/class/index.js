@@ -36,6 +36,12 @@ module.exports = {
     },
     {
       type: 'confirm',
+      name: 'wantTheme',
+      default: false,
+      message: 'Do you want to wrap your component with ThemeProvider?',
+    },
+    {
+      type: 'confirm',
       name: 'wantLoadable',
       default: true,
       message: 'Do you want to load resources asynchronously?',

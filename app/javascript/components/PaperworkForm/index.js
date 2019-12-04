@@ -98,6 +98,7 @@ function PaperworkForm({
       if (type === 'create') {
         ret = (
           <Button
+            className="assign-paperwork-button"
             variant="contained"
             color="secondary"
             onClick={() => setOpen(true)}
@@ -108,6 +109,7 @@ function PaperworkForm({
       } else if (type === 'edit') {
         ret = (
           <Button
+            className="assign-paperwork-button"
             variant="contained"
             color="primary"
             onClick={() => setOpen(true)}

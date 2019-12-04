@@ -14,8 +14,18 @@ import PropTypes from 'prop-types';
 {{else}}
 // import PropTypes from 'prop-types';
 {{/if}}
+{{#if wantHeaders}}
+import { Helmet } from 'react-helmet';
+{{/if}}
 {{#if wantStyles}}
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, {{#if wantTheme }}ThemeProvider{{/if}} } from '@material-ui/core/styles';
+{{else}}
+{{#if wantTheme}}
+import { ThemeProvider } from '@material-ui/core/styles';
+{{/if}}
+{{/if}}
+{{#if wantTheme}}
+import theme from 'utils/theme';
 {{/if}}
 
 {{#if wantStyles}}
@@ -24,8 +34,20 @@ import styles from './styles';
 
 function {{ properCase name }}({{#if wantStyles}}{ classes }{{/if}}) {
 return (
-<div{{#if wantStyles}} className={ classes.root }{{/if}}>
+{{#if wantTheme}}
+<ThemeProvider theme={theme}>
+{{/if}}
+  <div{{#if wantStyles}} className={ classes.root }{{/if}}>
+  {{#if wantHeaders}}
+  <Helmet>
+    <title>{{properCase name}}</title>
+    <meta name="description" content="Description of {{properCase name}}" />
+  </Helmet>
+  {{/if}}
   </div>
+{{#if wantTheme}}
+</ThemeProvider>
+{{/if}}
   );
   }
 
