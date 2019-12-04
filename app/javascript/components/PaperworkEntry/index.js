@@ -19,6 +19,7 @@ function PaperworkEntry({
   date,
   link,
   title,
+  id,
   participantId,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
@@ -56,6 +57,7 @@ function PaperworkEntry({
             participantId={participantId}
             paperworkTitle={title}
             paperworkLink={link}
+            paperworkId={id}
           />
         </CardActions>
       </Grid>
@@ -71,6 +73,7 @@ PaperworkEntry.propTypes = {
   title: PropTypes.string,
   participantId: PropTypes.number.isRequired,
   lastEntry: PropTypes.bool,
+  id: PropTypes.number,
 };
 
 export default memo(withStyles(styles)(PaperworkEntry));
