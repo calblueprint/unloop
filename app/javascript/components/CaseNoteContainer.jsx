@@ -60,6 +60,7 @@ class CaseNoteContainer extends React.Component {
             internal={caseNote.internal}
             id={caseNote.id}
             participantId={this.state.participant.id}
+            showMenu={this.state.userType === 'staff'}
           />
         </div>
       ));

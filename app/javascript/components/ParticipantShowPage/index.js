@@ -61,6 +61,7 @@ class ParticipantShowPage extends React.Component {
           direction="row"
           style={{ height: '100vh', width: '100vw' }}
         >
+          {/* TODO: REMOVE NAVBAR AND CREATE PARTIAL */}
           <Grid item xs={1} className={classes.navBar}>
             <Grid container direction="column" alignItems="center" spacing={5}>
               <Grid item>

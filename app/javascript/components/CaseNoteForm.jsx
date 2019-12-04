@@ -173,10 +173,6 @@ class CaseNoteForm extends React.Component {
   };
 
   render() {
-    console.log('STATE');
-    console.log(this.state.internal);
-    console.log('PROPS');
-    console.log(this.props.internal);
     let description;
     if (this.state.type === 'create') {
       description = 'description';
