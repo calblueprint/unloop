@@ -6,6 +6,17 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentT
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 const styles = {
+    casenoteCardStyle: {
+        marginLeft: '20px',
+        padding: '20px',
+        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
+        borderRadius: '10px',
+        height: '200px',
+    },
+    casenoteDescStyle: {
+        marginLeft: '20px',
+        paddingTop: '20px',
+    },
     dialogActionsStyle: {
         padding: '30px',
     },
@@ -15,7 +26,6 @@ const styles = {
     },
     dialogStyle: {
         padding: '20px',
-        backgroudnColor: '#28303B',
     },
     dialogContentTextStyle: {
         color: 'black',
@@ -28,6 +38,28 @@ const styles = {
     saveDocumentButtonStyle: {
         borderStyle: 'solid 3px grey',
     },
+    modalItems: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '750px',
+        height: '100%',
+        margin: 'auto',
+        backgroundColor: '#28303B',
+    },
+    backgroundColor: {
+        backgroundColor: '#28303B',
+        height: '100%',
+    },
+    casenoteCardModalDescriptionStyle: {
+        height: '380px',
+    },
+    titleStyle: {
+        color: 'white',
+        fontSize: '36px',
+        marginBottom: '0',
+        marginTop: '0',
+    }
 };
 
 const defaultTheme = createMuiTheme();
@@ -93,23 +125,28 @@ class CaseNoteCardModal extends React.Component {
                     aria-labelledby="form-dialog-title"
                     maxWidth="sm"
                 >
-                    <Grid container spacing={3}>
-                        <Grid item xs={9}>
-                            <h3>{this.state.title}</h3>
-                        </Grid>
-                        
-                        <Grid item xs={9}>
-                            <Paper style={styles.casenoteCardStyle}>
-                            <div style={styles.casenoteDescStyle}>
-                                <MUIRichTextEditor
-                                value={this.state.description}
-                                readOnly
-                                toolbar={false}
-                                />
-                            </div>
-                            </Paper>
-                        </Grid>
+                    <div style={styles.backgroundColor}>
+                    <div style={styles.modalItems}>
+                    <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <h3 style={styles.titleStyle}>{this.state.title}</h3>
+                            </Grid>
+                            
+                            <Grid item xs={12}>
+                                <Paper style={styles.casenoteCardModalDescriptionStyle}>
+                                <div style={styles.casenoteDescStyle}>
+                                    <MUIRichTextEditor
+                                    value={this.state.description}
+                                    readOnly
+                                    toolbar={false}
+                                    />
+                                </div>
+                                </Paper>
+                            </Grid>
                     </Grid>
+                    </div>
+                    </div>
+                    
                 </Dialog>
 
             </div>
