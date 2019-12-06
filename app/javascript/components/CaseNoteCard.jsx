@@ -4,6 +4,7 @@ import { Menu, MenuItem, IconButton, Grid, Paper } from '@material-ui/core/';
 import MUIRichTextEditor from 'mui-rte';
 import CaseNoteForm from 'components/CaseNoteForm';
 import DeleteModal from 'components/DeleteModal';
+import CaseNoteCardModal from 'components/CaseNoteCardModal';
 import PropTypes from 'prop-types';
 
 const styles = {
@@ -134,6 +135,16 @@ class CaseNoteCard extends React.Component {
                   toolbar={false}
                 />
               </div>
+
+              <Grid container spacing={2}>
+                <Grid item xs={10}>
+                  <CaseNoteCardModal 
+                  description={this.state.description} 
+                  title={this.state.title}
+                  internal={this.state.internal}
+                  />
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
         </Grid>
