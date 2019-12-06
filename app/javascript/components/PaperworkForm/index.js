@@ -8,7 +8,7 @@ import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import validator from 'validator';
-import { apiPost } from 'utils/axios';
+import { apiPost, apiPatch } from 'utils/axios';
 import {
   Button,
   Dialog,
@@ -27,6 +27,7 @@ function PaperworkForm({
   hide,
   paperworkTitle,
   paperworkLink,
+  paperworkId,
   participantId,
 }) {
   const [open, setOpen] = useState(false);
@@ -81,10 +82,17 @@ function PaperworkForm({
     });
 
     if (!hasErrors) {
-      apiPost('/api/paperworks', { paperwork: body })
-        .then(() => window.location.reload())
-        .catch(error => console.error(error));
-      // TODO: Change this to flash an error message
+      if (type === 'create') {
+        apiPost('/api/paperworks', { paperwork: body })
+          .then(() => window.location.reload())
+          .catch(error => console.error(error));
+        // TODO: Change this to flash an error message
+      } else {
+        apiPatch(`/api/paperworks/${paperworkId}`, { paperwork: body })
+          .then(() => window.location.reload())
+          .catch(error => console.error(error));
+        // TODO: Change this to flash an error message
+      }
     }
   };
 
@@ -98,6 +106,7 @@ function PaperworkForm({
       if (type === 'create') {
         ret = (
           <Button
+            className="assign-paperwork-button"
             variant="contained"
             color="secondary"
             onClick={() => setOpen(true)}
@@ -108,6 +117,7 @@ function PaperworkForm({
       } else if (type === 'edit') {
         ret = (
           <Button
+            className="assign-paperwork-button"
             variant="contained"
             color="primary"
             onClick={() => setOpen(true)}
@@ -202,6 +212,7 @@ PaperworkForm.propTypes = {
   paperworkTitle: PropTypes.string,
   paperworkLink: PropTypes.string,
   participantId: PropTypes.number.isRequired,
+  paperworkId: PropTypes.number,
 };
 
 PaperworkForm.defaultProps = {
@@ -209,6 +220,7 @@ PaperworkForm.defaultProps = {
   hide: false,
   paperworkTitle: '',
   paperworkLink: '',
+  paperworkId: null,
 };
 
 export default memo(withStyles(styles)(PaperworkForm));
