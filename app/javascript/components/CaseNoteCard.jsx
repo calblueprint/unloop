@@ -9,14 +9,14 @@ import PropTypes from 'prop-types';
 
 const styles = {
   buttonStyle: {
-    marginRight: '0',
+    marginTop: '10px',
   },
   casenoteCardStyle: {
     marginLeft: '20px',
     padding: '20px',
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
     borderRadius: '10px',
-    height: '225px',
+    height: '240px',
   },
   casenoteDescStyle: {
     overflow: 'auto',
@@ -139,8 +139,9 @@ class CaseNoteCard extends React.Component {
                 />
               </div>
 
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
+              <Grid container spacing={2} style={styles.buttonStyle}>
+                <Grid item xs={10}></Grid>
+                <Grid item xs={2}>
                     <CaseNoteCardModal 
                     description={this.state.description} 
                     title={this.state.title}

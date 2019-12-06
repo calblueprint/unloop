@@ -7,6 +7,7 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 const styles = {
     buttonStyle: {
+        marginLeft: 'auto',
         marginRight: '0',
     },
     casenoteCardStyle: {
@@ -69,20 +70,20 @@ const defaultTheme = createMuiTheme();
 Object.assign(defaultTheme, {
     overrides: {
         MUIRichTextEditor: {
-        root: {
-            borderLeft: 'solid 1px #C4C4C4',
-            borderRight: 'solid 1px #C4C4C4',
-            borderBottom: 'solid 1px #C4C4C4',
-            borderRadius: '4px',
-        },
-        editorContainer: {
-            padding: '20px',
-            overflow: 'auto',
-            height: '130px',
-        },
-        toolbar: {
-            backgroundColor: '#F4F4F4',
-        },
+            root: {
+                borderLeft: 'solid 1px #C4C4C4',
+                borderRight: 'solid 1px #C4C4C4',
+                borderBottom: 'solid 1px #C4C4C4',
+                borderRadius: '4px',
+            },
+            editorContainer: {
+                padding: '20px',
+                overflow: 'auto',
+                height: '130px',
+            },
+            toolbar: {
+                backgroundColor: '#F4F4F4',
+            },
         },
     },
 });
@@ -111,15 +112,15 @@ class CaseNoteCardModal extends React.Component {
     render() {
         return (
             <div>
-                <Button
-                    className="primary-button"
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleOpen}
-                    style={this.buttonStyle}
-                    >
-                    VIEW
-                </Button>
+                <div style={this.buttonStyle}>
+                    <Button
+                        className="primary-button"
+                        color="primary"
+                        onClick={this.handleOpen}
+                        >
+                        VIEW
+                    </Button>
+                </div>
 
                 <Dialog
                     fullScreen
