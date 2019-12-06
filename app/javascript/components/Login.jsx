@@ -24,11 +24,10 @@ class Login extends React.Component {
       <div className="login-screen">
         <div className="login-container">
           <div className="unloop-image">
-            <img src={require('./alison.jpg')} className="unloop-image"/>
+            <img src={require('./unloopers.png')} className="unloop-image"/>
           </div>
           <div className="login">
             <div className="login-box">
-              {/* <h2 className="title"> Welcome, please sign in:</h2> */}
               <img src={require('./unloop_logo_white.png')} width={300}  mode='fill'/>
               <div className="sign-in-button" >
                 <img src={require("./btn_google_signin_light_focus_web@2x.png")} width ="250" onClick={this._handleLogin}></img>
