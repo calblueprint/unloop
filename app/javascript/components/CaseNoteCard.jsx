@@ -8,12 +8,15 @@ import CaseNoteCardModal from 'components/CaseNoteCardModal';
 import PropTypes from 'prop-types';
 
 const styles = {
+  buttonStyle: {
+    marginRight: '0',
+  },
   casenoteCardStyle: {
     marginLeft: '20px',
     padding: '20px',
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
     borderRadius: '10px',
-    height: '200px',
+    height: '225px',
   },
   casenoteDescStyle: {
     overflow: 'auto',
@@ -137,12 +140,12 @@ class CaseNoteCard extends React.Component {
               </div>
 
               <Grid container spacing={2}>
-                <Grid item xs={10}>
-                  <CaseNoteCardModal 
-                  description={this.state.description} 
-                  title={this.state.title}
-                  internal={this.state.internal}
-                  />
+                <Grid item xs={12}>
+                    <CaseNoteCardModal 
+                    description={this.state.description} 
+                    title={this.state.title}
+                    internal={this.state.internal}
+                    />
                 </Grid>
               </Grid>
             </Paper>

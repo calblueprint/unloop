@@ -6,6 +6,9 @@ import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentT
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 const styles = {
+    buttonStyle: {
+        marginRight: '0',
+    },
     casenoteCardStyle: {
         marginLeft: '20px',
         padding: '20px',
@@ -113,6 +116,7 @@ class CaseNoteCardModal extends React.Component {
                     variant="contained"
                     color="primary"
                     onClick={this.handleOpen}
+                    style={this.buttonStyle}
                     >
                     VIEW
                 </Button>
