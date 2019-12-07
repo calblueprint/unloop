@@ -14,7 +14,6 @@ class Login extends React.Component {
 }
 
   _handleLogin() {
-    console.log(this.props.path);
     window.location.href = this.props.path;
   
   }
