@@ -62,7 +62,7 @@ const styles = {
   },
   backgroundColor: {
     backgroundColor: '#28303B',
-    height: '100%',
+    padding: '100px',
   },
   casenoteCardModalDescriptionStyle: {
     height: '380px',
@@ -133,12 +133,11 @@ class CaseNoteCardModal extends React.Component {
         </div>
 
         <Dialog
-          fullScreen
           style={styles.dialogStyle}
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
-          maxWidth="sm"
+          maxWidth="md"
         >
           <div style={styles.backgroundColor}>
             <div style={styles.modalItems}>
