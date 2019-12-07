@@ -131,6 +131,7 @@ class CaseNoteContainer extends React.Component {
 CaseNoteContainer.propTypes = {
   caseNotes: PropTypes.array,
   participant: PropTypes.object,
+  userType: PropTypes.string.isRequired,
 };
 
 export default CaseNoteContainer;

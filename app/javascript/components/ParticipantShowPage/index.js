@@ -99,7 +99,7 @@ class ParticipantShowPage extends React.Component {
                   <Grid item>{/* Intentionally left blank */}</Grid>
                   <Grid item>{/* Intentionally left blank */}</Grid>
                   <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item class={classes.unloopLogo}>
+                  <Grid item className={classes.unloopLogo}>
                     <img src={UnloopLogo} alt="Unloop Logo" />
                   </Grid>
                 </Grid>
