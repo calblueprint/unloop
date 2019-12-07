@@ -108,7 +108,7 @@ function PaperworkForm({
           <Button
             className="assign-paperwork-button"
             variant="contained"
-            color="secondary"
+            color="primary"
             onClick={() => setOpen(true)}
           >
             ASSIGN PAPERWORK +
@@ -118,7 +118,7 @@ function PaperworkForm({
         ret = (
           <Button
             className="assign-paperwork-button"
-            variant="contained"
+            variant="text"
             color="primary"
             onClick={() => setOpen(true)}
           >
@@ -126,6 +126,39 @@ function PaperworkForm({
           </Button>
         );
       }
+    }
+    return ret;
+  };
+
+  const dialogOptions = () => {
+    let ret;
+    if (type === 'create') {
+      ret = (
+        <Grid container direction="row" justify="space-between">
+          <Grid item>{/* Empty Grid */}</Grid>
+          <Grid item>
+            <Button type="submit" variant="contained" color="primary">
+              Save Document
+            </Button>
+          </Grid>
+        </Grid>
+      );
+    }
+    if (type === 'edit') {
+      ret = (
+        <Grid container direction="row" justify="space-between">
+          <Grid item>
+            <Button type="submit" variant="contained" color="secondary">
+              Delete Document
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button type="submit" variant="contained" color="primary">
+              Save Document
+            </Button>
+          </Grid>
+        </Grid>
+      );
     }
     return ret;
   };
@@ -195,9 +228,7 @@ function PaperworkForm({
             </Grid>
           </DialogContent>
           <DialogActions className={classes.dialogActions}>
-            <Button type="submit" variant="contained" color="primary">
-              Save Document
-            </Button>
+            {dialogOptions()}
           </DialogActions>
         </form>
       </Dialog>

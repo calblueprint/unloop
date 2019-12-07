@@ -23,11 +23,9 @@ function PaperworkList({
   const paperworkEntries = paperworks.map((paperwork, i) => (
     <PaperworkEntry
       key={paperwork.id}
-      agree={paperwork.agree}
-      id={paperwork.id}
+      paperwork={paperwork}
       participantId={participantId}
-      link={paperwork.link}
-      title={paperwork.title}
+      userType={userType}
       date={formatDate(paperwork.created_at)}
       lastEntry={paperworks.length - 1 === i}
     />
