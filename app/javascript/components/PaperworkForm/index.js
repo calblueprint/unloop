@@ -8,12 +8,13 @@ import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import validator from 'validator';
-import { apiPost, apiPatch } from 'utils/axios';
+import { apiPost, apiPatch, apiDelete } from 'utils/axios';
 import {
   Button,
   Dialog,
   DialogContent,
   DialogActions,
+  DialogTitle,
   Grid,
   TextField,
   Typography,
@@ -31,6 +32,7 @@ function PaperworkForm({
   participantId,
 }) {
   const [open, setOpen] = useState(false);
+  const [openDeleteModal, setDeleteModal] = useState(false);
   const [paperwork, setPaperwork] = useState({
     title: paperworkTitle,
     link: paperworkLink,
@@ -96,6 +98,29 @@ function PaperworkForm({
     }
   };
 
+  const handleDelete = event => {
+    event.preventDefault();
+    const body = {
+      ...paperwork,
+      participant_id: participantId,
+      agree: false,
+    };
+
+    let hasErrors = false;
+    Object.keys(errors).forEach(field => {
+      checkErrors(field)();
+      hasErrors = hasErrors || errors[field] !== '';
+    });
+    console.log(hasErrors);
+    if (!hasErrors) {
+      if (type === 'edit') {
+        apiDelete(`/api/paperworks/${paperworkId}`, { paperwork: body })
+          .then(() => console.log('DELETED!'))
+          .catch(error => console.log(error));
+      }
+    }
+  };
+
   const onFieldChange = (field, value) => {
     setPaperwork({ ...paperwork, [field]: value });
   };
@@ -130,6 +155,28 @@ function PaperworkForm({
     return ret;
   };
 
+  const deleteModal = () => (
+    <Dialog
+      open={openDeleteModal}
+      onClose={() => setDeleteModal(false)}
+      aria-labelledby="form-dialog-title"
+      maxWidth="sm"
+      fullWidth
+    >
+      <DialogTitle>Are you sure you want to delete this paperwork?</DialogTitle>
+      <DialogActions>
+        <Button
+          color="primary"
+          variant="contained"
+          type="submit"
+          onClick={() => handleDelete()}
+        >
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+
   const dialogOptions = () => {
     let ret;
     if (type === 'create') {
@@ -148,7 +195,12 @@ function PaperworkForm({
       ret = (
         <Grid container direction="row" justify="space-between">
           <Grid item>
-            <Button type="submit" variant="contained" color="secondary">
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              onClick={() => setDeleteModal(true)}
+            >
               Delete Document
             </Button>
           </Grid>
@@ -166,6 +218,7 @@ function PaperworkForm({
   return (
     <>
       {button()}
+      {deleteModal()}
       <Dialog
         open={open}
         onClose={() => setOpen(false)}

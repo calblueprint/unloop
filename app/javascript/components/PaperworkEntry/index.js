@@ -20,7 +20,7 @@ import {
 import PaperworkForm from 'components/PaperworkForm';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import DoneIcon from '@material-ui/icons/Done';
-import { apiPut } from 'utils/axios';
+import { apiPatch } from 'utils/axios';
 import styles from './styles';
 
 function PaperworkEntry({
@@ -40,27 +40,17 @@ function PaperworkEntry({
 
   const handleView = event => {
     event.preventDefault();
-    const body = {
-      ...paperwork,
-      participant_id: participantId,
-      viewed: true,
-    };
 
-    apiPut(`/api/paperworks/${id}`, { paperwork: body })
+    console.log('About to call api patch');
+    apiPatch(`/api/paperworks/${id}`, { viewed: true })
       .then(() => window.location.reload())
       .catch(error => console.error(error));
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    const body = {
-      ...paperwork,
-      participant_id: participantId,
-      agree: true,
-      viewed: true,
-    };
 
-    apiPut(`/api/paperworks/${id}`, { paperwork: body })
+    apiPatch(`/api/paperworks/${id}`, { agree: true })
       .then(() => window.location.reload())
       .catch(error => console.error(error));
   };
@@ -75,6 +65,7 @@ function PaperworkEntry({
             color="primary"
             href={link}
             target="_blank"
+            type="submit"
             onClick={handleView}
           >
             View
@@ -138,7 +129,8 @@ function PaperworkEntry({
           <Button
             color="primary"
             variant="contained"
-            onClick={() => handleSubmit()}
+            type="submit"
+            onClick={handleSubmit}
           >
             Approve
           </Button>
