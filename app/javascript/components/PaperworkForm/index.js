@@ -125,6 +125,16 @@ function PaperworkForm({
             edit
           </Button>
         );
+      } else if (type === 'plus') {
+        ret = (
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="plus-button"
+          >
+            +
+          </button>
+        );
       }
     }
     return ret;

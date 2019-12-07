@@ -40,6 +40,7 @@ const styles = {
     borderStyle: 'solid 3px grey',
   },
 };
+
 const defaultTheme = createMuiTheme();
 Object.assign(defaultTheme, {
   overrides: {
@@ -168,6 +169,12 @@ class CaseNoteForm extends React.Component {
       );
     } else if (this.state.type === 'edit') {
       ret = <MenuItem onClick={this.handleOpen}>Edit</MenuItem>;
+    } else if (this.state.type == 'plus') {
+      ret = (
+        <button onClick={() => setOpen(true)} className="plus-button">
+          +
+        </button>
+      );
     }
     return ret;
   };
