@@ -9,6 +9,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+const styles = {
+  casenoteText: {
+    width: '110px',
+  },
+};
+
 class ParticipantCard extends React.Component {
   constructor(props) {
     super(props);
@@ -67,7 +73,10 @@ class ParticipantCard extends React.Component {
         </td>
         <td className="new-casenote">
           <div>
-            {caseNotes}
+            <div style={styles.casenoteText}>
+              {caseNotes}
+            </div>
+            
             <CaseNoteForm display={'plus'} type={'create'} participantId={p.id}></CaseNoteForm>
           </div>
         </td>
