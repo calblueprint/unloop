@@ -141,11 +141,11 @@ class CaseNoteCard extends React.Component {
               <Grid container spacing={2} style={styles.buttonStyle}>
                 <Grid item xs={10}></Grid>
                 <Grid item xs={2}>
-                    <CaseNoteCardModal 
-                    description={this.state.description} 
+                  <CaseNoteCardModal
+                    description={this.state.description}
                     title={this.state.title}
                     internal={this.state.internal}
-                    />
+                  />
                 </Grid>
               </Grid>
             </Paper>
