@@ -62,13 +62,13 @@ class ParticipantCard extends React.Component {
         <td className="new-assignment">
           <div>
             {p.paperworksCompleted} / {p.paperworksCount} completed
-            <PaperworkForm type={'plus'} participantId={p.id}></PaperworkForm>
+            <PaperworkForm display={'plus'} type={'create'} participantId={p.id}></PaperworkForm>
           </div>
         </td>
         <td className="new-casenote">
           <div>
             {caseNotes}
-            <CaseNoteForm type={'plus'} participantId={p.id}></CaseNoteForm>
+            <CaseNoteForm display={'plus'} type={'create'} participantId={p.id}></CaseNoteForm>
           </div>
         </td>
         <td>{questionnaireStatus}</td>
