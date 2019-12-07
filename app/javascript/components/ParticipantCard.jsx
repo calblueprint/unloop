@@ -36,7 +36,15 @@ class ParticipantCard extends React.Component {
       </FontAwesomeIcon>
     );
 
-    let statusColor = status === "R1" ? "#DF6C8E" : "#5870EB";
+    let statusColor;
+    if (status == "R0") {
+      statusColor = "#009FAD"
+    } else if (status == "R1") {
+      statusColor = "#5870EB"
+    } else {
+      statusColor = "#DF6C8E"
+    }
+    let caseNotes = (p.caseNotesCount == 1) ? p.caseNotesCount + " case note" : p.caseNotesCount + " case notes"
     return (
       <tr>
         <td
@@ -59,7 +67,7 @@ class ParticipantCard extends React.Component {
         </td>
         <td className="new-casenote">
           <div>
-            {p.caseNotesCount} casenotes
+            {caseNotes}
             <CaseNoteForm type={'plus'} participantId={p.id}></CaseNoteForm>
           </div>
         </td>
@@ -70,6 +78,7 @@ class ParticipantCard extends React.Component {
             icon={faChevronRight}
             color="grey"
             size="lg"
+            style={{"cursor": "pointer"}}
           />
         </td>
       </tr>

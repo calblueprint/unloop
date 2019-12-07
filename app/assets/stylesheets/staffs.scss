@@ -18,6 +18,15 @@ body {
   font-style: normal;
 }
 
+button {
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}
+
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -157,3 +166,4 @@ table {
   font-size: 18px;
   font-weight: 300;
 }
+
