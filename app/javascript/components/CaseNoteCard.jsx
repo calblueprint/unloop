@@ -19,7 +19,6 @@ const styles = {
     height: '240px',
   },
   casenoteDescStyle: {
-    overflow: 'auto',
     height: '100px',
     marginTop: '-20px',
   },

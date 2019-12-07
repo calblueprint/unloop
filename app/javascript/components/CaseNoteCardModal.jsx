@@ -133,21 +133,21 @@ class CaseNoteCardModal extends React.Component {
                     <div style={styles.backgroundColor}>
                     <div style={styles.modalItems}>
                     <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <h3 style={styles.titleStyle}>{this.state.title}</h3>
-                            </Grid>
-                            
-                            <Grid item xs={12}>
-                                <Paper style={styles.casenoteCardModalDescriptionStyle}>
-                                <div style={styles.casenoteDescStyle}>
-                                    <MUIRichTextEditor
-                                    value={this.state.description}
-                                    readOnly
-                                    toolbar={false}
-                                    />
-                                </div>
-                                </Paper>
-                            </Grid>
+                        <Grid item xs={12}>
+                            <h3 style={styles.titleStyle}>{this.state.title}</h3>
+                        </Grid>
+                        
+                        <Grid item xs={12}>
+                            <Paper style={styles.casenoteCardModalDescriptionStyle}>
+                            <div style={styles.casenoteDescStyle}>
+                                <MUIRichTextEditor
+                                value={this.state.description}
+                                readOnly
+                                toolbar={false}
+                                />
+                            </div>
+                            </Paper>
+                        </Grid>
                     </Grid>
                     </div>
                     </div>
