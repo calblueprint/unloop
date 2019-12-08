@@ -94,6 +94,7 @@ def create_google_accounts
       first_name: "UnloopGoogle",
       last_name: "Staff",
       user_type: 1,
+      admin: true,
     )
     puts 'Created Google staff user'
   end
