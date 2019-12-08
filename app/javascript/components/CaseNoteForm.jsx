@@ -43,12 +43,13 @@ const styles = {
 };
 
 const defaultTheme = createMuiTheme();
-
 Object.assign(defaultTheme, {
   overrides: {
     MUIRichTextEditor: {
       root: {
-        border: 'solid 1px #C4C4C4',
+        borderLeft: 'solid 1px #C4C4C4',
+        borderRight: 'solid 1px #C4C4C4',
+        borderBottom: 'solid 1px #C4C4C4',
         borderRadius: '4px',
       },
       editorContainer: {

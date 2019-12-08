@@ -128,7 +128,7 @@ class CaseNoteCardModal extends React.Component {
             color="primary"
             onClick={this.handleOpen}
           >
-            VIEW
+            VIEW MORE
           </Button>
         </div>
 
