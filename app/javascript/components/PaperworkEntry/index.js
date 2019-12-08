@@ -35,25 +35,32 @@ function PaperworkEntry({
 }) {
   const { id, agree, link, title, viewed } = paperwork;
   const [open, setOpen] = useState(false);
+  const [hasViewed, setHasViewed] = useState(viewed);
+  const [hasAgreed, setAgreed] = useState(agree);
 
-  const avatar = agree ? <DoneIcon /> : <NotificationsNoneIcon />;
-
-  const handleView = event => {
-    event.preventDefault();
-
-    console.log('About to call api patch');
-    apiPatch(`/api/paperworks/${id}`, { viewed: true })
-      .then(() => window.location.reload())
-      .catch(error => console.error(error));
+  const handleView = () => {
+    if (!hasViewed) {
+      apiPatch(`/api/paperworks/${id}/viewed`)
+        .then(res => {
+          setHasViewed(res.data.viewed);
+        })
+        .catch(error => console.error(error));
+    }
   };
 
   const handleSubmit = event => {
     event.preventDefault();
 
-    apiPatch(`/api/paperworks/${id}`, { agree: true })
-      .then(() => window.location.reload())
+    apiPatch(`/api/paperworks/${id}/complete`)
+      .then(res => {
+        setAgreed(res.data.agree);
+        setOpen(false);
+      })
       .catch(error => console.error(error));
   };
+
+  const loadAvatar = () =>
+    hasAgreed ? <DoneIcon /> : <NotificationsNoneIcon />;
 
   const loadActions = () => {
     let ret;
@@ -66,7 +73,6 @@ function PaperworkEntry({
             href={link}
             target="_blank"
             type="submit"
-            onClick={handleView}
           >
             View
           </Button>
@@ -79,7 +85,7 @@ function PaperworkEntry({
           />
         </CardActions>
       );
-    } else if (agree) {
+    } else if (hasAgreed) {
       ret = (
         <CardActions>
           <Button variant="text" color="primary" href={link} target="_blank">
@@ -96,13 +102,14 @@ function PaperworkEntry({
             href={link}
             target="_blank"
             type="submit"
+            onClick={handleView}
           >
             View
           </Button>
           <Button
             variant="text"
             color="primary"
-            disabled={!viewed}
+            disabled={!hasViewed}
             onClick={() => setOpen(true)}
           >
             Approve
@@ -145,7 +152,7 @@ function PaperworkEntry({
         >
           <Grid item xs={6}>
             <CardHeader
-              avatar={avatar}
+              avatar={loadAvatar()}
               title={title}
               subheader={<i>Assigned: {date}</i>}
               titleTypographyProps={{ variant: 'h6' }}

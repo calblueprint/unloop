@@ -100,24 +100,14 @@ function PaperworkForm({
 
   const handleDelete = event => {
     event.preventDefault();
-    const body = {
-      ...paperwork,
-      participant_id: participantId,
-      agree: false,
-    };
-
-    let hasErrors = false;
-    Object.keys(errors).forEach(field => {
-      checkErrors(field)();
-      hasErrors = hasErrors || errors[field] !== '';
-    });
-    console.log(hasErrors);
-    if (!hasErrors) {
-      if (type === 'edit') {
-        apiDelete(`/api/paperworks/${paperworkId}`, { paperwork: body })
-          .then(() => console.log('DELETED!'))
-          .catch(error => console.log(error));
-      }
+    if (type === 'edit') {
+      apiDelete(`/api/paperworks/${paperworkId}`)
+        .then(() => {
+          setDeleteModal(false);
+          setOpen(false);
+          window.location.reload();
+        })
+        .catch(error => console.log(error));
     }
   };
 
@@ -169,7 +159,7 @@ function PaperworkForm({
           color="primary"
           variant="contained"
           type="submit"
-          onClick={() => handleDelete()}
+          onClick={handleDelete}
         >
           Delete
         </Button>
@@ -199,7 +189,10 @@ function PaperworkForm({
               type="submit"
               variant="contained"
               color="secondary"
-              onClick={() => setDeleteModal(true)}
+              onClick={event => {
+                event.preventDefault();
+                setDeleteModal(true);
+              }}
             >
               Delete Document
             </Button>
