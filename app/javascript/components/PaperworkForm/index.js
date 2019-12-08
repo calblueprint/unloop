@@ -171,8 +171,7 @@ function PaperworkForm({
     let ret;
     if (type === 'create') {
       ret = (
-        <Grid container direction="row" justify="space-between">
-          <Grid item>{/* Empty Grid */}</Grid>
+        <Grid container direction="row-reverse">
           <Grid item>
             <Button type="submit" variant="contained" color="primary">
               Save Document
