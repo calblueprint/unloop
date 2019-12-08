@@ -19,7 +19,6 @@ class ParticipantCard extends React.Component {
   constructor(props) {
     super(props);
     this.showParticipant = this.showParticipant.bind(this);
-    console.log(this.props.participant);
   }
 
   showParticipant() {
@@ -33,12 +32,10 @@ class ParticipantCard extends React.Component {
     let name = p.name;
 
     let questionnaireStatus = p.questionnaireStatus ? (
-      <FontAwesomeIcon icon={faCheck} color={'green'} size={'lg'}>
-        complete
+      <FontAwesomeIcon className='icon-large' icon={faCheck} color={'green'}>
       </FontAwesomeIcon>
     ) : (
-      <FontAwesomeIcon icon={faTimes} color={'red'} size={'lg'}>
-        complete
+      <FontAwesomeIcon className='icon-large' icon={faTimes} color={'red'} >
       </FontAwesomeIcon>
     );
 
@@ -62,7 +59,7 @@ class ParticipantCard extends React.Component {
         </td>
         <td>
           <div className="status"
-                style={{"background-color": statusColor}}
+                style={{"backgroundColor": statusColor}}
           >{status}</div>
         </td>
         <td className="new-assignment">
@@ -80,14 +77,14 @@ class ParticipantCard extends React.Component {
             <CaseNoteForm display={'plus'} type={'create'} participantId={p.id}></CaseNoteForm>
           </div>
         </td>
-        <td>{questionnaireStatus}</td>
-        <td>
+        <td className="form-status"><div>{questionnaireStatus}</div></td>
+        <td className="arrow">
           <FontAwesomeIcon
             onClick={this.showParticipant}
             icon={faChevronRight}
             color="grey"
-            size="lg"
             style={{"cursor": "pointer"}}
+            className='icon-large' 
           />
         </td>
       </tr>
