@@ -1,29 +1,44 @@
 // Place all the styles related to the staffs controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
 $background-blue: #d2dce1;
 $dark-blue: #29313c;
 $white: #fff;
-$button-primary: #009FAD;
-$button-secondary: #eb6658;
+$button-primary: #009fad;
+$button-secondary: #5870eb;
+$grey: #d2dce1;
+$orange: #eb6658;
 
 html,
 body {
   margin: 0px;
   max-width: 100%;
-  // overflow-x: hidden;
   cursor: default;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+button:focus {
+  outline: none;
 }
 
 table {
+  width: 100%;
   border-collapse: collapse;
   font-size: 20px;
-  font-family: 'Roboto', sans-serif;	
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
 
   th,
   td {
-    padding: 30px;
+    padding: 25px 3%;
     text-align: left;
     border-bottom: 1px solid #ddd;
   }
@@ -33,17 +48,38 @@ table {
       background-color: #f5f5f5;
     }
   }
+
+  td > div {
+    font-size: 18px;
+    font-weight: 300;
+    font-style: normal;
+  }
+}
+
+
+
+.icon-large {
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  min-height: 35px;
 }
 
 .dashboard {
   height: 100%;
   width: 100%;
-  font-family: 'Roboto', sans-serif;	
   font-style: normal;
 
+  thead {
+    th {
+      padding-bottom: 16px;
+    }
+    border-bottom: 2px solid $orange;
+  }
+
   h1 {
-    font-weight: 500;
-    margin-left: 100px;
+    font-weight: 600;
+    margin-left: 50px;
     font-weight: 550;
     font-size: 36px;
   }
@@ -52,23 +88,32 @@ table {
     position: fixed;
     left: 0;
     top: 0;
-    width: 140px;
+    width: 8%;
     height: 100%;
     background-color: $dark-blue;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
+    padding-top: 50px;
+
     svg {
-        padding: 20px;
+      padding: 40px;
+    }
+
+    .sign-out-button {
+      background-color: $dark-blue;
+      font-size: 18px;
+      font-weight: 300;
+      color: white;
     }
   }
 
   .content {
     position: absolute;
-    left: 140px;
-    width: calc(100% - 140px);
+    left: 8%;
+    width: calc(92%);
+    display: inline-block;;
   }
 
   .table-container {
@@ -83,13 +128,13 @@ table {
       border-radius: 20px;
       padding: 30px;
     }
-    
+
     .search-bar {
       height: 40px;
       margin-left: 30px;
       border-radius: 2px;
       width: 260px;
-      border: 1px solid #BDBDBD;
+      border: 1px solid #bdbdbd;
       padding-left: 10px;
       display: flex;
       flex-direction: row;
@@ -108,27 +153,61 @@ table {
     }
 
     .primary-button {
-        background-color: $button-primary;
+      background-color: $button-primary;
+    }
+
+    .name {
+      max-width: 80px;
     }
   }
 
-  .new-assignment > div, .new-casenote > div {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-items: center;
-      svg {
-        padding-right: 10px;
-      }
-      .assign-paperwork-button {
-        background-color: $button-primary;
-      }
+  .participant-status {
+  }
+
+  .form-status {
+    > div {
+      position: relative;
+      left: 10px;
+    }
+  }
+
+  .new-assignment > div,
+  .new-casenote > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+    svg {
+      padding-right: 10px;
+    }
+    .assign-paperwork-button {
+      background-color: $button-primary;
+    }
+  }
+
+  .arrow svg {
+    position: relative;
+    left: -10px;
   }
 }
 
 .primary-button {
-    border: none;
-    box-shadow: none;
-    background: $button-secondary;
+  border: none;
+  box-shadow: none;
+  background: $button-secondary;
 }
 
+.plus-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  text-align: center;
+  line-height: 32px;
+  background-color: $grey;
+  margin-left: 8%;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+  font-size: 18px;
+  font-weight: 300;
+  min-width: 32px;
+  min-height: 32px;
+}
