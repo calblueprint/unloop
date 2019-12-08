@@ -30,11 +30,14 @@ export const styles = theme => ({
   avatarStyle: {
     width: 60,
     height: 60,
-    backgroundColor: '#009FAD',
+    backgroundColor: theme.palette.secondary.main,
   },
   unloopLogo: {
+    paddingLeft: '10px',
+    paddingBottom: '10px',
     width: '100%',
     objectFit: 'contain',
+    overflowX: 'hidden',
     backgroundColor: theme.palette.common.black,
   },
 });
