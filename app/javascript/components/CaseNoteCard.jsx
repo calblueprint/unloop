@@ -21,6 +21,7 @@ const styles = {
   casenoteDescStyle: {
     height: '100px',
     marginTop: '-20px',
+    overflow: 'auto',
   },
   dialogActionsStyle: {
     padding: '30px',
