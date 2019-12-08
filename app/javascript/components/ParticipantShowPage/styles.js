@@ -30,7 +30,7 @@ export const styles = theme => ({
   avatarStyle: {
     width: 60,
     height: 60,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#009FAD',
   },
   unloopLogo: {
     width: '100%',

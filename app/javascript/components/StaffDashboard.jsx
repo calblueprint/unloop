@@ -2,13 +2,9 @@ import React from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faHome,
-  faSignOutAlt,
-  faSearch,
-} from '@fortawesome/free-solid-svg-icons';
+
 import ParticipantCard from './ParticipantCard';
+import NavBar from './NavBar';
 import PropTypes from 'prop-types';
 
 const TrieSearch = require('trie-search');
@@ -56,17 +52,9 @@ class StaffDashboard extends React.Component {
 
     return (
       <div className="dashboard">
-        <div className="left-navbar">
-          <FontAwesomeIcon
-            icon={faSignOutAlt}
-            style={{ transform: 'rotate(180deg)' }}
-            color="white"
-            size="lg"
-          />
-          <FontAwesomeIcon icon={faHome} color="white" size="lg" />
-        </div>
+        <NavBar></NavBar>
         <div className="content">
-          <h1>Dashboard</h1>
+          <h1>Participant Dashboard</h1>
           <div className="table-container">
             <div>
               <div className="search-bar">
@@ -81,9 +69,11 @@ class StaffDashboard extends React.Component {
               <table>
                 <thead>
                   <tr>
-                    <th>Participant Name</th>
-                    <th>Participant Status</th>
-                    <th>Actions</th>
+                    <th>PARTICIPANT</th>
+                    <th>STATUS</th>
+                    <th>PAPERWORK</th>
+                    <th>CASE NOTES</th>
+                    <th>FORM STATUS</th>
                     <th></th>
                   </tr>
                 </thead>
