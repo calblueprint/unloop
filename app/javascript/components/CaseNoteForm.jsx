@@ -37,9 +37,6 @@ const styles = {
     marginTop: '2px',
     borderStyle: 'solid 4px grey',
   },
-  saveDocumentButtonStyle: {
-    borderStyle: 'solid 3px grey',
-  },
 };
 
 const defaultTheme = createMuiTheme();

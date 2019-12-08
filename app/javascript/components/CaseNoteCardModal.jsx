@@ -19,13 +19,6 @@ const styles = {
     marginLeft: 'auto',
     marginRight: '0',
   },
-  casenoteCardStyle: {
-    marginLeft: '20px',
-    padding: '20px',
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
-    borderRadius: '10px',
-    height: '200px',
-  },
   casenoteDescStyle: {
     marginLeft: '20px',
     paddingTop: '20px',
@@ -33,23 +26,12 @@ const styles = {
   dialogActionsStyle: {
     padding: '30px',
   },
-  MUIRichTextEditorStyle: {
-    border: '5px solid',
-    padding: '10px',
-  },
   dialogStyle: {
     padding: '20px',
   },
   dialogContentTextStyle: {
     color: 'black',
     marginBottom: '2px',
-  },
-  dialogContentTextFieldStyle: {
-    marginTop: '2px',
-    borderStyle: 'solid 4px grey',
-  },
-  saveDocumentButtonStyle: {
-    borderStyle: 'solid 3px grey',
   },
   modalItems: {
     display: 'flex',
