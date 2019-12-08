@@ -76,7 +76,7 @@ class StaffDashboard extends React.Component {
                     <th></th>
                     <th>Paperwork</th>
                     <th>Case Notes</th>
-                    <th>Forms</th>
+                    <th>Form Status</th>
                     <th></th>
                   </tr>
                 </thead>
