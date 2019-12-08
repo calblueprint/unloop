@@ -9,7 +9,8 @@ import PropTypes from 'prop-types';
 
 const styles = {
   buttonStyle: {
-    marginTop: '10px',
+    marginTop: '5px',
+    marginBottom: '10px',
   },
   casenoteCardStyle: {
     marginLeft: '20px',
@@ -19,8 +20,12 @@ const styles = {
     height: '240px',
   },
   casenoteDescStyle: {
-    height: '100px',
+    maxHeight: '105px',
     marginTop: '-20px',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    marginBottom: '0',
   },
   dialogActionsStyle: {
     padding: '30px',
@@ -130,13 +135,13 @@ class CaseNoteCard extends React.Component {
                   {this.renderMenuItems()}
                 </Grid>
               </Grid>
-              <div style={styles.casenoteDescStyle}>
+              <p style={styles.casenoteDescStyle}>
                 <MUIRichTextEditor
                   value={this.state.description}
                   readOnly
                   toolbar={false}
                 />
-              </div>
+              </p>
 
               <Grid container spacing={2} style={styles.buttonStyle}>
                 <Grid item xs={10}></Grid>
