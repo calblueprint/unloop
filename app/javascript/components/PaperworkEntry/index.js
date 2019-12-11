@@ -85,37 +85,39 @@ function PaperworkEntry({
           />
         </CardActions>
       );
-    } else if (hasAgreed) {
-      ret = (
-        <CardActions>
-          <Button variant="text" color="primary" href={link} target="_blank">
-            View
-          </Button>
-        </CardActions>
-      );
-    } else {
-      ret = (
-        <CardActions>
-          <Button
-            variant="text"
-            color="primary"
-            href={link}
-            target="_blank"
-            type="submit"
-            onClick={handleView}
-          >
-            View
-          </Button>
-          <Button
-            variant="text"
-            color="primary"
-            disabled={!hasViewed}
-            onClick={() => setOpen(true)}
-          >
-            Approve
-          </Button>
-        </CardActions>
-      );
+    } else if (userType === 'participant') {
+      if (hasAgreed) {
+        ret = (
+          <CardActions>
+            <Button variant="text" color="primary" href={link} target="_blank">
+              View
+            </Button>
+          </CardActions>
+        );
+      } else {
+        ret = (
+          <CardActions>
+            <Button
+              variant="text"
+              color="primary"
+              href={link}
+              target="_blank"
+              type="submit"
+              onClick={handleView}
+            >
+              View
+            </Button>
+            <Button
+              variant="text"
+              color="primary"
+              disabled={!hasViewed}
+              onClick={() => setOpen(true)}
+            >
+              Approve
+            </Button>
+          </CardActions>
+        );
+      }
     }
     return ret;
   };
@@ -169,7 +171,7 @@ PaperworkEntry.propTypes = {
   classes: PropTypes.object.isRequired,
   date: PropTypes.string.isRequired,
   paperwork: PropTypes.object.isRequired,
-  userType: PropTypes.string.isRequired,
+  userType: PropTypes.oneOf(['staff', 'participant']),
   participantId: PropTypes.number.isRequired,
   lastEntry: PropTypes.bool,
   id: PropTypes.number,

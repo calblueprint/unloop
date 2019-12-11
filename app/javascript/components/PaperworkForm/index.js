@@ -190,8 +190,7 @@ function PaperworkForm({
           </Grid>
         </Grid>
       );
-    }
-    if (type === 'edit') {
+    } else if (type === 'edit') {
       ret = (
         <Grid container direction="row" justify="space-between">
           <Grid item>
