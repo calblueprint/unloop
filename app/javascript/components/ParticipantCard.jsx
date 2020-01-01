@@ -2,14 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CaseNoteForm from './CaseNoteForm';
 import PaperworkForm from './PaperworkForm';
+import {
+  faChevronRight,
+  faCheck,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+
+const styles = {
+  casenoteText: {
+    width: '110px',
+  },
+};
 
 class ParticipantCard extends React.Component {
   constructor(props) {
     super(props);
     this.showParticipant = this.showParticipant.bind(this);
   }
+
   showParticipant() {
     let pId = this.props.participant.id;
     window.location.assign('participants/' + String(pId));
@@ -19,23 +30,62 @@ class ParticipantCard extends React.Component {
     let p = this.props.participant;
     let status = p.status.toUpperCase();
     let name = p.name;
+
+    let questionnaireStatus = p.questionnaireStatus ? (
+      <FontAwesomeIcon className='icon-large' icon={faCheck} color={'green'}>
+      </FontAwesomeIcon>
+    ) : (
+      <FontAwesomeIcon className='icon-large' icon={faTimes} color={'red'} >
+      </FontAwesomeIcon>
+    );
+
+    let statusColor;
+    if (status == "R0") {
+      statusColor = "#009FAD"
+    } else if (status == "R1") {
+      statusColor = "#5870EB"
+    } else {
+      statusColor = "#DF6C8E"
+    }
+    let caseNotes = (p.caseNotesCount == 1) ? p.caseNotesCount + " case note" : p.caseNotesCount + " case notes"
     return (
       <tr>
-        <td style={{"cursor": "pointer"}} onClick={this.showParticipant}>{name}</td>
+        <td
+          className="name"
+          style={{ cursor: 'pointer' }}
+          onClick={this.showParticipant}
+        >
+          {name}
+        </td>
         <td>
-          <div className="status">{status}</div>
+          <div className="status"
+                style={{"backgroundColor": statusColor}}
+          >{status}</div>
         </td>
         <td className="new-assignment">
           <div>
-            <FontAwesomeIcon icon={faEdit} size="lg"></FontAwesomeIcon>
-            <PaperworkForm participantId={p.id}></PaperworkForm>
+            {p.paperworksCompleted} / {p.paperworksCount} completed
+            <PaperworkForm display={'plus'} type={'create'} participantId={p.id}></PaperworkForm>
           </div>
         </td>
         <td className="new-casenote">
           <div>
-            <FontAwesomeIcon icon={faEdit} size="lg"></FontAwesomeIcon>
-            <CaseNoteForm participantId={p.id}></CaseNoteForm>
+            <div style={styles.casenoteText}>
+              {caseNotes}
+            </div>
+            
+            <CaseNoteForm display={'plus'} type={'create'} participantId={p.id}></CaseNoteForm>
           </div>
+        </td>
+        <td className="form-status"><div>{questionnaireStatus}</div></td>
+        <td className="arrow">
+          <FontAwesomeIcon
+            onClick={this.showParticipant}
+            icon={faChevronRight}
+            color="grey"
+            style={{"cursor": "pointer"}}
+            className='icon-large' 
+          />
         </td>
       </tr>
     );
