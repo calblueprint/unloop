@@ -35,6 +35,14 @@ class CaseNoteContainer extends React.Component {
     };
   }
 
+  formatDate(dateString) {
+    const dateObj = new Date(dateString);
+    const year = dateObj.getFullYear();
+    const month = dateObj.getMonth() + 1;
+    const dt = dateObj.getDate();
+    return `${month.toString()}/${dt.toString()}/${year.toString()}`;
+  }
+
   renderCaseNoteCreationIfStaff() {
     if (this.state.userType === 'staff') {
       return (
@@ -60,6 +68,7 @@ class CaseNoteContainer extends React.Component {
             id={caseNote.id}
             participantId={this.state.participant.id}
             showMenu={this.state.userType === 'staff'}
+            date={this.formatDate(caseNote.created_at)}
           />
         </div>
       ));

@@ -43,7 +43,7 @@ function PaperworkList({
         className={classes.componentTitle}
       >
         <Grid item>
-          <Typography variant="h4" class={classes.headerStyle}>
+          <Typography variant="h4" className={classes.headerStyle}>
             Paperworks
           </Typography>
         </Grid>

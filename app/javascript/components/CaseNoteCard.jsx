@@ -1,6 +1,6 @@
 import React from 'react';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import { Menu, MenuItem, IconButton, Grid, Paper } from '@material-ui/core/';
+import { Menu, MenuItem, IconButton, Grid, Paper, CardHeader } from '@material-ui/core/';
 import MUIRichTextEditor from 'mui-rte';
 import CaseNoteForm from 'components/CaseNoteForm';
 import DeleteModal from 'components/DeleteModal';
@@ -22,13 +22,20 @@ const styles = {
     height: '240px',
   },
   casenoteDescStyle: {
-    maxHeight: '105px',
+    maxHeight: '100px',
     marginTop: '-20px',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     marginBottom: '0',
   },
+  cardHeaderStyle: {
+    paddingLeft: '0',
+    paddingTop: '0',
+  },
+  menuStyle: {
+    padding: '8px',
+  }
 };
 
 class CaseNoteCard extends React.Component {
@@ -41,6 +48,7 @@ class CaseNoteCard extends React.Component {
       id: this.props.id,
       anchorEl: null,
       participantId: this.props.participantId,
+      date: this.props.date,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleMenuClose = this.handleMenuClose.bind(this);
@@ -63,6 +71,7 @@ class CaseNoteCard extends React.Component {
             aria-controls="long-menu"
             aria-haspopup="true"
             onClick={this.handleClick}
+            style={styles.menuStyle}
           >
             <MoreHorizIcon />
           </IconButton>
@@ -110,19 +119,23 @@ class CaseNoteCard extends React.Component {
             <Paper style={styles.casenoteCardStyle}>
               <Grid container spacing={2}>
                 <Grid item xs={10}>
-                  <h3>{this.state.title}</h3>
+                  <CardHeader
+                  title={this.state.title}
+                  subheader={<i>{this.state.date}</i>}
+                  style={styles.cardHeaderStyle}
+                  titleTypographyProps={{variant:'h6'}}/>
                 </Grid>
                 <Grid item xs={2}>
                   {this.renderMenuItems()}
                 </Grid>
               </Grid>
-              <p style={styles.casenoteDescStyle}>
+              <div style={styles.casenoteDescStyle}>
                 <MUIRichTextEditor
                   value={this.state.description}
                   readOnly
                   toolbar={false}
                 />
-              </p>
+              </div>
 
               <Grid container spacing={2} style={styles.buttonStyle} className="float-right">
                 <Grid item>
@@ -149,6 +162,7 @@ CaseNoteCard.propTypes = {
   anchorEl: PropTypes.bool,
   participantId: PropTypes.number,
   showMenu: PropTypes.bool,
+  date: PropTypes.string.isRequired,
 };
 
 export default CaseNoteCard;
