@@ -11,6 +11,8 @@ const styles = {
   buttonStyle: {
     marginTop: '5px',
     marginBottom: '10px',
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
   casenoteCardStyle: {
     marginLeft: '20px',
@@ -122,9 +124,8 @@ class CaseNoteCard extends React.Component {
                 />
               </p>
 
-              <Grid container spacing={2} style={styles.buttonStyle}>
-                <Grid item xs={8}></Grid>
-                <Grid item xs={4}>
+              <Grid container spacing={2} style={styles.buttonStyle} className="float-right">
+                <Grid item>
                   <CaseNoteCardModal
                     description={this.state.description}
                     title={this.state.title}

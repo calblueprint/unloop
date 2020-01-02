@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 
 const styles = {
   headerStyle: {
-    marginLeft: '20px',
     marginTop: '0px',
     marginBottom: '0px',
     fontSize: '24px',
@@ -39,7 +38,7 @@ class CaseNoteContainer extends React.Component {
   renderCaseNoteCreationIfStaff() {
     if (this.state.userType === 'staff') {
       return (
-        <Grid item xs={4} style={{ paddingBottom: '20px' }}>
+        <Grid item style={{ paddingBottom: '20px' }}>
           <CaseNoteForm
             type="create"
             participantId={this.state.participant.id}
@@ -106,7 +105,7 @@ class CaseNoteContainer extends React.Component {
                   }}
                 >
                   <Grid item xs={4}>
-                    <h2 style={styles.headerStyle}>Case Notes</h2>
+                    <h2 style={styles.headerStyle}>Casenotes</h2>
                   </Grid>
                   {this.renderCaseNoteCreationIfStaff()}
                 </Grid>

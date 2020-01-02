@@ -23,6 +23,11 @@ export const styles = theme => ({
     overflowY: 'auto',
     paddingRight: '10px',
   },
+  headerStyle: {
+    marginTop: '0px',
+    marginBottom: '0px',
+    fontSize: '24px',
+  },
 });
 
 export default styles;
