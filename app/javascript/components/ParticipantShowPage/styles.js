@@ -33,7 +33,7 @@ export const styles = theme => ({
   avatarStyle: {
     width: 60,
     height: 60,
-    backgroundColor: '#009FAD',
+    backgroundColor: '#EB6658',
   },
   unloopLogo: {
     width: 'auto',
