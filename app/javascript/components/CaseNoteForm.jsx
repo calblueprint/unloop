@@ -23,7 +23,7 @@ const styles = {
     padding: '30px',
   },
   MUIRichTextEditorStyle: {
-    border: '5px solid',
+    border: '5px solid',
     padding: '10px',
   },
   dialogStyle: {
@@ -35,12 +35,10 @@ const styles = {
   },
   dialogContentTextFieldStyle: {
     marginTop: '2px',
-    borderStyle: 'solid 4px grey',
-  },
-  saveDocumentButtonStyle: {
-    borderStyle: 'solid 3px grey',
+    borderStyle: 'solid 4px grey',
   },
 };
+
 const defaultTheme = createMuiTheme();
 Object.assign(defaultTheme, {
   overrides: {
@@ -69,8 +67,8 @@ class CaseNoteForm extends React.Component {
     this.state = {
       title: this.props.title,
       description: this.props.description,
-      participantId: this.props.participantId,
-      internal: this.props.internal,
+      participant_id: this.props.participantId,
+      internal: true,
       open: false,
       type: this.props.type,
       id: this.props.id,
@@ -79,6 +77,7 @@ class CaseNoteForm extends React.Component {
       errors: {
         title: '',
       },
+      display: this.props.display
     };
     this.onChange = editorState => this.setState({ editorState });
     this.handleClose = this.handleClose.bind(this);
@@ -140,12 +139,7 @@ class CaseNoteForm extends React.Component {
   };
 
   handleSubmit() {
-    const body = {
-      title: this.state.title,
-      description: this.state.description,
-      internal: this.state.internal,
-      participant_id: this.state.participantId,
-    };
+    const { type } = this.state;
 
     let hasErrors = false;
     Object.keys(this.state.errors).forEach(field => {
@@ -153,13 +147,36 @@ class CaseNoteForm extends React.Component {
       hasErrors = hasErrors || this.state.errors[field] !== '';
     });
 
-    const { type } = this.state;
     if (!hasErrors) {
       if (type === 'create') {
+        const body = {
+          title: this.state.title,
+          description: this.state.description,
+          internal: this.state.internal,
+          participant_id: this.state.participant_id,
+        };
+
         apiPost('/api/case_notes', { case_note: body })
           .then(() => window.location.reload())
           .catch(error => console.error(error));
-      } else if (type === 'edit') {
+      } else {
+        const newTitle = this.state.title;
+        const newDescription = this.state.tempDescription;
+        const newInternal = this.state.internal;
+
+        this.setState({
+          title: newTitle,
+          description: newDescription,
+          internal: newInternal,
+        });
+
+        const body = {
+          title: this.state.title,
+          description: this.state.tempDescription,
+          internal: this.state.internal,
+          participant_id: this.state.participant_id,
+        };
+
         apiPatch(`/api/case_notes/${this.state.id}`, { case_note: body })
           .then(() => window.location.reload())
           .catch(error => console.error(error));
@@ -167,9 +184,16 @@ class CaseNoteForm extends React.Component {
     }
   }
 
+
   button = () => {
     let ret;
-    if (this.state.type === 'create') {
+    if (this.state.display == 'plus') {
+      ret = (
+        <button onClick={this.handleOpen} className="plus-button">
+          +
+        </button>
+      );
+    } else if (this.state.type === 'create') {
       ret = (
         <Button
           className="primary-button"
@@ -182,7 +206,7 @@ class CaseNoteForm extends React.Component {
       );
     } else if (this.state.type === 'edit') {
       ret = <MenuItem onClick={this.handleOpen}>Edit</MenuItem>;
-    }
+    } 
     return ret;
   };
 
@@ -218,7 +242,7 @@ class CaseNoteForm extends React.Component {
               variant="outlined"
               margin="dense"
               id="title"
-              label="Case Note title"
+              label="Case Note title"
               type="text"
               fullWidth
               error={this.state.errors.title !== ''}
@@ -226,6 +250,7 @@ class CaseNoteForm extends React.Component {
             />
           </DialogContent>
           <br />
+
           <DialogContent maxwidth="sm">
             <DialogContentText style={styles.dialogContentTextStyle}>
               Description
@@ -240,7 +265,7 @@ class CaseNoteForm extends React.Component {
                 }
                 onChange={this.handleDescriptionChange(description)}
                 variant="outlined"
-                label="Case Note description"
+                label="Case Note description"
                 style={styles.MUIRichTextEditorStyle}
                 controls={[
                   'bold',
@@ -254,21 +279,21 @@ class CaseNoteForm extends React.Component {
             </MuiThemeProvider>
           </DialogContent>
           <br />
+
           <DialogContent>
             <DialogContentText style={styles.dialogContentTextStyle}>
-              Visible to Participant
+              Visible to Participant
               <Switch
                 name="internal"
-                defaultChecked={
-                  this.state.type === 'create' ? false : !this.props.internal
-                }
-                value={!this.props.internal}
+                defaultChecked={false}
+                value={this.state.internal}
                 onChange={this.handleInternalChange('internal')}
                 color="primary"
-                inputProps={{ 'aria-label': 'primary checkbox' }}
+                inputProps={{ 'aria-label': 'primary checkbox' }}
               />
             </DialogContentText>
           </DialogContent>
+
           <DialogActions style={styles.dialogActionsStyle}>
             <Button
               onClick={this.handleClose}

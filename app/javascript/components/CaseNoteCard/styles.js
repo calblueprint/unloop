@@ -5,17 +5,24 @@
  */
 
 export const styles = (/* theme */) => ({
+  buttonStyle: {
+    marginTop: '5px',
+    marginBottom: '10px',
+  },
   casenoteCardStyle: {
     marginLeft: '20px',
     padding: '20px',
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
     borderRadius: '10px',
-    height: '200px',
+    height: '240px',
   },
   casenoteDescStyle: {
-    overflow: 'auto',
-    height: '100px',
+    height: '105px',
     marginTop: '-20px',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    marginBottom: '0',
   },
   dialogActionsStyle: {
     padding: '30px',

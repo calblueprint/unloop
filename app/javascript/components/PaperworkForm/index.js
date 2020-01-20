@@ -29,6 +29,7 @@ function PaperworkForm({
   paperworkLink,
   paperworkId,
   participantId,
+  display,
 }) {
   const [open, setOpen] = useState(false);
   const [paperwork, setPaperwork] = useState({
@@ -103,7 +104,17 @@ function PaperworkForm({
   const button = () => {
     let ret;
     if (!hide) {
-      if (type === 'create') {
+      if (display === 'plus') {
+        ret = (
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="plus-button"
+          >
+            +
+          </button>
+        );
+      } else if (type === 'create') {
         ret = (
           <Button
             className="assign-paperwork-button"
@@ -213,6 +224,7 @@ PaperworkForm.propTypes = {
   paperworkLink: PropTypes.string,
   participantId: PropTypes.number.isRequired,
   paperworkId: PropTypes.number,
+  display: PropTypes.string,
 };
 
 PaperworkForm.defaultProps = {
@@ -221,6 +233,7 @@ PaperworkForm.defaultProps = {
   paperworkTitle: '',
   paperworkLink: '',
   paperworkId: null,
+  display: null,
 };
 
 export default memo(withStyles(styles)(PaperworkForm));

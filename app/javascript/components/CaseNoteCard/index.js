@@ -12,8 +12,32 @@ import { Menu, IconButton, Grid, Paper } from '@material-ui/core/';
 import MUIRichTextEditor from 'mui-rte';
 import CaseNoteForm from 'components/CaseNoteForm';
 import DeleteModal from 'components/DeleteModal';
+import CaseNoteCardModal from 'components/CaseNoteCardModal';
 
-import styles from './styles';
+// TODO: Style import not working
+// import styles from './styles';
+
+const styles = {
+  buttonStyle: {
+    marginTop: '5px',
+    marginBottom: '10px',
+  },
+  casenoteCardStyle: {
+    marginLeft: '20px',
+    padding: '20px',
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
+    borderRadius: '10px',
+    height: '240px',
+  },
+  casenoteDescStyle: {
+    height: '105px',
+    marginTop: '-20px',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    marginBottom: '0',
+  },
+};
 
 class CaseNoteCard extends React.Component {
   constructor(props) {
@@ -38,6 +62,7 @@ class CaseNoteCard extends React.Component {
     this.setState({ anchorEl: null });
   }
 
+  // eslint-disable-next-line consistent-return
   renderMenuItems() {
     if (this.props.showMenu) {
       return (
@@ -84,16 +109,16 @@ class CaseNoteCard extends React.Component {
         </div>
       );
     }
-    return null;
   }
 
   render() {
+    // eslint-disable-next-line no-unused-vars
     const { classes } = this.props;
     return (
       <>
         <Grid container spacing={3}>
           <Grid item xs={11}>
-            <Paper className={classes.casenoteCardStyle}>
+            <Paper style={styles.casenoteCardStyle}>
               <Grid container spacing={2}>
                 <Grid item xs={10}>
                   <h3>{this.state.title}</h3>
@@ -102,13 +127,24 @@ class CaseNoteCard extends React.Component {
                   {this.renderMenuItems()}
                 </Grid>
               </Grid>
-              <div className={classes.casenoteDescStyle}>
+              <div style={styles.casenoteDescStyle}>
                 <MUIRichTextEditor
                   value={this.state.description}
                   readOnly
                   toolbar={false}
                 />
               </div>
+
+              <Grid container spacing={2} style={styles.buttonStyle}>
+                <Grid item xs={8}></Grid>
+                <Grid item xs={4}>
+                  <CaseNoteCardModal
+                    description={this.state.description}
+                    title={this.state.title}
+                    internal={this.state.internal}
+                  />
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
         </Grid>
