@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core/';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import MUIRichTextEditor from 'mui-rte';
+import DeleteModal from 'components/DeleteModal';
 import PropTypes from 'prop-types';
 
 const styles = {
@@ -22,7 +23,7 @@ const styles = {
     padding: '30px',
   },
   MUIRichTextEditorStyle: {
-    border: '5px solid',
+    border: '5px solid',
     padding: '10px',
   },
   dialogStyle: {
@@ -34,10 +35,7 @@ const styles = {
   },
   dialogContentTextFieldStyle: {
     marginTop: '2px',
-    borderStyle: 'solid 4px grey',
-  },
-  saveDocumentButtonStyle: {
-    borderStyle: 'solid 3px grey',
+    borderStyle: 'solid 4px grey',
   },
 };
 
@@ -69,8 +67,8 @@ class CaseNoteForm extends React.Component {
     this.state = {
       title: this.props.title,
       description: this.props.description,
-      participantId: this.props.participantId,
-      internal: this.props.internal,
+      participant_id: this.props.participantId,
+      internal: true,
       open: false,
       type: this.props.type,
       id: this.props.id,
@@ -126,7 +124,7 @@ class CaseNoteForm extends React.Component {
         title: this.state.title,
         description: this.state.description,
         internal: this.state.internal,
-        participant_id: this.state.participantId,
+        participant_id: this.state.participant_id,
       };
       apiPost('/api/case_notes', { case_note: body })
         .then(() => window.location.reload())
@@ -211,12 +209,13 @@ class CaseNoteForm extends React.Component {
               variant="outlined"
               margin="dense"
               id="title"
-              label="Case Note title"
+              label="Case Note title"
               type="text"
               fullWidth
             />
           </DialogContent>
           <br />
+
           <DialogContent maxwidth="sm">
             <DialogContentText style={styles.dialogContentTextStyle}>
               Description
@@ -231,7 +230,7 @@ class CaseNoteForm extends React.Component {
                 }
                 onChange={this.handleDescriptionChange(description)}
                 variant="outlined"
-                label="Case Note description"
+                label="Case Note description"
                 style={styles.MUIRichTextEditorStyle}
                 controls={[
                   'bold',
@@ -245,21 +244,21 @@ class CaseNoteForm extends React.Component {
             </MuiThemeProvider>
           </DialogContent>
           <br />
+
           <DialogContent>
             <DialogContentText style={styles.dialogContentTextStyle}>
-              Visible to Participant
+              Visible to Participant
               <Switch
                 name="internal"
-                defaultChecked={
-                  this.state.type === 'create' ? false : !this.props.internal
-                }
-                value={!this.props.internal}
+                defaultChecked={false}
+                value={this.state.internal}
                 onChange={this.handleInternalChange('internal')}
                 color="primary"
-                inputProps={{ 'aria-label': 'primary checkbox' }}
+                inputProps={{ 'aria-label': 'primary checkbox' }}
               />
             </DialogContentText>
           </DialogContent>
+
           <DialogActions style={styles.dialogActionsStyle}>
             <Button
               onClick={this.handleClose}

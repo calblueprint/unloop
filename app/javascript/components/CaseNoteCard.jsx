@@ -4,41 +4,28 @@ import { Menu, MenuItem, IconButton, Grid, Paper } from '@material-ui/core/';
 import MUIRichTextEditor from 'mui-rte';
 import CaseNoteForm from 'components/CaseNoteForm';
 import DeleteModal from 'components/DeleteModal';
+import CaseNoteCardModal from 'components/CaseNoteCardModal';
 import PropTypes from 'prop-types';
 
 const styles = {
+  buttonStyle: {
+    marginTop: '5px',
+    marginBottom: '10px',
+  },
   casenoteCardStyle: {
     marginLeft: '20px',
     padding: '20px',
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
     borderRadius: '10px',
-    height: '200px',
+    height: '240px',
   },
   casenoteDescStyle: {
-    overflow: 'auto',
-    height: '100px',
+    height: '105px',
     marginTop: '-20px',
-  },
-  dialogActionsStyle: {
-    padding: '30px',
-  },
-  MUIRichTextEditorStyle: {
-    border: '5px solid',
-    padding: '10px',
-  },
-  dialogStyle: {
-    padding: '20px',
-  },
-  dialogContentTextStyle: {
-    color: 'black',
-    marginBottom: '2px',
-  },
-  dialogContentTextFieldStyle: {
-    marginTop: '2px',
-    borderStyle: 'solid 4px grey',
-  },
-  saveDocumentButtonStyle: {
-    borderStyle: 'solid 3px grey',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    marginBottom: '0',
   },
 };
 
@@ -127,13 +114,24 @@ class CaseNoteCard extends React.Component {
                   {this.renderMenuItems()}
                 </Grid>
               </Grid>
-              <div style={styles.casenoteDescStyle}>
+              <p style={styles.casenoteDescStyle}>
                 <MUIRichTextEditor
                   value={this.state.description}
                   readOnly
                   toolbar={false}
                 />
-              </div>
+              </p>
+
+              <Grid container spacing={2} style={styles.buttonStyle}>
+                <Grid item xs={8}></Grid>
+                <Grid item xs={4}>
+                  <CaseNoteCardModal
+                    description={this.state.description}
+                    title={this.state.title}
+                    internal={this.state.internal}
+                  />
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
         </Grid>
