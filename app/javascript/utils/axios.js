@@ -24,5 +24,7 @@ export function apiPut(path, data) {
 }
 
 export function apiDelete(path, data) {
+  console.log('path');
+  console.log(path);
   return axios.delete(path, { ...config, ...data });
 }

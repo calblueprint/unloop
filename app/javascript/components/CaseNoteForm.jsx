@@ -74,6 +74,7 @@ class CaseNoteForm extends React.Component {
       id: this.props.id,
       tempDescription: this.props.description,
       editorState: EditorState.createEmpty(),
+      display: this.props.display
     };
     this.onChange = editorState => this.setState({ editorState });
     this.handleClose = this.handleClose.bind(this);
@@ -154,7 +155,13 @@ class CaseNoteForm extends React.Component {
 
   button = () => {
     let ret;
-    if (this.state.type === 'create') {
+    if (this.state.display == 'plus') {
+      ret = (
+        <button onClick={this.handleOpen} className="plus-button">
+          +
+        </button>
+      );
+    } else if (this.state.type === 'create') {
       ret = (
         <Button
           className="primary-button"
@@ -167,7 +174,7 @@ class CaseNoteForm extends React.Component {
       );
     } else if (this.state.type === 'edit') {
       ret = <MenuItem onClick={this.handleOpen}>Edit</MenuItem>;
-    }
+    } 
     return ret;
   };
 
