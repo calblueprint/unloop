@@ -44,10 +44,11 @@ const styles = {
   },
   backgroundColor: {
     backgroundColor: '#28303B',
-    padding: '100px',
+    padding: '50px',
   },
   casenoteCardModalDescriptionStyle: {
     height: '380px',
+    overflow: 'auto',
   },
   titleStyle: {
     color: 'white',
@@ -56,6 +57,7 @@ const styles = {
     marginTop: '0',
   },
 };
+
 
 // TODO: Move to global theme
 const defaultTheme = createMuiTheme();
@@ -67,6 +69,7 @@ Object.assign(defaultTheme, {
         borderRight: 'solid 1px #C4C4C4',
         borderBottom: 'solid 1px #C4C4C4',
         borderRadius: '4px',
+        overflow: 'auto',
       },
       editorContainer: {
         padding: '20px',

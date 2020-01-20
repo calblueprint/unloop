@@ -20,7 +20,7 @@ const styles = {
     height: '240px',
   },
   casenoteDescStyle: {
-    maxHeight: '105px',
+    height: '105px',
     marginTop: '-20px',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
