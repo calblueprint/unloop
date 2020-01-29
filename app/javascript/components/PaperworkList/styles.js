@@ -16,7 +16,6 @@ export const styles = theme => ({
     borderBottom: `5px solid ${theme.palette.primary.main}`,
   },
   headerStyle: {
-    marginLeft: '20px',
     marginTop: '0px',
     marginBottom: '0px',
     fontSize: '24px',
