@@ -15,6 +15,12 @@ export const styles = theme => ({
     paddingBottom: 16,
     borderBottom: `5px solid ${theme.palette.primary.main}`,
   },
+  headerStyle: {
+    marginLeft: '20px',
+    marginTop: '0px',
+    marginBottom: '0px',
+    fontSize: '24px',
+  },
   listStyle: {
     maxHeight: '700px',
     height: '60vh',
