@@ -88,7 +88,7 @@ function PaperworkForm({
           .then(() => window.location.reload())
           .catch(error => console.error(error));
         // TODO: Change this to flash an error message
-      } else {
+      } else if (type === 'edit') {
         apiPatch(`/api/paperworks/${paperworkId}`, { paperwork: body })
           .then(() => window.location.reload())
           .catch(error => console.error(error));
@@ -218,7 +218,7 @@ function PaperworkForm({
 
 PaperworkForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  type: PropTypes.string,
+  type: PropTypes.oneOf(['create', 'edit']),
   hide: PropTypes.bool,
   paperworkTitle: PropTypes.string,
   paperworkLink: PropTypes.string,

@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import validator from 'validator';
 import { apiPost, apiPatch } from 'utils/axios';
 import { EditorState, convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
@@ -15,8 +17,6 @@ import {
 } from '@material-ui/core/';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import MUIRichTextEditor from 'mui-rte';
-import DeleteModal from 'components/DeleteModal';
-import PropTypes from 'prop-types';
 
 const styles = {
   dialogActionsStyle: {
@@ -74,6 +74,9 @@ class CaseNoteForm extends React.Component {
       id: this.props.id,
       tempDescription: this.props.description,
       editorState: EditorState.createEmpty(),
+      errors: {
+        title: '',
+      },
       display: this.props.display
     };
     this.onChange = editorState => this.setState({ editorState });
@@ -102,6 +105,23 @@ class CaseNoteForm extends React.Component {
     }
   }
 
+  checkErrors = field => () => {
+    let errorMessage = '';
+    if (field === 'title') {
+      const { title } = this.state;
+      if (
+        title === '' ||
+        validator.isEmpty(title, { ignore_whitespace: true })
+      ) {
+        errorMessage = 'Title is required';
+      }
+    }
+
+    this.setState(prevState => ({
+      errors: { ...prevState.errors, [field]: errorMessage },
+    }));
+  };
+
   handleChange = name => event => {
     const { value } = event.target;
     this.setState({ [name]: value });
@@ -119,39 +139,51 @@ class CaseNoteForm extends React.Component {
   };
 
   handleSubmit() {
-    if (this.state.type === 'create') {
-      const body = {
-        title: this.state.title,
-        description: this.state.description,
-        internal: this.state.internal,
-        participant_id: this.state.participant_id,
-      };
-      apiPost('/api/case_notes', { case_note: body })
-        .then(() => window.location.reload())
-        .catch(error => console.error(error));
-    } else if (this.state.type === 'edit') {
-      const newTitle = this.state.title;
-      const newDescription = this.state.tempDescription;
-      const newInternal = this.state.internal;
+    const { type } = this.state;
 
-      this.setState({
-        title: newTitle,
-        description: newDescription,
-        internal: newInternal,
-      });
+    let hasErrors = false;
+    Object.keys(this.state.errors).forEach(field => {
+      this.checkErrors(field)();
+      hasErrors = hasErrors || this.state.errors[field] !== '';
+    });
 
-      const body = {
-        title: this.state.title,
-        description: this.state.tempDescription,
-        internal: this.state.internal,
-        participant_id: this.state.participantId,
-      };
+    if (!hasErrors) {
+      if (type === 'create') {
+        const body = {
+          title: this.state.title,
+          description: this.state.description,
+          internal: this.state.internal,
+          participant_id: this.state.participant_id,
+        };
 
-      apiPatch(`/api/case_notes/${this.state.id}`, { case_note: body })
-        .then(() => window.location.reload())
-        .catch(error => console.error(error));
+        apiPost('/api/case_notes', { case_note: body })
+          .then(() => window.location.reload())
+          .catch(error => console.error(error));
+      } else {
+        const newTitle = this.state.title;
+        const newDescription = this.state.tempDescription;
+        const newInternal = this.state.internal;
+
+        this.setState({
+          title: newTitle,
+          description: newDescription,
+          internal: newInternal,
+        });
+
+        const body = {
+          title: this.state.title,
+          description: this.state.tempDescription,
+          internal: this.state.internal,
+          participant_id: this.state.participant_id,
+        };
+
+        apiPatch(`/api/case_notes/${this.state.id}`, { case_note: body })
+          .then(() => window.location.reload())
+          .catch(error => console.error(error));
+      }
     }
   }
+
 
   button = () => {
     let ret;
@@ -206,12 +238,15 @@ class CaseNoteForm extends React.Component {
               style={styles.dialogContentTextFieldStyle}
               name="title"
               onChange={this.handleChange('title')}
+              onBlur={this.checkErrors('title')}
               variant="outlined"
               margin="dense"
               id="title"
               label="Case Note title"
               type="text"
               fullWidth
+              error={this.state.errors.title !== ''}
+              helperText={this.state.errors.title}
             />
           </DialogContent>
           <br />
@@ -290,21 +325,21 @@ class CaseNoteForm extends React.Component {
   }
 }
 
+CaseNoteForm.propTypes = {
+  type: PropTypes.oneOf(['create', 'edit']),
+  title: PropTypes.string,
+  description: PropTypes.string,
+  internal: PropTypes.bool,
+  open: PropTypes.bool,
+  participantId: PropTypes.number.isRequired,
+};
+
 CaseNoteForm.defaultProps = {
   type: 'create',
   title: '',
   description: '',
   internal: true,
   open: false,
-};
-
-CaseNoteForm.propTypes = {
-  type: PropTypes.string,
-  title: PropTypes.string,
-  internal: PropTypes.bool,
-  description: PropTypes.string,
-  open: PropTypes.bool,
-  participantId: PropTypes.number,
 };
 
 export default CaseNoteForm;
