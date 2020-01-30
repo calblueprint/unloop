@@ -1,0 +1,388 @@
+/* line 5, app/assets/stylesheets/case_notes.scss */
+.no-case-notes-img {
+  width: 70%;
+  height: 70%;
+  display: block;
+  margin-top: 20%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* line 14, app/assets/stylesheets/case_notes.scss */
+.no-case-notes-txt {
+  text-align: center;
+}
+/* line 1, app/assets/stylesheets/login.scss */
+body {
+  margin: 0px;
+}
+
+/* line 5, app/assets/stylesheets/login.scss */
+.login-screen {
+  text-align: center;
+  display: flex;
+  padding-left: 20vw;
+}
+
+/* line 11, app/assets/stylesheets/login.scss */
+.background {
+  background: #29313c;
+  margin: -10;
+  padding: -10;
+}
+
+/* line 16, app/assets/stylesheets/login.scss */
+.title {
+  color: #2b2b2b;
+  margin-bottom: 5vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* line 22, app/assets/stylesheets/login.scss */
+.login-container {
+  background: #29313c;
+  margin: 0;
+  display: flex;
+  align-content: center;
+  padding-top: 20vh;
+  padding-bottom: 20vh;
+}
+
+/* line 31, app/assets/stylesheets/login.scss */
+.login {
+  height: 60vh;
+  border-radius: 0px 15px 15px 0px;
+  text-align: left;
+  background-color: #009fad;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* line 39, app/assets/stylesheets/login.scss */
+.unloop-image {
+  padding: 0;
+  margin: 0;
+  width: 35vw;
+  height: 60vh;
+  object-fit: cover;
+  border-radius: 15px 0px 0px 15px;
+}
+
+/* line 48, app/assets/stylesheets/login.scss */
+.login-box {
+  display: inline-block;
+  padding-top: 20vh;
+  padding-bottom: 10vh;
+  padding-right: 5vw;
+  padding-left: 5vw;
+}
+
+/* line 56, app/assets/stylesheets/login.scss */
+.sign-in-button {
+  text-align: center;
+  padding-top: 5vh;
+}
+/* line 5, app/assets/stylesheets/paperworks.scss */
+.dialogActions {
+  padding: 30px;
+}
+
+/* line 9, app/assets/stylesheets/paperworks.scss */
+.dialogTitle {
+  border-bottom: 5px solid;
+  border-image-source: linear-gradient(to left, transparent 20%, #C4C4C4 20%);
+  border-image-slice: 1;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* line 15, app/assets/stylesheets/paperworks.scss */
+.dialogContentText {
+  color: black;
+  margin-bottom: 2px;
+}
+
+/* line 19, app/assets/stylesheets/paperworks.scss */
+.dialogContentTextField {
+  margin-top: 2px;
+  border-style: solid 4px grey;
+}
+
+/* line 23, app/assets/stylesheets/paperworks.scss */
+.saveDocumentButton {
+  border-style: solid 3px grey;
+  background: #FFFFFF;
+}
+
+/* line 28, app/assets/stylesheets/paperworks.scss */
+.no-paperworks-img {
+  width: 50%;
+  height: 50%;
+  display: block;
+  margin-top: 10%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* line 37, app/assets/stylesheets/paperworks.scss */
+.no-paperworks-txt {
+  text-align: center;
+}
+/* line 5, app/assets/stylesheets/participants.scss */
+.participant-show {
+  display: flex;
+}
+/* line 5, app/assets/stylesheets/professional_questionnaires.scss */
+.questionnaireTextField {
+  width: 100%;
+}
+
+/* line 9, app/assets/stylesheets/professional_questionnaires.scss */
+.questionnaireEntry {
+  margin-bottom: 20px;
+}
+
+/* line 13, app/assets/stylesheets/professional_questionnaires.scss */
+.buttonContainer {
+  padding: 15px;
+}
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+/* line 14, app/assets/stylesheets/staffs.scss */
+html,
+body {
+  margin: 0px;
+  max-width: 100%;
+  cursor: default;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+}
+
+/* line 23, app/assets/stylesheets/staffs.scss */
+button {
+  cursor: pointer;
+  border: none;
+}
+
+/* line 28, app/assets/stylesheets/staffs.scss */
+button:focus {
+  outline: none;
+}
+
+/* line 32, app/assets/stylesheets/staffs.scss */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+}
+
+/* line 39, app/assets/stylesheets/staffs.scss */
+table th,
+table td {
+  padding: 25px 3%;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* line 47, app/assets/stylesheets/staffs.scss */
+table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* line 52, app/assets/stylesheets/staffs.scss */
+table td > div {
+  font-size: 18px;
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* line 61, app/assets/stylesheets/staffs.scss */
+.icon-large {
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  min-height: 35px;
+}
+
+/* line 68, app/assets/stylesheets/staffs.scss */
+.dashboard {
+  height: 100%;
+  width: 100%;
+  font-style: normal;
+}
+
+/* line 73, app/assets/stylesheets/staffs.scss */
+.dashboard thead {
+  border-bottom: 2px solid #eb6658;
+}
+
+/* line 74, app/assets/stylesheets/staffs.scss */
+.dashboard thead th {
+  padding-bottom: 16px;
+}
+
+/* line 80, app/assets/stylesheets/staffs.scss */
+.dashboard h1 {
+  font-weight: 600;
+  margin-left: 50px;
+  font-weight: 550;
+  font-size: 36px;
+}
+
+/* line 87, app/assets/stylesheets/staffs.scss */
+.dashboard .left-navbar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 8%;
+  height: 100%;
+  background-color: #29313c;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+}
+
+/* line 100, app/assets/stylesheets/staffs.scss */
+.dashboard .left-navbar svg {
+  padding: 40px;
+}
+
+/* line 104, app/assets/stylesheets/staffs.scss */
+.dashboard .left-navbar .sign-out-button {
+  background-color: #29313c;
+  font-size: 18px;
+  font-weight: 300;
+  color: white;
+}
+
+/* line 112, app/assets/stylesheets/staffs.scss */
+.dashboard .content {
+  position: absolute;
+  left: 8%;
+  width: calc(92%);
+  display: inline-block;
+}
+
+/* line 119, app/assets/stylesheets/staffs.scss */
+.dashboard .table-container {
+  height: 100%;
+  min-height: 100vh;
+  background-color: #d2dce1;
+  padding: 20px 42px;
+}
+
+/* line 125, app/assets/stylesheets/staffs.scss */
+.dashboard .table-container > div {
+  background-color: #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  padding: 30px;
+}
+
+/* line 132, app/assets/stylesheets/staffs.scss */
+.dashboard .table-container .search-bar {
+  height: 40px;
+  margin-left: 30px;
+  border-radius: 2px;
+  width: 260px;
+  border: 1px solid #bdbdbd;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* line 145, app/assets/stylesheets/staffs.scss */
+.dashboard .table-container .status {
+  width: 52px;
+  height: 52px;
+  border-radius: 100%;
+  text-align: center;
+  line-height: 52px;
+  color: #fff;
+  background-color: #5870eb;
+}
+
+/* line 155, app/assets/stylesheets/staffs.scss */
+.dashboard .table-container .primary-button {
+  background-color: #009fad;
+}
+
+/* line 159, app/assets/stylesheets/staffs.scss */
+.dashboard .table-container .name {
+  max-width: 80px;
+}
+
+/* line 168, app/assets/stylesheets/staffs.scss */
+.dashboard .form-status > div {
+  position: relative;
+  left: 10px;
+}
+
+/* line 174, app/assets/stylesheets/staffs.scss */
+.dashboard .new-assignment > div,
+.dashboard .new-casenote > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+}
+
+/* line 180, app/assets/stylesheets/staffs.scss */
+.dashboard .new-assignment > div svg,
+.dashboard .new-casenote > div svg {
+  padding-right: 10px;
+}
+
+/* line 183, app/assets/stylesheets/staffs.scss */
+.dashboard .new-assignment > div .assign-paperwork-button,
+.dashboard .new-casenote > div .assign-paperwork-button {
+  background-color: #009fad;
+}
+
+/* line 188, app/assets/stylesheets/staffs.scss */
+.dashboard .arrow svg {
+  position: relative;
+  left: -10px;
+}
+
+/* line 194, app/assets/stylesheets/staffs.scss */
+.primary-button {
+  border: none;
+  box-shadow: none;
+  background: #5870eb;
+}
+
+/* line 200, app/assets/stylesheets/staffs.scss */
+.plus-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  text-align: center;
+  line-height: 32px;
+  background-color: #d2dce1;
+  margin-left: 8%;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+  font-size: 18px;
+  font-weight: 300;
+  min-width: 32px;
+  min-height: 32px;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+
+
+ */
+
