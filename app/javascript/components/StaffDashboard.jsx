@@ -53,15 +53,7 @@ class StaffDashboard extends React.Component {
 
     return (
       <div className="dashboard">
-        <Grid container direction="row"
-                  style={{
-                    height: '100vh',
-                    width: '100vw',
-                    margin: '0px',
-                    padding: '0px',
-                  }}>
         <Navbar></Navbar>
-        <Grid item>
         <div className="content">
           <h1>Participant Dashboard</h1>
           <div className="table-container">
@@ -91,8 +83,6 @@ class StaffDashboard extends React.Component {
             </div>
           </div>
         </div>
-        </Grid>
-        </Grid>
       </div>
     );
   }

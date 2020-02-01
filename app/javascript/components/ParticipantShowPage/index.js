@@ -59,7 +59,6 @@ class ParticipantShowPage extends React.Component {
             padding: '0px',
           }}
         >
-          {/* TODO: REMOVE NAVBAR AND CREATE PARTIAL */}
           <Navbar />
           <Grid item xs={5} className={classes.leftHalf}>
             <Grid container direction="column" spacing={3}>

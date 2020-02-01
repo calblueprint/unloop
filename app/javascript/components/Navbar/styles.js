@@ -11,6 +11,10 @@ export const styles = theme => ({
     backgroundColor: theme.palette.common.black,
     position: 'fixed',
   },
+  drawer: {
+    width: 100,
+    marginRight: 10,
+  },
   navBarSignOut: {
     color: theme.palette.common.white,
   },

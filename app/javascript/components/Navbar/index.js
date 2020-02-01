@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { IconButton, Button, Grid } from '@material-ui/core';
+import { IconButton, Button, Grid, Drawer } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import UnloopLogo from 'images/unloop_logo.png';
 import axios from 'axios';
@@ -16,7 +16,7 @@ class Navbar extends React.Component {
 
   logout() {
     //   TODO: Sign out is not working
-    const path = '/user/sign_out';
+    const path = '/users/sign_out';
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -24,7 +24,9 @@ class Navbar extends React.Component {
       },
       withCredentials: true,
     };
-    axios.delete(path, { ...config });
+    axios.delete(path, { ...config }).catch(() => {
+      window.location.reload();
+    });
   }
 
   navigateToHomepage() {
@@ -36,42 +38,44 @@ class Navbar extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Grid
-        container
-        item
-        xs={1}
-        style={{ height: '100%vh' }}
-        className={classes.navBar}
-        direction="column"
-        alignItems="center"
-        justify="space-between"
-      >
-        <Grid container item alignItems="center" direction="column">
-          <Grid item>
-            <Button
-              component="a"
-              disableFocusRipple
-              disableTouchRipple
-              className={classes.navBarSignOut}
-            >
-              Sign Out
-            </Button>
+      <Drawer className={classes.drawer} variant="permanent">
+        <Grid
+          container
+          item
+          xs={1}
+          className={classes.navBar}
+          direction="column"
+          alignItems="center"
+          justify="space-between"
+        >
+          <Grid container item alignItems="center" direction="column">
+            <Grid item>
+              <Button
+                component="a"
+                disableFocusRipple
+                disableTouchRipple
+                className={classes.navBarSignOut}
+                onClick={this.logout}
+              >
+                Sign Out
+              </Button>
+            </Grid>
+            <Grid item>
+              <IconButton
+                disableFocusRipple
+                disableTouchRipple
+                className={classes.navBarItem}
+                onClick={this.navigateToHomepage}
+              >
+                <HomeIcon fontSize="large" />
+              </IconButton>
+            </Grid>
           </Grid>
-          <Grid item>
-            <IconButton
-              disableFocusRipple
-              disableTouchRipple
-              className={classes.navBarItem}
-              onClick={this.navigateToHomepage}
-            >
-              <HomeIcon fontSize="large" />
-            </IconButton>
+          <Grid item className={classes.unloopLogo}>
+            <img src={UnloopLogo} alt="Unloop Logo" />
           </Grid>
         </Grid>
-        <Grid item className={classes.unloopLogo}>
-          <img src={UnloopLogo} alt="Unloop Logo" />
-        </Grid>
-      </Grid>
+      </Drawer>
     );
   }
 }
