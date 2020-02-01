@@ -25,7 +25,11 @@ function PaperworkEntry({
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
 }) {
-  const avatar = agree ? <DoneIcon /> : <NotificationsNoneIcon />;
+  const avatar = agree ? (
+    <DoneIcon />
+  ) : (
+    <NotificationsNoneIcon color="secondary" />
+  );
 
   return (
     <Card className={classes.card}>
@@ -44,14 +48,6 @@ function PaperworkEntry({
           />
         </Grid>
         <CardActions>
-          <Button
-            variant="contained"
-            color="primary"
-            href={link}
-            target="_blank"
-          >
-            View
-          </Button>
           <PaperworkForm
             type="edit"
             participantId={participantId}
@@ -59,6 +55,9 @@ function PaperworkEntry({
             paperworkLink={link}
             paperworkId={id}
           />
+          <Button color="primary" href={link} target="_blank">
+            View
+          </Button>
         </CardActions>
       </Grid>
     </Card>
