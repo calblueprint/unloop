@@ -119,7 +119,7 @@ function PaperworkForm({
           <Button
             className="assign-paperwork-button"
             variant="contained"
-            color="secondary"
+            color="primary"
             onClick={() => setOpen(true)}
           >
             ASSIGN PAPERWORK +

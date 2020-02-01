@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 
 const styles = {
   headerStyle: {
-    marginLeft: '20px',
     marginTop: '0px',
     marginBottom: '0px',
     fontSize: '24px',
