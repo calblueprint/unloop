@@ -11,6 +11,7 @@ class Navbar extends React.Component {
   constructor() {
     super();
     this.logout = this.logout.bind(this);
+    this.navigateToHomepage = this.navigateToHomepage.bind(this);
   }
 
   logout() {
@@ -24,6 +25,11 @@ class Navbar extends React.Component {
       withCredentials: true,
     };
     axios.delete(path, { ...config });
+  }
+
+  navigateToHomepage() {
+    const homepagePath = '/';
+    window.location.href = homepagePath;
   }
 
   render() {
@@ -56,6 +62,7 @@ class Navbar extends React.Component {
               disableFocusRipple
               disableTouchRipple
               className={classes.navBarItem}
+              onClick={this.navigateToHomepage}
             >
               <HomeIcon fontSize="large" />
             </IconButton>

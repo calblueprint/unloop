@@ -6,9 +6,10 @@
 
 export const styles = theme => ({
   navBar: {
-    maxHeight: '100%',
+    height: '100vh',
     paddingTop: 40,
     backgroundColor: theme.palette.common.black,
+    position: 'fixed',
   },
   navBarSignOut: {
     color: theme.palette.common.white,
