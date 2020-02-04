@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable func-names */
 /* eslint-disable global-require */
 /* eslint-disable prefer-template */
@@ -81,15 +82,15 @@ module.exports = function(api) {
           async: false,
         },
       ],
-      isProductionEnv && [
-        require('babel-plugin-transform-react-remove-prop-types').default,
-        {
-          removeImport: true,
-        },
+      (isProductionEnv ? [
+        [require('babel-plugin-transform-react-remove-prop-types').default,
+          {
+            removeImport: true,
+          }],
         require('lodash'),
         require('@babel/plugin-transform-react-inline-elements'),
-        require('@babel/plugin-transform-react-constant-elements'),
-      ],
+        require('@babel/plugin-transform-react-constant-elements')
+      ] : [])
     ].filter(Boolean),
   };
 };
