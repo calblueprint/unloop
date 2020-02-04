@@ -90,7 +90,6 @@ module.exports = function(api) {
               removeImport: true,
             },
           ],
-          require('lodash'),
           require('@babel/plugin-transform-react-inline-elements'),
           require('@babel/plugin-transform-react-constant-elements'),
         ]
