@@ -1,4 +1,3 @@
-<%= link_to 'Sign Out', destroy_user_session_path, method: :delete if current_user %>
 <%= react_component('ParticipantShowPage', {
   participant: @participant,
   user_type: current_user.user_type,

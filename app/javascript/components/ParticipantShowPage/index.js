@@ -59,11 +59,25 @@ class ParticipantShowPage extends React.Component {
         <Grid
           container
           direction="row"
-          style={{ height: '100vh', width: '100vw' }}
+          style={{
+            height: '100vh',
+            width: '100vw',
+            margin: '0px',
+            padding: '0px',
+          }}
         >
           {/* TODO: REMOVE NAVBAR AND CREATE PARTIAL */}
-          <Grid item xs={1} className={classes.navBar}>
-            <Grid container direction="column" alignItems="center" spacing={5}>
+          <Grid
+            container
+            item
+            xs={1}
+            style={{ height: '100%vh' }}
+            className={classes.navBar}
+            direction="column"
+            alignItems="center"
+            justify="space-between"
+          >
+            <Grid container item alignItems="center" direction="column">
               <Grid item>
                 <Button
                   component="a"
@@ -83,27 +97,9 @@ class ParticipantShowPage extends React.Component {
                   <HomeIcon fontSize="large" />
                 </IconButton>
               </Grid>
-              <Grid item>
-                <Grid
-                  item
-                  xs
-                  container
-                  justify="center"
-                  direction="column"
-                  spacing={10}
-                >
-                  {/* Grid items used to pad Unloop logo to bottom of screen */}
-                  <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item className={classes.unloopLogo}>
-                    <img src={UnloopLogo} alt="Unloop Logo" />
-                  </Grid>
-                </Grid>
-              </Grid>
+            </Grid>
+            <Grid item className={classes.unloopLogo}>
+              <img src={UnloopLogo} alt="Unloop Logo" />
             </Grid>
           </Grid>
           <Grid item xs={5} className={classes.leftHalf}>
@@ -142,7 +138,7 @@ class ParticipantShowPage extends React.Component {
                   />
                 </Grid>
               </Grid>
-              <Grid item>
+              <Grid item style={{ padding: '0px' }}>
                 <PaperworkList
                   paperworks={paperworks}
                   participantId={participantId}
