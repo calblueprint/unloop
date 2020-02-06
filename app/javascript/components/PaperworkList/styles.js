@@ -17,7 +17,7 @@ export const styles = theme => ({
   },
   listStyle: {
     maxHeight: '600px',
-    height: '57vh',
+    height: '53vh',
     overflow: 'auto',
     overflowX: 'hidden',
     overflowY: 'auto',

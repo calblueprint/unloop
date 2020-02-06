@@ -58,6 +58,7 @@ class ParticipantShowPage extends React.Component {
             margin: '0px',
             padding: '0px',
           }}
+          justify="space-between"
         >
           <Navbar />
           <Grid item xs={5} className={classes.leftHalf}>
@@ -96,7 +97,7 @@ class ParticipantShowPage extends React.Component {
                   />
                 </Grid>
               </Grid>
-              <Grid item style={{ padding: '0px' }}>
+              <Grid item style={{ padding: '0px', marginTop: '20px' }}>
                 <PaperworkList
                   paperworks={paperworks}
                   participantId={participantId}
@@ -106,7 +107,7 @@ class ParticipantShowPage extends React.Component {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6} className={classes.rightHalf}>
+          <Grid item xs={5} className={classes.rightHalf}>
             <CaseNoteContainer
               participant={participant}
               caseNotes={caseNotes}
