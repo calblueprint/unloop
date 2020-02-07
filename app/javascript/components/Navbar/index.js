@@ -24,14 +24,9 @@ class Navbar extends React.Component {
       },
       withCredentials: true,
     };
-    axios
-      .delete(path, { ...config })
-      .then(() => {
-        console.log('Delete worked!');
-      })
-      .catch(() => {
-        this.navigateToHomepage();
-      });
+    axios.get(path, { ...config }).then(() => {
+      this.navigateToHomepage();
+    });
   }
 
   navigateToHomepage() {
