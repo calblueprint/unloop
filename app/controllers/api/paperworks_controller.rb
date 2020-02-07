@@ -1,5 +1,5 @@
 class Api::PaperworksController < ApplicationController
-  before_action :set_paperwork, only: [:show, :update, :complete, :destroy]
+  before_action :set_paperwork, only: [:show, :update, :complete, :viewed, :destroy]
   respond_to :json
 
   def show
@@ -28,6 +28,14 @@ class Api::PaperworksController < ApplicationController
       render json: @paperwork, status: :ok
     else
       render json: { error: 'Failed to mark as agreed' }, status: :unprocessable_entity
+    end
+  end
+
+  def viewed
+    if @paperwork.update(viewed: true)
+      render json: @paperwork, status: :ok
+    else
+      render json: { error: 'Failed to mark as agreed' }, status: :unprocessable_entity  
     end
   end
 

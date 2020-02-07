@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :paperworks, only: [:create, :update, :destroy] do
       patch 'complete', to: 'paperworks#complete', on: :member
+      patch 'viewed', to: 'paperworks#viewed', on: :member
     end
     resources :case_notes, only: [:show, :create, :update, :destroy] do
       patch 'internal', to: 'case_notes#internal', on: :member
