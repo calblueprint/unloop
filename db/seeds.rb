@@ -1,6 +1,6 @@
 # Constants
-NUM_STAFF = 10
-NUM_PARTICIPANTS = 30
+NUM_STAFF = 30
+NUM_PARTICIPANTS = 25
 NUM_PAPERWORKS = 25
 NUM_CASE_NOTES = 25
 NUM_PERSONAL_QUESTIONNAIRE = 25
@@ -62,6 +62,7 @@ def create_paperworks
     Paperwork.create!(title: Faker::Job.title,
                       link: Faker::Internet.url,
                       agree: Faker::Boolean.boolean,
+                      viewed: Faker::Boolean.boolean,
                       staff_id: Faker::Number.between(from: STAFF_START_ID, to: STAFF_END_ID),
                       participant_id: Faker::Number.between(from: PARTICIPANT_START_ID, to: PARTICIPANT_END_ID)
                     )
