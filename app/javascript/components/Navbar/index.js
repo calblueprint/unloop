@@ -24,9 +24,12 @@ class Navbar extends React.Component {
       },
       withCredentials: true,
     };
-    axios.get(path, { ...config }).then(() => {
-      this.navigateToHomepage();
-    });
+    axios
+      .get(path, { ...config })
+      .then(() => {
+        this.navigateToHomepage();
+      })
+      .catch(error => console.error(error));
   }
 
   navigateToHomepage() {
