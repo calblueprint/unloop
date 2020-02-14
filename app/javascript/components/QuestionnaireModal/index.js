@@ -45,7 +45,7 @@ function QuestionnaireModal({
 
   return (
     <>
-      <Button variant="outlined" color="primary" onClick={() => setOpen(true)}>
+      <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
         {qType} INTAKE FORM
       </Button>
       <Dialog
