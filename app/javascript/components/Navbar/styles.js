@@ -8,7 +8,7 @@ export const styles = theme => ({
   navBar: {
     height: '100vh',
     paddingTop: 40,
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: '#29313C',
     position: 'fixed',
   },
   drawer: {
@@ -27,7 +27,7 @@ export const styles = theme => ({
     width: '100%',
     objectFit: 'contain',
     overflowX: 'hidden',
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: '#29313C',
   },
 });
 

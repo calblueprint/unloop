@@ -4,8 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { IconButton, Button, Grid, Drawer } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import UnloopLogo from 'images/unloop_logo.png';
-import axios from 'axios';
 import styles from './styles';
+import { apiGet } from '../../utils/axios';
 
 class Navbar extends React.Component {
   constructor() {
@@ -15,17 +15,8 @@ class Navbar extends React.Component {
   }
 
   logout() {
-    //   TODO: Sign out is not working
     const path = '/users/sign_out';
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'X_CSRF-Token': document.getElementsByName('csrf-token')[0].content,
-      },
-      withCredentials: true,
-    };
-    axios
-      .get(path, { ...config })
+    apiGet(path)
       .then(() => {
         this.navigateToHomepage();
       })
