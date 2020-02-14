@@ -4,8 +4,9 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
 import ParticipantCard from './ParticipantCard';
-import NavBar from './NavBar';
+import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
+import { Grid } from '@material-ui/core';
 
 const TrieSearch = require('trie-search');
 
@@ -52,7 +53,7 @@ class StaffDashboard extends React.Component {
 
     return (
       <div className="dashboard">
-        <NavBar></NavBar>
+        <Navbar></Navbar>
         <div className="content">
           <h1>Participant Dashboard</h1>
           <div className="table-container">

@@ -13,6 +13,7 @@ export const styles = theme => ({
   rightHalf: {
     paddingTop: 40,
     paddingLeft: 28,
+    marginRight: 0,
     backgroundColor: theme.palette.common.lightBlue,
   },
   navBar: {
@@ -21,13 +22,9 @@ export const styles = theme => ({
     backgroundColor: theme.palette.common.black,
   },
   navBarSignOut: {
-    paddingLeft: 28,
-    paddingRight: 28,
     color: theme.palette.common.white,
   },
   navBarItem: {
-    paddingLeft: 40,
-    paddingRight: 40,
     color: theme.palette.common.white,
   },
   avatarStyle: {
@@ -36,12 +33,12 @@ export const styles = theme => ({
     backgroundColor: '#EB6658',
   },
   unloopLogo: {
-    width: 'auto',
-    height: '100%',
+    paddingLeft: '10px',
+    paddingBottom: '10px',
+    width: '100%',
     objectFit: 'contain',
+    overflowX: 'hidden',
     backgroundColor: theme.palette.common.black,
-    marginBottom: 0,
-    paddingBottom: 0,
   },
 });
 
