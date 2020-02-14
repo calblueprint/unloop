@@ -11,15 +11,8 @@ import QuestionnaireModal from 'components/QuestionnaireModal';
 import PaperworkList from 'components/PaperworkList';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import theme from 'utils/theme';
-import {
-  IconButton,
-  Button,
-  Grid,
-  Typography,
-  Avatar,
-} from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
-import UnloopLogo from 'images/unloop_logo.png';
+import Navbar from 'components/Navbar';
+import { Grid, Typography, Avatar } from '@material-ui/core';
 import styles from './styles';
 
 class ParticipantShowPage extends React.Component {
@@ -65,43 +58,9 @@ class ParticipantShowPage extends React.Component {
             margin: '0px',
             padding: '0px',
           }}
+          justify="space-between"
         >
-          {/* TODO: REMOVE NAVBAR AND CREATE PARTIAL */}
-          <Grid
-            container
-            item
-            xs={1}
-            style={{ height: '100%vh' }}
-            className={classes.navBar}
-            direction="column"
-            alignItems="center"
-            justify="space-between"
-          >
-            <Grid container item alignItems="center" direction="column">
-              <Grid item>
-                <Button
-                  component="a"
-                  disableFocusRipple
-                  disableTouchRipple
-                  className={classes.navBarSignOut}
-                >
-                  Sign Out
-                </Button>
-              </Grid>
-              <Grid item>
-                <IconButton
-                  disableFocusRipple
-                  disableTouchRipple
-                  className={classes.navBarItem}
-                >
-                  <HomeIcon fontSize="large" />
-                </IconButton>
-              </Grid>
-            </Grid>
-            <Grid item className={classes.unloopLogo}>
-              <img src={UnloopLogo} alt="Unloop Logo" />
-            </Grid>
-          </Grid>
+          <Navbar />
           <Grid item xs={5} className={classes.leftHalf}>
             <Grid container direction="column" spacing={3}>
               <Grid
@@ -138,7 +97,7 @@ class ParticipantShowPage extends React.Component {
                   />
                 </Grid>
               </Grid>
-              <Grid item style={{ padding: '0px' }}>
+              <Grid item style={{ padding: '0px', marginTop: '20px' }}>
                 <PaperworkList
                   paperworks={paperworks}
                   participantId={participantId}
@@ -148,7 +107,7 @@ class ParticipantShowPage extends React.Component {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6} className={classes.rightHalf}>
+          <Grid item xs={5} className={classes.rightHalf}>
             <CaseNoteContainer
               participant={participant}
               caseNotes={caseNotes}

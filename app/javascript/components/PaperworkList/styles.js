@@ -16,8 +16,9 @@ export const styles = theme => ({
     borderBottom: `5px solid ${theme.palette.primary.main}`,
   },
   listStyle: {
+    paddingTop: 0,
     maxHeight: '600px',
-    height: '57vh',
+    height: '53vh',
     overflow: 'auto',
     overflowX: 'hidden',
     overflowY: 'auto',
