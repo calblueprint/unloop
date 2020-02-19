@@ -3,7 +3,7 @@
 ## Technologies
 * Ruby 2.5.6
 * Rails 6.0.0
-* Postgresql 1.1.4
+* Postgresql 11.6
 
 ## Installation
 ### Local Development
