@@ -8,6 +8,7 @@ import {
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import theme from '../utils/theme';
 
 const styles = {
   casenoteText: {
@@ -41,7 +42,7 @@ class ParticipantCard extends React.Component {
 
     let statusColor;
     if (status == "R0") {
-      statusColor = "#009FAD"
+      statusColor = theme.palette.primary.light
     } else if (status == "R1") {
       statusColor = "#5870EB"
     } else {
