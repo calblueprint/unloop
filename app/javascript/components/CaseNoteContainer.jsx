@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CaseNoteForm from 'components/CaseNoteForm';
-import CaseNoteCard from './CaseNoteCard'
+import CaseNoteCard from 'components/CaseNoteCard'
 import PropTypes from 'prop-types';
 
 const styles = {

@@ -1,18 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import MUIRichTextEditor from 'mui-rte';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
-import {
-  Button,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  Grid,
-  Paper,
-} from '@material-ui/core/';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { Button, Dialog, Grid, Paper } from '@material-ui/core/';
+import { createMuiTheme } from '@material-ui/core/styles';
 
 const styles = {
   buttonStyle: {
@@ -58,7 +50,6 @@ const styles = {
   },
 };
 
-
 // TODO: Move to global theme
 const defaultTheme = createMuiTheme();
 Object.assign(defaultTheme, {
@@ -89,7 +80,6 @@ class CaseNoteCardModal extends React.Component {
     this.state = {
       description: this.props.description,
       title: this.props.title,
-      internal: this.props.internal,
       open: false,
     };
     this.handleClose = this.handleClose.bind(this);
@@ -150,5 +140,10 @@ class CaseNoteCardModal extends React.Component {
     );
   }
 }
+
+CaseNoteCardModal.propTypes = {
+  description: PropTypes.string,
+  title: PropTypes.string,
+};
 
 export default CaseNoteCardModal;
