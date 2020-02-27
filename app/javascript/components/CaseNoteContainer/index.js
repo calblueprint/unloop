@@ -1,30 +1,14 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CaseNoteForm from 'components/CaseNoteForm';
-import CaseNoteCard from 'components/CaseNoteCard'
+import CaseNoteCard from 'components/CaseNoteCard';
 import PropTypes from 'prop-types';
+import styles from './styles';
 
-const styles = {
-  headerStyle: {
-    marginTop: '0px',
-    marginBottom: '0px',
-    fontSize: '24px',
-  },
-};
-const classes = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-}));
 class CaseNoteContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -58,6 +42,8 @@ class CaseNoteContainer extends React.Component {
   }
 
   renderCaseNoteCards() {
+    const { classes } = this.props;
+
     if (this.state.caseNotes.length !== 0) {
       const caseNoteCards = this.state.caseNotes.map(caseNote => (
         <div key={caseNote.id}>
@@ -79,10 +65,10 @@ class CaseNoteContainer extends React.Component {
       <div>
         <img
           src="/assets/noCaseNotes.svg"
-          className="no-case-notes-img"
+          className={classes.noCaseNotesImg}
           alt="no Case Notes"
         />
-        <div className="no-case-notes-txt">
+        <div className={classes.noCaseNotesTxt}>
           <h3>No case notes yet</h3>
           {this.state.userType === 'staff' ? (
             <p>Click on NEW CASENOTE + to create one.</p>
@@ -95,6 +81,7 @@ class CaseNoteContainer extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <>
         <CssBaseline />
@@ -114,7 +101,7 @@ class CaseNoteContainer extends React.Component {
                   }}
                 >
                   <Grid item xs={4}>
-                    <h2 style={styles.headerStyle}>Casenotes</h2>
+                    <h2 className={classes.headerStyle}>Casenotes</h2>
                   </Grid>
                   {this.renderCaseNoteCreationIfStaff()}
                 </Grid>
@@ -137,9 +124,10 @@ class CaseNoteContainer extends React.Component {
 }
 
 CaseNoteContainer.propTypes = {
+  classes: PropTypes.object.isRequired,
   caseNotes: PropTypes.array,
   participant: PropTypes.object,
   userType: PropTypes.string.isRequired,
 };
 
-export default CaseNoteContainer;
+export default withStyles(styles)(CaseNoteContainer);
