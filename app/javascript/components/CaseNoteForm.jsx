@@ -68,7 +68,7 @@ class CaseNoteForm extends React.Component {
       title: this.props.title,
       description: this.props.description,
       participant_id: this.props.participantId,
-      internal: true,
+      internal: this.props.internal,
       open: false,
       type: this.props.type,
       id: this.props.id,
@@ -128,7 +128,12 @@ class CaseNoteForm extends React.Component {
   };
 
   handleInternalChange = name => event => {
-    this.setState({ [name]: !this.state.internal });
+    console.log("before " + this.state.internal);
+    console.log("target " + event.target.checked);
+    this.setState(
+      { [name]: event.target.checked },
+      () => console.log('now', this.state.internal)
+    );
   };
 
   handleDescriptionChange = name => state => {
@@ -155,11 +160,12 @@ class CaseNoteForm extends React.Component {
           internal: this.state.internal,
           participant_id: this.state.participant_id,
         };
-
+        
         apiPost('/api/case_notes', { case_note: body })
           .then(() => window.location.reload())
           .catch(error => console.error(error));
       } else {
+        
         const newTitle = this.state.title;
         const newDescription = this.state.tempDescription;
         const newInternal = this.state.internal;
@@ -176,6 +182,8 @@ class CaseNoteForm extends React.Component {
           internal: this.state.internal,
           participant_id: this.state.participant_id,
         };
+
+        console.log(body);
 
         apiPatch(`/api/case_notes/${this.state.id}`, { case_note: body })
           .then(() => window.location.reload())
@@ -285,9 +293,9 @@ class CaseNoteForm extends React.Component {
               Visible to Participant
               <Switch
                 name="internal"
-                defaultChecked={false}
-                value={this.state.internal}
+                checked={this.state.internal}
                 onChange={this.handleInternalChange('internal')}
+                value="internal"
                 color="primary"
                 inputProps={{ 'aria-label': 'primary checkbox' }}
               />
