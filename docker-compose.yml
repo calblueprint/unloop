@@ -1,0 +1,14 @@
+version: "3.4"
+services:
+  postgres:
+    container_name: unloop-postgres
+    image: "postgres:11.5"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      # per PGDATA section in https://hub.docker.com/_/postgres
+      PGDATA: /var/lib/postgresql/data/db
+      TZ: GMT-8
+    ports:
+      - "5433:5432"
+    restart: unless-stopped
