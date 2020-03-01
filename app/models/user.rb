@@ -13,6 +13,8 @@ class User < ApplicationRecord
 
   has_one :participant, dependent: :destroy
   has_one :staff, dependent: :destroy
+  has_many :action_items_assigned_by , class_name: 'Assignment', foreign_key: "assigned_by_id"
+  has_many :action_items_assigned_to, class_name: 'Assignment', foreign_key: "assigned_to_id"
 
   validates :email, :user_type, presence: true
   validates :admin, exclusion: { in: [true], message: 'Only staff can be admin' }, if: :not_staff?
