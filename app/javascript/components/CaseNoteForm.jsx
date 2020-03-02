@@ -198,7 +198,7 @@ class CaseNoteForm extends React.Component {
         <Button
           className="primary-button"
           variant="contained"
-          color="primary"
+          color="secondary"
           onClick={this.handleOpen}
         >
           NEW CASENOTE +

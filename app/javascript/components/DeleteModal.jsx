@@ -1,21 +1,15 @@
 import React from 'react';
-import { apiPost, apiDelete } from 'utils/axios';
-import { Editor, EditorState, convertToRaw } from 'draft-js';
+import { apiDelete } from 'utils/axios';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
 import {
   Button,
-  TextField,
   Dialog,
-  DialogTitle,
   DialogActions,
   DialogContent,
   DialogContentText,
   MenuItem,
-  Switch,
 } from '@material-ui/core/';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import MUIRichTextEditor from 'mui-rte';
 
 const styles = {
   dialogActionsStyle: {

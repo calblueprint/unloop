@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CaseNoteForm from 'components/CaseNoteForm';
-import CaseNoteCard from 'components/CaseNoteCard';
+import CaseNoteCard from './CaseNoteCard'
 import PropTypes from 'prop-types';
 
 const styles = {
@@ -35,10 +35,18 @@ class CaseNoteContainer extends React.Component {
     };
   }
 
+  formatDate(dateString) {
+    const dateObj = new Date(dateString);
+    const year = dateObj.getFullYear();
+    const month = dateObj.getMonth() + 1;
+    const dt = dateObj.getDate();
+    return `${month.toString()}/${dt.toString()}/${year.toString()}`;
+  }
+
   renderCaseNoteCreationIfStaff() {
     if (this.state.userType === 'staff') {
       return (
-        <Grid item xs={4} style={{ paddingBottom: '20px' }}>
+        <Grid item style={{ paddingBottom: '20px' }}>
           <CaseNoteForm
             type="create"
             participantId={this.state.participant.id}
@@ -60,6 +68,7 @@ class CaseNoteContainer extends React.Component {
             id={caseNote.id}
             participantId={this.state.participant.id}
             showMenu={this.state.userType === 'staff'}
+            date={this.formatDate(caseNote.created_at)}
           />
         </div>
       ));
@@ -105,7 +114,7 @@ class CaseNoteContainer extends React.Component {
                   }}
                 >
                   <Grid item xs={4}>
-                    <h2 style={styles.headerStyle}>Case Notes</h2>
+                    <h2 style={styles.headerStyle}>Casenotes</h2>
                   </Grid>
                   {this.renderCaseNoteCreationIfStaff()}
                 </Grid>

@@ -4,8 +4,12 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#googleAuth'
   # On failed authorization redirect to sign in page
   get 'auth/failure', to: redirect('/users/sign_in')
+
+  devise_scope :user do
+    get 'users/sign_out', :to => 'devise/sessions#destroy'
+  end
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  
 
   resources :paperworks, :case_notes, :professional_questionnaires, :personal_questionnaires, only: [:index, :show, :new, :edit]
 
@@ -24,6 +28,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :paperworks, only: [:create, :update, :destroy] do
       patch 'complete', to: 'paperworks#complete', on: :member
+      patch 'viewed', to: 'paperworks#viewed', on: :member
     end
     resources :case_notes, only: [:show, :create, :update, :destroy] do
       patch 'internal', to: 'case_notes#internal', on: :member

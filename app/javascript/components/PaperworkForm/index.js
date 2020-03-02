@@ -8,12 +8,13 @@ import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import validator from 'validator';
-import { apiPost, apiPatch } from 'utils/axios';
+import { apiPost, apiPatch, apiDelete } from 'utils/axios';
 import {
   Button,
   Dialog,
   DialogContent,
   DialogActions,
+  DialogTitle,
   Grid,
   TextField,
   Typography,
@@ -32,6 +33,7 @@ function PaperworkForm({
   display,
 }) {
   const [open, setOpen] = useState(false);
+  const [openDeleteModal, setDeleteModal] = useState(false);
   const [paperwork, setPaperwork] = useState({
     title: paperworkTitle,
     link: paperworkLink,
@@ -97,6 +99,19 @@ function PaperworkForm({
     }
   };
 
+  const handleDelete = event => {
+    event.preventDefault();
+    if (type === 'edit') {
+      apiDelete(`/api/paperworks/${paperworkId}`)
+        .then(() => {
+          setDeleteModal(false);
+          setOpen(false);
+          window.location.reload();
+        })
+        .catch(error => console.log(error));
+    }
+  };
+
   const onFieldChange = (field, value) => {
     setPaperwork({ ...paperwork, [field]: value });
   };
@@ -140,9 +155,71 @@ function PaperworkForm({
     return ret;
   };
 
+  const deleteModal = () => (
+    <Dialog
+      open={openDeleteModal}
+      onClose={() => setDeleteModal(false)}
+      aria-labelledby="form-dialog-title"
+      maxWidth="sm"
+      fullWidth
+    >
+      <DialogTitle>Are you sure you want to delete this paperwork?</DialogTitle>
+      <DialogActions>
+        <Button
+          color="primary"
+          variant="contained"
+          type="submit"
+          onClick={handleDelete}
+        >
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+
+  const dialogOptions = () => {
+    let ret;
+    if (type === 'create') {
+      ret = (
+        <Grid container direction="row-reverse">
+          <Grid item>
+            <Button type="submit" variant="contained" color="primary">
+              Save Document
+            </Button>
+          </Grid>
+        </Grid>
+      );
+    } else if (type === 'edit') {
+      ret = (
+        <Grid container direction="row" justify="space-between">
+          <Grid item>
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              onClick={event => {
+                event.preventDefault();
+                setDeleteModal(true);
+              }}
+            >
+              Delete Document
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button type="submit" variant="contained" color="primary">
+              Save Document
+            </Button>
+          </Grid>
+        </Grid>
+      );
+    }
+    return ret;
+  };
+
   return (
     <>
       {button()}
+      {deleteModal()}
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
@@ -205,9 +282,7 @@ function PaperworkForm({
             </Grid>
           </DialogContent>
           <DialogActions className={classes.dialogActions}>
-            <Button type="submit" variant="contained" color="primary">
-              Save Document
-            </Button>
+            {dialogOptions()}
           </DialogActions>
         </form>
       </Dialog>

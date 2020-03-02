@@ -109,7 +109,7 @@ class CaseNoteCardModal extends React.Component {
       <>
         <div style={this.buttonStyle}>
           <Button
-            className="primary-button"
+            className="contained"
             color="primary"
             onClick={this.handleOpen}
           >

@@ -21,8 +21,9 @@ export const styles = theme => ({
     fontSize: '24px',
   },
   listStyle: {
-    maxHeight: '700px',
-    height: '60vh',
+    paddingTop: 0,
+    maxHeight: '600px',
+    height: '53vh',
     overflow: 'auto',
     overflowX: 'hidden',
     overflowY: 'auto',
