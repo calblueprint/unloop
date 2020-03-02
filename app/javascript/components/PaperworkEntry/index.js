@@ -60,22 +60,12 @@ function PaperworkEntry({
   };
 
   const loadAvatar = () =>
-    hasAgreed ? <DoneIcon /> : <NotificationsNoneIcon />;
-
+    hasAgreed ? <DoneIcon /> : <NotificationsNoneIcon color="secondary" />;
   const loadActions = () => {
     let ret;
     if (userType === 'staff') {
       ret = (
         <CardActions>
-          <Button
-            variant="text"
-            color="primary"
-            href={link}
-            target="_blank"
-            type="submit"
-          >
-            View
-          </Button>
           <PaperworkForm
             type="edit"
             participantId={participantId}
@@ -83,6 +73,9 @@ function PaperworkEntry({
             paperworkLink={link}
             paperworkId={id}
           />
+          <Button color="primary" href={link} target="_blank">
+            View
+          </Button>
         </CardActions>
       );
     } else if (userType === 'participant') {
