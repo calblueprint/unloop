@@ -7,7 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Paper, List } from '@material-ui/core';
+import { Grid, Paper, List } from '@material-ui/core';
 import PaperworkEntry from 'components/PaperworkEntry';
 import PaperworkForm from 'components/PaperworkForm';
 
@@ -41,9 +41,7 @@ function PaperworkList({
         className={classes.componentTitle}
       >
         <Grid item>
-          <Typography variant="h4" className={classes.headerStyle}>
-            Paperworks
-          </Typography>
+          <h3 className={classes.headerStyle}>Paperworks</h3>
         </Grid>
         <Grid item>
           <PaperworkForm

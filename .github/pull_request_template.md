@@ -1,4 +1,4 @@
-## FEATURE TITLE
+## Your feature title here
 
 Describe your feature here
 
@@ -10,12 +10,10 @@ Optional - any related PRs you're waiting on, or PRs that will conflict, etc
 
 Optional - if you added anything to the database through migration(s)
 
-### Tests Performed, Edge Cases
-
-Lol we'll see if we test
 
 ### Screenshots
 
-Add screenshots!!! If you'd like
+Optional but would be nice for final presentation :)
+
 
 CC: @didvi

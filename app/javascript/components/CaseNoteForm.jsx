@@ -128,11 +128,8 @@ class CaseNoteForm extends React.Component {
   };
 
   handleInternalChange = name => event => {
-    console.log("before " + this.state.internal);
-    console.log("target " + event.target.checked);
     this.setState(
-      { [name]: event.target.checked },
-      () => console.log('now', this.state.internal)
+      { [name]: event.target.checked }
     );
   };
 
@@ -182,8 +179,6 @@ class CaseNoteForm extends React.Component {
           internal: this.state.internal,
           participant_id: this.state.participant_id,
         };
-
-        console.log(body);
 
         apiPatch(`/api/case_notes/${this.state.id}`, { case_note: body })
           .then(() => window.location.reload())
