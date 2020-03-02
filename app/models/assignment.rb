@@ -8,7 +8,7 @@ class Assignment < ApplicationRecord
 
     private 
     def valid_assignment
-        if assigned_by.participant? && (!assigned_to.staff? || assigned_to == assigned_by)
+        if assigned_by.participant? && assigned_to.participant? && assigned_to != assigned_by
             errors.add(:assigned_to, "Participant can not assign an action item to another participant")
         end
     end
