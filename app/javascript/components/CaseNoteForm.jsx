@@ -129,6 +129,7 @@ class CaseNoteForm extends React.Component {
 
   handleInternalChange = name => event => {
     this.setState({ [name]: !this.state.internal });
+    console.log({ [name]:this.state.internal });
   };
 
   handleDescriptionChange = name => state => {
