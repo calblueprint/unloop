@@ -1,5 +1,5 @@
 class ActionItem < ApplicationRecord
     has_many :assignments
     
-    validates :title, :description, presence: true
+    validates :title, :description, :is_template, presence: true
 end
