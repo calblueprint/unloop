@@ -61,7 +61,6 @@ function PaperworkEntry({
 
   const loadAvatar = () =>
     hasAgreed ? <DoneIcon /> : <NotificationsNoneIcon color="secondary" />;
-
   const loadActions = () => {
     let ret;
     if (userType === 'staff') {
