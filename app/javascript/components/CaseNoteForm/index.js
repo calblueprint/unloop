@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import validator from 'validator';
 import { apiPost, apiPatch } from 'utils/axios';
-import { EditorState, convertToRaw } from 'draft-js';
+import { convertToRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
 import {
@@ -15,51 +15,9 @@ import {
   MenuItem,
   Switch,
 } from '@material-ui/core/';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { withStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import MUIRichTextEditor from 'mui-rte';
-
-const styles = {
-  dialogActionsStyle: {
-    padding: '30px',
-  },
-  MUIRichTextEditorStyle: {
-    border: '5px solid',
-    padding: '10px',
-  },
-  dialogStyle: {
-    padding: '20px',
-  },
-  dialogContentTextStyle: {
-    color: 'black',
-    marginBottom: '2px',
-  },
-  dialogContentTextFieldStyle: {
-    marginTop: '2px',
-    borderStyle: 'solid 4px grey',
-  },
-};
-
-const defaultTheme = createMuiTheme();
-Object.assign(defaultTheme, {
-  overrides: {
-    MUIRichTextEditor: {
-      root: {
-        borderLeft: 'solid 1px #C4C4C4',
-        borderRight: 'solid 1px #C4C4C4',
-        borderBottom: 'solid 1px #C4C4C4',
-        borderRadius: '4px',
-      },
-      editorContainer: {
-        padding: '20px',
-        overflow: 'auto',
-        height: '130px',
-      },
-      toolbar: {
-        backgroundColor: '#F4F4F4',
-      },
-    },
-  },
-});
+import { styles, defaultTheme } from './styles';
 
 class CaseNoteForm extends React.Component {
   constructor(props) {
@@ -73,13 +31,11 @@ class CaseNoteForm extends React.Component {
       type: this.props.type,
       id: this.props.id,
       tempDescription: this.props.description,
-      editorState: EditorState.createEmpty(),
       errors: {
         title: '',
       },
-      display: this.props.display
+      display: this.props.display,
     };
-    this.onChange = editorState => this.setState({ editorState });
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleInternalChange = this.handleInternalChange.bind(this);
@@ -127,14 +83,12 @@ class CaseNoteForm extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleInternalChange = name => event => {
-    this.setState({ [name]: !this.state.internal });
+  handleInternalChange = prevState => () => {
+    this.setState({ internal: !prevState.internal });
   };
 
   handleDescriptionChange = name => state => {
-    // TODO: the line below is the rtf representation. Update to this once rtf on /casenotes
     const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
-    // const value = state.getCurrentContent().getPlainText();
     this.setState({ [name]: value });
   };
 
@@ -160,15 +114,9 @@ class CaseNoteForm extends React.Component {
           .then(() => window.location.reload())
           .catch(error => console.error(error));
       } else {
-        const newTitle = this.state.title;
-        const newDescription = this.state.tempDescription;
-        const newInternal = this.state.internal;
-
-        this.setState({
-          title: newTitle,
-          description: newDescription,
-          internal: newInternal,
-        });
+        this.setState(prevState => ({
+          description: prevState.tempDescription,
+        }));
 
         const body = {
           title: this.state.title,
@@ -184,12 +132,11 @@ class CaseNoteForm extends React.Component {
     }
   }
 
-
   button = () => {
     let ret;
-    if (this.state.display == 'plus') {
+    if (this.state.display === 'plus') {
       ret = (
-        <button onClick={this.handleOpen} className="plus-button">
+        <button onClick={this.handleOpen} className="plus-button" type="button">
           +
         </button>
       );
@@ -206,11 +153,12 @@ class CaseNoteForm extends React.Component {
       );
     } else if (this.state.type === 'edit') {
       ret = <MenuItem onClick={this.handleOpen}>Edit</MenuItem>;
-    } 
+    }
     return ret;
   };
 
   render() {
+    const { classes } = this.props;
     let description;
     if (this.state.type === 'create') {
       description = 'description';
@@ -222,7 +170,7 @@ class CaseNoteForm extends React.Component {
     if (this.state.type === 'create' || this.state.type === 'edit') {
       dialog = (
         <Dialog
-          style={styles.dialogStyle}
+          className={classes.dialogStyle}
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
@@ -230,12 +178,12 @@ class CaseNoteForm extends React.Component {
           fullWidth
         >
           <DialogContent maxwidth="sm">
-            <DialogContentText style={styles.dialogContentTextStyle}>
+            <DialogContentText className={classes.dialogContentTextStyle}>
               Title
             </DialogContentText>
             <TextField
               value={this.state.title}
-              style={styles.dialogContentTextFieldStyle}
+              className={classes.dialogContentTextFieldStyle}
               name="title"
               onChange={this.handleChange('title')}
               onBlur={this.checkErrors('title')}
@@ -252,7 +200,7 @@ class CaseNoteForm extends React.Component {
           <br />
 
           <DialogContent maxwidth="sm">
-            <DialogContentText style={styles.dialogContentTextStyle}>
+            <DialogContentText className={classes.dialogContentTextStyle}>
               Description
             </DialogContentText>
             <MuiThemeProvider theme={defaultTheme}>
@@ -266,7 +214,7 @@ class CaseNoteForm extends React.Component {
                 onChange={this.handleDescriptionChange(description)}
                 variant="outlined"
                 label="Case Note description"
-                style={styles.MUIRichTextEditorStyle}
+                className={classes.MUIRichTextEditorStyle}
                 controls={[
                   'bold',
                   'italic',
@@ -281,20 +229,20 @@ class CaseNoteForm extends React.Component {
           <br />
 
           <DialogContent>
-            <DialogContentText style={styles.dialogContentTextStyle}>
+            <DialogContentText className={classes.dialogContentTextStyle}>
               Visible to Participant
               <Switch
                 name="internal"
                 defaultChecked={false}
                 value={this.state.internal}
-                onChange={this.handleInternalChange('internal')}
+                onChange={this.handleInternalChange(this.state)}
                 color="primary"
                 inputProps={{ 'aria-label': 'primary checkbox' }}
               />
             </DialogContentText>
           </DialogContent>
 
-          <DialogActions style={styles.dialogActionsStyle}>
+          <DialogActions className={classes.dialogActionsStyle}>
             <Button
               onClick={this.handleClose}
               variant="outlined"
@@ -326,11 +274,13 @@ class CaseNoteForm extends React.Component {
 }
 
 CaseNoteForm.propTypes = {
+  classes: PropTypes.object.isRequired,
   type: PropTypes.oneOf(['create', 'edit']),
   title: PropTypes.string,
   description: PropTypes.string,
   internal: PropTypes.bool,
-  open: PropTypes.bool,
+  display: PropTypes.string,
+  id: PropTypes.number,
   participantId: PropTypes.number.isRequired,
 };
 
@@ -339,7 +289,6 @@ CaseNoteForm.defaultProps = {
   title: '',
   description: '',
   internal: true,
-  open: false,
 };
 
-export default CaseNoteForm;
+export default withStyles(styles)(CaseNoteForm);
