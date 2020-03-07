@@ -25,8 +25,10 @@ class StudioAssessmentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_studio_assessment
-      @studio_assessment = authorize StudioAssessment.find(params[:id])
-    end
+
+  def set_studio_assessment
+    @studio_assessment = authorize StudioAssessment.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to studio_assessments_path
+  end
 end
