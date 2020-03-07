@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_07_120858) do
+ActiveRecord::Schema.define(version: 2020_03_07_003647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,33 @@ ActiveRecord::Schema.define(version: 2019_12_07_120858) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_staffs_on_user_id"
+  end
+
+  create_table "studio_assessments", force: :cascade do |t|
+    t.string "name"
+    t.bigint "participant_id"
+    t.integer "bigpicture_score"
+    t.string "bigpicture_comment"
+    t.integer "progfundamentals_score"
+    t.string "progfundamentals_comment"
+    t.integer "versioncontrol_score"
+    t.string "versioncontrol_comment"
+    t.integer "react_score"
+    t.string "react_comment"
+    t.integer "node_score"
+    t.string "node_comment"
+    t.integer "db_score"
+    t.string "db_comment"
+    t.integer "problemsolving_score"
+    t.string "problemsolving_comment"
+    t.integer "problemsolvingalt_score"
+    t.string "problemsolvingalt_comment"
+    t.boolean "passed_capstone"
+    t.string "capstone_comment"
+    t.string "proctor"
+    t.string "assessment_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
