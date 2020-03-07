@@ -14,7 +14,7 @@ class CreateStudioAssessments < ActiveRecord::Migration[6.0]
       t.integer :node_score
       t.string :node_comment
       t.integer :db_score
-      t.comment :db
+      t.string :db_comment
       t.integer :problemsolving_score
       t.string :problemsolving_comment
       t.integer :problemsolvingalt_score

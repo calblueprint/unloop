@@ -16,7 +16,7 @@ RSpec.describe "studio_assessments/edit", type: :view do
       :node_score => 1,
       :node_comment => "MyString",
       :db_score => 1,
-      :db => "",
+      :db_comment => "",
       :problemsolving_score => 1,
       :problemsolving_comment => "MyString",
       :problemsolvingalt_score => 1,
@@ -59,7 +59,7 @@ RSpec.describe "studio_assessments/edit", type: :view do
 
       assert_select "input[name=?]", "studio_assessment[db_score]"
 
-      assert_select "input[name=?]", "studio_assessment[db]"
+      assert_select "input[name=?]", "studio_assessment[db_comment]"
 
       assert_select "input[name=?]", "studio_assessment[problemsolving_score]"
 
