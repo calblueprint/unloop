@@ -5,6 +5,7 @@ class StudioAssessmentsController < ApplicationController
   # GET /studio_assessments.json
   def index
     @studio_assessments = StudioAssessment.all
+    skip_policy_scope
   end
 
   # GET /studio_assessments/1
@@ -14,11 +15,13 @@ class StudioAssessmentsController < ApplicationController
 
   # GET /studio_assessments/new
   def new
-    @studio_assessment = StudioAssessment.new
+    @studio_assessment = authorize StudioAssessment.new
+    @participants = Participant.all
   end
 
   # GET /studio_assessments/1/edit
   def edit
+    @participants = Participant.all
   end
 
   # POST /studio_assessments
