@@ -1,0 +1,2 @@
+module StudioAssessmentsHelper
+end
