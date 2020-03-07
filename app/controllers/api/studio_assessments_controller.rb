@@ -44,27 +44,29 @@ class Api::StudioAssessmentsController < ApplicationController
     end
 
     def studio_assessment_params
-        case_notes_param = params.require(:studio_assessment).permit(:name,
-                                                            :participant_id,
-                                                            :bigpicture_score,
-                                                            :bigpicture_comment,
-                                                            :progfundamentals_score,
-                                                            :progfundamentals_comment,
-                                                            :versioncontrol_score,
-                                                            :versioncontrol_comment,
-                                                            :react_score,
-                                                            :react_comment,
-                                                            :node_score,
-                                                            :node_comment,
-                                                            :db_score,
-                                                            :db_comment,
-                                                            :problemsolving_score,
-                                                            :problemsolving_comment,
-                                                            :problemsolvingalt_score
-                                                            :problemsolvingalt_comment,
-                                                            :passed_capstone,
-                                                            :capstone_comment,
-                                                            :proctor,
-                                                            :assessment_category)
+        case_notes_param = params.require(:studio_assessment).permit(:name, 
+                                                                    :participant_id, 
+                                                                    :bigpicture_score, 
+                                                                    :bigpicture_comment, 
+                                                                    :progfundamentals_score, 
+                                                                    :progfundamentals_comment, 
+                                                                    :versioncontrol_score, 
+                                                                    :versioncontrol_comment, 
+                                                                    :react_score, 
+                                                                    :react_comment, 
+                                                                    :node_score, 
+                                                                    :node_comment, 
+                                                                    :db_score, 
+                                                                    :db_comment,
+                                                                    :problemsolving_score,
+                                                                    :problemsolving_comment,
+                                                                    :problemsolvingalt_score,
+                                                                    :problemsolvingalt_comment,
+                                                                    :passed_capstone,
+                                                                    :capstone_comment,
+                                                                    :proctor,
+                                                                    :assessment_type)
+
+        studio_assessment_param.merge(staff_id: current_user.staff.id)
     end
 end

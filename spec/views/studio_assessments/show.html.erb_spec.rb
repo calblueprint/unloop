@@ -16,7 +16,7 @@ RSpec.describe "studio_assessments/show", type: :view do
       :node_score => 6,
       :node_comment => "Node Comment",
       :db_score => 7,
-      :db => "",
+      :db_comment => "",
       :problemsolving_score => 8,
       :problemsolving_comment => "Problemsolving Comment",
       :problemsolvingalt_score => 9,
