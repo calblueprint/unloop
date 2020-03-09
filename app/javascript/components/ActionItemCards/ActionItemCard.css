@@ -1,17 +1,17 @@
 .card {
     display: flex;
     flex-direction: row;
-    justify-content: start;
-    border: 0.5px solid #5870EB;
-    height: 100px
+    justify-content: center;
+    border-bottom: 0.5px solid #5870EB;
+    
 }
 
 .rectangle {
-    width: 70.93px;
-    height: 5px;
+    width: 5px;
+    height: 70.93px;
     background: #5870EB;
     border-radius: 20px;
-    transform: rotate(-90deg);
+    
 }
 .assign {
     font-family: Inter;
@@ -23,7 +23,7 @@
 }
 
 .assign:active {
-    color: rgb(71, 91, 192);
+    color: rgb(58, 74, 156);
   }
 
 .text {
@@ -31,5 +31,19 @@
     font-family: Inter;
     font-style: normal;
     font-size: 8px;
+}
+
+.date {
+    color:   #8E8E8E;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
     flex-grow: 2;
 }

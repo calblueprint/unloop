@@ -1,12 +1,13 @@
 import React from 'react';
-import ActionItemCard from './ActionItemCard';
+//import ActionItemCard from './ActionItemCard';
+import ActionItemCard from 'components/ActionItemCards';
 import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
 
 let action = {
       title: "Finish Sprint",
       description: "Complete the sprint by tonight please. Thank you",
-      due: new Date(),
+      date: new Date(),
       category: "code",
 }
 
