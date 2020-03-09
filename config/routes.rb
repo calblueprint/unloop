@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   resources :paperworks, :case_notes, :professional_questionnaires, :personal_questionnaires, only: [:index, :show, :new, :edit]
 
+  get '/assignments', to: 'assignments#index'
+  
   resources :staffs, only: [] do
     collection do
       get 'dashboard', to: 'staffs#dashboard'

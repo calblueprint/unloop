@@ -1,0 +1,35 @@
+.card {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    border: 0.5px solid #5870EB;
+    height: 100px
+}
+
+.rectangle {
+    width: 70.93px;
+    height: 5px;
+    background: #5870EB;
+    border-radius: 20px;
+    transform: rotate(-90deg);
+}
+.assign {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 16px;  
+    color: #5870EB;
+}
+
+.assign:active {
+    color: rgb(71, 91, 192);
+  }
+
+.text {
+    color:   #8E8E8E;
+    font-family: Inter;
+    font-style: normal;
+    font-size: 8px;
+    flex-grow: 2;
+}
