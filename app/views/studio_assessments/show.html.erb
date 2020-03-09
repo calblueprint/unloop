@@ -1,13 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
-  <%= @studio_assessment.name %>
+  <strong>Participant:</strong>
+  <%= @studio_assessment.participant.full_name %>
 </p>
 
 <p>
-  <strong>Participant:</strong>
-  <%= @studio_assessment.participant_id %>
+  <strong>Staff:</strong>
+  <%= @studio_assessment.staff.full_name %>
 </p>
 
 <p>
@@ -98,11 +98,6 @@
 <p>
   <strong>Capstone comment:</strong>
   <%= @studio_assessment.capstone_comment %>
-</p>
-
-<p>
-  <strong>Proctor:</strong>
-  <%= @studio_assessment.proctor %>
 </p>
 
 <p>
