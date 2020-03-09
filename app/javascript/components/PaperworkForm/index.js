@@ -144,7 +144,6 @@ function PaperworkForm({
         ret = (
           <Button
             className="assign-paperwork-button"
-            variant="text"
             color="primary"
             onClick={() => setOpen(true)}
           >

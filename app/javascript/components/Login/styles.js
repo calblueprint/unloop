@@ -1,4 +1,4 @@
-export const styles = () => ({
+const styles = () => ({
   body: {
     margin: 0,
   },

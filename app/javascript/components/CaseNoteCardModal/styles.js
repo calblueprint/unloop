@@ -1,4 +1,4 @@
-export const styles = (/* theme */) => ({
+const styles = () => ({
   buttonStyle: {
     marginLeft: 'auto',
     marginRight: '0',

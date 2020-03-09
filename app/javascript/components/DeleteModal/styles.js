@@ -1,4 +1,4 @@
-export const styles = () => ({
+const styles = () => ({
   dialogActionsStyle: {
     padding: '30px',
   },

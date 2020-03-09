@@ -1,7 +1,7 @@
 const backgroundBlue = '#d2dce1';
 const white = '#fff';
 
-export const styles = () => ({
+const styles = () => ({
   dashboard: {
     height: '100%',
     width: '100%',

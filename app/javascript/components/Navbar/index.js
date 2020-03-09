@@ -7,71 +7,59 @@ import UnloopLogo from 'images/unloop_logo.png';
 import styles from './styles';
 import { apiGet } from '../../utils/axios';
 
-class Navbar extends React.Component {
-  constructor() {
-    super();
-    this.logout = this.logout.bind(this);
-    this.navigateToHomepage = this.navigateToHomepage.bind(this);
-  }
-
-  logout() {
-    const path = '/users/sign_out';
-    apiGet(path)
-      .then(() => {
-        this.navigateToHomepage();
-      })
-      .catch(error => console.error(error));
-  }
-
-  navigateToHomepage() {
+function Navbar({ classes }) {
+  const navigateToHomepage = () => {
     const homepagePath = '/';
     window.location.href = homepagePath;
-  }
+  };
 
-  render() {
-    const { classes } = this.props;
+  const logout = () => {
+    const path = '/users/sign_out';
+    apiGet(path)
+      .then(navigateToHomepage)
+      .catch(error => console.error(error));
+  };
 
-    return (
-      <Drawer className={classes.drawer} variant="permanent">
-        <Grid
-          container
-          item
-          xs={1}
-          className={classes.navBar}
-          direction="column"
-          alignItems="center"
-          justify="space-between"
-        >
-          <Grid container item alignItems="center" direction="column">
-            <Grid item>
-              <Button
-                component="a"
-                disableFocusRipple
-                disableTouchRipple
-                className={classes.navBarSignOut}
-                onClick={this.logout}
-              >
-                Sign Out
-              </Button>
-            </Grid>
-            <Grid item>
-              <IconButton
-                disableFocusRipple
-                disableTouchRipple
-                className={classes.navBarItem}
-                onClick={this.navigateToHomepage}
-              >
-                <HomeIcon fontSize="large" />
-              </IconButton>
-            </Grid>
+  return (
+    <Drawer className={classes.drawer} variant="permanent">
+      <Grid
+        container
+        item
+        xs={1}
+        className={classes.navBar}
+        direction="column"
+        alignItems="center"
+        justify="space-between"
+      >
+        <Grid container item alignItems="center" direction="column">
+          <Grid item>
+            <Button
+              component="a"
+              disableFocusRipple
+              disableTouchRipple
+              className={classes.navBarSignOut}
+              onClick={logout}
+            >
+              Sign Out
+            </Button>
           </Grid>
-          <Grid item className={classes.unloopLogo}>
-            <img src={UnloopLogo} alt="Unloop Logo" />
+          <Grid item>
+            <IconButton
+              disableFocusRipple
+              disableTouchRipple
+              className={classes.navBarItem}
+              onClick={navigateToHomepage}
+            >
+              <HomeIcon fontSize="large" />
+            </IconButton>
           </Grid>
         </Grid>
-      </Drawer>
-    );
-  }
+        <Grid item className={classes.unloopLogo}>
+          <img src={UnloopLogo} alt="Unloop Logo" />
+        </Grid>
+      </Grid>
+    </Drawer>
+  );
 }
 
 Navbar.propTypes = {

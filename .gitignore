@@ -14,6 +14,9 @@
 !/log/.keep
 !/tmp/.keep
 
+# Ignore Mac specific files
+.DS_Store
+
 # Ignore uploaded files in development.
 /storage/*
 !/storage/.keep

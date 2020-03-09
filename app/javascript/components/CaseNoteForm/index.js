@@ -26,7 +26,7 @@ class CaseNoteForm extends React.Component {
       title: this.props.title,
       description: this.props.description,
       participant_id: this.props.participantId,
-      internal: true,
+      internal: this.props.internal,
       open: false,
       type: this.props.type,
       id: this.props.id,
@@ -83,8 +83,8 @@ class CaseNoteForm extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleInternalChange = prevState => () => {
-    this.setState({ internal: !prevState.internal });
+  handleInternalChange = name => event => {
+    this.setState({ [name]: event.target.checked });
   };
 
   handleDescriptionChange = name => state => {
@@ -233,9 +233,9 @@ class CaseNoteForm extends React.Component {
               Visible to Participant
               <Switch
                 name="internal"
-                defaultChecked={false}
-                value={this.state.internal}
-                onChange={this.handleInternalChange(this.state)}
+                checked={this.state.internal}
+                onChange={this.handleInternalChange('internal')}
+                value="internal"
                 color="primary"
                 inputProps={{ 'aria-label': 'primary checkbox' }}
               />

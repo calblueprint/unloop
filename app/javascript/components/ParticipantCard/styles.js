@@ -1,6 +1,6 @@
 const buttonSecondary = '#5870eb';
 
-export const styles = () => ({
+const styles = () => ({
   iconLarge: {
     width: 35,
     height: 35,

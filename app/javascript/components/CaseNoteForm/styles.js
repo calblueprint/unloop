@@ -1,6 +1,6 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-export const styles = () => ({
+const styles = () => ({
   dialogActionsStyle: {
     padding: '30px',
   },
@@ -21,7 +21,7 @@ export const styles = () => ({
   },
 });
 
-export const defaultTheme = createMuiTheme();
+const defaultTheme = createMuiTheme();
 Object.assign(defaultTheme, {
   overrides: {
     MUIRichTextEditor: {
@@ -43,4 +43,4 @@ Object.assign(defaultTheme, {
   },
 });
 
-export default { styles, defaultTheme };
+export { styles, defaultTheme };

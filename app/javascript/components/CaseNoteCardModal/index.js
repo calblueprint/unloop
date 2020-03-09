@@ -5,7 +5,6 @@ import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import { Button, Dialog, Grid, Paper } from '@material-ui/core/';
-
 import styles from './styles';
 
 // TODO: Move to global theme
