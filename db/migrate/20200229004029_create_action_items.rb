@@ -4,7 +4,6 @@ class CreateActionItems < ActiveRecord::Migration[6.0]
       t.string :title
       t.text :description
       t.boolean :is_template
-
       t.timestamps
     end
   end

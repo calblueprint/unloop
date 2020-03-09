@@ -133,8 +133,6 @@ ActiveRecord::Schema.define(version: 2020_03_06_060137) do
   end
 
   add_foreign_key "assignments", "action_items"
-  add_foreign_key "assignments", "staffs", column: "assigned_by_id"
-  add_foreign_key "assignments", "users", column: "assigned_to_id"
   add_foreign_key "case_notes", "participants"
   add_foreign_key "case_notes", "staffs"
   add_foreign_key "paperworks", "participants"
