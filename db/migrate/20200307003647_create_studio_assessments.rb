@@ -1,8 +1,6 @@
 class CreateStudioAssessments < ActiveRecord::Migration[6.0]
   def change
     create_table :studio_assessments do |t|
-      t.string :name
-      t.bigint :participant_id
       t.integer :bigpicture_score
       t.string :bigpicture_comment
       t.integer :progfundamentals_score
@@ -21,8 +19,9 @@ class CreateStudioAssessments < ActiveRecord::Migration[6.0]
       t.string :problemsolvingalt_comment
       t.boolean :passed_capstone
       t.string :capstone_comment
-      t.string :proctor
       t.string :assessment_type
+      t.references :staff, null: false, foreign_key: true
+      t.references :participant, null:false, foreign_key: true
 
       t.timestamps
     end
