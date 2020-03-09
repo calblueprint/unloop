@@ -4,6 +4,7 @@ class Assignment < ApplicationRecord
     belongs_to :assigned_to, class_name: 'User'
 
     validates :action_item, :assigned_by, :assigned_to, presence: true
+    validates :completed, inclusion: [true, false]
     validate :nontemplate_assignment, on: :create
 
     private 

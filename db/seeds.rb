@@ -92,7 +92,7 @@ def create_assignments
       asignee = Staff.find(Staff.pluck(:id).sample)
       assigned = Participant.find(Participant.pluck(:id).sample)
       Assignment.create!(action_item: action_item, 
-                         status: Faker::Number.between(from: 0, to: 2),
+                         completed: Faker::Boolean.boolean,
                          assigned_by: asignee,
                          due_date: Faker::Time.forward(days: 365, period: :all),
                          assigned_to: assigned.user,
