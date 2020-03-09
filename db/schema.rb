@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_07_120858) do
+ActiveRecord::Schema.define(version: 2020_03_06_060137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_items", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.boolean "is_template", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "assignments", force: :cascade do |t|
+    t.boolean "completed", default: false
+    t.bigint "action_item_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "assigned_by_id"
+    t.bigint "assigned_to_id"
+    t.datetime "due_date"
+    t.index ["action_item_id"], name: "index_assignments_on_action_item_id"
+    t.index ["assigned_by_id"], name: "index_assignments_on_assigned_by_id"
+    t.index ["assigned_to_id"], name: "index_assignments_on_assigned_to_id"
+  end
 
   create_table "case_notes", force: :cascade do |t|
     t.string "description"
@@ -111,6 +132,7 @@ ActiveRecord::Schema.define(version: 2019_12_07_120858) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "assignments", "action_items"
   add_foreign_key "case_notes", "participants"
   add_foreign_key "case_notes", "staffs"
   add_foreign_key "paperworks", "participants"
