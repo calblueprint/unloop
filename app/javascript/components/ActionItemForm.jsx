@@ -78,7 +78,6 @@ const styles = {
   Object.assign(theme, {
       overrides: {
           MUIRichTextEditor: {
-          Text: {
               root: {
                 borderLeft: 'solid 1px #C4C4C4',
                 borderRight: 'solid 1px #C4C4C4',
@@ -91,10 +90,9 @@ const styles = {
                 overflow: 'auto',
                 height: '130px',
               },
-              tools: {
+              toolbar: {
                 backgroundColor: '#F4F4F4',
               },
-          },
         },
       },
   });
