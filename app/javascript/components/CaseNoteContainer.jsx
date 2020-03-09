@@ -6,6 +6,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CaseNoteForm from 'components/CaseNoteForm';
 import CaseNoteCard from './CaseNoteCard'
+import ActionItemForm from 'components/ActionItemForm';
 import PropTypes from 'prop-types';
 
 const styles = {
@@ -112,7 +113,12 @@ class CaseNoteContainer extends React.Component {
                     borderBottom: '5px solid #EB6658',
                     marginBottom: '25px',
                   }}
+                  
+              
+                  
+              
                 >
+                  <ActionItemForm/>
                   <Grid item xs={4}>
                     <h2 style={styles.headerStyle}>Casenotes</h2>
                   </Grid>
