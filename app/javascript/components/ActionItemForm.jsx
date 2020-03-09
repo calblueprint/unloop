@@ -360,8 +360,8 @@ button = () => {
                 color="primary">
 
                 {this.state.type === 'create'
-                ? 'Submit Case Note'
-                : 'Edit Casenote'}
+                ? 'Submit Action Item'
+                : 'Edit Action Item'}
               </Button>
             </DialogActions>
           </Dialog>
