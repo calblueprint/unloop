@@ -44,8 +44,8 @@ class Api::StudioAssessmentsController < ApplicationController
     end
 
     def studio_assessment_params
-        case_notes_param = params.require(:studio_assessment).permit(:name, 
-                                                                    :participant_id, 
+        case_notes_param = params.require(:studio_assessment).permit(:participant_id, 
+                                                                    :staff_id,
                                                                     :bigpicture_score, 
                                                                     :bigpicture_comment, 
                                                                     :progfundamentals_score, 
@@ -64,7 +64,6 @@ class Api::StudioAssessmentsController < ApplicationController
                                                                     :problemsolvingalt_comment,
                                                                     :passed_capstone,
                                                                     :capstone_comment,
-                                                                    :proctor,
                                                                     :assessment_type)
 
         studio_assessment_param.merge(staff_id: current_user.staff.id)
