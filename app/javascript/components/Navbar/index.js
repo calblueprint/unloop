@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { IconButton, Button, Grid, Drawer } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
+import GroupIcon from '@material-ui/icons/Group';
 import UnloopLogo from 'images/unloop_logo.png';
 import styles from './styles';
 import { apiGet } from '../../utils/axios';
@@ -11,6 +12,11 @@ function Navbar({ classes }) {
   const navigateToHomepage = () => {
     const homepagePath = '/';
     window.location.href = homepagePath;
+  };
+
+  const navigateToAssignmentpage = () => {
+    const assignPath = '/assignments';
+    window.location.href = assignPath;
   };
 
   const logout = () => {
@@ -51,6 +57,16 @@ function Navbar({ classes }) {
               onClick={navigateToHomepage}
             >
               <HomeIcon fontSize="large" />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <IconButton
+              disableFocusRipple
+              disableTouchRipple
+              className={classes.navBarItem}
+              onClick={navigateToAssignmentpage}
+            >
+              <GroupIcon fontSize="large" />
             </IconButton>
           </Grid>
         </Grid>
