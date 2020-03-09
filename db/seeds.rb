@@ -77,7 +77,6 @@ def create_template_action_items
     ActionItem.create(title: Faker::Hacker.noun,
                       description: Faker::Hacker.say_something_smart,
                       is_template: true,
-                      due_date: false
                     )
   end
   puts 'Created action item templates'
@@ -88,7 +87,6 @@ def create_assignments
     action_item = ActionItem.create!(title: Faker::Hacker.noun, 
                                      description: Faker::Hacker.say_something_smart,
                                      is_template: false,
-                                     due_date: Faker::Time.forward(days: 365, period: :all)
                                     )
     1.upto(rand(1...4)) do |i|
       asignee = Staff.find(Staff.pluck(:id).sample)
@@ -96,6 +94,7 @@ def create_assignments
       Assignment.create!(action_item: action_item, 
                          status: Faker::Number.between(from: 0, to: 2),
                          assigned_by: asignee,
+                         due_date: Faker::Time.forward(days: 365, period: :all),
                          assigned_to: assigned.user,
                         )
     end

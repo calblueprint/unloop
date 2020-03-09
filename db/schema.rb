@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(version: 2020_03_06_060137) do
     t.boolean "is_template", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "due_date"
   end
 
   create_table "assignments", force: :cascade do |t|
@@ -29,9 +28,12 @@ ActiveRecord::Schema.define(version: 2020_03_06_060137) do
     t.bigint "action_item_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "assigned_by_id"
-    t.integer "assigned_to_id"
+    t.bigint "assigned_by_id"
+    t.bigint "assigned_to_id"
+    t.datetime "due_date"
     t.index ["action_item_id"], name: "index_assignments_on_action_item_id"
+    t.index ["assigned_by_id"], name: "index_assignments_on_assigned_by_id"
+    t.index ["assigned_to_id"], name: "index_assignments_on_assigned_to_id"
   end
 
   create_table "case_notes", force: :cascade do |t|
@@ -131,6 +133,8 @@ ActiveRecord::Schema.define(version: 2020_03_06_060137) do
   end
 
   add_foreign_key "assignments", "action_items"
+  add_foreign_key "assignments", "staffs", column: "assigned_by_id"
+  add_foreign_key "assignments", "users", column: "assigned_to_id"
   add_foreign_key "case_notes", "participants"
   add_foreign_key "case_notes", "staffs"
   add_foreign_key "paperworks", "participants"
