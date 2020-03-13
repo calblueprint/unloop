@@ -1,0 +1,2 @@
+class StudioAssessment < ApplicationRecord
+end

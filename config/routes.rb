@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :studio_assessments
   # Routes for Google authentication
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   get 'auth/:provider/callback', to: 'sessions#googleAuth'
