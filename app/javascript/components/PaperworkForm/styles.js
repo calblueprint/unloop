@@ -4,7 +4,7 @@
  * This contains all the styles for the PaperworkForm component.
  */
 
-export const styles = theme => ({
+const styles = theme => ({
   dialogActions: {
     padding: '30px',
   },

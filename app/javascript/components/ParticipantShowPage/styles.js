@@ -4,7 +4,7 @@
  * This contains all the styles for the ParticipantShowPage container.
  */
 
-export const styles = theme => ({
+const styles = theme => ({
   leftHalf: {
     paddingLeft: 28,
     paddingRight: 28,

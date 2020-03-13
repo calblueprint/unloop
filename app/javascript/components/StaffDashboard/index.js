@@ -3,10 +3,9 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
-import ParticipantCard from './ParticipantCard';
+import ParticipantCard from 'components/ParticipantCard';
 import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
-import { Grid } from '@material-ui/core';
 
 const TrieSearch = require('trie-search');
 
@@ -36,18 +35,17 @@ class StaffDashboard extends React.Component {
       });
       return;
     }
-    const participants = this.state.trie.get(searchVal);
-    this.setState({
-      participants,
-    });
+    this.setState(prevState => ({
+      participants: prevState.trie.get(searchVal),
+    }));
   }
 
   render() {
-    let participantsList = this.state.participants.map((p, i) => (
-      <ParticipantCard key={i} participant={p}></ParticipantCard>
+    let participantsList = this.state.participants.map(p => (
+      <ParticipantCard key={p.id} participant={p}></ParticipantCard>
     ));
 
-    if (this.state.participants.length == 0) {
+    if (this.state.participants.length === 0) {
       participantsList = <p>There are no participants to show.</p>;
     }
 
@@ -75,7 +73,7 @@ class StaffDashboard extends React.Component {
                     <th>PAPERWORK</th>
                     <th>CASE NOTES</th>
                     <th>FORM STATUS</th>
-                    <th></th>
+                    <th> </th>
                   </tr>
                 </thead>
                 <tbody>{participantsList}</tbody>

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { apiDelete } from 'utils/axios';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
@@ -10,30 +11,7 @@ import {
   DialogContentText,
   MenuItem,
 } from '@material-ui/core/';
-
-const styles = {
-  dialogActionsStyle: {
-    padding: '30px',
-  },
-  MUIRichTextEditorStyle: {
-    border: '5px solid',
-    padding: '10px',
-  },
-  dialogStyle: {
-    padding: '20px',
-  },
-  dialogContentTextStyle: {
-    color: 'black',
-    marginBottom: '2px',
-  },
-  dialogContentTextFieldStyle: {
-    marginTop: '2px',
-    borderStyle: 'solid 4px grey',
-  },
-  saveDocumentButtonStyle: {
-    borderStyle: 'solid 3px grey',
-  },
-};
+import styles from './styles';
 
 class DeleteModal extends React.Component {
   constructor(props) {
@@ -41,10 +19,9 @@ class DeleteModal extends React.Component {
 
     this.state = {
       message: this.props.message,
-      content: this.props.content,
       req: this.props.req,
       body: this.props.body,
-      open: this.props.open,
+      open: false,
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -60,17 +37,16 @@ class DeleteModal extends React.Component {
   }
 
   handleSubmit() {
-    let body = this.state.body;
-    let req = this.state.req;
+    const { body } = this.state;
+    const { req } = this.state;
 
     apiDelete(req, { case_note: body })
       .then(() => window.location.reload())
-      .catch(error => console.error(error));
+      .catch(error => console.log(error));
   }
 
   render() {
-    let dialog;
-    dialog = (
+    const dialog = (
       <Dialog
         style={styles.dialogStyle}
         open={this.state.open}
@@ -112,8 +88,10 @@ class DeleteModal extends React.Component {
   }
 }
 
-DeleteModal.defaultProps = {
-  open: false,
+DeleteModal.propTypes = {
+  body: PropTypes.object.isRequired,
+  req: PropTypes.string.isRequired,
+  message: PropTypes.string,
 };
 
 export default DeleteModal;
