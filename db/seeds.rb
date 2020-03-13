@@ -5,6 +5,8 @@ NUM_PAPERWORKS = 25
 NUM_CASE_NOTES = 25
 NUM_PERSONAL_QUESTIONNAIRE = 25
 NUM_PROF_QUESTIONNAIRE = 25
+NUM_TEMPLATE_ACTION_ITEMS = 10
+NUM_ACTION_ITEMS = 25
 
 STAFF_START_ID = Staff.count + 1
 STAFF_END_ID = STAFF_START_ID + NUM_STAFF - 1
@@ -70,6 +72,36 @@ def create_paperworks
   puts "Created #{NUM_PAPERWORKS} Paperworks"
 end
 
+def create_template_action_items
+  1.upto(NUM_TEMPLATE_ACTION_ITEMS) do |i|
+    ActionItem.create(title: Faker::Hacker.noun,
+                      description: Faker::Hacker.say_something_smart,
+                      is_template: true,
+                    )
+  end
+  puts 'Created action item templates'
+end
+
+def create_assignments
+  1.upto(NUM_ACTION_ITEMS) do |i|
+    action_item = ActionItem.create!(title: Faker::Hacker.noun, 
+                                     description: Faker::Hacker.say_something_smart,
+                                     is_template: false,
+                                    )
+    1.upto(rand(1...4)) do |i|
+      asignee = Staff.find(Staff.pluck(:id).sample)
+      assigned = Participant.find(Participant.pluck(:id).sample)
+      Assignment.create!(action_item: action_item, 
+                         completed: Faker::Boolean.boolean,
+                         assigned_by: asignee,
+                         due_date: Faker::Time.forward(days: 365, period: :all),
+                         assigned_to: assigned.user,
+                        )
+    end
+  end
+  puts 'Created assignments'
+end
+
 def create_case_notes
   1.upto(NUM_CASE_NOTES) do |i|
     CaseNote.create!(title: Faker::Job.title,
@@ -118,3 +150,5 @@ create_case_notes
 create_admin
 create_google_accounts
 create_questionnaires
+create_template_action_items
+create_assignments

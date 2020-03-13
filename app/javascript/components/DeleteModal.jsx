@@ -112,4 +112,8 @@ class DeleteModal extends React.Component {
   }
 }
 
+DeleteModal.defaultProps = {
+  open: false,
+};
+
 export default DeleteModal;

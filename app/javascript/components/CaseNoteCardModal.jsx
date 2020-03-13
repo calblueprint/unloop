@@ -4,15 +4,11 @@ import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
 import {
   Button,
-  TextField,
   Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
   Grid,
   Paper,
 } from '@material-ui/core/';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 
 const styles = {
   buttonStyle: {
