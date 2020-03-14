@@ -3,7 +3,7 @@ class Api::StudioAssessmentsController < ApplicationController
     respond_to :json
 
     def create
-        @studio_assessment = authorize CaseNote.new(studio_assessment_params)
+        @studio_assessment = authorize StudioAssessment.new(studio_assessment_params)
         if @studio_assessment.save
             render json: @studio_assessment, status: :created
         else
@@ -14,13 +14,14 @@ class Api::StudioAssessmentsController < ApplicationController
     def user_not_authorized
         render json: { error: 'You are not authorized to perform this action' }, status: :unauthorized
     end
-
-    private
+    
     def show
+        @studio_assessment = authorize StudioAssessment.find(params[:id])
         render json: @studio_assessment
     end
     
     def update
+        @studio_assessment = authorize StudioAssessment.find(params[:id])
         if @studio_assessment.update(studio_assessment_params)
             render json: @studio_assessment, status: :ok
         else
@@ -29,6 +30,7 @@ class Api::StudioAssessmentsController < ApplicationController
     end
 
     def destroy
+        @studio_assessment = authorize StudioAssessment.find(params[:id])
         if @studio_assessment.destroy
             render json: @studio_assessment, status: :ok
         else
@@ -36,6 +38,7 @@ class Api::StudioAssessmentsController < ApplicationController
         end
     end
 
+    private
     def studio_assessment_params
         case_notes_param = params.require(:studio_assessment).permit(:participant_id, 
                                                                     :bigpicture_score, 
