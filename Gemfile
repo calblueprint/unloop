@@ -19,7 +19,8 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 
 gem "pundit"
-
+gem 'sassc', :git => 'git@github.com:sass/sassc-ruby.git'
+# gem "nokogiri", github: "sparklemotion/nokogiri", branch: "libxml2-2.9.1"
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker

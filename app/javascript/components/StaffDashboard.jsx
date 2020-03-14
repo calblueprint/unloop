@@ -2,7 +2,7 @@ import React from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-
+import ActionItemSelectParticipants from './ActionItemSelectParticipants';
 import ParticipantCard from './ParticipantCard';
 import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
@@ -67,6 +67,11 @@ class StaffDashboard extends React.Component {
                   <SearchIcon />
                 </IconButton>
               </div>
+
+              <div>
+                <ActionItemSelectParticipants participants={this.state.participants}/>
+              </div>
+
               <table>
                 <thead>
                   <tr>
