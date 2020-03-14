@@ -124,7 +124,7 @@ function PaperworkForm({
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="plus-button"
+            className={classes.plusButton}
           >
             +
           </button>

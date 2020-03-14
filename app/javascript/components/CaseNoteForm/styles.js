@@ -1,5 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
+const grey = '#d2dce1';
+
 const styles = () => ({
   dialogActionsStyle: {
     padding: '30px',
@@ -18,6 +20,17 @@ const styles = () => ({
   dialogContentTextFieldStyle: {
     marginTop: '2px',
     borderStyle: 'solid 4px grey',
+  },
+  plusButton: {
+    width: 32,
+    height: 32,
+    borderRadius: '100%',
+    textAlign: 'center',
+    backgroundColor: grey,
+    marginLeft: '8%',
+    boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.25)',
+    fontSize: 18,
+    fontWeight: 300,
   },
 });
 

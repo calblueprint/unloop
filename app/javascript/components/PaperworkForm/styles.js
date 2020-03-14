@@ -4,6 +4,8 @@
  * This contains all the styles for the PaperworkForm component.
  */
 
+const grey = '#d2dce1';
+
 const styles = theme => ({
   dialogActions: {
     padding: '30px',
@@ -27,6 +29,17 @@ const styles = theme => ({
   },
   textFieldBorder: {
     borderRadius: 0,
+  },
+  plusButton: {
+    width: 32,
+    height: 32,
+    borderRadius: '100%',
+    textAlign: 'center',
+    backgroundColor: grey,
+    marginLeft: '8%',
+    boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.25)',
+    fontSize: 18,
+    fontWeight: 300,
   },
   error: {
     color: theme.palette.error.main,

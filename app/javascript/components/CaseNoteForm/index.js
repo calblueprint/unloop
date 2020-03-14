@@ -136,7 +136,11 @@ class CaseNoteForm extends React.Component {
     let ret;
     if (this.state.display === 'plus') {
       ret = (
-        <button onClick={this.handleOpen} className="plus-button" type="button">
+        <button
+          onClick={this.handleOpen}
+          className={this.props.classes.plusButton}
+          type="button"
+        >
           +
         </button>
       );
