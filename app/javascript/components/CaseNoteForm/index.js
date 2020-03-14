@@ -147,7 +147,7 @@ class CaseNoteForm extends React.Component {
     } else if (this.state.type === 'create') {
       ret = (
         <Button
-          className="primary-button"
+          className={this.props.classes.primaryButton}
           variant="contained"
           color="secondary"
           onClick={this.handleOpen}
@@ -249,14 +249,14 @@ class CaseNoteForm extends React.Component {
           <DialogActions className={classes.dialogActionsStyle}>
             <Button
               onClick={this.handleClose}
-              variant="outlined"
+              variant="contained"
               color="secondary"
             >
               Cancel
             </Button>
             <Button
               onClick={this.handleSubmit}
-              variant="outlined"
+              variant="contained"
               color="primary"
             >
               {this.state.type === 'create'
