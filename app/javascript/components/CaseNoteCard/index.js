@@ -118,6 +118,9 @@ class CaseNoteCard extends React.Component {
                     description={this.state.description}
                     title={this.state.title}
                   />
+                  {/* <ActionItemModal
+                  description ={this.state.description}
+                  title = {this.state.title} */}
                 </Grid>
               </Grid>
             </Paper>
