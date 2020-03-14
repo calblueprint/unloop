@@ -24,9 +24,6 @@ export const styles = (/* theme */) => ({
     textOverflow: 'ellipsis',
     marginBottom: '0',
   },
-  dialogActionsStyle: {
-    padding: '30px',
-  },
   MUIRichTextEditorStyle: {
     border: '5px solid',
     padding: '10px',
@@ -41,9 +38,6 @@ export const styles = (/* theme */) => ({
   dialogContentTextFieldStyle: {
     marginTop: '2px',
     borderStyle: 'solid 4px grey',
-  },
-  saveDocumentButtonStyle: {
-    borderStyle: 'solid 3px grey',
   },
 });
 

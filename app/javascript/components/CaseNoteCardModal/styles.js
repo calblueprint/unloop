@@ -3,12 +3,9 @@ const styles = () => ({
     marginLeft: 'auto',
     marginRight: '0',
   },
-  casenoteDescStyle: {
+  caseNoteDescStyle: {
     marginLeft: '20px',
     paddingTop: '20px',
-  },
-  dialogActionsStyle: {
-    padding: '30px',
   },
   dialogStyle: {
     padding: '20px',
@@ -30,7 +27,7 @@ const styles = () => ({
     backgroundColor: '#28303B',
     padding: '50px',
   },
-  casenoteCardModalDescriptionStyle: {
+  caseNoteCardModalDescriptionStyle: {
     height: '380px',
     overflow: 'auto',
   },
