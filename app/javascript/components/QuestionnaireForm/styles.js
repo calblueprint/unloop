@@ -4,7 +4,7 @@
  * This contains all the styles for the QuestionnaireForm container.
  */
 
-export const styles = (/* theme */) => ({
+const styles = (/* theme */) => ({
   root: {
     backgroundColor: '#000000',
   },

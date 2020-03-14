@@ -4,7 +4,7 @@
  * This contains all the styles for the PaperworkList component.
  */
 
-export const styles = theme => ({
+const styles = theme => ({
   containerStyle: {
     padding: '18px 28px',
     borderRadius: 10,

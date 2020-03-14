@@ -13,31 +13,7 @@ import MUIRichTextEditor from 'mui-rte';
 import CaseNoteForm from 'components/CaseNoteForm';
 import DeleteModal from 'components/DeleteModal';
 import CaseNoteCardModal from 'components/CaseNoteCardModal';
-
-// TODO: Style import not working
-// import styles from './styles';
-
-const styles = {
-  buttonStyle: {
-    marginTop: '5px',
-    marginBottom: '10px',
-  },
-  casenoteCardStyle: {
-    marginLeft: '20px',
-    padding: '20px',
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
-    borderRadius: '10px',
-    height: '240px',
-  },
-  casenoteDescStyle: {
-    height: '105px',
-    marginTop: '-20px',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    marginBottom: '0',
-  },
-};
+import styles from './styles';
 
 class CaseNoteCard extends React.Component {
   constructor(props) {
@@ -118,7 +94,7 @@ class CaseNoteCard extends React.Component {
       <>
         <Grid container spacing={3}>
           <Grid item xs={11}>
-            <Paper style={styles.casenoteCardStyle}>
+            <Paper className={classes.casenoteCardStyle}>
               <Grid container spacing={2}>
                 <Grid item xs={10}>
                   <h3>{this.state.title}</h3>
@@ -127,7 +103,7 @@ class CaseNoteCard extends React.Component {
                   {this.renderMenuItems()}
                 </Grid>
               </Grid>
-              <div style={styles.casenoteDescStyle}>
+              <div className={classes.casenoteDescStyle}>
                 <MUIRichTextEditor
                   value={this.state.description}
                   readOnly
@@ -135,13 +111,12 @@ class CaseNoteCard extends React.Component {
                 />
               </div>
 
-              <Grid container spacing={2} style={styles.buttonStyle}>
+              <Grid container spacing={2} className={classes.buttonStyle}>
                 <Grid item xs={8}></Grid>
                 <Grid item xs={4}>
                   <CaseNoteCardModal
                     description={this.state.description}
                     title={this.state.title}
-                    internal={this.state.internal}
                   />
                 </Grid>
               </Grid>
