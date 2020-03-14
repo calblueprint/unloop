@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_06_060137) do
+ActiveRecord::Schema.define(version: 2020_03_07_003647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,8 @@ ActiveRecord::Schema.define(version: 2020_03_06_060137) do
   end
 
   create_table "studio_assessments", force: :cascade do |t|
+    t.string "name"
+    t.bigint "participant_id"
     t.integer "bigpicture_score"
     t.string "bigpicture_comment"
     t.integer "progfundamentals_score"
@@ -133,13 +135,10 @@ ActiveRecord::Schema.define(version: 2020_03_06_060137) do
     t.string "problemsolvingalt_comment"
     t.boolean "passed_capstone"
     t.string "capstone_comment"
+    t.string "proctor"
     t.string "assessment_type"
-    t.bigint "staff_id", null: false
-    t.bigint "participant_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["participant_id"], name: "index_studio_assessments_on_participant_id"
-    t.index ["staff_id"], name: "index_studio_assessments_on_staff_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -169,6 +168,4 @@ ActiveRecord::Schema.define(version: 2020_03_06_060137) do
   add_foreign_key "personal_questionnaires", "participants"
   add_foreign_key "professional_questionnaires", "participants"
   add_foreign_key "staffs", "users"
-  add_foreign_key "studio_assessments", "participants"
-  add_foreign_key "studio_assessments", "staffs"
 end
