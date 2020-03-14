@@ -45,7 +45,6 @@ class Api::StudioAssessmentsController < ApplicationController
 
     def studio_assessment_params
         case_notes_param = params.require(:studio_assessment).permit(:participant_id, 
-                                                                    :staff_id,
                                                                     :bigpicture_score, 
                                                                     :bigpicture_comment, 
                                                                     :progfundamentals_score, 

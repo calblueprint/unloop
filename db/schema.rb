@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 2020_03_07_003647) do
     t.string "problemsolving_comment"
     t.integer "problemsolvingalt_score"
     t.string "problemsolvingalt_comment"
-    t.boolean "passed_capstone"
+    t.boolean "capstone_passed"
     t.string "capstone_comment"
     t.string "assessment_type"
     t.bigint "staff_id", null: false
