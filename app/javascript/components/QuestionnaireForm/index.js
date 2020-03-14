@@ -63,7 +63,7 @@ class QuestionnaireForm extends React.Component {
     // content text is prompt/title for the text box
     // field name is the name of the field that will be filled in the database
     return (
-      <div className="questionnaireEntry">
+      <div className={this.props.classes.questionnaireEntry}>
         <DialogContentText>{contentText}</DialogContentText>
         <TextField
           className={`${this.props.classes.dialogContentTextField} ${this.props.classes.questionnaireTextField}`}

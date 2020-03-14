@@ -21,6 +21,9 @@ const styles = (/* theme */) => ({
     marginTop: 2,
     borderStyle: 'solid 4px grey',
   },
+  questionnaireEntry: {
+    marginBottom: 20,
+  },
 });
 
 export default styles;
