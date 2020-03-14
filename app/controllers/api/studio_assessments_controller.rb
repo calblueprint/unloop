@@ -2,10 +2,6 @@ class Api::StudioAssessmentsController < ApplicationController
     before_action :set_case_note, only: [:show, :update, :destroy]
     respond_to :json
 
-    def show
-        render json: @studio_assessment
-    end
-
     def create
         @studio_assessment = authorize CaseNote.new(studio_assessment_params)
         if @studio_assessment.save
@@ -15,6 +11,15 @@ class Api::StudioAssessmentsController < ApplicationController
         end
     end
 
+    def user_not_authorized
+        render json: { error: 'You are not authorized to perform this action' }, status: :unauthorized
+    end
+
+    private
+    def show
+        render json: @studio_assessment
+    end
+    
     def update
         if @studio_assessment.update(studio_assessment_params)
             render json: @studio_assessment, status: :ok
@@ -29,18 +34,6 @@ class Api::StudioAssessmentsController < ApplicationController
         else
             render json: { error: 'Failed to delete studio assessment' }, status: :unprocessable_entity
         end
-    end
-
-    def user_not_authorized
-        render json: { error: 'You are not authorized to perform this action' }, status: :unauthorized
-    end
-
-    private
-
-    def set_studio_assessment
-        @studio_assessment = authorize StudioAssessment.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-        render json: { error: 'Could not find studio assessment' }, status: :not_found
     end
 
     def studio_assessment_params
@@ -61,7 +54,7 @@ class Api::StudioAssessmentsController < ApplicationController
                                                                     :problemsolving_comment,
                                                                     :problemsolvingalt_score,
                                                                     :problemsolvingalt_comment,
-                                                                    :passed_capstone,
+                                                                    :capstone_passed,
                                                                     :capstone_comment,
                                                                     :assessment_type)
 
