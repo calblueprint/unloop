@@ -160,30 +160,4 @@ table {
       max-width: 80px;
     }
   }
-
-  .participant-status {
-  }
-
-  .form-status {
-    > div {
-      position: relative;
-      left: 10px;
-    }
-  }
-
-  .new-assignment > div,
-  .new-casenote > div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-items: center;
-    svg {
-      padding-right: 10px;
-    }
-  }
-
-  .arrow svg {
-    position: relative;
-    left: -10px;
-  }
 }

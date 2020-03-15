@@ -26,10 +26,6 @@ const styles = () => ({
     backgroundColor: buttonSecondary,
   },
   newAssignment: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyItems: 'center',
     '& > div': {
       display: 'flex',
       flexDirection: 'row',
@@ -40,14 +36,12 @@ const styles = () => ({
       },
     },
   },
-  casenoteText: {
+  caseNoteText: {
     width: '110px',
   },
   formStatus: {
-    '& > div': {
-      position: 'relative',
-      left: 10,
-    },
+    position: 'relative',
+    left: 10,
   },
   arrow: {
     '& svg': {

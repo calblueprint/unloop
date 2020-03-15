@@ -22,8 +22,8 @@ const styles = () => ({
     borderStyle: 'solid 4px grey',
   },
   primaryButton: {
-    border: "none",
-    boxShadow: "none",
+    border: 'none',
+    boxShadow: 'none',
   },
   plusButton: {
     width: 32,
