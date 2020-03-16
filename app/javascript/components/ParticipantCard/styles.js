@@ -19,6 +19,8 @@ const styles = () => ({
     height: 52,
     borderRadius: '100%',
     textAlign: 'center',
+    verticalAlign: 'middle',
+    lineHeight: '52px',
     color: '#fff',
   },
   newAssignment: {
@@ -34,6 +36,9 @@ const styles = () => ({
   },
   caseNoteText: {
     width: '110px',
+  },
+  paperworkText: {
+    width: '130px',
   },
   questionnaireStatus: {
     paddingLeft: 10,

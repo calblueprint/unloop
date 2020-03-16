@@ -28,6 +28,9 @@ const styles = () => ({
   plusButton: {
     width: 32,
     height: 32,
+    minHeight: 32,
+    minWidth: 32,
+    lineHeight: '32px',
     borderRadius: '100%',
     textAlign: 'center',
     backgroundColor: grey,

@@ -53,11 +53,11 @@ class StaffDashboard extends React.Component {
     }
 
     return (
-      <div className="dashboard">
+      <div className={classes.dashboard}>
         <Navbar></Navbar>
         <div className={classes.content}>
           <h1>Participant Dashboard</h1>
-          <div className="table-container">
+          <div className={classes.tableContainer}>
             <div>
               <div className={classes.searchBar}>
                 <InputBase

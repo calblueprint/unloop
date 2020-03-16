@@ -67,13 +67,13 @@ class ParticipantCard extends React.Component {
           {name}
         </td>
         <td>
-          <div className="status" style={{ backgroundColor: statusColor }}>
+          <div className={classes.status} style={{ backgroundColor: statusColor }}>
             {status}
           </div>
         </td>
         <td className={classes.newAssignment}>
           <div>
-            {p.paperworksCompleted} / {p.paperworksCount} completed
+            <div className={classes.paperworkText}>{p.paperworksCompleted} / {p.paperworksCount} completed </div>
             <PaperworkForm
               display="plus"
               type="create"

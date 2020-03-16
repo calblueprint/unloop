@@ -40,6 +40,9 @@ const styles = theme => ({
     boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.25)',
     fontSize: 18,
     fontWeight: 300,
+    minHeight: 32,
+    minWidth: 32,
+    lineHeight: '32px',
   },
   error: {
     color: theme.palette.error.main,
