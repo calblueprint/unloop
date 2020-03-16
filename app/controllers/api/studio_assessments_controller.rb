@@ -1,5 +1,4 @@
 class Api::StudioAssessmentsController < ApplicationController
-    before_action :set_case_note, only: [:show, :update, :destroy]
     respond_to :json
 
     def create
@@ -40,7 +39,7 @@ class Api::StudioAssessmentsController < ApplicationController
 
     private
     def studio_assessment_params
-        case_notes_param = params.require(:studio_assessment).permit(:participant_id, 
+        studio_assessment_param = params.require(:studio_assessment).permit(:participant_id, 
                                                                     :bigpicture_score, 
                                                                     :bigpicture_comment, 
                                                                     :progfundamentals_score, 
