@@ -43,6 +43,7 @@ class StaffDashboard extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     let participantsList = this.state.participants.map(p => (
       <ParticipantCard key={p.id} participant={p}></ParticipantCard>
     ));
@@ -54,11 +55,11 @@ class StaffDashboard extends React.Component {
     return (
       <div className="dashboard">
         <Navbar></Navbar>
-        <div className="content">
+        <div className={classes.content}>
           <h1>Participant Dashboard</h1>
           <div className="table-container">
             <div>
-              <div className="search-bar">
+              <div className={classes.searchBar}>
                 <InputBase
                   placeholder="filter participants"
                   onChange={this.handleChange}

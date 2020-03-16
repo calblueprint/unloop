@@ -56,15 +56,6 @@ table {
   }
 }
 
-
-
-.icon-large {
-  width: 35px;
-  height: 35px;
-  min-width: 35px;
-  min-height: 35px;
-}
-
 .dashboard {
   height: 100%;
   width: 100%;
@@ -84,13 +75,6 @@ table {
     font-size: 36px;
   }
 
-  .content {
-    position: absolute;
-    left: 8%;
-    width: calc(92%);
-    display: inline-block;;
-  }
-
   .table-container {
     height: 100%;
     min-height: 100vh;
@@ -102,19 +86,6 @@ table {
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
       border-radius: 20px;
       padding: 30px;
-    }
-
-    .search-bar {
-      height: 40px;
-      margin-left: 30px;
-      border-radius: 2px;
-      width: 260px;
-      border: 1px solid #bdbdbd;
-      padding-left: 10px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
     }
 
     .status {

@@ -32,13 +32,13 @@ class ParticipantCard extends React.Component {
 
     const questionnaireStatus = p.questionnaireStatus ? (
       <FontAwesomeIcon
-        className="icon-large"
+        className={classes.iconLarge}
         icon={faCheck}
         color="green"
       ></FontAwesomeIcon>
     ) : (
       <FontAwesomeIcon
-        className="icon-large"
+        className={classes.iconLarge}
         icon={faTimes}
         color="red"
       ></FontAwesomeIcon>
@@ -102,7 +102,7 @@ class ParticipantCard extends React.Component {
             icon={faChevronRight}
             color="grey"
             style={{ cursor: 'pointer' }}
-            className="icon-large"
+            className={classes.iconLarge}
           />
         </td>
       </tr>
