@@ -19,31 +19,53 @@ const styles = () => ({
       fontSize: 36,
     },
   },
-
-  '& table': {
-    width: '100%',
-    borderCollapse: 'collapse',
-    fontSize: 20,
-    fontFamily: "'Roboto', sans-serif",
-    fontStyle: 'normal',
-
-    '& th, & td': {
-      padding: '25px 3%',
-      textAlign: 'left',
-      borderBottom: '1px solid #ddd',
-    },
-
-    '& tbody': {
-      '& tr:hover': {
-        backgroundColor: '#f5f5f5',
+  '@global': {
+    button: {
+      cursor: 'pointer',
+      border: 'none',
+      '&:focus': {
+        outline: 'none',
       },
     },
+    body: {
+      margin: 0,
+      maxWidth: 100,
+      cursor: 'default',
+      fontFamily: 'Roboto, sans-serif',
+      fontStyle: 'normal',
+    },
+    html: {
+      margin: 0,
+      maxWidth: 100,
+      cursor: 'default',
+      fontFamily: 'Roboto, sans-serif',
+      fontStyle: 'normal',
+    },
+    table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      fontSize: 20,
+      fontFamily: "'Roboto', sans-serif",
+      fontStyle: 'normal',
 
-    '& td': {
-      '& > div': {
-        fontSize: 18,
-        fontWeight: 300,
-        fontStyle: 'normal',
+      '& th, & td': {
+        padding: '25px 3%',
+        textAlign: 'left',
+        borderBottom: '1px solid #ddd',
+      },
+
+      '& tbody': {
+        '& tr:hover': {
+          backgroundColor: '#f5f5f5',
+        },
+      },
+
+      '& td': {
+        '& > div': {
+          fontSize: 18,
+          fontWeight: 300,
+          fontStyle: 'normal',
+        },
       },
     },
   },
