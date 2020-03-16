@@ -84,31 +84,6 @@ table {
     font-size: 36px;
   }
 
-  .left-navbar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 8%;
-    height: 100%;
-    background-color: $dark-blue;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 50px;
-
-    svg {
-      padding: 40px;
-    }
-
-    .sign-out-button {
-      background-color: $dark-blue;
-      font-size: 18px;
-      font-weight: 300;
-      color: white;
-    }
-  }
-
   .content {
     position: absolute;
     left: 8%;
@@ -149,15 +124,6 @@ table {
       text-align: center;
       line-height: 52px;
       color: #fff;
-      background-color: $button-secondary;
-    }
-
-    .primary-button {
-      background-color: $button-primary;
-    }
-
-    .name {
-      max-width: 80px;
     }
   }
 }

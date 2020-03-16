@@ -1,5 +1,3 @@
-const buttonSecondary = '#5870eb';
-
 const styles = () => ({
   iconLarge: {
     width: 35,
@@ -21,9 +19,7 @@ const styles = () => ({
     height: 52,
     borderRadius: '100%',
     textAlign: 'center',
-    lineHeight: 52,
     color: '#fff',
-    backgroundColor: buttonSecondary,
   },
   newAssignment: {
     '& > div': {
@@ -39,9 +35,8 @@ const styles = () => ({
   caseNoteText: {
     width: '110px',
   },
-  formStatus: {
-    position: 'relative',
-    left: 10,
+  questionnaireStatus: {
+    paddingLeft: 10,
   },
   arrow: {
     '& svg': {

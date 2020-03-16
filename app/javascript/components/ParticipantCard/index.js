@@ -91,8 +91,10 @@ class ParticipantCard extends React.Component {
             ></CaseNoteForm>
           </div>
         </td>
-        <td className={classes.formStatus}>
-          <div>{questionnaireStatus}</div>
+        <td>
+          <div className={classes.questionnaireStatus}>
+            {questionnaireStatus}
+          </div>
         </td>
         <td className={classes.arrow}>
           <FontAwesomeIcon

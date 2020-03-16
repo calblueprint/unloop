@@ -2,10 +2,12 @@ import React from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import { withStyles } from '@material-ui/core/styles';
 
 import ParticipantCard from 'components/ParticipantCard';
 import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
+import styles from './styles';
 
 const TrieSearch = require('trie-search');
 
@@ -87,7 +89,8 @@ class StaffDashboard extends React.Component {
 }
 
 StaffDashboard.propTypes = {
+  classes: PropTypes.object.isRequired,
   participants: PropTypes.array,
 };
 
-export default StaffDashboard;
+export default withStyles(styles)(StaffDashboard);
