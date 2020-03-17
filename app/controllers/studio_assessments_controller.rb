@@ -25,7 +25,6 @@ class StudioAssessmentsController < ApplicationController
   end
 
   private
-
   def set_studio_assessment
     @studio_assessment = authorize StudioAssessment.find(params[:id])
   rescue ActiveRecord::RecordNotFound

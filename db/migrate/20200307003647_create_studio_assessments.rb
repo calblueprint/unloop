@@ -17,11 +17,11 @@ class CreateStudioAssessments < ActiveRecord::Migration[6.0]
       t.string :problemsolving_comment
       t.integer :problemsolvingalt_score
       t.string :problemsolvingalt_comment
-      t.boolean :passed_capstone
+      t.boolean :capstone_passed
       t.string :capstone_comment
       t.string :assessment_type
       t.references :staff, null: false, foreign_key: true
-      t.references :participant, null:false, foreign_key: true
+      t.references :participant, null: false, foreign_key: true
 
       t.timestamps
     end
