@@ -12,7 +12,7 @@ class AssignmentPolicy < ApplicationPolicy
     end
 
     def show?
-        user.present? and (user.staff? or (user.participant? and (user.id == resource.assigned_to.id)))
+        staff? or (user.participant? and (user.id == resource.assigned_to.id))
     end
 
 
