@@ -8,7 +8,8 @@ class Api::AssignmentsController < ApplicationController
         @action_item[:is_template] = false
 
         if @action_item.save
-            @assignment = authorize Assignment.new(assignment_params(action_item_id: @action_item.id))
+            @assignment = authorize Assignment.new(assignment_params)
+            @assignment[:action_item_id] = @action_item.id
             if @assignment.save
                 render json: @assignment, status: :created
             else
@@ -16,7 +17,6 @@ class Api::AssignmentsController < ApplicationController
                 render json: { error: 'Could not create action item' }, status: :unprocessable_entity
             end
         else
-            @action_item.destroy
             render json: { error: 'Could not create action item' }, status: :unprocessable_entity
         end
     end
