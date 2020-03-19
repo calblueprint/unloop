@@ -29,6 +29,7 @@ export const styles = (/* theme */) => ({
     overflowY: 'hidden',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
+    marginTop: '10px',
   },
   dialogActionsStyle: {
     padding: '30px',
