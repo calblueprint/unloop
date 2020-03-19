@@ -24,6 +24,12 @@ export const styles = (/* theme */) => ({
     textOverflow: 'ellipsis',
     marginBottom: '0',
   },
+  casenoteCardTitleStyle: {
+    whiteSpace: 'nowrap',
+    overflowY: 'hidden',
+    overflowX: 'hidden',
+    textOverflow: 'ellipsis',
+  },
   dialogActionsStyle: {
     padding: '30px',
   },
