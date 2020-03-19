@@ -1,19 +1,19 @@
 class AssignmentsController < ApplicationController
     before_action :set_assignment, only:[:show, :edit]
     def index
-        @action_items = authorize Assignments.all
+        @assignments = authorize Assignments.all
     end
 
     def new
-        @action_item = authorize Assignments.new
-
+        @assignment = authorize Assignments.new
     end
 
     def edit
-        @action_items = authorize Assignments.all
+        @assignment = authorize Assignments.where(action_item: @action_item)
     end
     
     def show
+        @assignment = authorize Assignments.where(action_item: @action_item)
     end
 
     private

@@ -8,14 +8,13 @@ class Api::AssignmentsController < ApplicationController
         @action_item[:is_template] = false
 
         if @action_item.save
-            @assignment = authorize Assignment.new(assignment_params)
-            @assignment[:action_item_id] = @action_item.id
-            if @assignment.save
-                render json: @assignment, status: :created
-            else
-                @action_item.destroy
-                render json: { error: 'Could not create action item' }, status: :unprocessable_entity
+            created_assignments = []
+            prepare_bulk_assignment(assigned_to_ids, @action_item.id).each do |assignment_params|
+                @assignment = authorize Assignment.new(assignment_params)
+                if @assignment.save
+                    created_assignments.append(assignment)
             end
+            render json: created_assignments, status: :created
         else
             render json: { error: 'Could not create action item' }, status: :unprocessable_entity
         end
@@ -42,7 +41,7 @@ class Api::AssignmentsController < ApplicationController
             if action_item.assignments.empty?
                 action_item.destroy
             end
-            render json: @assignment, status: :ok
+            render json: {}, status: :ok
         else
             render json: { error: 'Failed to delete action item' }, status: :unprocessable_entity
         end
@@ -100,14 +99,27 @@ class Api::AssignmentsController < ApplicationController
         render json: { error: 'Could not find Action Item' }, status: :not_found
     end
 
+    def prepare_bulk_assignment(assigned_to_ids, action_item_id)
+        bulk_assignment_params = []
+        single_assignment_params = assignment_params
+        assigned_to_ids.each do |id|
+            bulk_assignment_params.append(single_assignment_params.merge(assigned_to_id: id, 
+                                                                         action_item_id: action_item_id))
+        end
+        return bulk_assignment_params
+    end
+
     def action_item_params
         action_item_param = params.require(:action_item).permit(:title,
                                                                 :description)
     end
 
+    def assigned_to_ids
+        params.require(:action_item).permit(:action_item_ids)
+    end
+
     def assignment_params
         assignment_param = params.require(:action_item).permit(:action_item_id,
-                                                               :assigned_to_id,
                                                                :due_date)
         assignment_param.merge(assigned_by_id: current_user.staff.id)
     end
