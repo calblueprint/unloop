@@ -41,6 +41,7 @@ class ApplicationPolicy
     attr_reader :user, :scope
 
     def initialize(user, scope)
+      raise Pundit::NotAuthorizedError, "must be logged in" unless user.present?
       @user = user
       @scope = scope
     end
