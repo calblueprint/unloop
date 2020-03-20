@@ -27,7 +27,7 @@ class Api::AssignmentsController < ApplicationController
 
     def show
         authorize @assignment 
-        render json: @assignment
+        render json: @assignment, status: :ok
     end
 
     def update
@@ -57,7 +57,6 @@ class Api::AssignmentsController < ApplicationController
         @template[:is_template] = true
 
         if @template.save
-            puts "TEMPLATE SAVED! #{@template}"
             render json: @template, status: :created
         else
             render json: { error: 'Could not create template' }, status: :unprocessable_entity
@@ -66,13 +65,13 @@ class Api::AssignmentsController < ApplicationController
 
     def show_template
         authorize @template, :show?
-        render json: @template, status: ok
+        render json: @template, status: :ok
     end
 
     def update_template
         authorize @template, :update?
         if @template.update(action_item_params)
-            render json: @template, status: ok
+            render json: @template, status: :ok
         else
             render json: { error: 'Could not update template' }, status: :unprocessable_entity
         end
@@ -81,9 +80,9 @@ class Api::AssignmentsController < ApplicationController
     def destroy_template
         authorize @template, :destroy?
         if @template.destroy
-            render json: @template, status: ok
+            render json: @template, status: :ok
         else
-            render json: @template, status: ok
+            render json: { error: 'Failed to delete action item' }, status: :unprocessable_entity
         end
     end
 
@@ -126,7 +125,8 @@ class Api::AssignmentsController < ApplicationController
 
     def assignment_params
         assignment_param = params.require(:action_item).permit(:action_item_id,
-                                                               :due_date)
+                                                               :due_date,
+                                                               :completed)
         assignment_param.merge(assigned_by_id: current_user.staff.id)
     end
 
