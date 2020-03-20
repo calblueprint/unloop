@@ -1,0 +1,30 @@
+<h1>Editing Assignment</h1>
+
+<%= form_with(model: @assignment, local: true) do |form| %>
+  <p>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </p>
+  <p>
+    <%= form.label :description %><br>
+    <%= form.text_field :description %>
+  </p>
+  <p>
+    Assigned to: <br>
+	  <%= form.collection_select :assigned_to_id, @participants, :id, :first_name, prompt: true %>
+  </p>
+   <p>
+    Assigned by: <br>
+	  <%= form.collection_select :assigned_by_id, @staffs, :id, :first_name, prompt: true %>
+  </p>
+  <p>
+    <%= form.label :completed %><br>
+    <%= form.check_box :completed %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @assignment %> |
+<%= link_to 'Back', assignments_path %>

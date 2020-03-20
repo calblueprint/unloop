@@ -1,25 +1,28 @@
 class AssignmentsController < ApplicationController
-    before_action :set_assignment, only:[:show, :edit]
+    before_action :set_action_item, only:[:show, :edit]
     def index
-        @assignments = authorize Assignments.all
+        @assignments = authorize Assignment.all
+        skip_policy_scope
     end
 
     def new
-        @assignment = authorize Assignments.new
+        @assignment = authorize Assignment.new
     end
 
     def edit
-        @assignment = authorize Assignments.where(action_item: @action_item)
+        authorize @assignment
+        @staffs = Staff.all
+        @participants = Participant.all
     end
     
     def show
-        @assignment = authorize Assignments.where(action_item: @action_item)
+        authorize @assignment
     end
 
     private
 
     def set_action_item
-        @action_item = Assignments.find(params[:id])
+        @assignment = Assignment.find(params[:id])
     rescue ActiveRecord::RecordNotFound
         redirect_to assignments_path
     end
