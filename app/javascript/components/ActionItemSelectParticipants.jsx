@@ -18,12 +18,6 @@ class ActionItemSelectParticipants extends React.Component {
             selectedParticipants: [],
             // For dummy participants
             // participants: this.getDummyParticipants(),
-            funcs: {
-                addUser: this.addUserToState, 
-                removeUser: this.removeUserFromState, 
-                addAllUsers: this.addAllUsersToState,
-                removeAllUsers: this.removeAllUsersFromState,
-            }
         }
         this.addUserToState = this.addUserToState.bind(this);
         this.removeUserFromState = this.removeUserFromState.bind(this);
@@ -84,7 +78,7 @@ class ActionItemSelectParticipants extends React.Component {
                 <ActionItemDisplayParticipants selectedParticipants={this.state.selectedParticipants} className={styles.participant}/>
 
                 {/* Rendering left side of page (for searching). Should I pass in categories in here too? */}
-                <ActionItemSearchParticipants participants={this.state.participants} funcs={this.state.funcs}/>
+                <ActionItemSearchParticipants participants={this.state.participants} addUser={this.addUserToState} />
 
                 {/* Adding buttons for previous and next */}
 

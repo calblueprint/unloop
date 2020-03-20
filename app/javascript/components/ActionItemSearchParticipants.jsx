@@ -25,7 +25,7 @@ class ActionItemSearchParticipants extends React.Component {
     // When selecting a participant, update the state in the parent class.
     onSelectParticipant(user) {
         console.log("You added this user:", user);
-        this.props.funcs.addUser(user);
+        this.props.addUser(user);
     }
 
     // When de-selecting a participant, update the state in the parent class.
