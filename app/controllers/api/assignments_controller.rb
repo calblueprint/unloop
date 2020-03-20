@@ -115,16 +115,16 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def action_item_params
-        action_item_param = params.require(:action_item).permit(:title,
+        action_item_param = params.require(:assignment).permit(:title,
                                                                 :description)
     end
 
     def assigned_to_ids
-        params.require(:action_item).permit(assigned_to_ids: []).fetch(:assigned_to_ids, [])
+        params.require(:assignment).permit(assigned_to_ids: []).fetch(:assigned_to_ids, [])
     end
 
     def assignment_params
-        assignment_param = params.require(:action_item).permit(:action_item_id,
+        assignment_param = params.require(:assignment).permit(:action_item_id,
                                                                :due_date,
                                                                :completed)
         assignment_param.merge(assigned_by_id: current_user.staff.id)

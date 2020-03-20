@@ -1,4 +1,22 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_assignment_path(@assignment) %> |
+<p>
+  <strong>Title:</strong>
+  <%= @assignment.cond_assignment_title %>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%= @assignment.cond_assignment_description %>
+</p>
+<p>
+  <strong>Assigned by:</strong>
+  <%= @assignment.assigned_by.cond_full_name %>
+</p>
+<p>
+  <strong>Assigned to:</strong>
+  <%= @assignment.assigned_to.full_name %>
+</p>
+<p>
+
+<%= link_to 'Edit', edit_assignment_path(@assignment) %></td>
 <%= link_to 'Back', assignments_path %>

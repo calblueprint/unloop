@@ -1,17 +1,17 @@
 <h1>Editing Assignment</h1>
 
-<%= form_with(model: @assignment, local: true) do |form| %>
+<%= form_with(model: @assignment, url: api_assignment_path, local: true) do |form| %>
   <p>
     <%= form.label :title %><br>
-    <%= form.text_field :title %>
+    <%= form.text_field :cond_assignment_title %>
   </p>
   <p>
     <%= form.label :description %><br>
-    <%= form.text_field :description %>
+    <%= form.text_field :cond_assignment_description %>
   </p>
   <p>
     Assigned to: <br>
-	  <%= form.collection_select :assigned_to_id, @participants, :id, :first_name, prompt: true %>
+	  <%= form.collection_select :assigned_to_id, @all_users, :id, :first_name, prompt: true %>
   </p>
    <p>
     Assigned by: <br>
