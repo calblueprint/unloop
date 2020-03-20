@@ -1,59 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import MUIRichTextEditor from 'mui-rte';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
-import {
-  Button,
-  Dialog,
-  Grid,
-  Paper,
-} from '@material-ui/core/';
-import { createMuiTheme } from '@material-ui/core/styles';
-
-const styles = {
-  buttonStyle: {
-    marginLeft: 'auto',
-    marginRight: '0',
-  },
-  casenoteDescStyle: {
-    marginLeft: '20px',
-    paddingTop: '20px',
-  },
-  dialogActionsStyle: {
-    padding: '30px',
-  },
-  dialogStyle: {
-    padding: '20px',
-  },
-  dialogContentTextStyle: {
-    color: 'black',
-    marginBottom: '2px',
-  },
-  modalItems: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '750px',
-    height: '100%',
-    margin: 'auto',
-    backgroundColor: '#28303B',
-  },
-  backgroundColor: {
-    backgroundColor: '#28303B',
-    padding: '50px',
-  },
-  casenoteCardModalDescriptionStyle: {
-    height: '380px',
-    overflow: 'auto',
-  },
-  titleStyle: {
-    color: 'white',
-    fontSize: '36px',
-    marginBottom: '0',
-    marginTop: '0',
-  },
-};
-
+import { withStyles, createMuiTheme } from '@material-ui/core/styles';
+import { Button, Dialog, Grid, Paper } from '@material-ui/core/';
+import styles from './styles';
 
 // TODO: Move to global theme
 const defaultTheme = createMuiTheme();
@@ -85,7 +37,6 @@ class CaseNoteCardModal extends React.Component {
     this.state = {
       description: this.props.description,
       title: this.props.title,
-      internal: this.props.internal,
       open: false,
     };
     this.handleClose = this.handleClose.bind(this);
@@ -101,9 +52,11 @@ class CaseNoteCardModal extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
       <>
-        <div style={this.buttonStyle}>
+        <div className={classes.buttonStyle}>
           <Button
             className="contained"
             color="primary"
@@ -114,22 +67,22 @@ class CaseNoteCardModal extends React.Component {
         </div>
 
         <Dialog
-          style={styles.dialogStyle}
+          className={classes.dialogStyle}
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
           maxWidth="md"
         >
-          <div style={styles.backgroundColor}>
-            <div style={styles.modalItems}>
+          <div className={classes.backgroundColor}>
+            <div className={classes.modalItems}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <h3 style={styles.titleStyle}>{this.state.title}</h3>
+                  <h3 className={classes.titleStyle}>{this.state.title}</h3>
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper style={styles.casenoteCardModalDescriptionStyle}>
-                    <div style={styles.casenoteDescStyle}>
+                  <Paper className={classes.casenoteCardModalDescriptionStyle}>
+                    <div className={classes.casenoteDescStyle}>
                       <MUIRichTextEditor
                         value={this.state.description}
                         readOnly
@@ -147,4 +100,10 @@ class CaseNoteCardModal extends React.Component {
   }
 }
 
-export default CaseNoteCardModal;
+CaseNoteCardModal.propTypes = {
+  classes: PropTypes.object.isRequired,
+  description: PropTypes.string,
+  title: PropTypes.string,
+};
+
+export default withStyles(styles)(CaseNoteCardModal);

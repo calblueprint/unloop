@@ -1,10 +1,14 @@
 /*
- * ParticipantShowPage Styles
+ * ActionItemModal Multiple Components
  *
- * This contains all the styles for the ParticipantShowPage container.
+ * Styling for these different components
  */
 
-const styles = theme => ({
+export const styles = theme => ({
+  participant: {
+    backgroundColor: '#5870EB',
+  },
+
   leftHalf: {
     paddingLeft: 28,
     paddingRight: 28,
