@@ -3,31 +3,73 @@ import {
     Button,
     Typography,
 } from '@material-ui/core';
-// import ActionItemParticipant from './ActionItemParticipant';
+import { withStyles } from '@material-ui/core/styles';
 import ActionItemSearchParticipants from './ActionItemSearchParticipants';
 import ActionItemDisplayParticipants from './ActionItemDisplayParticipants';
-import { Children } from 'react';
+import styles from './styles';
+
+// function ActionItemSelectParticipants({ classes }) {
 
 class ActionItemSelectParticipants extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             participants: this.props.participants,
+            selectedParticipants: [],
             // For dummy participants
             // participants: this.getDummyParticipants(),
+            funcs: {
+                addUser: this.addUserToState, 
+                removeUser: this.removeUserFromState, 
+                addAllUsers: this.addAllUsersToState,
+                removeAllUsers: this.removeAllUsersFromState,
+            }
         }
-        // this.callBackFunction = this.callBackFunction.bind(this);
+        this.addUserToState = this.addUserToState.bind(this);
+        this.removeUserFromState = this.removeUserFromState.bind(this);
+        this.addAllUsersToState = this.addAllUsersToState.bind(this);
+        this.removeAllUsersFromState = this.removeAllUsersFromState.bind(this);
     }
 
+    // Adds selected user to state to be displayed
     addUserToState(user) {
+        console.log("Trying to add:", user);
+        console.log(this.state);
         this.setState(prevState => ({
-            participants: [...this.prevState.participants, user]
+            selectedParticipants: [...prevState.selectedParticipants, user]
         }));
+        // this.setState({
+        //     selectedParticipants: [...this.state.selectedParticipants, user]
+        // })
     }
 
-    getParticipants() {
-        this.setState({participants: this.apiGet('users/')});
+    // Removes user from display
+    removeUserFromState(user) {
+        var copy = [...this.state.selectedParticipants];
+        var index = this.state.selectedParticipants.indexOf(user);
+        copy.splice(index, 1); // Removes one element at `index` location
+        this.setState({
+            selectedParticipants: copy,
+        })
     }
+
+    // Adds all users at once to be displayed
+    addAllUsersToState(users) {
+        this.setState({
+            selectedParticipants: users,
+        })
+    }
+
+    // Removes all users at once from display
+    removeAllUsersFromState(users) {
+        this.setState({
+            selectedParticipants: [],
+        })
+    }
+
+    // getParticipants() {
+    //     this.setState({participants: this.apiGet('users/')});
+    // }
     
     render() {
         return (
@@ -36,13 +78,13 @@ class ActionItemSelectParticipants extends React.Component {
 
                 {/* Top part of page */}
                 {/* Images of dots and stuff here */}
-                <Typography>Add Students to Assignment:</Typography> 
-
-                {/* Rendering left side of page (for searching). Should I pass in categories in here too? */}
-                <ActionItemSearchParticipants participants={this.state.participants}/> {/*callBackFunction={this.addUserToState}/>
+                <Typography>Create New Assignment List</Typography> 
 
                 {/* Rendering right side of page (for listing people) */}
-                <ActionItemDisplayParticipants participants={this.state.participants}/>
+                <ActionItemDisplayParticipants selectedParticipants={this.state.selectedParticipants} className={styles.participant}/>
+
+                {/* Rendering left side of page (for searching). Should I pass in categories in here too? */}
+                <ActionItemSearchParticipants participants={this.state.participants} funcs={this.state.funcs}/>
 
                 {/* Adding buttons for previous and next */}
 
@@ -84,5 +126,13 @@ class ActionItemSelectParticipants extends React.Component {
         return participants;
     }
 }
+
+// function ActionItemSelectParticipants({ classes }) {
+
+// ActionItemSelectParticipants.propTypes = {
+//     classes: PropTypes.object.isRequired,
+// };
+
+// export default withStyles(styles)(ActionItemSelectParticipants);
 
 export default ActionItemSelectParticipants;

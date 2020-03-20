@@ -4,8 +4,8 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
-import ActionItemSelectParticipants from './ActionItemSelectParticipants';
-import ParticipantCard from './ParticipantCard';
+import ActionItemSelectParticipants from 'components/ActionItemSelectParticipants';
+import ParticipantCard from 'components/ParticipantCard';
 
 const TrieSearch = require('trie-search');
 

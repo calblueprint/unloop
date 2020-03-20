@@ -4,23 +4,25 @@ import {
     Typography,
 } from '@material-ui/core';
 import ActionItemParticipant from './ActionItemParticipant';
+import styles from './styles';
 
 class ActionItemDisplayParticipants extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            participants: this.props.participants,
-        };
     }
 
     render() {
-        let participantCards = this.state.participants.map((p) =>
-            <ActionItemParticipant name={p.name}/>
-        );
+        let participantCards;
+        if (this.props.selectedParticipants) {
+            participantCards = this.props.selectedParticipants.map((p) =>
+                <ActionItemParticipant participant={p} backgroundColor={styles.participant}/>
+            );
+        }
         return (
             <div className='displayParticipants'>
                 {/* Students top bar */}
                 <div className='students'>
+                    STUDENTS
                 </div>
 
                 {/* List students out */}

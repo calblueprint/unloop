@@ -4,6 +4,7 @@ import {
     Typography,
 } from '@material-ui/core';
 import ActionItemParticipant from './ActionItemParticipant';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 
 const TrieSearch = require('trie-search');
 
@@ -13,14 +14,36 @@ class ActionItemSearchParticipants extends React.Component {
         this.state = {
             participants: this.props.participants,
             categories: this.props.categories,
-            callBackFunction: this.props.callBackFunction,
         };
         this.handleChange = this.handleChange.bind(this);
+        this.onSelectParticipant = this.onSelectParticipant.bind(this);
+        this.onDeselectParticipant = this.onDeselectParticipant.bind(this);
+        this.onSelectAll = this.onSelectAll.bind(this);
+        this.onDeselectAll = this.onDeselectAll.bind(this);
     }
 
     // When selecting a participant, update the state in the parent class.
     onSelectParticipant(user) {
-        this.state.callBackFunction(user);
+        console.log("You added this user:", user);
+        this.props.funcs.addUser(user);
+    }
+
+    // When de-selecting a participant, update the state in the parent class.
+    onDeselectParticipant(user) {
+        console.log("You removed this user:", user);
+        this.props.funcs.removeUser(user);
+    }
+
+    // When selecting all participants, update the state in the parent class in one go.
+    onSelectAll(users) {
+        console.log("You added all users");
+        this.props.funcs.addAllUsers(users);
+    }
+
+    // When de-selecting all participants, update the state in the parent class in one go.
+    onDeselectAll(users) {
+        console.log("You removed all users");
+        this.props.funcs.TypographyremoveAllUsers(users);
     }
 
     // Load in all the different participants from a 'TrieSearch' by name
@@ -50,14 +73,16 @@ class ActionItemSearchParticipants extends React.Component {
 
     render() {
         let participantCards = this.state.participants.map((p) => 
-            <ActionItemParticipant name={p.name}/>
+            // Can only select a participant ATM if you select on the plus box, not if you select on the participant name itself.
+            <ActionItemParticipant participant={p} addFunc={this.onSelectParticipant} removeFunc={this.onDeselectParticipant}/> 
         );
 
         return (
             <div className='searchParticipants'>
                 
                 {/* For the top 'ADD STUDENTS' Bar */}
-                <div className='topbar'>
+                <div className='topBar'>
+                    ADD STUDENTS
                 </div>
 
                 {/* Filter By Category */}
@@ -71,7 +96,7 @@ class ActionItemSearchParticipants extends React.Component {
                 </div>
 
                 {/* Select All Button */}
-                
+                {/* <CheckBoxOutlineBlankIcon onClick={() => this.onSelectAll(this.state.remainingParticipants)}>SELECT ALL</CheckBoxOutlineBlankIcon> */}
             </div>
         )
     }
