@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2020_03_07_003647) do
 
   create_table "case_notes", force: :cascade do |t|
     t.string "description"
-    t.boolean "internal"
+    t.boolean "visible"
     t.bigint "staff_id", null: false
     t.bigint "participant_id", null: false
     t.string "title"
