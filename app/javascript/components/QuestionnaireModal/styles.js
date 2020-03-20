@@ -4,7 +4,7 @@
  * This contains all the styles for the QuestionnaireModal component.
  */
 
-export const styles = theme => ({
+const styles = theme => ({
   dialog: {
     borderRadius: 20,
   },

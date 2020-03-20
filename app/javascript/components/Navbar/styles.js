@@ -4,7 +4,7 @@
  * This contains all the styles for the Navbar container.
  */
 
-export const styles = theme => ({
+const styles = theme => ({
   navBar: {
     height: '100vh',
     paddingTop: 40,
