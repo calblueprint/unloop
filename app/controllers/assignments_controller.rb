@@ -2,6 +2,7 @@ class AssignmentsController < ApplicationController
     before_action :set_action_item, only:[:show, :edit]
     def index
         @assignments = authorize Assignment.all
+        @participants = Participant.all
         skip_policy_scope
     end
 

@@ -34,6 +34,15 @@ Rails.application.routes.draw do
     resources :case_notes, only: [:show, :create, :update, :destroy] do
       patch 'internal', to: 'case_notes#internal', on: :member
     end
+
+    scope '/assignments' do
+      post 'templates', to: 'assignments#create_template'
+      patch 'templates/:id', to: 'assignments#update_template'
+      get 'templates/:id', to: 'assignments#show_template'
+      delete 'templates/:id', to: 'assignments#destroy_template'
+    end
+
+    resources :assignments, only: [:show, :create, :update, :destroy]
     resources :professional_questionnaires, only: [:show, :create, :update, :destroy]
     resources :personal_questionnaires, only: [:show, :create, :update, :destroy]
   end

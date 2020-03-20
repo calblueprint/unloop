@@ -1,6 +1,6 @@
 class Api::AssignmentsController < ApplicationController
     before_action :set_assignment, only: [:show, :update, :destroy]
-    before_action :set_template, only [:show_template, :update_template, :destroy_template]
+    before_action :set_template, only: [:show_template, :update_template, :destroy_template]
     respond_to :json
 
     def create
@@ -12,13 +12,18 @@ class Api::AssignmentsController < ApplicationController
             prepare_bulk_assignment(assigned_to_ids, @action_item.id).each do |assignment_params|
                 @assignment = authorize Assignment.new(assignment_params)
                 if @assignment.save
-                    created_assignments.append(assignment)
+                    created_assignments.append(@assignment)
+                else
+                    @action_item.destroy
+                    render json: { error: 'Could not create action item' }, status: :unprocessable_entity
+                    return 
+                end
             end
             render json: created_assignments, status: :created
         else
             render json: { error: 'Could not create action item' }, status: :unprocessable_entity
         end
-    end
+    end 
 
     def show
         authorize @assignment 
@@ -48,10 +53,11 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def create_template
-        @template = authorize ActionItem.new(action_item_params)
+        @template = authorize ActionItem.new(action_item_params), :create?
         @template[:is_template] = true
 
         if @template.save
+            puts "TEMPLATE SAVED! #{@template}"
             render json: @template, status: :created
         else
             render json: { error: 'Could not create template' }, status: :unprocessable_entity
@@ -59,12 +65,12 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def show_template
-        authorize @template
+        authorize @template, :show?
         render json: @template, status: ok
     end
 
     def update_template
-        authorize @template
+        authorize @template, :update?
         if @template.update(action_item_params)
             render json: @template, status: ok
         else
@@ -73,7 +79,7 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def destroy_template
-        authorize @template
+        authorize @template, :destroy?
         if @template.destroy
             render json: @template, status: ok
         else
@@ -115,7 +121,7 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def assigned_to_ids
-        params.require(:action_item).permit(:action_item_ids)
+        params.require(:action_item).permit(assigned_to_ids: []).fetch(:assigned_to_ids, [])
     end
 
     def assignment_params
