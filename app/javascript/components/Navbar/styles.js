@@ -10,6 +10,7 @@ const styles = theme => ({
     paddingTop: 40,
     backgroundColor: '#29313C',
     position: 'fixed',
+    minWidth: 120,
   },
   drawer: {
     width: 100,
