@@ -49,33 +49,6 @@ const styles = () => ({
       left: -10,
     },
   },
-  '& table': {
-    width: '100%',
-    borderCollapse: 'collapse',
-    fontSize: 20,
-    fontFamily: "'Roboto', sans-serif",
-    fontStyle: 'normal',
-
-    '& th, & td': {
-      padding: '25px 3%',
-      textAlign: 'left',
-      borderBottom: '1px solid #ddd',
-    },
-
-    '& tbody': {
-      '& tr:hover': {
-        backgroundColor: '#f5f5f5',
-      },
-    },
-
-    '& td': {
-      '& > div': {
-        fontSize: 18,
-        fontWeight: 300,
-        fontStyle: 'normal',
-      },
-    },
-  },
 });
 
 export default styles;
