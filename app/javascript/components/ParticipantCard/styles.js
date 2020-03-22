@@ -1,5 +1,3 @@
-const buttonSecondary = '#5870eb';
-
 const styles = () => ({
   iconLarge: {
     width: 35,
@@ -21,15 +19,11 @@ const styles = () => ({
     height: 52,
     borderRadius: '100%',
     textAlign: 'center',
-    lineHeight: 52,
+    verticalAlign: 'middle',
+    lineHeight: '52px',
     color: '#fff',
-    backgroundColor: buttonSecondary,
   },
   newAssignment: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyItems: 'center',
     '& > div': {
       display: 'flex',
       flexDirection: 'row',
@@ -40,46 +34,19 @@ const styles = () => ({
       },
     },
   },
-  casenoteText: {
+  caseNoteText: {
     width: '110px',
   },
-  formStatus: {
-    '& > div': {
-      position: 'relative',
-      left: 10,
-    },
+  paperworkText: {
+    width: '130px',
+  },
+  questionnaireStatus: {
+    paddingLeft: 10,
   },
   arrow: {
     '& svg': {
       position: 'relative',
       left: -10,
-    },
-  },
-  '& table': {
-    width: '100%',
-    borderCollapse: 'collapse',
-    fontSize: 20,
-    fontFamily: "'Roboto', sans-serif",
-    fontStyle: 'normal',
-
-    '& th, & td': {
-      padding: '25px 3%',
-      textAlign: 'left',
-      borderBottom: '1px solid #ddd',
-    },
-
-    '& tbody': {
-      '& tr:hover': {
-        backgroundColor: '#f5f5f5',
-      },
-    },
-
-    '& td': {
-      '& > div': {
-        fontSize: 18,
-        fontWeight: 300,
-        fontStyle: 'normal',
-      },
     },
   },
 });
