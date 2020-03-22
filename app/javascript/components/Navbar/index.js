@@ -7,11 +7,28 @@ import UnloopLogo from 'images/unloop_logo.png';
 import styles from './styles';
 import { apiGet } from '../../utils/axios';
 
-function Navbar({ classes }) {
-  const navigateToHomepage = () => {
-    const homepagePath = '/';
-    window.location.href = homepagePath;
+function Navbar({ classes, isAdmin }) {
+  const navigateToAdminBoard = () => {
+    window.location.href = '/admin';
   };
+
+  const navigateToHomepage = () => {
+    window.location.href = '/';
+  };
+
+  const renderAdminButton = () => (
+    <Grid item>
+      <Button
+        component="a"
+        disableFocusRipple
+        disableTouchRipple
+        className={classes.navBarSignOut}
+        onClick={navigateToAdminBoard}
+      >
+        Admin Board
+      </Button>
+    </Grid>
+  );
 
   const logout = () => {
     const path = '/users/sign_out';
@@ -32,6 +49,7 @@ function Navbar({ classes }) {
         justify="space-between"
       >
         <Grid container item alignItems="center" direction="column">
+          {isAdmin ? renderAdminButton() : null}
           <Grid item>
             <Button
               component="a"
@@ -64,6 +82,7 @@ function Navbar({ classes }) {
 
 Navbar.propTypes = {
   classes: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(Navbar);
