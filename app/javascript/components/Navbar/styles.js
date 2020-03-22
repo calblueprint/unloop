@@ -11,6 +11,7 @@ const styles = theme => ({
     backgroundColor: '#29313C',
     position: 'fixed',
     minWidth: 120,
+    maxWidth: 120,
   },
   drawer: {
     width: 100,
