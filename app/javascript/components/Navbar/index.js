@@ -22,7 +22,7 @@ function Navbar({ classes, isAdmin }) {
         component="a"
         disableFocusRipple
         disableTouchRipple
-        className={classes.navBarSignOut}
+        className={classes.navBarItem}
         onClick={navigateToAdminBoard}
       >
         Admin Board
@@ -55,7 +55,7 @@ function Navbar({ classes, isAdmin }) {
               component="a"
               disableFocusRipple
               disableTouchRipple
-              className={classes.navBarSignOut}
+              className={classes.navBarItem}
               onClick={logout}
             >
               Sign Out

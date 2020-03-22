@@ -15,9 +15,6 @@ const styles = theme => ({
     width: 100,
     marginRight: 10,
   },
-  navBarSignOut: {
-    color: theme.palette.common.white,
-  },
   navBarItem: {
     color: theme.palette.common.white,
   },
