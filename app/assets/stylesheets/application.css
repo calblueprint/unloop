@@ -13,7 +13,8 @@
  *= require_tree .
  *= require_self
  */
-
+ @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+ 
  .alert {
     text-align: center;
     background-color: rgba(210, 220, 225, 0.63);
