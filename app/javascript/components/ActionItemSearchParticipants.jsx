@@ -2,9 +2,10 @@ import React from 'react';
 import {
     Button,
     Typography,
+    Checkbox,
+    FormControlLabel,
 } from '@material-ui/core';
 import ActionItemParticipant from './ActionItemParticipant';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 
 const TrieSearch = require('trie-search');
 
@@ -16,34 +17,45 @@ class ActionItemSearchParticipants extends React.Component {
             categories: this.props.categories,
         };
         this.handleChange = this.handleChange.bind(this);
-        this.onSelectParticipant = this.onSelectParticipant.bind(this);
-        this.onDeselectParticipant = this.onDeselectParticipant.bind(this);
-        this.onSelectAll = this.onSelectAll.bind(this);
-        this.onDeselectAll = this.onDeselectAll.bind(this);
+        this.changeChecked = this.changeChecked.bind(this);
+        this.allSelect = this.allSelect.bind(this);
+        this.participantToString = this.participantToString.bind(this);
+
+        // Creating dictionary to keep track of the current checked-or-not state for each child
+        this.participantAndState = {}
+        this.state.participants.forEach(p => 
+            this.participantAndState[this.participantToString(p)] = false
+        );
     }
 
-    // When selecting a participant, update the state in the parent class.
-    onSelectParticipant(user) {
-        console.log("You added this user:", user);
-        this.props.funcs.addUser(user);
+    // Converts the participant's attributes to a string to be stored as a key (this will not be needed if participants
+    // have unique ID's instead).
+    //
+    // Workaround for objects not being able to be stored as separate keys, as seen here:
+    // https://stackoverflow.com/questions/7196212/how-to-create-dictionary-and-add-key-value-pairs-dynamically/7196529
+
+    participantToString(user) {
+        let stringId = "";
+        Object.keys(user).forEach((attr) => {
+            stringId += attr + user[attr];
+        })
+        return stringId;
     }
 
-    // When de-selecting a participant, update the state in the parent class.
-    onDeselectParticipant(user) {
-        console.log("You removed this user:", user);
-        this.props.funcs.removeUser(user);
-    }
+    // Change the state for one of the child components when the 'plus' button is toggled and passes this info to parent class.
+    changeChecked(user) {
 
-    // When selecting all participants, update the state in the parent class in one go.
-    onSelectAll(users) {
-        console.log("You added all users");
-        this.props.funcs.addAllUsers(users);
-    }
+        let newVal = !this.participantAndState[this.participantToString(user)];
+        this.participantAndState[this.participantToString(user)] = newVal;
 
-    // When de-selecting all participants, update the state in the parent class in one go.
-    onDeselectAll(users) {
-        console.log("You removed all users");
-        this.props.funcs.TypographyremoveAllUsers(users);
+        if (newVal) { // Participant was selected
+            console.log("You added this user:", user);
+            this.props.addUser(user);
+
+        } else { // Participant was de-selected
+            console.log("You removed this user:", user);
+            this.props.removeUser(user);
+        }
     }
 
     // Load in all the different participants from a 'TrieSearch' by name
@@ -71,12 +83,32 @@ class ActionItemSearchParticipants extends React.Component {
         });
     }
 
-    render() {
-        let participantCards = this.state.participants.map((p) => 
-            // Can only select a participant ATM if you select on the plus box, not if you select on the participant name itself.
-            <ActionItemParticipant participant={p} addFunc={this.onSelectParticipant} removeFunc={this.onDeselectParticipant}/> 
-        );
+    // For selecting or de-selecting all participants
+    allSelect(e) {
 
+        this.props.participants.forEach(p => {
+            this.participantAndState[this.participantToString(p)] = e.target.checked;
+        })
+
+        if (e.target.checked) {
+            console.log("You added all users");
+            this.props.addAllUsers();
+        } else {
+            console.log("You removed all users");
+            this.props.removeAllUsers();
+        }
+    }
+
+    render() {
+
+        let participantCards = this.state.participants.map(p =>
+            <ActionItemParticipant
+                participant={p}
+                checked={this.participantAndState[this.participantToString(p)]}
+                changeChecked={this.changeChecked}
+            />
+        );
+    
         return (
             <div className='searchParticipants'>
                 
@@ -96,7 +128,10 @@ class ActionItemSearchParticipants extends React.Component {
                 </div>
 
                 {/* Select All Button */}
-                {/* <CheckBoxOutlineBlankIcon onClick={() => this.onSelectAll(this.state.remainingParticipants)}>SELECT ALL</CheckBoxOutlineBlankIcon> */}
+                <FormControlLabel
+                    control={<Checkbox color="primary" onClick={this.allSelect}/>}
+                    label="SELECT ALL"
+                />
             </div>
         )
     }

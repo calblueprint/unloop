@@ -36,6 +36,13 @@ Rails.application.routes.draw do
     end
     resources :professional_questionnaires, only: [:show, :create, :update, :destroy]
     resources :personal_questionnaires, only: [:show, :create, :update, :destroy]
+    
+    resources :participants, only: [] do
+      collection do
+        get 'statuses', to: 'participants#statuses'
+      end
+    end
+    
   end
 
   root 'pages#dashboard'

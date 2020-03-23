@@ -9,6 +9,10 @@ export const styles = theme => ({
     backgroundColor: '#5870EB',
   },
 
+  // icon: {
+  //   // display: inline,
+  // },
+
   leftHalf: {
     paddingLeft: 28,
     paddingRight: 28,
