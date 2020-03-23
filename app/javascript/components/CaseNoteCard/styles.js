@@ -24,6 +24,13 @@ export const styles = (/* theme */) => ({
     textOverflow: 'ellipsis',
     marginBottom: '0',
   },
+  casenoteCardTitleStyle: {
+    whiteSpace: 'nowrap',
+    overflowY: 'hidden',
+    overflowX: 'hidden',
+    textOverflow: 'ellipsis',
+    marginTop: '10px',
+  },
   MUIRichTextEditorStyle: {
     border: '5px solid',
     padding: '10px',

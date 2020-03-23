@@ -97,7 +97,9 @@ class CaseNoteCard extends React.Component {
             <Paper className={classes.caseNoteCardStyle}>
               <Grid container spacing={2}>
                 <Grid item xs={10}>
-                  <h3>{this.state.title}</h3>
+                  <h3 className={classes.casenoteCardTitleStyle}>
+                    {this.state.title}
+                  </h3>
                 </Grid>
                 <Grid item xs={2}>
                   {this.renderMenuItems()}
