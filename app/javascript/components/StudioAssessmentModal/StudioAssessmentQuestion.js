@@ -4,12 +4,9 @@ import { Formik, Form, Field } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Button,
-  Radio,
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
+  Button
 } from '@material-ui/core';
+import RadioButtonsGroup from './radioButtons';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -38,7 +35,10 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: '20px',
   },
   radio: {
-    paddingBottom: '20px',
+    marginTop:'20px',
+    padding:'20px',
+    borderRadius:'10px',
+    backgroundColor: theme.palette.common.lightBlue,
   },
   comments: {
     paddingBottom: '50px',
@@ -181,32 +181,10 @@ export const Question = ({
             </p>
           </div>
           <div className={classes.radio}>
-            <FormControl component="fieldset">
-              <RadioGroup
-                aria-label="gender"
-                name="gender1"
-                value={rubricItems[questionID][0]}
-              >
-                <br />
-                <FormControlLabel
-                  value={`${questionType}_score`}
-                  control={<Radio />}
-                  label={rubricItems[questionID][0]}
-                />
-                <br />
-                <FormControlLabel
-                  value={`${questionType}_score`}
-                  control={<Radio />}
-                  label={rubricItems[questionID][1]}
-                />
-                <br />
-                <FormControlLabel
-                  value={`${rubricItems[questionID]}_score`}
-                  control={<Radio />}
-                  label={rubricItems[questionID][2]}
-                />
-              </RadioGroup>
-            </FormControl>
+            <RadioButtonsGroup
+              rubricItems={rubricItems[questionID]}
+              questionType={questionType}
+            />
           </div>
           <div className={classes.comments}>
             <h3>Enter comments below:</h3>
@@ -255,5 +233,5 @@ Question.propTypes = {
   nextStep: PropTypes.func.isRequired,
   prevStep: PropTypes.func.isRequired,
   questionID: PropTypes.number.isRequired,
-  questionType: PropTypes.object.isRequired
+  questionType: PropTypes.string.isRequired
 };
