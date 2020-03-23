@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ThemeProvider, withStyles } from '@material-ui/core/styles';
 import QuestionnaireModal from 'components/QuestionnaireModal';
+import StudioAssessmentModal from 'components/StudioAssessmentModal'
 import PaperworkList from 'components/PaperworkList';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import theme from 'utils/theme';
@@ -86,6 +87,9 @@ class ParticipantShowPage extends React.Component {
                     questionnaireType="personal"
                     participantId={participantId}
                     questionnaire={personalQuestionnaire}
+                  />
+                  <StudioAssessmentModal
+                    participantId={participantId}
                   />
                 </Grid>
                 <Grid item>
