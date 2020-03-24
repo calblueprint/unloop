@@ -62,6 +62,7 @@ class ActionItemSelectParticipants extends React.Component {
     // }
     
     render() {
+        const { classes } = this.props;
         return (
             // Overall component
             <div className='entirePage'>
@@ -70,17 +71,17 @@ class ActionItemSelectParticipants extends React.Component {
                 {/* Images of dots and stuff here */}
                 <Typography>Create New Assignment List</Typography> 
 
-                <div>
-                    {/* Rendering right side of page (for listing people) */}
+                <div className={classes.displayParticipants}>
+                    {/* Rendering left side of page (for listing people) */}
                     <ActionItemDisplayParticipants
-                        selectedParticipants={this.state.selectedParticipants} 
-                        className={styles.participant}
+                        selectedParticipants={this.state.selectedParticipants}
                     />
+                </div>
 
-                    {/* Rendering left side of page (for searching). Should I pass in categories in here too? */}
+                <div className={classes.searchParticipants}>
+                    {/* Rendering right side of page (for searching). */}
                     <ActionItemSearchParticipants 
                         participants={this.state.participants}
-                        statuses={this.state.statuses}
                         addUser={this.addUserToState}
                         removeUser={this.removeUserFromState}
                         addAllUsers={this.addAllUsersToState}
@@ -101,6 +102,6 @@ class ActionItemSelectParticipants extends React.Component {
 //     classes: PropTypes.object.isRequired,
 // };
 
-// export default withStyles(styles)(ActionItemSelectParticipants);
+export default withStyles(styles)(ActionItemSelectParticipants);
 
-export default ActionItemSelectParticipants;
+// export default ActionItemSelectParticipants;

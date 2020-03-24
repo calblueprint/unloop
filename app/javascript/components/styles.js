@@ -10,11 +10,15 @@ export const styles = theme => ({
   },
 
   searchParticipants: {
+    // backgroundColor: '#5870EB',
     display: 'inline-block',
+    width: '45%',
   },
 
   displayParticipants: {
+    // backgroundColor: '#5870EB',
     display: 'inline-block',
+    width: '45%',
   },
 
   // END

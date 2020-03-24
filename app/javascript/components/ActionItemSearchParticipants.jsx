@@ -170,9 +170,11 @@ class ActionItemSearchParticipants extends React.Component {
                 onClick={() => this.filterByStatus(s)}>{s}
             </Button>
         );
+        const { classes } = this.props;
 
         return (
-            <div className='searchParticipants'>
+            <div>
+            {/* <div className={classes.searchParticipants}> */}
                 
                 {/* For the top 'ADD STUDENTS' Bar */}
                 <div className='topBar'>

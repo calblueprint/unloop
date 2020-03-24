@@ -13,6 +13,7 @@ class ActionItemDisplayParticipants extends React.Component {
     }
 
     render() {
+        const { classes } = this.props;
         let participantCards;
         if (this.props.selectedParticipants) {
             participantCards = this.props.selectedParticipants.map((p) =>
@@ -20,7 +21,8 @@ class ActionItemDisplayParticipants extends React.Component {
             );
         }
         return (
-            <div className='displayParticipants'>
+            // <div className={classes.displayParticipants}>
+            <div>
                 {/* Students top bar */}
                 <div className='students'>
                     STUDENTS
