@@ -37,7 +37,7 @@ class ActionItemParticipant extends React.Component {
 
         return (
             <div>
-                <p>This person is {this.props.participant.name}</p>
+                This person is {this.props.participant.name}
                 {button}
             </div>
 

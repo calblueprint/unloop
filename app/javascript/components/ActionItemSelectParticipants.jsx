@@ -7,9 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 import ActionItemSearchParticipants from './ActionItemSearchParticipants';
 import ActionItemDisplayParticipants from './ActionItemDisplayParticipants';
 import styles from './styles';
-import { apiGet } from '../utils/axios';
-
-// function ActionItemSelectParticipants({ classes }) {
 
 class ActionItemSelectParticipants extends React.Component {
     constructor(props) {
@@ -17,13 +14,12 @@ class ActionItemSelectParticipants extends React.Component {
         this.state = {
             participants: this.props.participants,
             selectedParticipants: [],
+            statuses: [],
         }
         this.addUserToState = this.addUserToState.bind(this);
         this.removeUserFromState = this.removeUserFromState.bind(this);
         this.addAllUsersToState = this.addAllUsersToState.bind(this);
         this.removeAllUsersFromState = this.removeAllUsersFromState.bind(this);
-        apiGet('api/participants/statuses')
-            .then(res => console.log(res));
     }
 
     // Adds selected user to state to be displayed
@@ -33,9 +29,6 @@ class ActionItemSelectParticipants extends React.Component {
             selectedParticipants: [...prevState.selectedParticipants, user]
         }));
         console.log(this.state.selectedParticipants);
-        // this.setState({
-        //     selectedParticipants: [...this.state.selectedParticipants, user]
-        // })
     }
 
     // Removes user from display
@@ -77,17 +70,23 @@ class ActionItemSelectParticipants extends React.Component {
                 {/* Images of dots and stuff here */}
                 <Typography>Create New Assignment List</Typography> 
 
-                {/* Rendering right side of page (for listing people) */}
-                <ActionItemDisplayParticipants selectedParticipants={this.state.selectedParticipants} className={styles.participant}/>
+                <div>
+                    {/* Rendering right side of page (for listing people) */}
+                    <ActionItemDisplayParticipants
+                        selectedParticipants={this.state.selectedParticipants} 
+                        className={styles.participant}
+                    />
 
-                {/* Rendering left side of page (for searching). Should I pass in categories in here too? */}
-                <ActionItemSearchParticipants 
-                    participants={this.state.participants}
-                    addUser={this.addUserToState}
-                    removeUser={this.removeUserFromState}
-                    addAllUsers={this.addAllUsersToState}
-                    removeAllUsers={this.removeAllUsersFromState}
-                />
+                    {/* Rendering left side of page (for searching). Should I pass in categories in here too? */}
+                    <ActionItemSearchParticipants 
+                        participants={this.state.participants}
+                        statuses={this.state.statuses}
+                        addUser={this.addUserToState}
+                        removeUser={this.removeUserFromState}
+                        addAllUsers={this.addAllUsersToState}
+                        removeAllUsers={this.removeAllUsersFromState}
+                    />
+                </div>
 
                 {/* Adding buttons for previous and next */}
 

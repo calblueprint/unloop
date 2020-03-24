@@ -9,9 +9,15 @@ export const styles = theme => ({
     backgroundColor: '#5870EB',
   },
 
-  // icon: {
-  //   // display: inline,
-  // },
+  searchParticipants: {
+    display: 'inline-block',
+  },
+
+  displayParticipants: {
+    display: 'inline-block',
+  },
+
+  // END
 
   leftHalf: {
     paddingLeft: 28,

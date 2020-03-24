@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import ActionItemParticipant from './ActionItemParticipant';
 import styles from './styles';
+import { withStyles } from '@material-ui/core/styles';
 
 class ActionItemDisplayParticipants extends React.Component {
     constructor(props) {
@@ -35,4 +36,4 @@ class ActionItemDisplayParticipants extends React.Component {
     }
 }
 
-export default ActionItemDisplayParticipants;
+export default withStyles(styles)(ActionItemDisplayParticipants);
