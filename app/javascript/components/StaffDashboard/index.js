@@ -6,6 +6,8 @@ import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
 import ActionItemSelectParticipants from 'components/ActionItemSelectParticipants';
 import ParticipantCard from 'components/ParticipantCard';
+import { withStyles } from '@material-ui/core/styles';
+import styles from './styles';
 
 const TrieSearch = require('trie-search');
 
@@ -41,6 +43,7 @@ class StaffDashboard extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     let participantsList = this.state.participants.map(p => (
       <ParticipantCard key={p.id} participant={p}></ParticipantCard>
     ));
@@ -50,13 +53,13 @@ class StaffDashboard extends React.Component {
     }
 
     return (
-      <div className="dashboard">
+      <div className={classes.dashboard}>
         <Navbar></Navbar>
-        <div className="content">
+        <div className={classes.content}>
           <h1>Participant Dashboard</h1>
-          <div className="table-container">
+          <div className={classes.tableContainer}>
             <div>
-              <div className="search-bar">
+              <div className={classes.searchBar}>
                 <InputBase
                   placeholder="filter participants"
                   onChange={this.handleChange}
@@ -94,7 +97,8 @@ class StaffDashboard extends React.Component {
 }
 
 StaffDashboard.propTypes = {
+  classes: PropTypes.object.isRequired,
   participants: PropTypes.array,
 };
 
-export default StaffDashboard;
+export default withStyles(styles)(StaffDashboard);

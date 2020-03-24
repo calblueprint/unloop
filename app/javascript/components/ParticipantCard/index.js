@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CaseNoteForm from 'components/CaseNoteForm';
 import PaperworkForm from 'components/PaperworkForm';
+import { withStyles } from '@material-ui/core/styles';
+
 import {
   faChevronRight,
   faCheck,
@@ -9,12 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import theme from 'utils/theme';
-
-const styles = {
-  casenoteText: {
-    width: '110px',
-  },
-};
+import styles from './styles';
 
 class ParticipantCard extends React.Component {
   constructor(props) {
@@ -29,18 +26,19 @@ class ParticipantCard extends React.Component {
 
   render() {
     const p = this.props.participant;
+    const { classes } = this.props;
     const status = p.status.toUpperCase();
     const { name } = p;
 
     const questionnaireStatus = p.questionnaireStatus ? (
       <FontAwesomeIcon
-        className="icon-large"
+        className={classes.iconLarge}
         icon={faCheck}
         color="green"
       ></FontAwesomeIcon>
     ) : (
       <FontAwesomeIcon
-        className="icon-large"
+        className={classes.iconLarge}
         icon={faTimes}
         color="red"
       ></FontAwesomeIcon>
@@ -61,7 +59,7 @@ class ParticipantCard extends React.Component {
     return (
       <tr>
         <td
-          className="name"
+          className={classes.name}
           style={{ cursor: 'pointer' }}
           onClick={this.showParticipant}
           onKeyDown={this.showParticipant}
@@ -69,13 +67,18 @@ class ParticipantCard extends React.Component {
           {name}
         </td>
         <td>
-          <div className="status" style={{ backgroundColor: statusColor }}>
+          <div
+            className={classes.status}
+            style={{ backgroundColor: statusColor }}
+          >
             {status}
           </div>
         </td>
-        <td className="new-assignment">
+        <td className={classes.newAssignment}>
           <div>
-            {p.paperworksCompleted} / {p.paperworksCount} completed
+            <div className={classes.paperworkText}>
+              {p.paperworksCompleted} / {p.paperworksCount} completed{' '}
+            </div>
             <PaperworkForm
               display="plus"
               type="create"
@@ -83,10 +86,9 @@ class ParticipantCard extends React.Component {
             ></PaperworkForm>
           </div>
         </td>
-        <td className="new-casenote">
+        <td className={classes.newAssignment}>
           <div>
-            <div style={styles.casenoteText}>{caseNotes}</div>
-
+            <div className={classes.caseNoteText}>{caseNotes}</div>
             <CaseNoteForm
               display="plus"
               type="create"
@@ -94,16 +96,18 @@ class ParticipantCard extends React.Component {
             ></CaseNoteForm>
           </div>
         </td>
-        <td className="form-status">
-          <div>{questionnaireStatus}</div>
+        <td>
+          <div className={classes.questionnaireStatus}>
+            {questionnaireStatus}
+          </div>
         </td>
-        <td className="arrow">
+        <td className={classes.arrow}>
           <FontAwesomeIcon
             onClick={this.showParticipant}
             icon={faChevronRight}
             color="grey"
             style={{ cursor: 'pointer' }}
-            className="icon-large"
+            className={classes.iconLarge}
           />
         </td>
       </tr>
@@ -112,7 +116,8 @@ class ParticipantCard extends React.Component {
 }
 
 ParticipantCard.propTypes = {
+  classes: PropTypes.object.isRequired,
   participant: PropTypes.object,
 };
 
-export default ParticipantCard;
+export default withStyles(styles)(ParticipantCard);
