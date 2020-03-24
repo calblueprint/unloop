@@ -83,7 +83,7 @@ const styles = () => ({
   },
   content: {
     position: 'absolute',
-    left: '120px',
+    left: '8%',
     width: 'calc(92%)',
     display: 'inline-block',
   },

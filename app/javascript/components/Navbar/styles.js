@@ -10,8 +10,7 @@ const styles = theme => ({
     paddingTop: 40,
     backgroundColor: '#29313C',
     position: 'fixed',
-    minWidth: 120,
-    maxWidth: 120,
+    minWidth: 60,
   },
   drawer: {
     width: 100,
@@ -24,12 +23,10 @@ const styles = theme => ({
     color: theme.palette.common.white,
   },
   unloopLogo: {
-    paddingLeft: '10px',
-    paddingBottom: '10px',
     width: '100%',
+    height: 'auto',
     objectFit: 'contain',
     overflowX: 'hidden',
-    backgroundColor: '#29313C',
   },
 });
 
