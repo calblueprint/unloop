@@ -17,17 +17,15 @@ function Navbar({ classes, isAdmin }) {
   };
 
   const renderAdminButton = () => (
-    <Grid item>
-      <Button
-        component="a"
-        disableFocusRipple
-        disableTouchRipple
-        className={classes.navBarItem}
-        onClick={navigateToAdminBoard}
-      >
-        Admin Board
-      </Button>
-    </Grid>
+    <Button
+      component="a"
+      disableFocusRipple
+      disableTouchRipple
+      className={classes.navBarItem}
+      onClick={navigateToAdminBoard}
+    >
+      Admin Board
+    </Button>
   );
 
   const logout = () => {
@@ -49,7 +47,6 @@ function Navbar({ classes, isAdmin }) {
         justify="space-between"
       >
         <Grid container item alignItems="center" direction="column">
-          {isAdmin ? renderAdminButton() : null}
           <Grid item>
             <Button
               component="a"
@@ -61,6 +58,7 @@ function Navbar({ classes, isAdmin }) {
               Sign Out
             </Button>
           </Grid>
+          {isAdmin ? <Grid item>{renderAdminButton()}</Grid> : null}
           <Grid item>
             <IconButton
               disableFocusRipple

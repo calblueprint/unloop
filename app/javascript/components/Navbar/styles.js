@@ -17,6 +17,7 @@ const styles = theme => ({
   },
   navBarItem: {
     color: theme.palette.common.white,
+    textAlign: 'center',
   },
   unloopLogo: {
     paddingLeft: '10px',
