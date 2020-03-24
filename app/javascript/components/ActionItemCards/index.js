@@ -9,7 +9,9 @@ import {
   faSmile,
   faCode,
 } from '@fortawesome/free-solid-svg-icons';
+import { withStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styles from './styles';
 
 // Uses CSS File for now. Need to change.
 class ActionItemCard extends React.Component {
@@ -37,48 +39,48 @@ class ActionItemCard extends React.Component {
           <FontAwesomeIcon
             className="icon-large"
             icon={faHome}
-            color="#8E8E8E"
-          ></FontAwesomeIcon>
+            color="#9EDC8E"
+          />
         );
       case 'leaf':
         return (
           <FontAwesomeIcon
             className="icon-large"
             icon={faLeaf}
-            color="#8E8E8E"
-          ></FontAwesomeIcon>
+            color="#9EDC8E"
+          />
         );
       case 'pen':
         return (
           <FontAwesomeIcon
             className="icon-large"
             icon={faPen}
-            color="#8E8E8E"
-          ></FontAwesomeIcon>
+            color="#9EDC8E"
+          />
         );
       case 'file':
         return (
           <FontAwesomeIcon
             className="icon-large"
             icon={faFile}
-            color="#8E8E8E"
-          ></FontAwesomeIcon>
+            color="#9EDC8E"
+          />
         );
       case 'smile':
         return (
           <FontAwesomeIcon
             className="icon-large"
             icon={faSmile}
-            color="#8E8E8E"
-          ></FontAwesomeIcon>
+            color="#9EDC8E"
+          />
         );
       case 'code':
         return (
           <FontAwesomeIcon
             className="icon-large"
             icon={faCode}
-            color="#8E8E8E"
-          ></FontAwesomeIcon>
+            color="#9EDC8E"
+          />
         );
     }
   }
@@ -104,4 +106,4 @@ ActionItemCard.propTypes = {
   participant: PropTypes.object,
 };
 
-export default ActionItemCard;
+export default withStyles(styles)(ActionItemCard);

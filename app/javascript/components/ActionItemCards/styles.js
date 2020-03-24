@@ -1,17 +1,15 @@
-export const styles = theme => ({
+export const styles = () => ({
   card: {
     display: 'flex',
     flexdirection: 'row',
     justifycontent: 'start',
     border: '0.5px solid #5870EB',
-    height: '100px',
   },
   rectangle: {
-    width: '70px',
-    height: '5px',
+    width: '5px',
+    height: '70.93px',
     background: '#5870EB',
     borderradius: '20px',
-    transform: 'rotate(-90deg)',
   },
   assign: {
     fontfamily: 'Inter',
@@ -29,7 +27,19 @@ export const styles = theme => ({
     fontfamily: 'Inter',
     fontstyle: 'normal',
     fontsize: '8px',
-    flexgrow: 2,
+  },
+  date: {
+    color: '#8E8E8E',
+    fontfamily: 'Inter',
+    fontstyle: 'normal',
+    fontweight: '500',
+    fontsize: '12px',
+    lineheight: '16px',
+  },
+  info: {
+    display: 'flex',
+    flexdirection: 'column',
+    flexgrow: '2',
   },
 });
 
