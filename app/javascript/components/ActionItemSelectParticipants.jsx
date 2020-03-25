@@ -2,6 +2,8 @@ import React from 'react';
 import {
     Button,
     Typography,
+    Dialog,
+    DialogContent,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import ActionItemSearchParticipants from './ActionItemSearchParticipants';
@@ -15,6 +17,7 @@ class ActionItemSelectParticipants extends React.Component {
             participants: this.props.participants,
             selectedParticipants: [],
             statuses: [],
+            openModal: false,
         }
         this.addUserToState = this.addUserToState.bind(this);
         this.removeUserFromState = this.removeUserFromState.bind(this);
@@ -60,37 +63,58 @@ class ActionItemSelectParticipants extends React.Component {
     // getParticipants() {
     //     this.setState({participants: this.apiGet('users/')});
     // }
+
+    toggleModal() {
+        console.log(this.state.participants);
+        console.log(this.state.openModal);
+        this.setState({
+            openModal: !this.state.openModal,
+        })
+    }
     
     render() {
         const { classes } = this.props;
         return (
             // Overall component
             <div className='entirePage'>
+                <Button variant="outlined" color="primary" onClick={() => this.toggleModal()}>
+                    Open Modal
+                </Button>
+                <Dialog 
+                    onClose={() => this.toggleModal()} 
+                    open={this.state.openModal}
+                    fullWidth={true}
+                    maxWidth="lg"
+                >
+                    <DialogContent>
+                        <Typography>
+                            Create New Assignment List
+                        </Typography> 
+                        
+                        {/* Rendering left side of page (for listing people) */}
+                        <div className={classes.displayParticipants}>
+                            <ActionItemDisplayParticipants 
+                                selectedParticipants={this.state.selectedParticipants}
+                            />
+                        </div>
 
+                        {/* Rendering right side of page (for searching). */}
+                        <div className={classes.searchParticipants}>
+                            <ActionItemSearchParticipants 
+                                participants={this.state.participants}
+                                addUser={this.addUserToState}
+                                removeUser={this.removeUserFromState}
+                                addAllUsers={this.addAllUsersToState}
+                                removeAllUsers={this.removeAllUsersFromState}
+                            />
+                        </div>
+
+                    </DialogContent>
+                </Dialog>
                 {/* Top part of page */}
                 {/* Images of dots and stuff here */}
-                <Typography>Create New Assignment List</Typography> 
 
-                <div className={classes.displayParticipants}>
-                    {/* Rendering left side of page (for listing people) */}
-                    <ActionItemDisplayParticipants
-                        selectedParticipants={this.state.selectedParticipants}
-                    />
-                </div>
-
-                <div className={classes.searchParticipants}>
-                    {/* Rendering right side of page (for searching). */}
-                    <ActionItemSearchParticipants 
-                        participants={this.state.participants}
-                        addUser={this.addUserToState}
-                        removeUser={this.removeUserFromState}
-                        addAllUsers={this.addAllUsersToState}
-                        removeAllUsers={this.removeAllUsersFromState}
-                    />
-                </div>
-
-                {/* Adding buttons for previous and next */}
-
+            {/* Adding buttons for previous and next */}
             </div>
         )
     }
@@ -103,5 +127,3 @@ class ActionItemSelectParticipants extends React.Component {
 // };
 
 export default withStyles(styles)(ActionItemSelectParticipants);
-
-// export default ActionItemSelectParticipants;

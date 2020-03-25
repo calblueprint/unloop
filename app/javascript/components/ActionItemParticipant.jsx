@@ -48,7 +48,7 @@ class ActionItemParticipant extends React.Component {
             bgcolor: '#EB6658',
             borderColor: '#EB6658',
             // border: 1,
-            style: { width: '0.2rem', height: '2rem' },
+            style: { width: '0.4rem', height: '2rem' },
             marginRight: '7%',
           };
           

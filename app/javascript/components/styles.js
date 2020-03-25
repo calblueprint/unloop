@@ -11,6 +11,9 @@ export const styles = theme => ({
   //   marginRight: '0px',
   //   marginLeft: '0px',
   // },
+  test: {
+    display: 'flex',
+  },
 
   statusButton: {
     borderRadius: '20px',
