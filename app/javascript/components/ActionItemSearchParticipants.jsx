@@ -5,6 +5,9 @@ import {
     Checkbox,
     FormControlLabel,
     InputBase,
+    Fab,
+    Box,
+    Divider
 } from '@material-ui/core';
 import ActionItemParticipant from './ActionItemParticipant';
 import { apiGet } from '../utils/axios';
@@ -152,6 +155,8 @@ class ActionItemSearchParticipants extends React.Component {
     }
 
     render() {
+        const { classes } = this.props;
+
         let participantCards = this.state.participants.map(p => {
             if (this.state.participantAttrs[p.id]['visible']) {
                 return (
@@ -164,50 +169,82 @@ class ActionItemSearchParticipants extends React.Component {
             }
         });
         let statusButtons = Object.keys(this.state.statuses).map((s) =>
-            <Button
-                variant="contained" 
+            <Fab
+                className={classes.statusButton}
+                // size='small'
+                // variant="extended"
                 color="primary" 
-                onClick={() => this.filterByStatus(s)}>{s}
-            </Button>
+                onClick={() => this.filterByStatus(s)}
+            >
+                {s}
+            </Fab>
         );
-        const { classes } = this.props;
 
+        const defaultProps = {
+            bgcolor: '#5870EB',
+            borderColor: '#5870EB',
+            // border: 1,
+            style: { width: '15rem', height: '0.4rem' },
+            borderRadius: '5px 5px 0px 0px',
+            marginTop: '2%',
+          };
+
+        const rectangleProps = {
+            borderColor: '#FFFFFF',
+            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+            borderRadius: '10px',
+            border: 1,
+            style: {
+                width: '90%',
+                height: '80%',
+            },
+        }
+        
         return (
             <div>
             {/* <div className={classes.searchParticipants}> */}
                 
                 {/* For the top 'ADD STUDENTS' Bar */}
                 <div className='topBar'>
-                    <p>ADD STUDENTS</p>
+                    ADD STUDENTS
+                    <Box {...defaultProps}/>
+                    <Divider/>
                 </div>
 
-                {/* Filter By Category */}
-                <div className='statuses'>
-                    <p>FILTER BY CATEGORY</p>
-                    {statusButtons}
-                </div>
+                <div className='outerRectangle'>
+                    <Box {...rectangleProps}>
+                        {/* Filter By Category */}
+                        <div className='statuses'>
+                            <p>FILTER BY CATEGORY</p>
+                            {statusButtons}
+                        </div>
 
-                {/* Search for an individual */}
-                <div className='searchIndividual'>
-                    <p>SEARCH FOR INDIVIDUAL</p>
-                    <InputBase
-                        placeholder="filter participants"
-                        label='filled'
-                        onChange={this.filterByName}
-                        value={this.state.searchValue}
-                    />
-                </div>
+                        {/* Search for an individual */}
+                        <div className='searchIndividual'>
+                            SEARCH FOR INDIVIDUAL<br/>
+                            <InputBase
+                                className={classes.searchBar}
+                                color='primary'
+                                placeholder="filter participants"
+                                label='filled'
+                                onChange={this.filterByName}
+                                value={this.state.searchValue}
+                            />
+                        </div>
 
-                {/* List all the participant cards */}
-                <div className='listIndividuals'>
-                    {participantCards}
-                </div>
+                        {/* List all the participant cards */}
+                        <div className='listIndividuals'>
+                            {participantCards}
+                        </div>
 
-                {/* Select All Button */}
-                <FormControlLabel
-                    control={<Checkbox color="primary" onClick={this.allSelect}/>}
-                    label="SELECT ALL"
-                />
+                        {/* Select All Button */}
+                        <FormControlLabel
+                            control={<Checkbox color="primary" onClick={this.allSelect}/>}
+                            label="SELECT ALL"
+                        />
+                    </Box>
+
+                </div>
             </div>
         )
     }

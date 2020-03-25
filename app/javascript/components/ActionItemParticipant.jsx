@@ -1,6 +1,8 @@
 import React from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import Divider from '@material-ui/core/Divider';
+import Box from '@material-ui/core/Box';
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -24,23 +26,42 @@ class ActionItemParticipant extends React.Component {
         if (this.props.checked != null) {
             if (!this.props.checked) {
                 button = <AddIcon
-                            className={classes.icon} 
+                            color='primary' // Change to grey
+                            // horizontalAlign='right'
+                            float='right'
+                            position='absolute'
+                            right='0px'
                             onClick={() => this.changeChecked(this.props.participant)}
                         />;
             } else {
                 button = <CheckCircleIcon 
-                            className={classes.icon} 
+                            color='primary'
+                            position='absolute'
+                            right='0px'
+                            // horizontalAlign='right'
                             onClick={() => this.changeChecked(this.props.participant)}
                         />;
             }
         }
 
-        return (
-            <div className={classes.participant}>
-                This person is {this.props.participant.name}
-                {button}
-            </div>
+        const defaultProps = {
+            bgcolor: '#EB6658',
+            borderColor: '#EB6658',
+            // border: 1,
+            style: { width: '0.2rem', height: '2rem' },
+            marginRight: '7%',
+          };
+          
 
+        return (
+            <div className={classes.participantBox}>
+                <div className={classes.participant}>
+                    <Box borderRadius={16} {...defaultProps} />
+                    This person is {this.props.participant.name}
+                    {button}
+                </div>
+                <Divider/>
+            </div>
         )
         
     }

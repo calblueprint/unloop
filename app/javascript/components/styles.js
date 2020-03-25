@@ -5,8 +5,34 @@
  */
 
 export const styles = theme => ({
+  // participantBox: {
+  //   marginTop: '0px',
+  //   marginBottom: '0px',
+  //   marginRight: '0px',
+  //   marginLeft: '0px',
+  // },
+
+  statusButton: {
+    borderRadius: '20px',
+    height: '0.01px',
+    width: '100px',
+    // padding: '0 30px',
+    marginRight: '10px',
+    marginBottom: '10px',
+  },
+
+  searchBar: {
+    marginBottom: '10px',
+  },
+
   participant: {
-    backgroundColor: '#5870EB',
+    marginTop: '8px',
+    // marginBottom: '0px',
+    // marginRight: '0px',
+    // marginLeft: '0px',
+    // backgroundColor: '#5870EB',
+    display: 'flex',
+    alignItems: 'center',
   },
 
   searchParticipants: {
@@ -20,6 +46,23 @@ export const styles = theme => ({
     display: 'inline-block',
     width: '45%',
   },
+
+  titleBar: {
+    bgcolor: '#EB6658',
+    borderColor: '#EB6658',
+    // border: 1,
+    style: { width: '0.2rem', height: '2rem' },
+    marginRight: '7%',
+  },
+
+  // titleBar: {
+  //   bgcolor: '#5870EB',
+  //   // borderRadius: '5px 5px 0px 0px',
+  //   style: {
+  //     width: '0.2rem',
+  //     height: '2rem',
+  //   },
+  // },
 
   // END
 
