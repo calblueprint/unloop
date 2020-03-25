@@ -13,7 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './styles';
 
-// Uses CSS File for now. Need to change.
+
 class ActionItemCard extends React.Component {
   constructor(props) {
     super(props);
@@ -103,7 +103,7 @@ class ActionItemCard extends React.Component {
 }
 
 ActionItemCard.propTypes = {
-  participant: PropTypes.object,
+  actionItem: PropTypes.object,
 };
 
 export default withStyles(styles)(ActionItemCard);

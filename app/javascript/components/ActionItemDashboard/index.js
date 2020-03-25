@@ -36,7 +36,7 @@ class ActionItemDashboard extends React.Component {
 }
 
 ActionItemDashboard.propTypes = {
-  participants: PropTypes.array,
+  assignments: PropTypes.array,
 };
 
 export default ActionItemDashboard;
