@@ -29,7 +29,7 @@ class CaseNoteForm extends React.Component {
       internal: this.props.internal,
       open: false,
       type: this.props.type,
-      id: this.props.id,
+      caseNoteId: this.props.caseNoteId,
       tempDescription: this.props.description,
       errors: {
         title: '',
@@ -111,7 +111,14 @@ class CaseNoteForm extends React.Component {
         };
 
         apiPost('/api/case_notes', { case_note: body })
-          .then(() => window.location.reload())
+          .then(response => {
+            if (this.props.appendCaseNote) {
+              this.props.appendCaseNote(response.data);
+            } else if (this.props.incrementNumCaseNotes) {
+              this.props.incrementNumCaseNotes();
+            }
+            this.handleClose();
+          })
           .catch(error => console.error(error));
       } else {
         this.setState(prevState => ({
@@ -124,9 +131,13 @@ class CaseNoteForm extends React.Component {
           internal: this.state.internal,
           participant_id: this.state.participant_id,
         };
-
-        apiPatch(`/api/case_notes/${this.state.id}`, { case_note: body })
-          .then(() => window.location.reload())
+        apiPatch(`/api/case_notes/${this.state.caseNoteId}`, {
+          case_note: body,
+        })
+          .then(response => {
+            this.props.updateCaseNote(response.data);
+            this.setState({ open: false });
+          })
           .catch(error => console.error(error));
       }
     }
@@ -284,8 +295,11 @@ CaseNoteForm.propTypes = {
   description: PropTypes.string,
   internal: PropTypes.bool,
   display: PropTypes.string,
-  id: PropTypes.number,
+  caseNoteId: PropTypes.number,
   participantId: PropTypes.number.isRequired,
+  incrementNumCaseNotes: PropTypes.func,
+  appendCaseNote: PropTypes.func,
+  updateCaseNote: PropTypes.func,
 };
 
 CaseNoteForm.defaultProps = {
