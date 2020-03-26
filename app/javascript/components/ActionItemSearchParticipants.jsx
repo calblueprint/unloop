@@ -13,6 +13,7 @@ import ActionItemParticipant from './ActionItemParticipant';
 import { apiGet } from '../utils/axios';
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
+import classNames from "classnames";
 
 const TrieSearch = require('trie-search');
 
@@ -25,6 +26,7 @@ class ActionItemSearchParticipants extends React.Component {
             selectedStatus: null,
             participantAttrs: {},
             searchValue: '',
+            filteredParticipants: [], // Iterate over this list if you want to filter over twice
         };
         this.filterByName = this.filterByName.bind(this);
         this.changeChecked = this.changeChecked.bind(this);
@@ -86,7 +88,10 @@ class ActionItemSearchParticipants extends React.Component {
         // causing  a re-render of the component, so I forced the component to re-render instead. 
         // Please let me know if there's a workaround to this-- I think this isn't good practice.
         // console.log(this.state.participantAttrs);
-        this.forceUpdate();
+        // this.forceUpdate();
+
+        // Only change true to false if you move from here to Category filter. Don't change any false to true.
+        // Keep track of whether not search is being used (=== '').
     }
 
     async fetchCategories() {
@@ -148,14 +153,21 @@ class ActionItemSearchParticipants extends React.Component {
         this.setState({
             selectedStatus: status,
 
-            // Delete current search. This may not be intended behavior, but a current 
-            // workaround for how search by name and category can work together.
-            searchValue: '',
+            // // Delete current search. This may not be intended behavior, but a current 
+            // // workaround for how search by name and category can work together.
+            // searchValue: '',
         })
     }
 
     render() {
         const { classes } = this.props;
+
+        // Temp. placement for colors here
+        const colors = {
+            'r0': '#5870EB',
+            'r1': '#EB6658',
+            'r2': '#009FAD',
+        }
 
         let participantCards = this.state.participants.map(p => {
             if (this.state.participantAttrs[p.id]['visible']) {
@@ -168,16 +180,28 @@ class ActionItemSearchParticipants extends React.Component {
                 )
             }
         });
+
         let statusButtons = Object.keys(this.state.statuses).map((s) =>
             <Fab
                 className={classes.statusButton}
-                // size='small'
-                // variant="extended"
-                color="primary" 
-                onClick={() => this.filterByStatus(s)}
             >
                 {s}
             </Fab>
+
+            // <Fab1
+            //     // className={classes.statusButton}
+            //     // size='small'
+            //     // variant="extended"
+            //     color="primary" 
+            //     variant="contained"
+            //     onClick={() => this.filterByStatus(s)}
+            //     // styles={{backgroundColor: '#009FAD'}}
+            //     // backgroundColor={'#009FAD'}
+            // >
+            //     {s}
+            // </Fab1>
+
+            // <Fab></Fab>
         );
 
         const defaultProps = {
@@ -195,32 +219,33 @@ class ActionItemSearchParticipants extends React.Component {
             borderRadius: '10px',
             border: 1,
             style: {
-                width: '90%',
+                width: '100%',
                 height: '80%',
             },
+            marginTop: '7px',
         }
         
         return (
-            <div>
-            {/* <div className={classes.searchParticipants}> */}
+            <div className={classes.searchParticipant}>
                 
                 {/* For the top 'ADD STUDENTS' Bar */}
                 <div className='topBar'>
-                    ADD STUDENTS
+                    Add Students
                     <Box {...defaultProps}/>
                     <Divider/>
                 </div>
 
                 <div className='outerRectangle'>
                     <Box {...rectangleProps}>
+                        
                         {/* Filter By Category */}
-                        <div className='statuses'>
+                        <div className={classes.categories}>
                             <p>FILTER BY CATEGORY</p>
                             {statusButtons}
                         </div>
 
                         {/* Search for an individual */}
-                        <div className='searchIndividual'>
+                        <div className={classes.searchIndividual}>
                             SEARCH FOR INDIVIDUAL<br/>
                             <InputBase
                                 className={classes.searchBar}
@@ -231,24 +256,34 @@ class ActionItemSearchParticipants extends React.Component {
                                 value={this.state.searchValue}
                             />
                         </div>
-
-                        {/* List all the participant cards */}
-                        <div className='listIndividuals'>
-                            {participantCards}
+                        
+                        {/* List all the participant cards in scrolling fashion */}
+                        <div className={classes.searchScroll}>
+                            <div className='listIndividuals'>
+                                {participantCards}
+                            </div>
                         </div>
 
                         {/* Select All Button */}
                         <FormControlLabel
-                            control={<Checkbox color="primary" onClick={this.allSelect}/>}
+                            control={
+                                <Checkbox 
+                                    color="primary" 
+                                    onClick={this.allSelect}
+                                />
+                            }
+                            style={{
+                                marginLeft: '68%',
+                                marginTop: '40px',
+                                marginBottom: '40px',
+                            }}
                             label="SELECT ALL"
                         />
                     </Box>
-
                 </div>
             </div>
         )
     }
-
 }
 
 export default withStyles(styles)(ActionItemSearchParticipants);

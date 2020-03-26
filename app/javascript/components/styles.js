@@ -4,50 +4,115 @@
  * Styling for these different components
  */
 
-export const styles = theme => ({
+export const styles = () => ({
   // participantBox: {
   //   marginTop: '0px',
   //   marginBottom: '0px',
   //   marginRight: '0px',
   //   marginLeft: '0px',
   // },
-  test: {
-    display: 'flex',
-  },
 
   statusButton: {
     borderRadius: '20px',
     height: '0.01px',
     width: '100px',
-    // padding: '0 30px',
+    brightness: '50%',
     marginRight: '10px',
     marginBottom: '10px',
+    backgroundColor: '#EB6658',
+  },
+
+  entirePage: {
+    height: '600px',
+    width: '600px',
+  },
+
+  // redButton: {
+  //   backgroundColor: '#EB6658',
+  // },
+
+  // greenButton: {
+  //   backgroundColor: '#009FAD',
+  // },
+
+  // purpleButton: {
+  //   backgroundColor:
+  // }
+
+  dialogPaper: {
+    minHeight: '80vh',
+    maxHeight: '80vh',
+  },
+
+  displayScroll: {
+    overflowY: 'scroll',
+    left: 0,
+    height: '100vh',
+    // right:,
+    top: 0,
+  },
+
+  searchScroll: {
+    overflowY: 'scroll',
+    left: 0,
+    height: '40vh',
+    // right:,
+    top: 0,
+  },
+
+  // leftRightMargin: {
+  //   marginLeft: '20px',
+  //   marginRight: '20px',
+  // },
+
+  searchIndividual: {
+    marginLeft: '20px',
+    marginRight: '20px',
+    marginTop: '20px',
+  },
+
+  categories: {
+    marginLeft: '20px',
+    marginRight: '20px',
   },
 
   searchBar: {
     marginBottom: '10px',
   },
 
+  participantBox: {
+    marginLeft: '20px',
+    marginRight: '20px',
+  },
+
   participant: {
     marginTop: '8px',
     // marginBottom: '0px',
     // marginRight: '0px',
-    // marginLeft: '0px',
+    // marginLeft: '10%',
     // backgroundColor: '#5870EB',
+    height: '30px',
     display: 'flex',
     alignItems: 'center',
+    // alignContent: 'space-between',
+    justifyContent: 'space-between',
+    width: '100%',
   },
 
   searchParticipants: {
     // backgroundColor: '#5870EB',
-    display: 'inline-block',
-    width: '45%',
+    display: 'inline-flex',
+    marginRight: '0%',
+    width: '50%',
+    // left: '60%',
+    height: '80%',
   },
 
   displayParticipants: {
     // backgroundColor: '#5870EB',
-    display: 'inline-block',
+    display: 'inline-flex',
     width: '45%',
+    height: '80%',
   },
 
   titleBar: {
@@ -66,44 +131,6 @@ export const styles = theme => ({
   //     height: '2rem',
   //   },
   // },
-
-  // END
-
-  leftHalf: {
-    paddingLeft: 28,
-    paddingRight: 28,
-    paddingTop: 40,
-  },
-  rightHalf: {
-    paddingTop: 40,
-    paddingLeft: 28,
-    marginRight: 0,
-    backgroundColor: theme.palette.common.lightBlue,
-  },
-  navBar: {
-    maxHeight: '100%',
-    paddingTop: 40,
-    backgroundColor: theme.palette.common.black,
-  },
-  navBarSignOut: {
-    color: theme.palette.common.white,
-  },
-  navBarItem: {
-    color: theme.palette.common.white,
-  },
-  avatarStyle: {
-    width: 60,
-    height: 60,
-    backgroundColor: '#EB6658',
-  },
-  unloopLogo: {
-    paddingLeft: '10px',
-    paddingBottom: '10px',
-    width: '100%',
-    objectFit: 'contain',
-    overflowX: 'hidden',
-    backgroundColor: theme.palette.common.black,
-  },
 });
 
 export default styles;

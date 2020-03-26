@@ -29,20 +29,24 @@ class ActionItemDisplayParticipants extends React.Component {
             style: { width: '15rem', height: '0.4rem' },
             borderRadius: '5px 5px 0px 0px',
             marginTop: '2%',
-          };
+        };
+
         return (
-            // <div className={classes.displayParticipants}>
-            <div>
+            <div className={classes.displayParticipant}>
+                
                 {/* Students top bar */}
                 <div className='students'>
-                    STUDENTS
+                    Students
                     <Box {...defaultProps}/>
                     <Divider/>
                 </div>
 
-                {/* List students out */}
-                <div className='participants'>
-                    {participantCards}
+                <div className={classes.displayScroll}>
+
+                    {/* List students out */}
+                    <div className='participants'>
+                        {participantCards}
+                    </div>
                 </div>
 
             </div>

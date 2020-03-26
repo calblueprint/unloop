@@ -18,6 +18,7 @@ class ActionItemSelectParticipants extends React.Component {
             selectedParticipants: [],
             statuses: [],
             openModal: false,
+            keepOpen: true,
         }
         this.addUserToState = this.addUserToState.bind(this);
         this.removeUserFromState = this.removeUserFromState.bind(this);
@@ -60,10 +61,6 @@ class ActionItemSelectParticipants extends React.Component {
         })
     }
 
-    // getParticipants() {
-    //     this.setState({participants: this.apiGet('users/')});
-    // }
-
     toggleModal() {
         console.log(this.state.participants);
         console.log(this.state.openModal);
@@ -76,15 +73,19 @@ class ActionItemSelectParticipants extends React.Component {
         const { classes } = this.props;
         return (
             // Overall component
-            <div className='entirePage'>
+            <div className={classes.entirePage}>
                 <Button variant="outlined" color="primary" onClick={() => this.toggleModal()}>
                     Open Modal
                 </Button>
                 <Dialog 
                     onClose={() => this.toggleModal()} 
-                    open={this.state.openModal}
+                    open={this.state.keepOpen}//this.state.openModal
                     fullWidth={true}
                     maxWidth="lg"
+                    // style={{
+                    //     minHeight: '60vh',
+                    //     maxHeight: '60vh',
+                    // }}
                 >
                     <DialogContent>
                         <Typography>
@@ -119,11 +120,5 @@ class ActionItemSelectParticipants extends React.Component {
         )
     }
 }
-
-// function ActionItemSelectParticipants({ classes }) {
-
-// ActionItemSelectParticipants.propTypes = {
-//     classes: PropTypes.object.isRequired,
-// };
 
 export default withStyles(styles)(ActionItemSelectParticipants);

@@ -50,14 +50,16 @@ class ActionItemParticipant extends React.Component {
             // border: 1,
             style: { width: '0.4rem', height: '2rem' },
             marginRight: '7%',
-          };
+        };
           
 
         return (
             <div className={classes.participantBox}>
                 <div className={classes.participant}>
-                    <Box borderRadius={16} {...defaultProps} />
-                    This person is {this.props.participant.name}
+                    <div style={{display: 'flex', width: '70%', lineHeight: '30px', height: '30px'}}>
+                        <Box borderRadius={16} {...defaultProps} />
+                        {this.props.participant.name}
+                    </div>
                     {button}
                 </div>
                 <Divider/>
