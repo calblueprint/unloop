@@ -20,6 +20,9 @@ function ParticipantCard({ classes, participant }) {
   };
 
   const [numCaseNotes, setNumCaseNotes] = useState(participant.caseNotesCount);
+  const [numPaperworks, setNumPaperworks] = useState(
+    participant.paperworksCount,
+  );
 
   const questionnaireStatus = participant.questionnaireStatus ? (
     <FontAwesomeIcon
@@ -71,13 +74,13 @@ function ParticipantCard({ classes, participant }) {
       <td className={classes.newAssignment}>
         <div>
           <div className={classes.paperworkText}>
-            {participant.paperworksCompleted} / {participant.paperworksCount}{' '}
-            completed{' '}
+            {participant.paperworksCompleted} / {numPaperworks} completed{' '}
           </div>
           <PaperworkForm
             display="plus"
             type="create"
             participantId={participant.id}
+            incrementNumPaperworks={() => setNumPaperworks(numPaperworks + 1)}
           ></PaperworkForm>
         </div>
       </td>

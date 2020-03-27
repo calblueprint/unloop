@@ -29,6 +29,9 @@ function PaperworkForm({
   paperworkTitle,
   paperworkLink,
   paperworkId,
+  appendPaperwork,
+  updatePaperwork,
+  incrementNumPaperworks,
   participantId,
   display,
 }) {
@@ -87,12 +90,22 @@ function PaperworkForm({
     if (!hasErrors) {
       if (type === 'create') {
         apiPost('/api/paperworks', { paperwork: body })
-          .then(() => window.location.reload())
+          .then(response => {
+            if (appendPaperwork) {
+              appendPaperwork(response.data);
+            } else if (incrementNumPaperworks) {
+              incrementNumPaperworks();
+            }
+            setOpen(false);
+          })
           .catch(error => console.error(error));
         // TODO: Change this to flash an error message
       } else if (type === 'edit') {
         apiPatch(`/api/paperworks/${paperworkId}`, { paperwork: body })
-          .then(() => window.location.reload())
+          .then(response => {
+            updatePaperwork(response.data);
+            setOpen(false);
+          })
           .catch(error => console.error(error));
         // TODO: Change this to flash an error message
       }
@@ -292,6 +305,9 @@ PaperworkForm.propTypes = {
   paperworkTitle: PropTypes.string,
   paperworkLink: PropTypes.string,
   participantId: PropTypes.number.isRequired,
+  appendPaperwork: PropTypes.func,
+  incrementNumPaperworks: PropTypes.func,
+  updatePaperwork: PropTypes.func,
   paperworkId: PropTypes.number,
   display: PropTypes.string,
 };
