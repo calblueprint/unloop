@@ -46,11 +46,11 @@ class ParticipantCard extends React.Component {
 
     let statusColor;
     if (status === 'R0') {
-      statusColor = theme.palette.primary.light;
+      statusColor = theme.palette.common.r0;
     } else if (status === 'R1') {
-      statusColor = '#5870EB';
+      statusColor = theme.palette.common.r1;
     } else {
-      statusColor = '#DF6C8E';
+      statusColor = theme.palette.common.r2;
     }
     const caseNotes =
       p.caseNotesCount === 1
@@ -67,13 +67,18 @@ class ParticipantCard extends React.Component {
           {name}
         </td>
         <td>
-          <div className={classes.status} style={{ backgroundColor: statusColor }}>
+          <div
+            className={classes.status}
+            style={{ backgroundColor: statusColor }}
+          >
             {status}
           </div>
         </td>
         <td className={classes.newAssignment}>
           <div>
-            <div className={classes.paperworkText}>{p.paperworksCompleted} / {p.paperworksCount} completed </div>
+            <div className={classes.paperworkText}>
+              {p.paperworksCompleted} / {p.paperworksCount} completed{' '}
+            </div>
             <PaperworkForm
               display="plus"
               type="create"
