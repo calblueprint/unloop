@@ -50,7 +50,7 @@ class CaseNoteContainer extends React.Component {
           <CaseNoteCard
             title={caseNote.title}
             description={caseNote.description}
-            internal={caseNote.internal}
+            visible={caseNote.visible}
             id={caseNote.id}
             participantId={this.state.participant.id}
             showMenu={this.state.userType === 'staff'}

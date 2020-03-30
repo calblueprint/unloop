@@ -32,7 +32,7 @@ Rails.application.routes.draw do
       patch 'viewed', to: 'paperworks#viewed', on: :member
     end
     resources :case_notes, only: [:show, :create, :update, :destroy] do
-      patch 'internal', to: 'case_notes#internal', on: :member
+      patch 'not_visible', to: 'case_notes#not_visible', on: :member
     end
     resources :professional_questionnaires, only: [:show, :create, :update, :destroy]
     resources :personal_questionnaires, only: [:show, :create, :update, :destroy]
