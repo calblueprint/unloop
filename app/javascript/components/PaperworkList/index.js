@@ -58,10 +58,10 @@ function PaperworkList({
           <div>
             <img
               src="/assets/noPaperworks.svg"
-              className="no-paperworks-img"
+              className={classes.noPaperworksImg}
               alt="no Case Notes"
             />
-            <div className="no-paperworks-txt">
+            <div className={classes.noPaperworksTxt}>
               <h3>No paperworks yet</h3>
               {userType === 'staff' ? (
                 <p>Click on ASSIGN PAPERWORK + to assign one.</p>
