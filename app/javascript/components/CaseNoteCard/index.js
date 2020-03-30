@@ -94,16 +94,18 @@ class CaseNoteCard extends React.Component {
       <>
         <Grid container spacing={3}>
           <Grid item xs={11}>
-            <Paper className={classes.casenoteCardStyle}>
+            <Paper className={classes.caseNoteCardStyle}>
               <Grid container spacing={2}>
                 <Grid item xs={10}>
-                  <h3>{this.state.title}</h3>
+                  <h3 className={classes.casenoteCardTitleStyle}>
+                    {this.state.title}
+                  </h3>
                 </Grid>
                 <Grid item xs={2}>
                   {this.renderMenuItems()}
                 </Grid>
               </Grid>
-              <div className={classes.casenoteDescStyle}>
+              <div className={classes.caseNoteDescStyle}>
                 <MUIRichTextEditor
                   value={this.state.description}
                   readOnly
