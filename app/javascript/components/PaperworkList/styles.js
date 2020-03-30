@@ -29,6 +29,17 @@ const styles = theme => ({
     overflowY: 'auto',
     paddingRight: '10px',
   },
+  noPaperworksImg: {
+    width: '50%',
+    height: '50%',
+    display: 'block',
+    marginTop: '10%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  noPaperworksTxt: {
+    textAlign: 'center',
+  },
 });
 
 export default styles;

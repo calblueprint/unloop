@@ -63,10 +63,10 @@ class QuestionnaireForm extends React.Component {
     // content text is prompt/title for the text box
     // field name is the name of the field that will be filled in the database
     return (
-      <div className="questionnaireEntry">
+      <div className={this.props.classes.questionnaireEntry}>
         <DialogContentText>{contentText}</DialogContentText>
         <TextField
-          className="dialogContentTextField questionnaireTextField"
+          className={`${this.props.classes.dialogContentTextField} ${this.props.classes.questionnaireTextField}`}
           onChange={e => this.handleTextFormChange(e)}
           variant="outlined"
           id={fieldName}
@@ -104,8 +104,8 @@ class QuestionnaireForm extends React.Component {
     return (
       <>
         <DialogContent>{this.createTextForms()}</DialogContent>
-        <div className="buttonContainer">
-          <DialogActions className="dialogActions">
+        <div className={this.props.classes.buttonContainer}>
+          <DialogActions className={this.props.classes.DialogActions}>
             <Button
               onClick={this.props.handleClose}
               variant="outlined"
@@ -128,6 +128,7 @@ class QuestionnaireForm extends React.Component {
 }
 
 QuestionnaireForm.propTypes = {
+  classes: PropTypes.object.isRequired,
   type: PropTypes.oneOf(['personal', 'professional']).isRequired,
   participantId: PropTypes.number.isRequired,
   questionnaire: PropTypes.object.isRequired,

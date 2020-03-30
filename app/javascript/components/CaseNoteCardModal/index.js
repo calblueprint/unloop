@@ -81,8 +81,8 @@ class CaseNoteCardModal extends React.Component {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Paper className={classes.casenoteCardModalDescriptionStyle}>
-                    <div className={classes.casenoteDescStyle}>
+                  <Paper className={classes.caseNoteCardModalDescriptionStyle}>
+                    <div className={classes.caseNoteDescStyle}>
                       <MUIRichTextEditor
                         value={this.state.description}
                         readOnly
