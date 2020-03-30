@@ -54,8 +54,12 @@ function Navbar({ classes }) {
             </IconButton>
           </Grid>
         </Grid>
-        <Grid item className={classes.unloopLogo}>
-          <img src={UnloopLogo} alt="Unloop Logo" />
+        <Grid item>
+          <img
+            src={UnloopLogo}
+            className={classes.unloopLogo}
+            alt="Unloop Logo"
+          />
         </Grid>
       </Grid>
     </Drawer>
