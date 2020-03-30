@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello, <%= @action_item.assigned_to.name %></h1>
+    <p>
+      You have been assigned a new action item by <%= @action_item.assigned_by.name %>.<br>
+    </p>
+    <p>
+      To view your action item, log in using this link: <%= @url %>.
+    </p>
+    <p>Best,<br>
+    Unloop Staff</p>
+  </body>
+</html>
