@@ -1,2 +1,1 @@
-<%= link_to 'Admin', rails_admin_path if @user.admin? %>
 <%= react_component("StaffDashboard", {participants: @participants_list, is_admin: @user.admin?}) %>
