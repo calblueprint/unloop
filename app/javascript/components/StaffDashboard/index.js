@@ -54,7 +54,7 @@ class StaffDashboard extends React.Component {
 
     return (
       <div className={classes.dashboard}>
-        <Navbar></Navbar>
+        <Navbar isAdmin={this.props.isAdmin} />
         <div className={classes.content}>
           <h1>Participant Dashboard</h1>
           <div className={classes.tableContainer}>
@@ -92,6 +92,7 @@ class StaffDashboard extends React.Component {
 StaffDashboard.propTypes = {
   classes: PropTypes.object.isRequired,
   participants: PropTypes.array,
+  isAdmin: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(StaffDashboard);
