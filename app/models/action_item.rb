@@ -1,5 +1,5 @@
 class ActionItem < ApplicationRecord
-    has_many :assignments
+    has_many :assignments, dependent: :destroy
 
     validates :title, :description, presence: true
     validates :is_template, inclusion: [true, false]
