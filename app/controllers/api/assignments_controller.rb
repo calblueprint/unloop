@@ -82,13 +82,9 @@ class Api::AssignmentsController < ApplicationController
         if @template.destroy
             render json: @template, status: :ok
         else
-            render json: { error: 'Failed to delete action item' }, status: :unprocessable_entity
+            render json: { error: 'Failed to delete action item template' }, status: :unprocessable_entity
         end
     end
-
-    def user_not_authorized
-        render json: { error: 'You are not authorized to perform this action' }, status: :unauthorized
-    end  
 
     private
     
