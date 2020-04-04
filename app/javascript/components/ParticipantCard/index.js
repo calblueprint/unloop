@@ -19,7 +19,11 @@ function ParticipantCard({ classes, participant }) {
     window.location.assign(`participants/${String(pId)}`);
   };
 
-  const [numCaseNotes, setNumCaseNotes] = useState(participant.caseNotesCount);
+  // disabled eslint to make styling consistent
+  // eslint-disable-next-line
+  const [numCaseNotes, setNumCaseNotes] = useState(
+    participant.caseNotesCount,
+  );
   const [numPaperworks, setNumPaperworks] = useState(
     participant.paperworksCount,
   );
