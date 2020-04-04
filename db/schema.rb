@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_07_003647) do
+ActiveRecord::Schema.define(version: 2020_03_30_025821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2020_03_07_003647) do
 
   create_table "case_notes", force: :cascade do |t|
     t.string "description"
-    t.boolean "internal"
+    t.boolean "visible"
     t.bigint "staff_id", null: false
     t.bigint "participant_id", null: false
     t.string "title"

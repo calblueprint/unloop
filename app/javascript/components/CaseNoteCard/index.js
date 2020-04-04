@@ -21,7 +21,7 @@ class CaseNoteCard extends React.Component {
     this.state = {
       description: this.props.description,
       title: this.props.title,
-      internal: this.props.internal,
+      visible: this.props.visible,
       id: this.props.id,
       anchorEl: null,
       participantId: this.props.participantId,
@@ -67,7 +67,7 @@ class CaseNoteCard extends React.Component {
               type="edit"
               title={this.state.title}
               description={this.state.description}
-              internal={this.state.internal}
+              visible={this.state.visible}
               participantId={this.state.participantId}
               id={this.state.id}
             />
@@ -76,7 +76,7 @@ class CaseNoteCard extends React.Component {
               body={{
                 title: this.state.title,
                 description: this.state.description,
-                internal: this.state.internal,
+                visible: this.state.visible,
                 participant_id: this.props.participantId,
               }}
               req={`/api/case_notes/${this.state.id}`}
@@ -134,7 +134,7 @@ CaseNoteCard.propTypes = {
   classes: PropTypes.object.isRequired,
   description: PropTypes.string,
   title: PropTypes.string,
-  internal: PropTypes.bool,
+  visible: PropTypes.bool,
   id: PropTypes.number,
   participantId: PropTypes.number,
   showMenu: PropTypes.bool,

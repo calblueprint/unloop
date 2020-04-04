@@ -7,7 +7,7 @@
   Participant: <br>
 	<%= form.collection_select :participant_id, @participants, :id, :first_name, prompt: true %>
 	<br>
-    Internal: <br>
+    Visible: <br>
     <%= form.check_box :agree %> <br>
     
     <%= form.submit "Submit" %>

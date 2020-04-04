@@ -12,7 +12,7 @@ class CaseNote < ApplicationRecord
       field :id
       field :title
       field :description
-      field :internal
+      field :visible
       field :participant
       field :staff
       field :created_at
@@ -25,7 +25,7 @@ class CaseNote < ApplicationRecord
         field :description
         field :participant
         field :staff
-        field :internal
+        field :visible
       end
     end
   end

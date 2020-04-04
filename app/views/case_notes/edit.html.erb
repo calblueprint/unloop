@@ -13,8 +13,8 @@
 	  <%= form.collection_select :participant_id, @participants, :id, :first_name, prompt: true %>
   </p>
   <p>
-    <%= form.label :internal %><br>
-    <%= form.check_box :internal %>
+    <%= form.label :visible %><br>
+    <%= form.check_box :visible %>
   </p>
   <p>
     <%= form.submit %>

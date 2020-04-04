@@ -10,24 +10,21 @@ const styles = theme => ({
     paddingTop: 40,
     backgroundColor: theme.palette.common.black,
     position: 'fixed',
+    minWidth: 60,
   },
   drawer: {
     width: 100,
     marginRight: 10,
   },
-  navBarSignOut: {
-    color: theme.palette.common.white,
-  },
   navBarItem: {
     color: theme.palette.common.white,
+    textAlign: 'center',
   },
   unloopLogo: {
-    paddingLeft: '10px',
-    paddingBottom: '10px',
     width: '100%',
+    height: 'auto',
     objectFit: 'contain',
     overflowX: 'hidden',
-    backgroundColor: theme.palette.common.black,
   },
 });
 

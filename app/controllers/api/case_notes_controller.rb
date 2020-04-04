@@ -1,5 +1,5 @@
 class Api::CaseNotesController < ApplicationController
-  before_action :set_case_note, only: [:show, :update, :internal, :destroy]
+  before_action :set_case_note, only: [:show, :update, :visible, :destroy]
   respond_to :json
 
   def show
@@ -31,11 +31,11 @@ class Api::CaseNotesController < ApplicationController
     end
   end
 
-  def internal
-    if @case_note.update(internal: true)
+  def not_visible
+    if @case_note.update(visible: false)
       render json: @case_note, status: :ok
     else
-      render json: { error: 'Failed to change internal to true' }, status: :unprocessable_entity
+      render json: { error: 'Failed to change visible to false' }, status: :unprocessable_entity
     end
   end
 
@@ -54,7 +54,7 @@ class Api::CaseNotesController < ApplicationController
   def case_notes_params
     case_notes_param = params.require(:case_note).permit(:title, 
                                                        :description, 
-                                                       :internal, 
+                                                       :visible, 
                                                        :participant_id)
     case_notes_param.merge(staff_id: current_user.staff.id)
   end

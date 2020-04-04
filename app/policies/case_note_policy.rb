@@ -16,10 +16,10 @@ class CaseNotePolicy < ApplicationPolicy
   end
 
   def show?
-    create? || (user.participant? && user.participant.id == resource.participant_id && resource.internal == false)
+    create? || (user.participant? && user.participant.id == resource.participant_id && resource.visible == true)
   end
 
-  def internal
+  def visible
     staff?
   end
 
@@ -36,7 +36,7 @@ class CaseNotePolicy < ApplicationPolicy
       if user.staff?
           scope.all
       else
-          scope.where([participant_id: user.participant.id, internal: false])
+          scope.where([participant_id: user.participant.id, visible: true])
       end
     end
   end
