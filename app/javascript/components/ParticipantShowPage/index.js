@@ -45,6 +45,7 @@ class ParticipantShowPage extends React.Component {
       personalQuestionnaire,
       professionalQuestionnaire,
       userType,
+      isAdmin,
     } = this.props;
 
     return (
@@ -60,7 +61,7 @@ class ParticipantShowPage extends React.Component {
           }}
           justify="space-between"
         >
-          <Navbar />
+          <Navbar isAdmin={isAdmin} />
           <Grid item xs={5} className={classes.leftHalf}>
             <Grid container direction="column" spacing={3}>
               <Grid
@@ -122,6 +123,7 @@ class ParticipantShowPage extends React.Component {
 
 ParticipantShowPage.propTypes = {
   userType: PropTypes.string.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   paperworks: PropTypes.array.isRequired,
   caseNotes: PropTypes.array.isRequired,

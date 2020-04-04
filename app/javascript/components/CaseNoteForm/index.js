@@ -26,7 +26,7 @@ class CaseNoteForm extends React.Component {
       title: this.props.title,
       description: this.props.description,
       participant_id: this.props.participantId,
-      internal: this.props.internal,
+      visible: this.props.visible,
       open: false,
       type: this.props.type,
       caseNoteId: this.props.caseNoteId,
@@ -38,7 +38,7 @@ class CaseNoteForm extends React.Component {
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
-    this.handleInternalChange = this.handleInternalChange.bind(this);
+    this.handleVisibleChange = this.handleVisibleChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -52,12 +52,12 @@ class CaseNoteForm extends React.Component {
     this.setState({
       open: false,
       title: this.props.title,
-      internal: this.props.internal,
+      visible: this.props.visible,
     });
     if (this.state.type === 'edit') {
       this.state.title = this.props.title;
       this.state.description = this.props.description;
-      this.state.internal = this.props.internal;
+      this.state.visible = this.props.visible;
     }
   }
 
@@ -83,7 +83,7 @@ class CaseNoteForm extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleInternalChange = name => event => {
+  handleVisibleChange = name => event => {
     this.setState({ [name]: event.target.checked });
   };
 
@@ -106,7 +106,7 @@ class CaseNoteForm extends React.Component {
         const body = {
           title: this.state.title,
           description: this.state.description,
-          internal: this.state.internal,
+          visible: this.state.visible,
           participant_id: this.state.participant_id,
         };
 
@@ -128,7 +128,7 @@ class CaseNoteForm extends React.Component {
         const body = {
           title: this.state.title,
           description: this.state.tempDescription,
-          internal: this.state.internal,
+          visible: this.state.visible,
           participant_id: this.state.participant_id,
         };
         apiPatch(`/api/case_notes/${this.state.caseNoteId}`, {
@@ -247,10 +247,10 @@ class CaseNoteForm extends React.Component {
             <DialogContentText className={classes.dialogContentTextStyle}>
               Visible to Participant
               <Switch
-                name="internal"
-                checked={this.state.internal}
-                onChange={this.handleInternalChange('internal')}
-                value="internal"
+                name="visible"
+                checked={this.state.visible}
+                onChange={this.handleVisibleChange('visible')}
+                value="visible"
                 color="primary"
                 inputProps={{ 'aria-label': 'primary checkbox' }}
               />
@@ -293,7 +293,7 @@ CaseNoteForm.propTypes = {
   type: PropTypes.oneOf(['create', 'edit']),
   title: PropTypes.string,
   description: PropTypes.string,
-  internal: PropTypes.bool,
+  visible: PropTypes.bool,
   display: PropTypes.string,
   caseNoteId: PropTypes.number,
   participantId: PropTypes.number.isRequired,
@@ -306,7 +306,7 @@ CaseNoteForm.defaultProps = {
   type: 'create',
   title: '',
   description: '',
-  internal: true,
+  visible: false,
 };
 
 export default withStyles(styles)(CaseNoteForm);

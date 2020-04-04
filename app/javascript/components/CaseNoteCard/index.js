@@ -19,7 +19,7 @@ function CaseNoteCard({
   classes,
   description,
   title,
-  internal,
+  visible,
   caseNoteId,
   participantId,
   showMenu,
@@ -58,7 +58,7 @@ function CaseNoteCard({
           type="edit"
           title={title}
           description={description}
-          internal={internal}
+          visible={visible}
           participantId={participantId}
           caseNoteId={caseNoteId}
           updateCaseNote={updateCaseNote}
@@ -68,7 +68,7 @@ function CaseNoteCard({
           body={{
             title,
             description,
-            internal,
+            visible,
             participant_id: participantId,
           }}
           req={`/api/case_notes/${caseNoteId}`}
@@ -109,7 +109,7 @@ CaseNoteCard.propTypes = {
   classes: PropTypes.object.isRequired,
   description: PropTypes.string,
   title: PropTypes.string,
-  internal: PropTypes.bool,
+  visible: PropTypes.bool,
   caseNoteId: PropTypes.number.isRequired,
   participantId: PropTypes.number,
   showMenu: PropTypes.bool,
