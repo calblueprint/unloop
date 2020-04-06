@@ -13,7 +13,7 @@ class Api::AssignmentsController < ApplicationController
                 @assignment = authorize Assignment.new(assignment_params)
                 if @assignment.save
                     created_assignments.append(@assignment)
-                    ApplicationsMailer.with(application: @application).assign_action_item.deliver_now
+                    ApplicationsMailer.with(action_item: @assignment).assign_action_item.deliver_now
                 else
                     @action_item.destroy
                     render json: { error: 'Could not create action item' }, status: :unprocessable_entity
