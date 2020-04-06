@@ -1,4 +1,4 @@
-class AssignmentPolicy < ApplicationPolicy
+class ActionItemPolicy < ApplicationPolicy
     def create?
       staff?
     end
@@ -12,7 +12,7 @@ class AssignmentPolicy < ApplicationPolicy
     end
 
     def show?
-        staff? or (user.participant? and (user.id == resource.assigned_to.id))
+      staff?
     end
 
 
@@ -24,8 +24,6 @@ class AssignmentPolicy < ApplicationPolicy
       def resolve
         if user.staff?
             scope.all
-        else
-            scope.where([assigned_to: user.id])
         end
       end
     end

@@ -39,7 +39,8 @@ class ActionItemCard extends React.Component {
             className="icon-large"
             icon={faHome}
             color="#9EDC8E"
-          />);
+          />
+        );
         break;
       case 'leaf':
         icon = (

@@ -124,7 +124,7 @@ function PaperworkForm({
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="plus-button"
+            className={classes.plusButton}
           >
             +
           </button>
@@ -132,7 +132,6 @@ function PaperworkForm({
       } else if (type === 'create') {
         ret = (
           <Button
-            className="assign-paperwork-button"
             variant="contained"
             color="primary"
             onClick={() => setOpen(true)}
@@ -142,11 +141,7 @@ function PaperworkForm({
         );
       } else if (type === 'edit') {
         ret = (
-          <Button
-            className="assign-paperwork-button"
-            color="primary"
-            onClick={() => setOpen(true)}
-          >
+          <Button color="primary" onClick={() => setOpen(true)}>
             edit
           </Button>
         );

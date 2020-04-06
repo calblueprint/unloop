@@ -13,13 +13,6 @@ const styles = () => ({
     color: 'black',
     marginBottom: '2px',
   },
-  dialogContentTextFieldStyle: {
-    marginTop: '2px',
-    borderStyle: 'solid 4px grey',
-  },
-  saveDocumentButtonStyle: {
-    borderStyle: 'solid 3px grey',
-  },
 });
 
 export default styles;
