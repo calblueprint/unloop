@@ -79,35 +79,36 @@ class ActionItemSelectParticipants extends React.Component {
                 </Button>
                 <Dialog 
                     onClose={() => this.toggleModal()} 
-                    open={this.state.keepOpen}//this.state.openModal
+                    open={true}//this.state.openModal
                     fullWidth={true}
                     maxWidth="lg"
-                    // style={{
-                    //     minHeight: '60vh',
-                    //     maxHeight: '60vh',
-                    // }}
+                    style={{
+                        // minHeight: '60vh',
+                        // maxHeight: '60vh',
+                    }}
                 >
-                    <DialogContent>
-                        <Typography>
-                            Create New Assignment List
-                        </Typography> 
+                    <DialogContent style={{overflow: 'hidden'}}>
                         
-                        {/* Rendering left side of page (for listing people) */}
-                        <div className={classes.displayParticipants}>
-                            <ActionItemDisplayParticipants 
-                                selectedParticipants={this.state.selectedParticipants}
-                            />
-                        </div>
+                        Create New Assignment List
+                        
+                        <div style={{display: 'flex', flexDirection: 'row', maxHeight: '80vh'}}>
+                            {/* Rendering left side of page (for listing people) */}
+                            <div className={classes.displayParticipants}>
+                                <ActionItemDisplayParticipants 
+                                    selectedParticipants={this.state.selectedParticipants}
+                                />
+                            </div>
 
-                        {/* Rendering right side of page (for searching). */}
-                        <div className={classes.searchParticipants}>
-                            <ActionItemSearchParticipants 
-                                participants={this.state.participants}
-                                addUser={this.addUserToState}
-                                removeUser={this.removeUserFromState}
-                                addAllUsers={this.addAllUsersToState}
-                                removeAllUsers={this.removeAllUsersFromState}
-                            />
+                            {/* Rendering right side of page (for searching). */}
+                            <div className={classes.searchParticipants}>
+                                <ActionItemSearchParticipants 
+                                    participants={this.state.participants}
+                                    addUser={this.addUserToState}
+                                    removeUser={this.removeUserFromState}
+                                    addAllUsers={this.addAllUsersToState}
+                                    removeAllUsers={this.removeAllUsersFromState}
+                                />
+                            </div>
                         </div>
 
                     </DialogContent>

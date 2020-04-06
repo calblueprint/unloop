@@ -18,6 +18,14 @@ class ActionItemParticipant extends React.Component {
     }
 
     render() {
+
+        // Temp. placement for colors here
+        const colors = {
+            'r0': '#5870EB',
+            'r1': '#EB6658',
+            'r2': '#009FAD',
+        }
+
         const { classes } = this.props;
         // 1. Render component
         // 2. Allow hover (show X) to remove the participant
@@ -42,22 +50,18 @@ class ActionItemParticipant extends React.Component {
                             onClick={() => this.changeChecked(this.props.participant)}
                         />;
             }
-        }
-
-        const defaultProps = {
-            bgcolor: '#EB6658',
-            borderColor: '#EB6658',
-            // border: 1,
-            style: { width: '0.4rem', height: '2rem' },
-            marginRight: '7%',
-        };
-          
+        } 
 
         return (
-            <div className={classes.participantBox}>
+            <div>
                 <div className={classes.participant}>
-                    <div style={{display: 'flex', width: '70%', lineHeight: '30px', height: '30px'}}>
-                        <Box borderRadius={16} {...defaultProps} />
+                    <div style={{
+                        display: 'flex', 
+                        width: '70%', 
+                        lineHeight: '30px', 
+                        height: '30px'
+                    }}>
+                        <Box className={classes.participantBar} style={{backgroundColor: colors[this.props.participant.status]}}/>
                         {this.props.participant.name}
                     </div>
                     {button}

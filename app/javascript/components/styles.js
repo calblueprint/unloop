@@ -5,13 +5,6 @@
  */
 
 export const styles = () => ({
-  // participantBox: {
-  //   marginTop: '0px',
-  //   marginBottom: '0px',
-  //   marginRight: '0px',
-  //   marginLeft: '0px',
-  // },
-
   statusButton: {
     borderRadius: '20px',
     height: '0.01px',
@@ -19,7 +12,7 @@ export const styles = () => ({
     brightness: '50%',
     marginRight: '10px',
     marginBottom: '10px',
-    backgroundColor: '#EB6658',
+    // backgroundColor: '#EB6658',
   },
 
   entirePage: {
@@ -27,17 +20,23 @@ export const styles = () => ({
     width: '600px',
   },
 
-  // redButton: {
-  //   backgroundColor: '#EB6658',
-  // },
+  circle: {
+    height: '50px',
+    width: '50px',
+    backgroundColor: '#280096',
+    borderRadius: '50%',
+    display: 'inline-block',
+  },
 
-  // greenButton: {
-  //   backgroundColor: '#009FAD',
-  // },
-
-  // purpleButton: {
-  //   backgroundColor:
-  // }
+  lineBetweenCircles: {
+    height: '5px',
+    width: '50px',
+    backgroundColor: '#280096',
+    borderColor: '#280096',
+    display: 'inline-block',
+    // border: 1,
+    // style: { width: '0.2rem', height: '2rem' },
+  },
 
   dialogPaper: {
     minHeight: '80vh',
@@ -45,11 +44,13 @@ export const styles = () => ({
   },
 
   displayScroll: {
+    marginTop: '35px',
     overflowY: 'scroll',
     left: 0,
-    height: '100vh',
+    height: '65vh',
     // right:,
     top: 0,
+    direction: 'rtl',
   },
 
   searchScroll: {
@@ -60,37 +61,26 @@ export const styles = () => ({
     top: 0,
   },
 
-  // leftRightMargin: {
-  //   marginLeft: '20px',
-  //   marginRight: '20px',
-  // },
-
   searchIndividual: {
-    marginLeft: '20px',
-    marginRight: '20px',
     marginTop: '20px',
   },
 
   categories: {
-    marginLeft: '20px',
-    marginRight: '20px',
+    // marginLeft: '20px',
+    // marginRight: '20px',
+    // marginTop: '20px',
   },
 
   searchBar: {
     marginBottom: '10px',
-  },
-
-  participantBox: {
-    marginLeft: '20px',
-    marginRight: '20px',
+    backgroundColor: 'rgba(210, 220, 225, 0.47)',
+    width: '100%',
+    borderRadius: '5px',
+    marginTop: '5px',
   },
 
   participant: {
-    marginTop: '8px',
-    // marginBottom: '0px',
-    // marginRight: '0px',
-    // marginLeft: '10%',
-    // backgroundColor: '#5870EB',
+    marginTop: '12px',
     height: '30px',
     display: 'flex',
     alignItems: 'center',
@@ -99,19 +89,51 @@ export const styles = () => ({
     width: '100%',
   },
 
+  colors: {
+    r0: '#5870EB',
+    r1: '#EB6658',
+    r2: '#009FAD',
+  },
+
+  participantBar: {
+    width: '0.4rem',
+    height: '2rem',
+    marginRight: '7%',
+    borderRadius: '16px',
+  },
+
   searchParticipants: {
     // backgroundColor: '#5870EB',
-    display: 'inline-flex',
-    marginRight: '0%',
-    width: '50%',
+    // display: 'inline-flex',
+    width: '45%',
     // left: '60%',
     height: '80%',
   },
 
+  boxProps: {
+    backgroundColor: '#5870EB',
+    width: '15rem',
+    height: '0.4rem',
+    borderRadius: '5px 5px 0px 0px',
+    marginTop: '2%',
+  },
+
+  boundaryBox: {
+    borderColor: '#FFFFFF',
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+    borderRadius: '10px',
+    border: 1,
+    width: '100%',
+    height: '80%',
+    marginTop: '7px',
+    marginBottom: '15px',
+    paddingLeft: '30px',
+    paddingTop: '20px',
+    paddingRight: '20px',
+  },
+
   displayParticipants: {
-    // backgroundColor: '#5870EB',
-    display: 'inline-flex',
-    width: '45%',
+    width: '40%',
     height: '80%',
   },
 
@@ -122,15 +144,6 @@ export const styles = () => ({
     style: { width: '0.2rem', height: '2rem' },
     marginRight: '7%',
   },
-
-  // titleBar: {
-  //   bgcolor: '#5870EB',
-  //   // borderRadius: '5px 5px 0px 0px',
-  //   style: {
-  //     width: '0.2rem',
-  //     height: '2rem',
-  //   },
-  // },
 });
 
 export default styles;

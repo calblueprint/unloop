@@ -22,32 +22,26 @@ class ActionItemDisplayParticipants extends React.Component {
                 <ActionItemParticipant participant={p} backgroundColor={styles.participant}/>
             );
         }
-        const defaultProps = {
-            bgcolor: '#5870EB',
-            borderColor: '#5870EB',
-            // border: 1,
-            style: { width: '15rem', height: '0.4rem' },
-            borderRadius: '5px 5px 0px 0px',
-            marginTop: '2%',
-        };
 
         return (
             <div className={classes.displayParticipant}>
                 
                 {/* Students top bar */}
-                <div className='students'>
+                <div className='students' style={{color: '#5870EB'}}>
                     Students
-                    <Box {...defaultProps}/>
+                    <Box className={classes.boxProps}/>
                     <Divider/>
                 </div>
 
-                <div className={classes.displayScroll}>
+                <Box className={classes.boundaryBox}>
+                    <div className={classes.displayScroll}>
 
-                    {/* List students out */}
-                    <div className='participants'>
-                        {participantCards}
+                        {/* List students out */}
+                        <div className='participants' style={{direction: 'ltr'}}>
+                            {participantCards}
+                        </div>
                     </div>
-                </div>
+                </Box>
 
             </div>
         )

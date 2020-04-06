@@ -184,64 +184,35 @@ class ActionItemSearchParticipants extends React.Component {
         let statusButtons = Object.keys(this.state.statuses).map((s) =>
             <Fab
                 className={classes.statusButton}
+                style={{
+                    backgroundColor: colors[s],
+                    marginTop: '20px',
+                }}
+                onClick={() => this.filterByStatus(s)}
             >
                 {s}
             </Fab>
-
-            // <Fab1
-            //     // className={classes.statusButton}
-            //     // size='small'
-            //     // variant="extended"
-            //     color="primary" 
-            //     variant="contained"
-            //     onClick={() => this.filterByStatus(s)}
-            //     // styles={{backgroundColor: '#009FAD'}}
-            //     // backgroundColor={'#009FAD'}
-            // >
-            //     {s}
-            // </Fab1>
-
-            // <Fab></Fab>
         );
-
-        const defaultProps = {
-            bgcolor: '#5870EB',
-            borderColor: '#5870EB',
-            // border: 1,
-            style: { width: '15rem', height: '0.4rem' },
-            borderRadius: '5px 5px 0px 0px',
-            marginTop: '2%',
-          };
-
-        const rectangleProps = {
-            borderColor: '#FFFFFF',
-            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-            borderRadius: '10px',
-            border: 1,
-            style: {
-                width: '100%',
-                height: '80%',
-            },
-            marginTop: '7px',
-        }
         
         return (
             <div className={classes.searchParticipant}>
                 
                 {/* For the top 'ADD STUDENTS' Bar */}
-                <div className='topBar'>
+                <div className='topBar' style={{color: '#5870EB'}}>
                     Add Students
-                    <Box {...defaultProps}/>
+                    <Box className={classes.boxProps}/>
                     <Divider/>
                 </div>
 
                 <div className='outerRectangle'>
-                    <Box {...rectangleProps}>
+                    <Box className={classes.boundaryBox}>
                         
                         {/* Filter By Category */}
                         <div className={classes.categories}>
-                            <p>FILTER BY CATEGORY</p>
-                            {statusButtons}
+                            FILTER BY CATEGORY
+                            <div>
+                                {statusButtons}
+                            </div>
                         </div>
 
                         {/* Search for an individual */}
@@ -249,9 +220,6 @@ class ActionItemSearchParticipants extends React.Component {
                             SEARCH FOR INDIVIDUAL<br/>
                             <InputBase
                                 className={classes.searchBar}
-                                color='primary'
-                                placeholder="filter participants"
-                                label='filled'
                                 onChange={this.filterByName}
                                 value={this.state.searchValue}
                             />
@@ -273,9 +241,9 @@ class ActionItemSearchParticipants extends React.Component {
                                 />
                             }
                             style={{
-                                marginLeft: '68%',
-                                marginTop: '40px',
-                                marginBottom: '40px',
+                                marginLeft: '70%',
+                                marginTop: '20px',
+                                marginBottom: '30px',
                             }}
                             label="SELECT ALL"
                         />
