@@ -105,7 +105,7 @@ export const styles = () => ({
   searchParticipants: {
     // backgroundColor: '#5870EB',
     // display: 'inline-flex',
-    width: '45%',
+    // width: '45%',
     // left: '60%',
     height: '80%',
   },
@@ -133,7 +133,7 @@ export const styles = () => ({
   },
 
   displayParticipants: {
-    width: '40%',
+    // width: '40%',
     height: '80%',
   },
 

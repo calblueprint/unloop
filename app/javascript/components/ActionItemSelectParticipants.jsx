@@ -88,10 +88,12 @@ class ActionItemSelectParticipants extends React.Component {
                     }}
                 >
                     <DialogContent style={{overflow: 'hidden'}}>
-                        
                         Create New Assignment List
-                        
-                        <div style={{display: 'flex', flexDirection: 'row', maxHeight: '80vh'}}>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                        }}>
+                        {/* <div style={{display: 'flex', flexDirection: 'row', maxHeight: '80vh'}}> */}
                             {/* Rendering left side of page (for listing people) */}
                             <div className={classes.displayParticipants}>
                                 <ActionItemDisplayParticipants 
