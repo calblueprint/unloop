@@ -106,7 +106,7 @@ def create_case_notes
   1.upto(NUM_CASE_NOTES) do |i|
     CaseNote.create!(title: Faker::Job.title,
                      description: "{\"blocks\":[{\"key\":\"#{i}\",\"text\":\"#{Faker::Hipster.paragraph}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
-                     internal: Faker::Boolean.boolean,
+                     visible: Faker::Boolean.boolean,
                      staff_id: Faker::Number.between(from: STAFF_START_ID, to: STAFF_END_ID),
                      participant_id: Faker::Number.between(from: PARTICIPANT_START_ID, to: PARTICIPANT_END_ID)
                     )

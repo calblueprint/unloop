@@ -8,16 +8,33 @@ import UnloopLogo from 'images/unloop_logo.png';
 import styles from './styles';
 import { apiGet } from '../../utils/axios';
 
-function Navbar({ classes }) {
-  const navigateToHomepage = () => {
-    const homepagePath = '/';
-    window.location.href = homepagePath;
+function Navbar({ classes, isAdmin }) {
+  const navigateToAdminBoard = () => {
+    window.location.href = '/admin';
   };
 
+  const navigateToHomepage = () => {
+    window.location.href = '/';
+  };
+
+<<<<<<< HEAD
   const navigateToAssignmentpage = () => {
     const assignPath = '/assignments';
     window.location.href = assignPath;
   };
+=======
+  const renderAdminButton = () => (
+    <Button
+      component="a"
+      disableFocusRipple
+      disableTouchRipple
+      className={classes.navBarItem}
+      onClick={navigateToAdminBoard}
+    >
+      Admin Board
+    </Button>
+  );
+>>>>>>> master
 
   const logout = () => {
     const path = '/users/sign_out';
@@ -43,12 +60,13 @@ function Navbar({ classes }) {
               component="a"
               disableFocusRipple
               disableTouchRipple
-              className={classes.navBarSignOut}
+              className={classes.navBarItem}
               onClick={logout}
             >
               Sign Out
             </Button>
           </Grid>
+          {isAdmin ? <Grid item>{renderAdminButton()}</Grid> : null}
           <Grid item>
             <IconButton
               disableFocusRipple
@@ -70,8 +88,12 @@ function Navbar({ classes }) {
             </IconButton>
           </Grid>
         </Grid>
-        <Grid item className={classes.unloopLogo}>
-          <img src={UnloopLogo} alt="Unloop Logo" />
+        <Grid item>
+          <img
+            src={UnloopLogo}
+            className={classes.unloopLogo}
+            alt="Unloop Logo"
+          />
         </Grid>
       </Grid>
     </Drawer>
@@ -80,6 +102,7 @@ function Navbar({ classes }) {
 
 Navbar.propTypes = {
   classes: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(Navbar);

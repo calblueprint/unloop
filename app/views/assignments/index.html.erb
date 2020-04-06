@@ -1,2 +1,36 @@
+<<<<<<< HEAD
 
 <%= react_component("ActionItemDashboard", {}) %>
+=======
+<h1>Assignments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Template status </th>
+      <th>Assigned by</th>
+      <th>Assigned to</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @assignments.each do |assignment| %>
+      <tr>
+        <td><%= assignment.action_item.title %></td>
+        <td><%= assignment.action_item.description %></td>
+        <td><%= assignment.action_item.is_template %></td>
+        <td><%= "#{assignment.assigned_by.user.first_name} #{assignment.assigned_by.user.last_name}" %></td>
+        <td><%= "#{assignment.assigned_to.first_name} #{assignment.assigned_to.last_name}" %></td>
+        <td><%= link_to 'Show', assignment %></td>
+        <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
+        <td><%= link_to 'Destroy', assignment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+>>>>>>> master
