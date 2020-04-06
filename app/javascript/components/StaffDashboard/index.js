@@ -6,7 +6,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import ParticipantCard from 'components/ParticipantCard';
 import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
-import { Grid } from '@material-ui/core';
 
 const TrieSearch = require('trie-search');
 
@@ -47,7 +46,7 @@ class StaffDashboard extends React.Component {
       <ParticipantCard key={i} participant={p}></ParticipantCard>
     ));
 
-    if (this.state.participants.length == 0) {
+    if (this.state.participants.length === 0) {
       participantsList = <p>There are no participants to show.</p>;
     }
 
@@ -75,7 +74,6 @@ class StaffDashboard extends React.Component {
                     <th>PAPERWORK</th>
                     <th>CASE NOTES</th>
                     <th>FORM STATUS</th>
-                    <th></th>
                   </tr>
                 </thead>
                 <tbody>{participantsList}</tbody>

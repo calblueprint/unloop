@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './ActionItemCard.css';
 import {
   faLeaf,
   faHome,
@@ -12,7 +11,6 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './styles';
-
 
 class ActionItemCard extends React.Component {
   constructor(props) {
@@ -33,56 +31,63 @@ class ActionItemCard extends React.Component {
   // render icon based on category
   renderIcon() {
     const AssignmentCategory = this.props.actionItem.category;
+    let icon = null;
     switch (AssignmentCategory) {
       case 'house':
-        return (
+        icon = (
           <FontAwesomeIcon
             className="icon-large"
             icon={faHome}
             color="#9EDC8E"
-          />
-        );
+          />);
+        break;
       case 'leaf':
-        return (
+        icon = (
           <FontAwesomeIcon
             className="icon-large"
             icon={faLeaf}
             color="#9EDC8E"
           />
         );
+        break;
       case 'pen':
-        return (
+        icon = (
           <FontAwesomeIcon
             className="icon-large"
             icon={faPen}
             color="#9EDC8E"
           />
         );
+        break;
       case 'file':
-        return (
+        icon = (
           <FontAwesomeIcon
             className="icon-large"
             icon={faFile}
             color="#9EDC8E"
           />
         );
+        break;
       case 'smile':
-        return (
+        icon = (
           <FontAwesomeIcon
             className="icon-large"
             icon={faSmile}
             color="#9EDC8E"
           />
         );
+        break;
       case 'code':
-        return (
+        icon = (
           <FontAwesomeIcon
             className="icon-large"
             icon={faCode}
             color="#9EDC8E"
           />
         );
+        break;
     }
+    return icon;
   }
 
   render() {

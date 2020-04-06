@@ -1,22 +1,22 @@
 export const styles = () => ({
   card: {
     display: 'flex',
-    flexdirection: 'row',
-    justifycontent: 'start',
+    flexDirection: 'row',
+    justifyContent: 'start',
     border: '0.5px solid #5870EB',
   },
   rectangle: {
     width: '5px',
     height: '70.93px',
     background: '#5870EB',
-    borderradius: '20px',
+    borderRadius: '20px',
   },
   assign: {
-    fontfamily: 'Inter',
-    fontstyle: 'normal',
-    fontweight: 'bold',
-    fontsize: '12px',
-    lineheight: '16px',
+    fontFamily: 'Inter',
+    fontStyle: 'normal',
+    fontWeight: 'bold',
+    fontSize: '12px',
+    lineHeight: '16px',
     color: '#5870EB',
   },
   '& :active': {
@@ -24,22 +24,22 @@ export const styles = () => ({
   },
   text: {
     color: '#8E8E8E',
-    fontfamily: 'Inter',
-    fontstyle: 'normal',
-    fontsize: '8px',
+    fontFamily: 'Inter',
+    fontStyle: 'normal',
+    fontSize: '8px',
   },
   date: {
     color: '#8E8E8E',
-    fontfamily: 'Inter',
-    fontstyle: 'normal',
-    fontweight: '500',
-    fontsize: '12px',
-    lineheight: '16px',
+    fontFamily: 'Inter',
+    fontStyle: 'normal',
+    fontWeight: '500',
+    fontSize: '12px',
+    lineHeight: '16px',
   },
   info: {
     display: 'flex',
-    flexdirection: 'column',
-    flexgrow: '2',
+    flexDirection: 'column',
+    flexGrow: '2',
   },
 });
 
