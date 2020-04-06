@@ -2,8 +2,8 @@ import React from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import { withStyles } from '@material-ui/core/styles';
-
+import { withStyles, ThemeProvider } from '@material-ui/core/styles';
+import theme from 'utils/theme';
 import ParticipantCard from 'components/ParticipantCard';
 import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
@@ -53,38 +53,40 @@ class StaffDashboard extends React.Component {
     }
 
     return (
-      <div className={classes.dashboard}>
-        <Navbar isAdmin={this.props.isAdmin} />
-        <div className={classes.content}>
-          <h1>Participant Dashboard</h1>
-          <div className={classes.tableContainer}>
-            <div>
-              <div className={classes.searchBar}>
-                <InputBase
-                  placeholder="filter participants"
-                  onChange={this.handleChange}
-                />
-                <IconButton type="submit" aria-label="search">
-                  <SearchIcon />
-                </IconButton>
+      <ThemeProvider theme={theme}>
+        <div className={classes.dashboard}>
+          <Navbar isAdmin={this.props.isAdmin} />
+          <div className={classes.content}>
+            <h1>Participant Dashboard</h1>
+            <div className={classes.tableContainer}>
+              <div>
+                <div className={classes.searchBar}>
+                  <InputBase
+                    placeholder="filter participants"
+                    onChange={this.handleChange}
+                  />
+                  <IconButton type="submit" aria-label="search">
+                    <SearchIcon />
+                  </IconButton>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>PARTICIPANT</th>
+                      <th>STATUS</th>
+                      <th>PAPERWORK</th>
+                      <th>CASE NOTES</th>
+                      <th>FORM STATUS</th>
+                      <th> </th>
+                    </tr>
+                  </thead>
+                  <tbody>{participantsList}</tbody>
+                </table>
               </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>PARTICIPANT</th>
-                    <th>STATUS</th>
-                    <th>PAPERWORK</th>
-                    <th>CASE NOTES</th>
-                    <th>FORM STATUS</th>
-                    <th> </th>
-                  </tr>
-                </thead>
-                <tbody>{participantsList}</tbody>
-              </table>
             </div>
           </div>
         </div>
-      </div>
+      </ThemeProvider>
     );
   }
 }

@@ -15,6 +15,10 @@ class AssignmentPolicy < ApplicationPolicy
         staff? or (user.participant? and (user.id == resource.assigned_to.id))
     end
 
+    def index?
+      staff?
+    end
+
 
     class Scope < Scope
 #         The first argument is a user. In your controller, Pundit will call the current_user method 

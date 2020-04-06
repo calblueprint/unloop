@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  resources :paperworks, :case_notes, :professional_questionnaires, :personal_questionnaires, only: [:index, :show, :new, :edit]
+  resources :assignments, :paperworks, :case_notes, :professional_questionnaires, :personal_questionnaires, only: [:index, :show, :new, :edit]
 
   resources :staffs, only: [] do
     collection do
@@ -34,6 +34,15 @@ Rails.application.routes.draw do
     resources :case_notes, only: [:show, :create, :update, :destroy] do
       patch 'not_visible', to: 'case_notes#not_visible', on: :member
     end
+
+    scope '/assignments' do
+      post 'templates', to: 'assignments#create_template'
+      patch 'templates/:id', to: 'assignments#update_template'
+      get 'templates/:id', to: 'assignments#show_template'
+      delete 'templates/:id', to: 'assignments#destroy_template'
+    end
+
+    resources :assignments, only: [:show, :create, :update, :destroy]
     resources :professional_questionnaires, only: [:show, :create, :update, :destroy]
     resources :personal_questionnaires, only: [:show, :create, :update, :destroy]
   end
