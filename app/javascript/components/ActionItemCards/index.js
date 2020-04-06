@@ -26,6 +26,7 @@ class ActionItemCard extends React.Component {
       category - type of assignment: string??
       status - status of item: string
     */
+   
   }
 
   // render icon based on category

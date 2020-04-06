@@ -7,10 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ParticipantCard from 'components/ParticipantCard';
 import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
-=======
 import styles from './styles';
->>>>>>> 426621963b07ffee40577fb984a3f1cd36eef4f1
 
 const TrieSearch = require('trie-search');
 
