@@ -84,21 +84,6 @@ class StaffDashboard extends React.Component {
                   <tbody>{participantsList}</tbody>
                 </table>
               </div>
-<<<<<<< HEAD
-              <table>
-                <thead>
-                  <tr>
-                    <th>PARTICIPANT</th>
-                    <th>STATUS</th>
-                    <th>PAPERWORK</th>
-                    <th>CASE NOTES</th>
-                    <th>FORM STATUS</th>
-                  </tr>
-                </thead>
-                <tbody>{participantsList}</tbody>
-              </table>
-=======
->>>>>>> master
             </div>
           </div>
         </div>

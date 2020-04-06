@@ -17,12 +17,6 @@ function Navbar({ classes, isAdmin }) {
     window.location.href = '/';
   };
 
-<<<<<<< HEAD
-  const navigateToAssignmentpage = () => {
-    const assignPath = '/assignments';
-    window.location.href = assignPath;
-  };
-=======
   const renderAdminButton = () => (
     <Button
       component="a"
@@ -34,7 +28,6 @@ function Navbar({ classes, isAdmin }) {
       Admin Board
     </Button>
   );
->>>>>>> master
 
   const logout = () => {
     const path = '/users/sign_out';

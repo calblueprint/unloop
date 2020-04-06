@@ -1,9 +1,4 @@
 class AssignmentsController < ApplicationController
-<<<<<<< HEAD
-  def index
-    skip_policy_scope
-  end
-=======
     before_action :set_action_item, only:[:show, :edit]
     def index
         @assignments = authorize Assignment.all
@@ -32,5 +27,4 @@ class AssignmentsController < ApplicationController
         redirect_to assignments_path
     end
 
->>>>>>> master
 end
