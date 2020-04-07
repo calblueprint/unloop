@@ -32,7 +32,17 @@ class Api::AssignmentsController < ApplicationController
 
     def update
         authorize @assignment
-        if @assignment.update(assignment_params) && @assignment.action_item.update(action_item_params)
+        if !action_item_params.empty?
+            # Need to only copy if multiple assignments pointing
+            @action_item = @assignment.action_item.dup
+            @action_item.assign_attributes(action_item_params)
+            if @action_item.save
+                @assignment.update(action_item: @action_item)
+            else
+                render json: { error: 'Could not update action item' }, status: :unprocessable_entity
+            end
+        end
+        if @assignment.update(assignment_params)
             render json: @assignment, status: :ok
         else
             render json: { error: 'Could not update action item' }, status: :unprocessable_entity
