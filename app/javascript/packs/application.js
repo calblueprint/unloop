@@ -17,9 +17,11 @@ require('channels');
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 // Support component names relative to this directory:
-Sentry.init({
-  dsn: 'https://c507942c7d4243059e2403c5ea7a1c62@sentry.io/5189816',
-});
+if (process.env.NODE_ENV !== 'development') {
+  Sentry.init({
+    dsn: 'https://c507942c7d4243059e2403c5ea7a1c62@sentry.io/5189816',
+  });
+}
 const componentRequireContext = require.context('components', true);
 const ReactRailsUJS = require('react_ujs');
 ReactRailsUJS.useContext(componentRequireContext);
