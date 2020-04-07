@@ -37,7 +37,8 @@ class Api::PersonalQuestionnairesController < ApplicationController
     private
     def set_questionnaire
       @questionnaire = authorize PersonalQuestionnaire.find(params[:id]), policy_class: QuestionnairePolicy
-    rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound => exception
+      Raven.capture_exception(exception)
       render json: { error: 'Could not find personal questionnaire' }, status: :not_found
     end
   

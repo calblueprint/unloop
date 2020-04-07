@@ -47,7 +47,8 @@ class Api::CaseNotesController < ApplicationController
 
   def set_case_note
     @case_note = authorize CaseNote.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
+  rescue ActiveRecord::RecordNotFound => exception
+    Raven.capture_exception(exception)
     render json: { error: 'Could not find case note' }, status: :not_found
   end
 

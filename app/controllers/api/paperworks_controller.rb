@@ -55,7 +55,8 @@ class Api::PaperworksController < ApplicationController
 
   def set_paperwork
     @paperwork = authorize Paperwork.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
+  rescue ActiveRecord::RecordNotFound => exception
+    Raven.capture_exception(exception)
     render json: { error: 'Could not find paperwork' }, status: :not_found
   end
 

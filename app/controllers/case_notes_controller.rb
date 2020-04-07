@@ -22,7 +22,8 @@ class CaseNotesController < ApplicationController
 
   def set_case_note
     @case_note = authorize CaseNote.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
+  rescue ActiveRecord::RecordNotFound => exception
+    Raven.capture_exception(exception)
     redirect_to case_notes_path
   end  
 end

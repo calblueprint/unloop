@@ -90,13 +90,15 @@ class Api::AssignmentsController < ApplicationController
     
     def set_template
         @template = ActionItem.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound => exception
+        Raven.capture_exception(exception)
         render json: { error: 'Could not find Action Item Template' }, status: :not_found
     end
 
     def set_assignment
         @assignment = Assignment.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound => exception
+        Raven.capture_exception(exception)
         render json: { error: 'Could not find Action Item' }, status: :not_found
     end
 

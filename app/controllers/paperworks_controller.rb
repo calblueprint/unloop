@@ -23,7 +23,8 @@ class PaperworksController < ApplicationController
 
   def set_paperwork
     @paperwork = authorize Paperwork.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
+  rescue ActiveRecord::RecordNotFound => exception
+    Raven.capture_exception(exception)
     redirect_to paperworks_path
   end
 end
