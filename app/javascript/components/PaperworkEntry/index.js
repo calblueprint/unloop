@@ -21,6 +21,7 @@ import PaperworkForm from 'components/PaperworkForm';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import DoneIcon from '@material-ui/icons/Done';
 import { apiPatch } from 'utils/axios';
+import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
 function PaperworkEntry({
@@ -44,7 +45,10 @@ function PaperworkEntry({
         .then(res => {
           setHasViewed(res.data.viewed);
         })
-        .catch(error => console.error(error));
+        .catch(error => {
+          console.error(error);
+          Sentry.captureException(error);
+        });
     }
   };
 
@@ -56,7 +60,10 @@ function PaperworkEntry({
         setAgreed(res.data.agree);
         setOpen(false);
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+        console.error(error);
+        Sentry.captureException(error);
+      });
   };
 
   const loadAvatar = () =>

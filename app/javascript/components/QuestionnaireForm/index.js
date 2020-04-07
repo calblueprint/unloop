@@ -9,6 +9,7 @@ import {
   DialogContentText,
   TextField,
 } from '@material-ui/core/';
+import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
 class QuestionnaireForm extends React.Component {
@@ -45,7 +46,10 @@ class QuestionnaireForm extends React.Component {
 
     apiPut(request, { [qType]: body })
       .then(() => window.location.reload())
-      .catch(error => console.error(error));
+      .catch(error => {
+        console.error(error);
+        Sentry.captureException(error);
+      });
   }
 
   handleTextFormChange(e) {

@@ -11,6 +11,7 @@ import {
   DialogContentText,
   MenuItem,
 } from '@material-ui/core/';
+import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
 class DeleteModal extends React.Component {
@@ -42,7 +43,10 @@ class DeleteModal extends React.Component {
 
     apiDelete(req, { case_note: body })
       .then(() => window.location.reload())
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.error(error);
+        Sentry.captureException(error);
+      });
   }
 
   render() {

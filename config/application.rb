@@ -48,5 +48,6 @@ module Unloop
           uid: current_user.uid
         )
       end
+    end
   end
 end

@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core/';
 import { withStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import MUIRichTextEditor from 'mui-rte';
+import * as Sentry from '@sentry/browser';
 import { styles, defaultTheme } from './styles';
 
 class CaseNoteForm extends React.Component {
@@ -112,7 +113,10 @@ class CaseNoteForm extends React.Component {
 
         apiPost('/api/case_notes', { case_note: body })
           .then(() => window.location.reload())
-          .catch(error => console.error(error));
+          .catch(error => {
+            console.error(error);
+            Sentry.captureException(error);
+          });
       } else {
         this.setState(prevState => ({
           description: prevState.tempDescription,
@@ -127,7 +131,10 @@ class CaseNoteForm extends React.Component {
 
         apiPatch(`/api/case_notes/${this.state.id}`, { case_note: body })
           .then(() => window.location.reload())
-          .catch(error => console.error(error));
+          .catch(error => {
+            console.error(error);
+            Sentry.captureException(error);
+          });
       }
     }
   }

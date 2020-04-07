@@ -19,7 +19,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-
+import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
 function PaperworkForm({
@@ -88,12 +88,18 @@ function PaperworkForm({
       if (type === 'create') {
         apiPost('/api/paperworks', { paperwork: body })
           .then(() => window.location.reload())
-          .catch(error => console.error(error));
+          .catch(error => {
+            console.error(error);
+            Sentry.captureException(error);
+          });
         // TODO: Change this to flash an error message
       } else if (type === 'edit') {
         apiPatch(`/api/paperworks/${paperworkId}`, { paperwork: body })
           .then(() => window.location.reload())
-          .catch(error => console.error(error));
+          .catch(error => {
+            console.error(error);
+            Sentry.captureException(error);
+          });
         // TODO: Change this to flash an error message
       }
     }
@@ -108,7 +114,10 @@ function PaperworkForm({
           setOpen(false);
           window.location.reload();
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          console.error(error);
+          Sentry.captureException(error);
+        });
     }
   };
 
