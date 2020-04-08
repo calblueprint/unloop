@@ -35,19 +35,10 @@ module Unloop
 
     # For Sentry (Bug Tracking)
     if Rails.env.production? ||  Rails.env.staging?
-      Raven.configure do |config|
-        config.dsn = 'https://410fe9b979f04fb48c9c83b6643bff7e@sentry.io/5189754'
-        config.environments = ['staging', 'production']
-        Raven.user_context(
-          email: current_user.email,
-          first_name: current_user.first_name,
-          last_name: current_user.last_name,
-          user_type: current_user.user_type,
-          admin: current_user.admin,
-          provider: current_user.provider,
-          uid: current_user.uid
-        )
-      end
+    Raven.configure do |config|
+      config.dsn = 'https://410fe9b979f04fb48c9c83b6643bff7e@sentry.io/5189754'
+      config.environments = ['staging', 'production']
     end
+    # end
   end
 end
