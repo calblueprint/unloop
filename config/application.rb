@@ -37,7 +37,7 @@ module Unloop
     if Rails.env.production? ||  Rails.env.staging?
       Raven.configure do |config|
         config.dsn = 'https://410fe9b979f04fb48c9c83b6643bff7e@sentry.io/5189754'
-        config.environments = %w[staging production]
+        config.environments = ['staging', 'production']
         Raven.user_context(
           email: current_user.email,
           first_name: current_user.first_name,
