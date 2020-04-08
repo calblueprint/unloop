@@ -12,16 +12,17 @@ class ApplicationController < ActionController::Base
   private
 
   def set_raven_context
-    Raven.user_context(
-      email: current_user.email,
-      first_name: current_user.first_name,
-      last_name: current_user.last_name,
-      user_type: current_user.user_type,
-      admin: current_user.admin,
-      provider: current_user.provider,
-      uid: current_user.uid
-    )
-    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+    if current_user
+      Raven.user_context(
+        email: current_user.email,
+        first_name: current_user.first_name,
+        last_name: current_user.last_name,
+        user_type: current_user.user_type,
+        admin: current_user.admin,
+        provider: current_user.provider,
+        uid: current_user.uid
+      )
+    end
   end
 
   def user_not_authorized

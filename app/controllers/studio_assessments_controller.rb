@@ -28,6 +28,7 @@ class StudioAssessmentsController < ApplicationController
   def set_studio_assessment
     @studio_assessment = authorize StudioAssessment.find(params[:id])
   rescue ActiveRecord::RecordNotFound => exception
+    Raven.extra_context(studio_assessment_id: params[:id])
     Raven.capture_exception(exception)
     redirect_to studio_assessments_path
   end

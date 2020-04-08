@@ -5,22 +5,26 @@ class Api::AssignmentsController < ApplicationController
 
     def create
         @action_item = authorize ActionItem.new(action_item_params)
+        template_sentry_helper(@action_item)
         @action_item[:is_template] = false
 
         if @action_item.save
             created_assignments = []
             prepare_bulk_assignment(assigned_to_ids, @action_item.id).each do |assignment_params|
                 @assignment = authorize Assignment.new(assignment_params)
+                assignment_sentry_helper(@assignment)
                 if @assignment.save
                     created_assignments.append(@assignment)
                 else
                     @action_item.destroy
+                    Raven.capture_message("Could not create action item")
                     render json: { error: 'Could not create action item' }, status: :unprocessable_entity
                     return 
                 end
             end
             render json: created_assignments, status: :created
         else
+            Raven.capture_message("Could not create action item")
             render json: { error: 'Could not create action item' }, status: :unprocessable_entity
         end
     end 
@@ -35,6 +39,7 @@ class Api::AssignmentsController < ApplicationController
         if @assignment.update(assignment_params) && @assignment.action_item.update(action_item_params)
             render json: @assignment, status: :ok
         else
+            Raven.capture_message("Could not update action item")
             render json: { error: 'Could not update action item' }, status: :unprocessable_entity
         end
     end
@@ -48,17 +53,20 @@ class Api::AssignmentsController < ApplicationController
             end
             render json: {}, status: :ok
         else
+            Raven.capture_message("Failed to delete action item")
             render json: { error: 'Failed to delete action item' }, status: :unprocessable_entity
         end
     end
 
     def create_template
         @template = authorize ActionItem.new(action_item_params), :create?
+        template_sentry_helper(@template)
         @template[:is_template] = true
 
         if @template.save
             render json: @template, status: :created
         else
+            Raven.capture_message("Could not create template")
             render json: { error: 'Could not create template' }, status: :unprocessable_entity
         end
     end
@@ -73,6 +81,7 @@ class Api::AssignmentsController < ApplicationController
         if @template.update(action_item_params)
             render json: @template, status: :ok
         else
+            Raven.capture_message("Could not update template")
             render json: { error: 'Could not update template' }, status: :unprocessable_entity
         end
     end
@@ -82,6 +91,7 @@ class Api::AssignmentsController < ApplicationController
         if @template.destroy
             render json: @template, status: :ok
         else
+            Raven.capture_message("Failed to delete action item template")
             render json: { error: 'Failed to delete action item template' }, status: :unprocessable_entity
         end
     end
@@ -90,16 +100,31 @@ class Api::AssignmentsController < ApplicationController
     
     def set_template
         @template = ActionItem.find(params[:id])
+        template_sentry_helper(@template)
     rescue ActiveRecord::RecordNotFound => exception
+        Raven.extra_context(action_item_id: params[:id])
         Raven.capture_exception(exception)
         render json: { error: 'Could not find Action Item Template' }, status: :not_found
     end
 
+    def template_sentry_helper(action_item)
+        Raven.extra_context(case_note: action_item.attributes)
+    end
+
     def set_assignment
         @assignment = Assignment.find(params[:id])
+        assignment_sentry_helper(@assignment)
     rescue ActiveRecord::RecordNotFound => exception
+        Raven.extra_context(assignment_id: params[:id])
         Raven.capture_exception(exception)
         render json: { error: 'Could not find Action Item' }, status: :not_found
+    end
+
+    def assignment_sentry_helper(assignment)
+        Raven.extra_context(assignment: assignment.attributes)
+        Raven.extra_context(action_item: assignment.action_item.attributes)
+        Raven.extra_context(assigned_by: assignment.assigned_by.user.attributes)
+        Raven.extra_context(assigned_to: assignment.assigned_to.user.attributes)
     end
 
     def prepare_bulk_assignment(assigned_to_ids, action_item_id)
