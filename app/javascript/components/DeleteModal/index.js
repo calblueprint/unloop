@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { apiDelete } from 'utils/axios';
+import { sentryCaptureException } from 'utils/logger';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
 import {
@@ -11,7 +12,6 @@ import {
   DialogContentText,
   MenuItem,
 } from '@material-ui/core/';
-import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
 class DeleteModal extends React.Component {
@@ -44,8 +44,7 @@ class DeleteModal extends React.Component {
     apiDelete(req, { case_note: body })
       .then(() => window.location.reload())
       .catch(error => {
-        console.error(error);
-        Sentry.captureException(error);
+        sentryCaptureException(error);
       });
   }
 

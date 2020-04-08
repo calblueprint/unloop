@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import validator from 'validator';
 import { apiPost, apiPatch, apiDelete } from 'utils/axios';
+import { sentryCaptureException } from 'utils/logger';
 import {
   Button,
   Dialog,
@@ -19,7 +20,6 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
 function PaperworkForm({
@@ -89,16 +89,14 @@ function PaperworkForm({
         apiPost('/api/paperworks', { paperwork: body })
           .then(() => window.location.reload())
           .catch(error => {
-            console.error(error);
-            Sentry.captureException(error);
+            sentryCaptureException(error);
           });
         // TODO: Change this to flash an error message
       } else if (type === 'edit') {
         apiPatch(`/api/paperworks/${paperworkId}`, { paperwork: body })
           .then(() => window.location.reload())
           .catch(error => {
-            console.error(error);
-            Sentry.captureException(error);
+            sentryCaptureException(error);
           });
         // TODO: Change this to flash an error message
       }
@@ -115,8 +113,7 @@ function PaperworkForm({
           window.location.reload();
         })
         .catch(error => {
-          console.error(error);
-          Sentry.captureException(error);
+          sentryCaptureException(error);
         });
     }
   };

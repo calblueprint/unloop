@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { IconButton, Button, Grid, Drawer } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import UnloopLogo from 'images/unloop_logo.png';
-import * as Sentry from '@sentry/browser';
+import { sentryCaptureException } from 'utils/logger';
 import styles from './styles';
 import { apiGet } from '../../utils/axios';
 
@@ -34,8 +34,7 @@ function Navbar({ classes, isAdmin }) {
     apiGet(path)
       .then(navigateToHomepage)
       .catch(error => {
-        console.error(error);
-        Sentry.captureException(error);
+        sentryCaptureException(error);
       });
   };
 

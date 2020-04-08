@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { sentryCaptureException } from 'utils/logger';
 import { apiPut } from 'utils/axios';
 import {
   Button,
@@ -9,7 +10,6 @@ import {
   DialogContentText,
   TextField,
 } from '@material-ui/core/';
-import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
 class QuestionnaireForm extends React.Component {
@@ -47,8 +47,7 @@ class QuestionnaireForm extends React.Component {
     apiPut(request, { [qType]: body })
       .then(() => window.location.reload())
       .catch(error => {
-        console.error(error);
-        Sentry.captureException(error);
+        sentryCaptureException(error);
       });
   }
 
