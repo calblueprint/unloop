@@ -7,16 +7,15 @@ class AssignmentButton extends React.Component {
     const payload = {
       assignments: [
         {
-          title: 'OBSCURE TITLE 3!',
+          title: 'OBSCURE TITLE 5!',
           description: 'THIS IS A DESCRIPTION',
-          assigned_to_ids: [10, 22, 14, 12],
         },
         {
-          title: 'OBSCURE TITLE 4!',
-          description: 'SHOOT! FORGOT TO ADD PEOPLE!',
-          assigned_to_ids: [10, 20, 14],
+          title: 'OBSCURE TITLE 6!',
+          description: 'ANOTHER DESCRIPTION WOW!',
         },
       ],
+      assigned_to_ids: [21, 23, 15, 22],
     };
     apiPost(`/api/assignments/`, payload)
       .then(resp => console.log(resp))
@@ -30,8 +29,8 @@ class AssignmentButton extends React.Component {
       .catch(e => console.log(e));
   }
 
-  handleDeleteSubmit() {
-    apiDelete(`/api/assignments/${11}`)
+  handleDelete() {
+    apiDelete(`/api/assignments/${12}`)
       .then(resp => console.log(resp))
       .catch(e => console.log(e));
   }

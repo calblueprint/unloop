@@ -6,9 +6,9 @@ class Api::AssignmentsController < ApplicationController
     def create
         created_assignments = []
         created_action_items = []
+        assigned_to_ids = bulk_assignment_params.fetch(:assigned_to_ids, [])
         bulk_assignment_params.fetch(:assignments, []).each do |action_item|
-            assigned_to_ids = action_item.fetch(:assigned_to_ids, [])
-            action_item = authorize ActionItem.new(action_item.except(:assigned_to_ids, :due_date))
+            action_item = authorize ActionItem.new(action_item.except(:due_date))
             action_item[:is_template] = false
             if !assigned_to_ids.empty? && action_item.save
                 created_action_items.append(action_item)
@@ -127,7 +127,7 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def bulk_assignment_params
-        all_assignment_params = params.permit(assignments: [:title, :description, :due_date, assigned_to_ids: []])
+        all_assignment_params = params.permit(assignments: [:title, :description, :due_date], assigned_to_ids: [])
      end
 
     def assignment_params
