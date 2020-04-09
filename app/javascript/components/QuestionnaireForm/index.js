@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { sentryCaptureException } from 'utils/logger';
+import * as Sentry from '@sentry/browser';
 import { apiPut } from 'utils/axios';
 import {
   Button,
@@ -47,7 +47,13 @@ class QuestionnaireForm extends React.Component {
     apiPut(request, { [qType]: body })
       .then(() => window.location.reload())
       .catch(error => {
-        sentryCaptureException(error);
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'QuestionnaireForm');
+          scope.setExtra('action', 'apiPut');
+          scope.setExtra('QuestionnaireForm', body);
+          scope.setExtra('qType', qType);
+        });
+        Sentry.captureException(error);
       });
   }
 

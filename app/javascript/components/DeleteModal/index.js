@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { apiDelete } from 'utils/axios';
-import { sentryCaptureException } from 'utils/logger';
+import * as Sentry from '@sentry/browser';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
 import {
@@ -44,7 +44,12 @@ class DeleteModal extends React.Component {
     apiDelete(req, { case_note: body })
       .then(() => window.location.reload())
       .catch(error => {
-        sentryCaptureException(error);
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'DeleteModal');
+          scope.setExtra('action', 'apiDelete');
+          scope.setExtra('case_note', body);
+        });
+        Sentry.captureException(error);
       });
   }
 

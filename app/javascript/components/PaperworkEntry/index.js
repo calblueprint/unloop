@@ -21,7 +21,7 @@ import PaperworkForm from 'components/PaperworkForm';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import DoneIcon from '@material-ui/icons/Done';
 import { apiPatch } from 'utils/axios';
-import { sentryCaptureException } from 'utils/logger';
+import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
 function PaperworkEntry({
@@ -46,7 +46,12 @@ function PaperworkEntry({
           setHasViewed(res.data.viewed);
         })
         .catch(error => {
-          sentryCaptureException(error);
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'PaperworkEntry');
+            scope.setExtra('action', 'apiPatch (viewed)');
+            scope.setExtra('paperwork_id', id);
+          });
+          Sentry.captureException(error);
         });
     }
   };
@@ -60,7 +65,12 @@ function PaperworkEntry({
         setOpen(false);
       })
       .catch(error => {
-        sentryCaptureException(error);
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'PaperworkEntry');
+          scope.setExtra('action', 'apiPatch (complete)');
+          scope.setExtra('paperwork_id', id);
+        });
+        Sentry.captureException(error);
       });
   };
 

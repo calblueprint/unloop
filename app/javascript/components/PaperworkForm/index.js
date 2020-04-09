@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import validator from 'validator';
 import { apiPost, apiPatch, apiDelete } from 'utils/axios';
-import { sentryCaptureException } from 'utils/logger';
+import * as Sentry from '@sentry/browser';
 import {
   Button,
   Dialog,
@@ -89,14 +89,24 @@ function PaperworkForm({
         apiPost('/api/paperworks', { paperwork: body })
           .then(() => window.location.reload())
           .catch(error => {
-            sentryCaptureException(error);
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'PaperworkForm');
+              scope.setExtra('action', 'apiPost');
+              scope.setExtra('paperwork', body);
+            });
+            Sentry.captureException(error);
           });
         // TODO: Change this to flash an error message
       } else if (type === 'edit') {
         apiPatch(`/api/paperworks/${paperworkId}`, { paperwork: body })
           .then(() => window.location.reload())
           .catch(error => {
-            sentryCaptureException(error);
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'PaperworkForm');
+              scope.setExtra('action', 'apiPatch');
+              scope.setExtra('paperwork', body);
+            });
+            Sentry.captureException(error);
           });
         // TODO: Change this to flash an error message
       }
@@ -113,7 +123,12 @@ function PaperworkForm({
           window.location.reload();
         })
         .catch(error => {
-          sentryCaptureException(error);
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'PaperworkForm');
+            scope.setExtra('action', 'apiDelete');
+            scope.setExtra('paperwork_id', paperworkId);
+          });
+          Sentry.captureException(error);
         });
     }
   };
