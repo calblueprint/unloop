@@ -82,6 +82,11 @@ class Api::AssignmentsController < ApplicationController
         end
     end
 
+    def get_templates
+        @action_items = authorize ActionItem.where(is_template: true), :show?
+        render json: @action_items, status: :ok
+    end
+
     def show_template
         authorize @template, :show?
         render json: @template, status: :ok
