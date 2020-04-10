@@ -79,10 +79,10 @@ class Api::AssignmentsController < ApplicationController
 
     def destroy_template
         authorize @template, :destroy?
-        if @template.destroy
+        if @template.is_template && @template.destroy
             render json: @template, status: :ok
         else
-            render json: { error: 'Failed to delete action item template' }, status: :unprocessable_entity
+            render json: { error: 'Failed to delete action item template. Action item must be a template.' }, status: :unprocessable_entity
         end
     end
 
