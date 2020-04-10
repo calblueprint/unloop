@@ -154,10 +154,6 @@ class ActionItemSearchParticipants extends React.Component {
   render() {
     const { classes } = this.props;
 
-    //     this.props.comments
-    //   .filter(commentReply => commentReply.replyTo === comment.id)
-    //   .map((commentReply, idx) => <CommentItem key={idx} className="SubComment"/>);
-
     const participantCards = this.state.participants.map(p => {
       // Must have currently selected category and search
       const currP = this.state.participantAttrs[p.id];
