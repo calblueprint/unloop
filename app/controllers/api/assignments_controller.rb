@@ -4,27 +4,32 @@ class Api::AssignmentsController < ApplicationController
     respond_to :json
 
     def create
-        @action_item = authorize ActionItem.new(action_item_params)
-        @action_item[:is_template] = false
-
-        if @action_item.save
-            created_assignments = []
-            prepare_bulk_assignment(assigned_to_ids, @action_item.id).each do |assignment_params|
-                @assignment = authorize Assignment.new(assignment_params)
-                if @assignment.save
-                    created_assignments.append(@assignment)
-                    render json: @assignment
-                    AssignmentMailer.with(assignment: @assignment).new_assignment.deliver_now
-                else
-                    @action_item.destroy
-                    render json: { error: 'Could not create action item' }, status: :unprocessable_entity
-                    return 
+        created_assignments = []
+        created_action_items = []
+        assigned_to_ids = bulk_assignment_params.fetch(:assigned_to_ids, [])
+        bulk_assignment_params.fetch(:assignments, []).each do |action_item|
+            action_item = authorize ActionItem.new(action_item.except(:due_date))
+            action_item[:is_template] = false
+            if !assigned_to_ids.empty? && action_item.save
+                created_action_items.append(action_item)
+                prepare_bulk_assignment(assigned_to_ids, action_item).each do |assignment|
+                    if assignment.save
+                        AssignmentMailer.with(assignment: @assignment).new_assignment.deliver_now
+                        created_assignments.append(assignment)
+                    else 
+                        action_item.destroy
+                        created_action_items.each {|item| item.destroy}
+                        render json: { error: 'Could not create action item' }, status: :unprocessable_entity
+                        return
+                    end
                 end
+            else
+                created_action_items.each {|item| item.destroy}
+                render json: { error: 'Could not create action item' }, status: :unprocessable_entity
+                return
             end
-            render json: created_assignments, status: :created
-        else
-            render json: { error: 'Could not create action item' }, status: :unprocessable_entity
         end
+        render json: created_assignments, status: :created
     end 
 
     def show
@@ -34,7 +39,20 @@ class Api::AssignmentsController < ApplicationController
 
     def update
         authorize @assignment
-        if @assignment.update(assignment_params) && @assignment.action_item.update(action_item_params)
+        action_item_copied = false
+        action_item = @assignment.action_item
+
+        if !action_item_params.empty? && action_item.assignments.length > 1
+            action_item = action_item.dup
+            action_item_copied = true
+        end
+
+        @assignment.assign_attributes(assignment_params)
+        action_item.assign_attributes(action_item_params)
+        if (action_item.valid? && @assignment.valid?) && (action_item.save && @assignment.save)
+            if action_item_copied
+                @assignment.update(action_item: action_item)
+            end
             render json: @assignment, status: :ok
         else
             render json: { error: 'Could not update action item' }, status: :unprocessable_entity
@@ -66,6 +84,11 @@ class Api::AssignmentsController < ApplicationController
         end
     end
 
+    def get_templates
+        @action_items = authorize ActionItem.where(is_template: true), :show?
+        render json: @action_items, status: :ok
+    end
+
     def show_template
         authorize @template, :show?
         render json: @template, status: :ok
@@ -82,10 +105,10 @@ class Api::AssignmentsController < ApplicationController
 
     def destroy_template
         authorize @template, :destroy?
-        if @template.destroy
+        if @template.is_template && @template.destroy
             render json: @template, status: :ok
         else
-            render json: { error: 'Failed to delete action item template' }, status: :unprocessable_entity
+            render json: { error: 'Failed to delete action item template. Action item must be a template.' }, status: :unprocessable_entity
         end
     end
 
@@ -103,24 +126,29 @@ class Api::AssignmentsController < ApplicationController
         render json: { error: 'Could not find Action Item' }, status: :not_found
     end
 
-    def prepare_bulk_assignment(assigned_to_ids, action_item_id)
+    def prepare_bulk_assignment(assigned_to_ids, action_item)
         bulk_assignment_params = []
-        single_assignment_params = assignment_params
+        single_assignment_params = {
+                                    action_item_id: action_item.id,
+                                    assigned_by_id: current_user.staff.id,
+                                    due_date: action_item[:due_date],
+                                    completed: false,
+                                   }
         assigned_to_ids.each do |id|
-            bulk_assignment_params.append(single_assignment_params.merge(assigned_to_id: id, 
-                                                                         action_item_id: action_item_id))
+            assignment = Assignment.new(single_assignment_params.merge(assigned_to_id: id))
+            bulk_assignment_params.append(assignment)
         end
         return bulk_assignment_params
     end
 
     def action_item_params
         action_item_param = params.require(:assignment).permit(:title,
-                                                                :description)
+                                                               :description)
     end
 
-    def assigned_to_ids
-        params.require(:assignment).permit(assigned_to_ids: []).fetch(:assigned_to_ids, [])
-    end
+    def bulk_assignment_params
+        all_assignment_params = params.permit(assignments: [:title, :description, :due_date], assigned_to_ids: [])
+     end
 
     def assignment_params
         assignment_param = params.require(:assignment).permit(:action_item_id,

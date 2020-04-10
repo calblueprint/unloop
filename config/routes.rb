@@ -37,6 +37,7 @@ Rails.application.routes.draw do
 
     scope '/assignments' do
       post 'templates', to: 'assignments#create_template'
+      get 'templates', to: 'assignments#get_templates'
       patch 'templates/:id', to: 'assignments#update_template'
       get 'templates/:id', to: 'assignments#show_template'
       delete 'templates/:id', to: 'assignments#destroy_template'
