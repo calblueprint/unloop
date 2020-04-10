@@ -13,7 +13,8 @@ class Api::AssignmentsController < ApplicationController
                 @assignment = authorize Assignment.new(assignment_params)
                 if @assignment.save
                     created_assignments.append(@assignment)
-                    ApplicationsMailer.with(action_item: @assignment).assign_action_item.deliver_now
+                    render json: @assignment
+                    AssignmentMailer.with(assignment: @assignment).new_assignment.deliver_now
                 else
                     @action_item.destroy
                     render json: { error: 'Could not create action item' }, status: :unprocessable_entity
@@ -59,6 +60,7 @@ class Api::AssignmentsController < ApplicationController
 
         if @template.save
             render json: @template, status: :created
+
         else
             render json: { error: 'Could not create template' }, status: :unprocessable_entity
         end
