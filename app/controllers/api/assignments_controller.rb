@@ -4,25 +4,31 @@ class Api::AssignmentsController < ApplicationController
     respond_to :json
 
     def create
-        @action_item = authorize ActionItem.new(action_item_params)
-        @action_item[:is_template] = false
-
-        if @action_item.save
-            created_assignments = []
-            prepare_bulk_assignment(assigned_to_ids, @action_item.id).each do |assignment_params|
-                @assignment = authorize Assignment.new(assignment_params)
-                if @assignment.save
-                    created_assignments.append(@assignment)
-                else
-                    @action_item.destroy
-                    render json: { error: 'Could not create action item' }, status: :unprocessable_entity
-                    return 
+        created_assignments = []
+        created_action_items = []
+        assigned_to_ids = bulk_assignment_params.fetch(:assigned_to_ids, [])
+        bulk_assignment_params.fetch(:assignments, []).each do |action_item|
+            action_item = authorize ActionItem.new(action_item.except(:due_date))
+            action_item[:is_template] = false
+            if !assigned_to_ids.empty? && action_item.save
+                created_action_items.append(action_item)
+                prepare_bulk_assignment(assigned_to_ids, action_item).each do |assignment|
+                    if assignment.save
+                        created_assignments.append(assignment)
+                    else 
+                        action_item.destroy
+                        created_action_items.each {|item| item.destroy}
+                        render json: { error: 'Could not create action item' }, status: :unprocessable_entity
+                        return
+                    end
                 end
+            else
+                created_action_items.each {|item| item.destroy}
+                render json: { error: 'Could not create action item' }, status: :unprocessable_entity
+                return
             end
-            render json: created_assignments, status: :created
-        else
-            render json: { error: 'Could not create action item' }, status: :unprocessable_entity
         end
+        render json: created_assignments, status: :created
     end 
 
     def show
@@ -113,12 +119,17 @@ class Api::AssignmentsController < ApplicationController
         render json: { error: 'Could not find Action Item' }, status: :not_found
     end
 
-    def prepare_bulk_assignment(assigned_to_ids, action_item_id)
+    def prepare_bulk_assignment(assigned_to_ids, action_item)
         bulk_assignment_params = []
-        single_assignment_params = assignment_params
+        single_assignment_params = {
+                                    action_item_id: action_item.id,
+                                    assigned_by_id: current_user.staff.id,
+                                    due_date: action_item[:due_date],
+                                    completed: false,
+                                   }
         assigned_to_ids.each do |id|
-            bulk_assignment_params.append(single_assignment_params.merge(assigned_to_id: id, 
-                                                                         action_item_id: action_item_id))
+            assignment = Assignment.new(single_assignment_params.merge(assigned_to_id: id))
+            bulk_assignment_params.append(assignment)
         end
         return bulk_assignment_params
     end
@@ -128,9 +139,9 @@ class Api::AssignmentsController < ApplicationController
                                                                :description)
     end
 
-    def assigned_to_ids
-        params.require(:assignment).permit(assigned_to_ids: []).fetch(:assigned_to_ids, [])
-    end
+    def bulk_assignment_params
+        all_assignment_params = params.permit(assignments: [:title, :description, :due_date], assigned_to_ids: [])
+     end
 
     def assignment_params
         assignment_param = params.require(:assignment).permit(:action_item_id,
