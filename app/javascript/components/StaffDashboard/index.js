@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
-import ActionItemSelectParticipants from 'components/ActionItemSelectParticipants';
+import ActionItemSelectParticipants from 'components/ActionItemSelectParticipants/index';
 import ParticipantCard from 'components/ParticipantCard';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';

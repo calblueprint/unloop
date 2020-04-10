@@ -12,35 +12,12 @@ export const styles = () => ({
     brightness: '50%',
     marginRight: '10px',
     marginBottom: '10px',
-    // backgroundColor: '#EB6658',
+    marginTop: '20px',
   },
 
   entirePage: {
     height: '600px',
     width: '600px',
-  },
-
-  circle: {
-    height: '50px',
-    width: '50px',
-    backgroundColor: '#280096',
-    borderRadius: '50%',
-    display: 'inline-block',
-  },
-
-  lineBetweenCircles: {
-    height: '5px',
-    width: '50px',
-    backgroundColor: '#280096',
-    borderColor: '#280096',
-    display: 'inline-block',
-    // border: 1,
-    // style: { width: '0.2rem', height: '2rem' },
-  },
-
-  dialogPaper: {
-    minHeight: '80vh',
-    maxHeight: '80vh',
   },
 
   displayScroll: {
@@ -65,12 +42,6 @@ export const styles = () => ({
     marginTop: '20px',
   },
 
-  categories: {
-    // marginLeft: '20px',
-    // marginRight: '20px',
-    // marginTop: '20px',
-  },
-
   searchBar: {
     marginBottom: '10px',
     backgroundColor: 'rgba(210, 220, 225, 0.47)',
@@ -89,25 +60,11 @@ export const styles = () => ({
     width: '100%',
   },
 
-  colors: {
-    r0: '#5870EB',
-    r1: '#EB6658',
-    r2: '#009FAD',
-  },
-
   participantBar: {
     width: '0.4rem',
     height: '2rem',
     marginRight: '7%',
     borderRadius: '16px',
-  },
-
-  searchParticipants: {
-    // backgroundColor: '#5870EB',
-    // display: 'inline-flex',
-    // width: '45%',
-    // left: '60%',
-    height: '80%',
   },
 
   boxProps: {
@@ -132,17 +89,31 @@ export const styles = () => ({
     paddingRight: '20px',
   },
 
-  displayParticipants: {
-    // width: '40%',
-    height: '80%',
-  },
-
   titleBar: {
     bgcolor: '#EB6658',
     borderColor: '#EB6658',
-    // border: 1,
     style: { width: '0.2rem', height: '2rem' },
     marginRight: '7%',
+  },
+
+  selectAll: {
+    marginLeft: '70%',
+    marginTop: '20px',
+    marginBottom: '30px',
+  },
+
+  participantSelect: {
+    position: 'absolute',
+    right: '0px',
+    horizontalAlign: 'right',
+    float: 'right',
+  },
+
+  participantObj: {
+    display: 'flex',
+    width: '70%',
+    lineHeight: '30px',
+    height: '30px',
   },
 });
 
