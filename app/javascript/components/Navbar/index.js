@@ -16,6 +16,9 @@ function Navbar({ classes, isAdmin }) {
   const navigateToHomepage = () => {
     window.location.href = '/';
   };
+  const navigateToAssignments = () => {
+    window.location.href = '/assignments';
+  };
 
   const renderAdminButton = () => (
     <Button
@@ -75,7 +78,7 @@ function Navbar({ classes, isAdmin }) {
               disableFocusRipple
               disableTouchRipple
               className={classes.navBarItem}
-              onClick={navigateToAssignmentpage}
+              onClick ={navigateToAssignments}
             >
               <GroupIcon fontSize="large" />
             </IconButton>
