@@ -5,11 +5,15 @@ const styles = theme => ({
   },
   categoryButtonStyle: {
     fontSize: '10px',
-    paddingLeft: '10px',
-    paddingRight: '10px',
+    width: '50px',
+    paddingLeft: '30px',
+    paddingRight: '30px',
   },
   cardStyle: {
-    maxWidth: '400px',
+    width: '100%',
+    height: '120px',
+    padding: 0,
+    margin: 0,
   },
 });
 export default styles;
