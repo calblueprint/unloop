@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core/';
 import { withStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import MUIRichTextEditor from 'mui-rte';
+import * as Sentry from '@sentry/browser';
 import { styles, defaultTheme } from './styles';
 
 class CaseNoteForm extends React.Component {
@@ -119,7 +120,14 @@ class CaseNoteForm extends React.Component {
             }
             this.handleClose();
           })
-          .catch(error => console.error(error));
+          .catch(error => {
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'CaseNoteForm');
+              scope.setExtra('action', 'apiPost');
+              scope.setExtra('case_note', body);
+            });
+            Sentry.captureException(error);
+          });
       } else {
         this.setState(prevState => ({
           description: prevState.tempDescription,
@@ -138,7 +146,14 @@ class CaseNoteForm extends React.Component {
             this.props.updateCaseNote(response.data);
             this.setState({ open: false });
           })
-          .catch(error => console.error(error));
+          .catch(error => {
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'CaseNoteForm');
+              scope.setExtra('action', 'apiPatch');
+              scope.setExtra('case_note', body);
+            });
+            Sentry.captureException(error);
+          });
       }
     }
   }
