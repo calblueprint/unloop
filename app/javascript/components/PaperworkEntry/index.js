@@ -30,6 +30,7 @@ function PaperworkEntry({
   paperwork,
   userType,
   participantId,
+  updatePaperwork,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
@@ -87,6 +88,7 @@ function PaperworkEntry({
             paperworkTitle={title}
             paperworkLink={link}
             paperworkId={id}
+            updatePaperwork={updatePaperwork}
           />
           <Button color="primary" href={link} target="_blank">
             View
@@ -181,6 +183,7 @@ PaperworkEntry.propTypes = {
   paperwork: PropTypes.object.isRequired,
   userType: PropTypes.oneOf(['staff', 'participant']),
   participantId: PropTypes.number.isRequired,
+  updatePaperwork: PropTypes.func,
   lastEntry: PropTypes.bool,
   id: PropTypes.number,
 };
