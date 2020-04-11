@@ -23,7 +23,9 @@ class AssignmentsController < ApplicationController
 
     def set_action_item
         @assignment = Assignment.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound => exception
+        Raven.extra_context(assignment: params[:id])
+        Raven.capture_exception(exception)
         redirect_to assignments_path
     end
 
