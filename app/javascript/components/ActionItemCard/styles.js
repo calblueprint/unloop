@@ -5,7 +5,8 @@ const styles = theme => ({
   },
   categoryButtonStyle: {
     fontSize: '10px',
-    width: '50px',
+    width: '60px',
+    textAlign: 'center',
     paddingLeft: '30px',
     paddingRight: '30px',
   },

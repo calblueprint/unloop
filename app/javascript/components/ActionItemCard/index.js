@@ -22,7 +22,7 @@ function ActionItemCard({
     <ThemeProvider theme={theme}>
 
         <Card className={classes.cardStyle}>
-        <Grid container spacing={1} direction="column" style={{ margin: '5px' }}>
+        <Grid container spacing={1} direction={"column"} style={{ margin: '5px' }}>
             <Grid item container alignItems="center" spacing={3}>
                 <Grid item>
                     <Typography variant="subtitle1"> {title} </Typography>

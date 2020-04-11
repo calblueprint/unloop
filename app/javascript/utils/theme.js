@@ -4,7 +4,7 @@ export const theme = createMuiTheme({
   palette: {
     common: {
       blue: '#187be5',
-      lighterBlue: '#DCF0F2', 
+      lighterBlue: '#DCF0F2',
       lightBlue: 'rgba(210, 220, 225, 0.63)',
       darkBlue: '#28303B',
       black: '#29313C',
