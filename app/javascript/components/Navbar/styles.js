@@ -20,12 +20,7 @@ const styles = theme => ({
   navBarItem: {
     color: theme.palette.common.white,
     textAlign: 'center',
-    fontFamily: 'Roboto',
-    fontWeight: 500,
-    fontSize: '10px',
-    lineHeight: '16px',
-    letterSpacing: '1.5px',
-    textTransform: 'uppercase',
+    
     
   },
   unloopLogo: {

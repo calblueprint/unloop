@@ -35,7 +35,7 @@ function Navbar({ classes, isAdmin }) {
               onClick={navigateToAdminBoard}
             >
               <ExitToAppIcon fontSize="large" />
-              Admin View
+              <div className = {classes.navText} > Admin View </div>
             </Button>
             
   );
@@ -64,11 +64,11 @@ function Navbar({ classes, isAdmin }) {
               component="a"
               disableFocusRipple
               disableTouchRipple
-              className={classes.navText}
+              className={classes.navBarItem}
               onClick={logout}
             >
                <AccountCircleIcon fontSize="large" />
-              <div classname = {classes.navText}>Sign Out</div>
+              <div className = {classes.navText} >Sign Out </div>
             </Button>
           </Grid>
           {isAdmin ? <Grid item>{renderAdminButton()}</Grid> : null}
@@ -81,7 +81,7 @@ function Navbar({ classes, isAdmin }) {
               onClick={navigateToHomepage}
             >
                <HomeIcon fontSize="large" />
-              Dashboard
+               <div className = {classes.navText} > Dashboard </div>
             </Button>
           </Grid>
           <Grid item>
@@ -93,7 +93,7 @@ function Navbar({ classes, isAdmin }) {
               onClick={navigateToAssignments}
             >
                <GroupIcon fontSize="large" />
-              Bulk Assign
+               <div className = {classes.navText} > Bulk Assign </div>
             </Button>
           </Grid>
           <Grid item>
@@ -105,7 +105,7 @@ function Navbar({ classes, isAdmin }) {
               onClick={navigateToStudio}
             >
                <BarChartIcon fontSize="large" />
-              Assessments
+               <div className = {classes.navText} > Assessment </div>
             </Button>
           </Grid>
         </Grid>
