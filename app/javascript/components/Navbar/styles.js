@@ -4,6 +4,7 @@
  * This contains all the styles for the Navbar container.
  */
 
+let white = '#FFFFFF';
 const styles = theme => ({
   navBar: {
     height: '100vh',
@@ -19,6 +20,13 @@ const styles = theme => ({
   navBarItem: {
     color: theme.palette.common.white,
     textAlign: 'center',
+    fontFamily: 'Roboto',
+    fontWeight: 500,
+    fontSize: '10px',
+    lineHeight: '16px',
+    letterSpacing: '1.5px',
+    textTransform: 'uppercase',
+    
   },
   unloopLogo: {
     width: '100%',
@@ -26,6 +34,16 @@ const styles = theme => ({
     objectFit: 'contain',
     overflowX: 'hidden',
   },
+  navText: {
+    fontFamily: 'Roboto',
+    fontWeight: 500,
+    fontSize: '10px',
+    lineHeight: '16px',
+    letterSpacing: '1.5px',
+    textTransform: 'uppercase',
+    color: white,
+  },
+
 });
 
 export default styles;

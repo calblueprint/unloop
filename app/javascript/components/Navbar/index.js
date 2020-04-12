@@ -27,14 +27,17 @@ function Navbar({ classes, isAdmin }) {
 
 
   const renderAdminButton = () => (
-            <IconButton
+            <Button
+              component="a"
               disableFocusRipple
               disableTouchRipple
               className={classes.navBarItem}
-              onClick ={navigateToAdminBoard}
+              onClick={navigateToAdminBoard}
             >
-              <ExitToAppIcon  fontSize="large" />
-            </IconButton>
+              <ExitToAppIcon fontSize="large" />
+              Admin View
+            </Button>
+            
   );
 
   const logout = () => {
@@ -57,49 +60,53 @@ function Navbar({ classes, isAdmin }) {
       >
         <Grid container item alignItems="center" direction="column">
           <Grid item>
-          <IconButton
+            <Button
+              component="a"
               disableFocusRipple
               disableTouchRipple
-              className={classes.navBarItem}
+              className={classes.navText}
               onClick={logout}
             >
-              <AccountCircleIcon fontSize="large" />
-            </IconButton>
-            Sign Out
+               <AccountCircleIcon fontSize="large" />
+              <div classname = {classes.navText}>Sign Out</div>
+            </Button>
           </Grid>
-          {isAdmin ? <Grid item>{renderAdminButton()} Admin View </Grid> : null}
+          {isAdmin ? <Grid item>{renderAdminButton()}</Grid> : null}
           <Grid item>
-            <IconButton
+            <Button
+              component="a"
               disableFocusRipple
               disableTouchRipple
               className={classes.navBarItem}
               onClick={navigateToHomepage}
             >
-              <HomeIcon fontSize="large" />
-            </IconButton>
-            Dashboard
+               <HomeIcon fontSize="large" />
+              Dashboard
+            </Button>
           </Grid>
           <Grid item>
-            <IconButton
+            <Button
+              component="a"
               disableFocusRipple
               disableTouchRipple
               className={classes.navBarItem}
-              onClick ={navigateToAssignments}
+              onClick={navigateToAssignments}
             >
-              <GroupIcon fontSize="large" />
-            </IconButton>
-            Bulk Assign
+               <GroupIcon fontSize="large" />
+              Bulk Assign
+            </Button>
           </Grid>
           <Grid item>
-            <IconButton
+            <Button
+              component="a"
               disableFocusRipple
               disableTouchRipple
               className={classes.navBarItem}
-              onClick ={navigateToStudio}
+              onClick={navigateToStudio}
             >
-              <BarChartIcon fontSize="large" />
-            </IconButton>
-            Assessments
+               <BarChartIcon fontSize="large" />
+              Assessments
+            </Button>
           </Grid>
         </Grid>
         <Grid item>  
