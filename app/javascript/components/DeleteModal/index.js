@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { apiDelete } from 'utils/axios';
+import * as Sentry from '@sentry/browser';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
 import {
@@ -43,7 +44,14 @@ class DeleteModal extends React.Component {
 
     apiDelete(req, { case_note: body })
       .then(() => window.location.reload())
-      .catch(error => console.log(error));
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'DeleteModal');
+          scope.setExtra('action', 'apiDelete');
+          scope.setExtra('case_note', body);
+        });
+        Sentry.captureException(error);
+      });
   }
 
   render() {
