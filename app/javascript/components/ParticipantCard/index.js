@@ -10,7 +10,6 @@ import {
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import theme from 'utils/theme';
 import styles from './styles';
 
 function ParticipantCard({ classes, participant }) {
@@ -42,16 +41,6 @@ function ParticipantCard({ classes, participant }) {
     ></FontAwesomeIcon>
   );
 
-  let statusColor;
-  const status = participant.status.toUpperCase();
-  if (status === 'R0') {
-    statusColor = theme.palette.primary.light;
-  } else if (status === 'R1') {
-    statusColor = '#5870EB';
-  } else {
-    statusColor = '#DF6C8E';
-  }
-
   const caseNotes =
     numCaseNotes === 1
       ? `${numCaseNotes} case note`
@@ -68,12 +57,7 @@ function ParticipantCard({ classes, participant }) {
         {participant.name}
       </td>
       <td>
-        <div
-          className={classes.status}
-          style={{ backgroundColor: statusColor }}
-        >
-          {status}
-        </div>
+        <div className={classes.status}>{participant.status.toUpperCase()}</div>
       </td>
       <td className={classes.newAssignment}>
         <div>

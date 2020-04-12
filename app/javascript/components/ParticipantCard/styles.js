@@ -22,6 +22,19 @@ const styles = theme => ({
     verticalAlign: 'middle',
     lineHeight: '52px',
     color: theme.palette.common.white,
+    backgroundColor: ({ participant }) => {
+      switch (participant.status.toUpperCase()) {
+        case 'R0':
+          return theme.palette.common.r0;
+        case 'R1':
+          return theme.palette.common.r1;
+        case 'R2':
+          return theme.palette.common.r2;
+        default:
+          console.error('Participant has no status');
+          return theme.palette.common.black;
+      }
+    },
   },
   newAssignment: {
     '& > div': {
