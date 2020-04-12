@@ -19,77 +19,63 @@ const TrieSearch = require('trie-search');
 class ActionItemSearchParticipants extends React.Component {
   constructor(props) {
     super(props);
+    // The following dictionary keeps track of each participants to see if they've been selected or not (by the checkmark),
+    // and whether not they should be visible, depending on which category and search are input to filter the participants on.
     this.state = {
-      participants: this.props.participants,
       statuses: [],
       selectedStatus: null,
-      participantAttrs: {},
+      filteredParticipants: this.props.participants,
       searchValue: '',
     };
     this.filterByName = this.filterByName.bind(this);
     this.changeChecked = this.changeChecked.bind(this);
     this.allSelect = this.allSelect.bind(this);
-
-    // The following dictionary keeps track of each participants to see if they've been selected or not (by the checkmark),
-    // and whether not they should be visible, depending on which category and search are input to filter the participants on.
-    this.state.participants.forEach(p => {
-      this.state.participantAttrs[p.id] = {
-        selected: false,
-        searchTrue: true,
-        categoryTrue: true,
-      };
-    });
-
-    // Putting all the different existing categories in state via back-end request.
-    this.fetchCategories();
   }
 
-  async fetchCategories() {
-    const promise = apiGet('api/participants/statuses');
-    promise.then(p => {
+  // Load in all the different participants from a 'TrieSearch' by name
+  componentDidMount() {
+    const trie = new TrieSearch('name');
+    trie.addAll(this.props.participants);
+    this.setState({
+      trie,
+    });
+
+    apiGet('api/participants/statuses').then(p => {
       this.setState({
         statuses: p.data,
       });
     });
   }
 
-  // Load in all the different participants from a 'TrieSearch' by name
-  componentDidMount() {
-    const trie = new TrieSearch('name');
-    trie.addAll(this.state.participants);
-    this.setState({
-      trie,
-    });
-  }
-
   // For searching the different participants
   // Can only be rendered if found in the Trie AND is appropriate category (category is first filter, name is second)
-  filterByName(e) {
-    const searchVal = e.target.value;
-    this.setState({
-      searchValue: searchVal,
-    });
-
+  filterParticipants(searchVal, status) {
     // Find filtered participants via Trie
     let filterTemp;
     if (searchVal === '') {
-      filterTemp = this.state.participants;
+      filterTemp = this.props.participants;
     } else {
       filterTemp = this.state.trie.get(searchVal);
     }
 
     // Make set of participants from filterTemp
-    const filterParticipants = new Set();
+    const participants = [];
     filterTemp.forEach(p => {
-      filterParticipants.add(p.id);
+      if (status === null || p.status === status) {
+        participants.push(p);
+      }
     });
 
-    // Filter through participantAttrs, and only set searchTrue to the ones that exist in filterTemp.
-    this.state.participants.forEach(p => {
-      this.state.participantAttrs[p.id].searchTrue = filterParticipants.has(
-        p.id,
-      );
+    this.setState({
+      filteredParticipants: participants,
     });
+  }
+
+  filterByName(e) {
+    this.setState({
+      searchValue: e.target.value,
+    });
+    this.filterParticipants(e.target.value, this.state.selectedStatus);
   }
 
   filterByStatus(status) {
@@ -98,39 +84,34 @@ class ActionItemSearchParticipants extends React.Component {
 
     // 1
     if (this.state.selectedStatus !== status) {
-      this.state.participants.forEach(p => {
-        this.state.participantAttrs[p.id].categoryTrue = p.status === status;
+      this.setState({
+        selectedStatus: status,
       });
+      this.filterParticipants(this.state.searchValue, status);
       // 2
     } else {
-      this.state.participants.forEach(p => {
-        this.state.participantAttrs[p.id].categoryTrue = true;
+      this.setState({
+        selectedStatus: null,
       });
-      this.state.selectedStatus = null;
+      this.filterParticipants(this.state.searchValue, null);
     }
-
-    this.setState({
-      selectedStatus: status,
-    });
   }
 
   // Change the state for one of the child components when the 'plus' button is toggled and passes this info to parent class.
   changeChecked(user) {
-    const newVal = !this.state.participantAttrs[user.id].selected;
-    this.state.participantAttrs[user.id].selected = newVal;
+    if (this.isSelected(user)) {
+      console.log('rmoving');
 
-    if (newVal) {
-      this.props.addUser(user);
-    } else {
       this.props.removeUser(user);
+    } else {
+      this.props.addUser(user);
+
+      console.log('adding');
     }
   }
 
   // For selecting or de-selecting all participants
   allSelect(e) {
-    this.props.participants.forEach(p => {
-      this.state.participantAttrs[p.id].selected = e.target.checked;
-    });
     if (e.target.checked) {
       this.props.addAllUsers();
     } else {
@@ -151,22 +132,29 @@ class ActionItemSearchParticipants extends React.Component {
     });
   }
 
+  isSelected(p) {
+    for (let i = 0; i < this.props.selectedParticipants.length; i += 1) {
+      const selectedP = this.props.selectedParticipants[i];
+      if (p.id === selectedP.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   render() {
     const { classes } = this.props;
-
-    const participantCards = this.state.participants.map(p => {
+    const participantCards = this.state.filteredParticipants.map(p => {
       // Must have currently selected category and search
-      const currP = this.state.participantAttrs[p.id];
-      if (currP.categoryTrue && currP.searchTrue) {
-        return (
-          <ActionItemParticipant
-            participant={p}
-            checked={currP.selected}
-            changeChecked={this.changeChecked}
-          />
-        );
-      }
-      return null;
+      const isSelected = this.isSelected(p);
+      return (
+        <ActionItemParticipant
+          key={p.id}
+          participant={p}
+          checked={isSelected}
+          changeChecked={this.changeChecked}
+        />
+      );
     });
 
     return (
@@ -215,8 +203,9 @@ class ActionItemSearchParticipants extends React.Component {
 }
 
 ActionItemSearchParticipants.propTypes = {
-  participants: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
+  participants: PropTypes.array.isRequired,
+  selectedParticipants: PropTypes.array.isRequired,
   addUser: PropTypes.func.isRequired,
   removeUser: PropTypes.func.isRequired,
   addAllUsers: PropTypes.func.isRequired,

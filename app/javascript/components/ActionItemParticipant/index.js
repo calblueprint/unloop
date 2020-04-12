@@ -28,24 +28,20 @@ function ActionItemParticipant({
       );
     } else {
       button = (
-        <CheckCircleIcon
-          styles={classes.participantSelect}
-          color="disabled"
-          onClick={() => changeChecked(participant)}
-        />
+        <CheckCircleIcon styles={classes.participantSelect} color="disabled" />
       );
     }
   }
 
   return (
-    <div>
+    <div onClick={() => changeChecked(participant)}>
       <div className={classes.participant}>
         <div
           style={{
             display: 'flex',
             width: '70%',
-            lineHeight: '30px',
-            height: '30px',
+            lineHeight: '36px',
+            height: '36px',
           }}
         >
           <Box

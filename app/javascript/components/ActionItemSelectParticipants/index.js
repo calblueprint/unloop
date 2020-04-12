@@ -101,6 +101,7 @@ class ActionItemSelectParticipants extends React.Component {
               <div className="searchParticipants">
                 <ActionItemSearchParticipants
                   participants={this.state.participants}
+                  selectedParticipants={this.state.selectedParticipants}
                   addUser={this.addUserToState}
                   removeUser={this.removeUserFromState}
                   addAllUsers={this.addAllUsersToState}

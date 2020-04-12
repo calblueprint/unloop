@@ -18,7 +18,7 @@ export const styles = () => ({
 
   participantBar: {
     width: '0.4rem',
-    height: '2rem',
+    height: '36px',
     marginRight: '7%',
     borderRadius: '16px',
   },
