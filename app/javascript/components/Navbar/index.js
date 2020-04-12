@@ -4,20 +4,43 @@ import { withStyles } from '@material-ui/core/styles';
 import { IconButton, Button, Grid, Drawer } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import UnloopLogo from 'images/unloop_logo.png';
+import * as Sentry from '@sentry/browser';
 import styles from './styles';
 import { apiGet } from '../../utils/axios';
 
-function Navbar({ classes }) {
-  const navigateToHomepage = () => {
-    const homepagePath = '/';
-    window.location.href = homepagePath;
+function Navbar({ classes, isAdmin }) {
+  const navigateToAdminBoard = () => {
+    window.location.href = '/admin';
   };
+
+  const navigateToHomepage = () => {
+    window.location.href = '/';
+    Sentry.configureScope(scope => scope.setUser(null));
+  };
+
+  const renderAdminButton = () => (
+    <Button
+      component="a"
+      disableFocusRipple
+      disableTouchRipple
+      className={classes.navBarItem}
+      onClick={navigateToAdminBoard}
+    >
+      Admin Board
+    </Button>
+  );
 
   const logout = () => {
     const path = '/users/sign_out';
     apiGet(path)
       .then(navigateToHomepage)
-      .catch(error => console.error(error));
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'Navbar');
+          scope.setExtra('action', 'apiGet');
+        });
+        Sentry.captureException(error);
+      });
   };
 
   return (
@@ -37,12 +60,13 @@ function Navbar({ classes }) {
               component="a"
               disableFocusRipple
               disableTouchRipple
-              className={classes.navBarSignOut}
+              className={classes.navBarItem}
               onClick={logout}
             >
               Sign Out
             </Button>
           </Grid>
+          {isAdmin ? <Grid item>{renderAdminButton()}</Grid> : null}
           <Grid item>
             <IconButton
               disableFocusRipple
@@ -54,8 +78,12 @@ function Navbar({ classes }) {
             </IconButton>
           </Grid>
         </Grid>
-        <Grid item className={classes.unloopLogo}>
-          <img src={UnloopLogo} alt="Unloop Logo" />
+        <Grid item>
+          <img
+            src={UnloopLogo}
+            className={classes.unloopLogo}
+            alt="Unloop Logo"
+          />
         </Grid>
       </Grid>
     </Drawer>
@@ -64,6 +92,7 @@ function Navbar({ classes }) {
 
 Navbar.propTypes = {
   classes: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(Navbar);

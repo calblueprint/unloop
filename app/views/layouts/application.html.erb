@@ -1,3 +1,9 @@
+<script
+  src="https://browser.sentry-cdn.com/5.15.4/bundle.min.js"
+  integrity="sha384-Nrg+xiw+qRl3grVrxJtWazjeZmUwoSt0FAVsbthlJ5OMpx0G08bqIq3b/v0hPjhB"
+  crossorigin="anonymous">
+</script>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -18,4 +24,22 @@
     <% end %>
     <%= yield %>
   </body>
+
+  <% if current_user %>
+    <script>
+      Sentry.configureScope(function(scope) {
+        scope.setUser({
+          "email": "<%= current_user.email.to_s %>",
+          "first_name": "<%= current_user.first_name.to_s %>",
+          "last_name": "<%= current_user.last_name.to_s %>",
+          "user_type": "<%= current_user.user_type.to_s %>",
+          "provider": "<%= current_user.provider.to_s %>",
+          "uid": "<%= current_user.uid.to_s %>",
+          "user_type": "<%= current_user.user_type.to_s %>",
+          "admin": "<%= current_user.admin.to_s %>"
+        });
+      });
+    </script>
+  <% end %>
+
 </html>

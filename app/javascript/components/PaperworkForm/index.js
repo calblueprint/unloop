@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import validator from 'validator';
 import { apiPost, apiPatch, apiDelete } from 'utils/axios';
+import * as Sentry from '@sentry/browser';
 import {
   Button,
   Dialog,
@@ -19,7 +20,6 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-
 import styles from './styles';
 
 function PaperworkForm({
@@ -29,6 +29,9 @@ function PaperworkForm({
   paperworkTitle,
   paperworkLink,
   paperworkId,
+  appendPaperwork,
+  updatePaperwork,
+  incrementNumPaperworks,
   participantId,
   display,
 }) {
@@ -87,13 +90,37 @@ function PaperworkForm({
     if (!hasErrors) {
       if (type === 'create') {
         apiPost('/api/paperworks', { paperwork: body })
-          .then(() => window.location.reload())
-          .catch(error => console.error(error));
+          .then(response => {
+            if (appendPaperwork) {
+              appendPaperwork(response.data);
+            } else if (incrementNumPaperworks) {
+              incrementNumPaperworks();
+            }
+            setOpen(false);
+          })
+          .catch(error => {
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'PaperworkForm');
+              scope.setExtra('action', 'apiPost');
+              scope.setExtra('paperwork', body);
+            });
+            Sentry.captureException(error);
+          });
         // TODO: Change this to flash an error message
       } else if (type === 'edit') {
         apiPatch(`/api/paperworks/${paperworkId}`, { paperwork: body })
-          .then(() => window.location.reload())
-          .catch(error => console.error(error));
+          .then(response => {
+            updatePaperwork(response.data);
+            setOpen(false);
+          })
+          .catch(error => {
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'PaperworkForm');
+              scope.setExtra('action', 'apiPatch');
+              scope.setExtra('paperwork', body);
+            });
+            Sentry.captureException(error);
+          });
         // TODO: Change this to flash an error message
       }
     }
@@ -108,7 +135,14 @@ function PaperworkForm({
           setOpen(false);
           window.location.reload();
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'PaperworkForm');
+            scope.setExtra('action', 'apiDelete');
+            scope.setExtra('paperwork_id', paperworkId);
+          });
+          Sentry.captureException(error);
+        });
     }
   };
 
@@ -292,6 +326,9 @@ PaperworkForm.propTypes = {
   paperworkTitle: PropTypes.string,
   paperworkLink: PropTypes.string,
   participantId: PropTypes.number.isRequired,
+  appendPaperwork: PropTypes.func,
+  incrementNumPaperworks: PropTypes.func,
+  updatePaperwork: PropTypes.func,
   paperworkId: PropTypes.number,
   display: PropTypes.string,
 };

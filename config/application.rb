@@ -32,5 +32,13 @@ module Unloop
     # Don't generate system test files.
     config.generators.system_tests = nil
     config.react.camelize_props = true
+
+    # For Sentry (Bug Tracking)
+    if Rails.env.production? ||  Rails.env.staging?
+      Raven.configure do |config|
+        config.dsn = 'https://410fe9b979f04fb48c9c83b6643bff7e@sentry.io/5189754'
+        config.environments = ['staging', 'production']
+      end
+    end
   end
 end
