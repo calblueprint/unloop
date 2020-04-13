@@ -2,7 +2,11 @@ class AssignmentMailer < ApplicationMailer
     
     def new_assignment
         @assignment = params[:assignment]
-        @url = ENV['MAIL_HOST']
-        mail(to: ENV['SENDMAIL_USERNAME'], subject: '[Unloop] New Action Item Assigned')
+        if Rails.env.production?
+            @url = ENV['PROD_MAIL_HOST']
+        else
+            @url = ENV['DEV_MAIL_HOST']
+        end
+        mail(to: @assignment.assigned_to.email, subject: '[Unloop] New Action Item Assigned')
     end
 end

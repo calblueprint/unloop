@@ -1,7 +1,7 @@
-Hello, <%= @assignment.assigned_to.name %>,
+Hello, <%= @assignment.assigned_to.full_name %>,
 ===============================================
 
-You have been assigned a new action item by <%= @action_item.assigned_by.name %>.
+You have been assigned a new action item by <%= @assignment.assigned_by.full_name %>.
 
 To view your action item, log in using this link: <%= @url %>
 

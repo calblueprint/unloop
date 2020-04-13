@@ -41,7 +41,7 @@ Rails.application.configure do
   # UNCOMMENT THESE LINES TO ALLOW EMAILS TO WORK
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { host: ENV['MAIL_HOST'] }
+  config.action_mailer.default_url_options = { host: ENV['DEV_MAIL_HOST'] }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     user_name: ENV['SENDMAIL_USERNAME'],
