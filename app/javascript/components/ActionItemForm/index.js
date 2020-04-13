@@ -2,54 +2,48 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import validator from 'validator';
 import MUIRichTextEditor from 'mui-rte';
-import {styles, theme} from './styles';
 import HouseIcon from '@material-ui/icons/House';
+import EcoSharpIcon from '@material-ui/icons/EcoSharp';
+import CreateSharpIcon from '@material-ui/icons/CreateSharp';
+import NoteSharpIcon from '@material-ui/icons/NoteSharp';
+import SentimentSatisfiedSharpIcon from '@material-ui/icons/SentimentSatisfiedSharp';
+import IconButton from '@material-ui/core/IconButton';
 import {
-  makeStyles,
-  createMuiTheme,
-  MuiThemeProvider,
-} from '@material-ui/core/styles';
-import { apiPost, apiPatch } from 'utils/axios';
-import {
+  Avatar,
   Button,
   TextField,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  MenuItem,
-  Switch,
   Grid,
-  Paper,
 } from '@material-ui/core';
+import { withStyles, MuiThemeProvider } from '@material-ui/core/styles';
 
-import { EditorState, convertToRaw } from 'draft-js';
+import { convertToRaw } from 'draft-js';
+import { styles, theme } from './styles';
 
 class ActionItemForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       description: this.props.description,
-      participant_id: this.props.participant_id,
       type: this.props.type,
-      id: this.props.id,
       title: this.props.title,
-      default: false,
-      completed: false,
       open: false,
       dueDate: this.props.dueDate,
-      editorState: EditorState.createEmpty(),
+      category: this.props.category,
       errors: {
         title: '',
       },
-      display: this.props.display,
     };
-    this.onChange = editorState => this.setState({ editorState });
+    // this.onChange = editorState => this.setState({ editorState });
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
   }
 
   handleOpen() {
@@ -59,24 +53,25 @@ class ActionItemForm extends React.Component {
   handleClose() {
     this.setState({
       open: false,
-      internal: this.props.internal,
       title: this.props.title,
     });
-    if (this.state.type == 'edit') {
-      (this.state.title = this.props.title),
-      (this.state.description = this.props.description);
+    if (this.state.type === 'edit') {
+      (this.state.title = this.props.title)(
+        (this.state.description = this.props.description),
+      );
     }
   }
 
   checkErrors = field => () => {
-    let errorMessage = '';
+    const errorMessage = '';
     if (field === 'title') {
       const { title } = this.state;
       if (
         title === '' ||
         validator.isEmpty(title, { ignore_whitespace: true })
       ) {
-        errorMessage = 'Title is required';
+        // eslint-disable-next-line
+        let errorMessage = 'Title is required';
       }
     }
     this.setState(prevState => ({
@@ -94,6 +89,11 @@ class ActionItemForm extends React.Component {
     this.setState({ [name]: value });
   };
 
+  handleCategoryChange = name => () => {
+    console.log(name);
+    this.setState({ category: name });
+  };
+
   handleSubmit() {
     const { type } = this.state;
 
@@ -105,35 +105,37 @@ class ActionItemForm extends React.Component {
 
     if (!hasErrors) {
       if (type === 'create') {
-        this.props.addCard(this.state.title, this.state.description, this.state.dueDate)
-      } else {
-        
+        this.props.addCard(
+          this.state.title,
+          this.state.description,
+          this.state.dueDate,
+          this.state.category,
+        );
       }
     }
   }
 
   button = () => {
-    let ret;
-    ret = (
-        <Button
-          className="primary-button"
-          variant="contained"
-          color="secondary"
-          onClick={this.handleOpen}
-        >
-          NEW ACTIONITEM +
-        </Button>
-      );
+    const ret = (
+      <Button
+        className="primary-button"
+        variant="contained"
+        color="secondary"
+        onClick={this.handleOpen}
+      >
+        NEW ACTIONITEM +
+      </Button>
+    );
     return ret;
   };
 
-
   render() {
-    var description =
+    const { classes } = this.props;
+    let description =
       this.state.type === 'create' ? 'description' : 'newDescription';
-    if ((this.state.type = 'create')) {
+    if (this.state.type === 'create') {
       description = 'description';
-    } else if (this.state.type == 'edit') {
+    } else if (this.state.type === 'edit') {
       description = 'newDescription';
     }
     let dialog;
@@ -147,11 +149,77 @@ class ActionItemForm extends React.Component {
           maxWidth="xl"
           fullWidth
         >
-          <DialogContent maxwidth = "sm">
-            <DialogContentText>
-              Assign Category
-            </DialogContentText>
-
+          <DialogContent maxwidth="sm">
+            <DialogContentText>Assign Category</DialogContentText>
+            <Grid
+              item
+              xs
+              container
+              direction="row"
+              justify="flex-start"
+              alignItems="flex-start"
+            >
+              <Grid item xs>
+                <IconButton
+                  name="HouseIcon"
+                  onClick={this.handleCategoryChange('HouseIcon')}
+                >
+                  <Avatar className={classes.yellow}>
+                    <HouseIcon />
+                  </Avatar>
+                </IconButton>
+              </Grid>
+              <Grid item xs>
+                <IconButton
+                  name="EcoSharpIcon"
+                  onClick={this.handleCategoryChange('EcoSharpIcon')}
+                >
+                  <Avatar className={classes.yellow}>
+                    <EcoSharpIcon />
+                  </Avatar>
+                </IconButton>
+              </Grid>
+              <Grid item xs>
+                <IconButton
+                  name="CreateSharpIcon"
+                  onClick={this.handleCategoryChange('CreateSharpIcon')}
+                >
+                  <Avatar className={classes.yellow}>
+                    <CreateSharpIcon />
+                  </Avatar>
+                </IconButton>
+              </Grid>
+              <Grid item xs>
+                <IconButton
+                  name="NoteSharpIcon"
+                  onClick={this.handleCategoryChange('NoteSharpIcon')}
+                >
+                  <Avatar className={classes.yellow}>
+                    <NoteSharpIcon />
+                  </Avatar>
+                </IconButton>
+              </Grid>
+              <Grid item xs>
+                <IconButton
+                  name="SentimentSatisfiedSharpIcon"
+                  onClick={this.handleCategoryChange(
+                    'SentimentalSatisfiedSharpIcon',
+                  )}
+                >
+                  <Avatar className={classes.yellow}>
+                    <SentimentSatisfiedSharpIcon />
+                  </Avatar>
+                </IconButton>
+              </Grid>
+              <Grid item xs>
+                <IconButton
+                  name="CodeRoundedIcon"
+                  onClick={this.handleCategoryChange('CodeRoundedIcon')}
+                >
+                  <Avatar className={classes.yellow}>0</Avatar>
+                </IconButton>
+              </Grid>
+            </Grid>
           </DialogContent>
           <DialogContent maxwidth="sm">
             <DialogContentText>Title</DialogContentText>
@@ -201,27 +269,26 @@ class ActionItemForm extends React.Component {
             </MuiThemeProvider>
           </DialogContent>
           <br />
-          <DialogContent maxwidth = 'sm'>
-              <DialogContentText style = {StyleSheet.dialogContentTextFieldStyle}>
-                Due Date
-              </DialogContentText>
-              <TextField
-                value={this.state.title}
-                style={styles.dialogContentTextFieldStyle}
-                name="Due Date"
-                onChange={this.handleChange('dueDate')}
-                onBlur={this.checkErrors('Due Date')}
-                variant="outlined"
-                margin="dense"
-                id="Due Date"
-                //label="date when assignment is due "
-                type="text"
-                fullWidth
-                error={this.state.errors.title !== ''}
-                helperText={this.state.errors.title}
-              />
+          <DialogContent maxwidth="sm">
+            <DialogContentText style={StyleSheet.dialogContentTextFieldStyle}>
+              Due Date
+            </DialogContentText>
+            <TextField
+              value={this.state.dueDate || ''}
+              style={styles.dialogContentTextFieldStyle}
+              name="Due Date"
+              onChange={this.handleChange('dueDate')}
+              onBlur={this.checkErrors('Due Date')}
+              variant="outlined"
+              margin="dense"
+              id="Due Date"
+              // label="date when assignment is due "
+              type="text"
+              fullWidth
+              error={this.state.errors.dueDate !== ''}
+              helperText={this.state.errors.dueDate}
+            />
           </DialogContent>
-  
 
           <DialogActions styles={styles.dialogActionsStyle}>
             <Button
@@ -236,8 +303,7 @@ class ActionItemForm extends React.Component {
               variant="outlined"
               color="primary"
             >
-              >
-              {'Submit Action Item'}
+              Add Assignment
             </Button>
           </DialogActions>
         </Dialog>
@@ -255,16 +321,18 @@ ActionItemForm.propTypes = {
   type: PropTypes.oneOf(['create', 'edit']),
   title: PropTypes.string,
   description: PropTypes.string,
-  open: PropTypes.bool,
+  dueDate: PropTypes.string,
+  category: PropTypes.string,
+  addCard: PropTypes.func,
+  classes: PropTypes.func,
 };
 
 ActionItemForm.defaultProps = {
   title: '',
-  default: false,
-  completed: false,
-  open: false,
   type: 'create',
   description: '',
+  dueDate: '',
+  category: '',
 };
 
-export default ActionItemForm;
+export default withStyles(styles)(ActionItemForm);

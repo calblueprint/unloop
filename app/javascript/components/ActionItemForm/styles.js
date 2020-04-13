@@ -1,8 +1,6 @@
-
 import { createMuiTheme } from '@material-ui/core/styles';
 
-
-const styles = {
+const styles = theme => ({
   buttonStyle: {
     marginLeft: 'auto',
     marginRight: '0',
@@ -20,6 +18,9 @@ const styles = {
   dialogContentTextStyle: {
     color: 'black',
     marginBottom: '2px',
+  },
+  yellow: {
+    backgroundColor: theme.palette.common.yellow,
   },
   dialogContentTextFieldStyle: {
     marginTop: '2px',
@@ -53,7 +54,7 @@ const styles = {
     marginBottom: '0',
     marginTop: '0',
   },
-};
+});
 
 const theme = createMuiTheme();
 Object.assign(theme, {
@@ -78,4 +79,4 @@ Object.assign(theme, {
   },
 });
 
-export {styles, theme};
+export { styles, theme };

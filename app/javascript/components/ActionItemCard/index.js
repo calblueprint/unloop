@@ -1,63 +1,119 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import {withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardAction from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { CardHeader } from '@material-ui/core';
-import styles from './styles';
-import IconButton from '@material-ui/core/IconButton';;
-class ActionItemCard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            title: this.props.title,
-            description: this.props.description,
-            dueDate: this.props.dueDate
-            }
-        }
+import { Avatar } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 
-        render() {
-                let classes = this.props.classes
-                return (
-                  <Card className = {classes.root}>
-                    
-                      
-                    <CardHeader
-                          title = {this.props.title}                             
-                      />
-                        <div className = {classes.test1}>
-                        
-                          <CardHeader 
-                            subheader = {this.props.description}
-                            action={
-                              <IconButton aria-label="settings">
-                                <MoreVertIcon />
-                              </IconButton>
-                            }           
-                          />                                    
-                        </div>
-                    <CardAction>
-                      <div className = {classes.test}>
-                    
-                    <CardHeader
-                        title = {"Due: " + this.props.dueDate}
-                        action={
-                          <Button size="small" color="primary">
-                          EDIT
-                          </Button> 
-                        }
-                    />
-                      </div>
-                    </CardAction>
-                  </Card>
-                );
-            }
-      }
-    
-export default withStyles(styles)(ActionItemCard)
+import MUIRichTextEditor from 'mui-rte';
+import NoteSharpIcon from '@material-ui/icons/NoteSharp';
+import HouseIcon from '@material-ui/icons/House';
+import EcoSharpIcon from '@material-ui/icons/EcoSharp';
+import CreateSharpIcon from '@material-ui/icons/CreateSharp';
+import SentimentSatisfiedSharpIcon from '@material-ui/icons/SentimentSatisfiedSharp';
+import CodeRoundedIcon from '@material-ui/icons/CodeRounded';
+import styles from './styles';
+class ActionItemCard extends React.Component {
+  getIconComponent(Icon) {
+    console.log(Icon);
+    switch (Icon) {
+      case 'HouseIcon':
+        console.log('HouseIcon');
+        return <HouseIcon />;
+      case 'EcoSharpIcon':
+        return <EcoSharpIcon />;
+      case 'CreateSharpIcon':
+        return <CreateSharpIcon />;
+      case 'NoteSharpIcon':
+        return <NoteSharpIcon />;
+      case 'SentimentalSharpIcon':
+        return <SentimentSatisfiedSharpIcon />;
+      case 'CodeRoundedIcon':
+        return <CodeRoundedIcon />;
+      default:
+        console.log('None of the Icons matched');
+        return null;
+    }
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <Grid container spacing={3} direction="column" justify="center">
+        <Grid
+          item
+          xs
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="flex-start"
+        >
+          <Grid item xs>
+            <Typography gutterBottom variant="subtitle1">
+              title = {this.props.title}
+            </Typography>
+          </Grid>
+          <Grid item xs>
+            <Avatar className={classes.yellow}>
+              {this.getIconComponent(this.props.category)}
+            </Avatar>
+          </Grid>
+        </Grid>
+        <Grid item xs>
+          <MUIRichTextEditor
+            value={this.props.description}
+            readOnly
+            toolbar={false}
+          />
+        </Grid>
+        <Grid
+          item
+          xs
+          container
+          direction="row"
+          justify="space-evenly"
+          alignItems="flex-start"
+          spacing={2}
+        >
+          <Grid item xs>
+            <Typography variant="body2" style={{ cursor: 'pointer' }}>
+              dueDate = {this.props.dueDate}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs
+            container
+            direction="row"
+            justify="space-evenly"
+            spacing={2}
+          >
+            <Button size="small" color="primary">
+              DELETE
+            </Button>
+            <Button size="small" color="primary">
+              EDIT
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    );
+  }
+}
+ActionItemCard.propTypes = {
+  category: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  dueDate: PropTypes.string,
+  classes: PropTypes.object.isRequired,
+};
+
+ActionItemCard.defaultProps = {
+  title: '',
+  description: '',
+  dueDate: '',
+  category: '',
+};
+
+export default withStyles(styles)(ActionItemCard);
