@@ -76,6 +76,7 @@ def create_template_action_items
   1.upto(NUM_TEMPLATE_ACTION_ITEMS) do |i|
     ActionItem.create(title: Faker::Hacker.noun,
                       description: Faker::Hacker.say_something_smart,
+                      category: Faker::Number.between(from: 0, to: ActionItem.categories.length - 1),
                       is_template: true,
                     )
   end
@@ -86,6 +87,7 @@ def create_assignments
   1.upto(NUM_ACTION_ITEMS) do |i|
     action_item = ActionItem.create!(title: Faker::Hacker.noun, 
                                      description: Faker::Hacker.say_something_smart,
+                                     category: Faker::Number.between(from: 0, to: ActionItem.categories.length - 1),
                                      is_template: false,
                                     )
     1.upto(rand(1...4)) do |i|
