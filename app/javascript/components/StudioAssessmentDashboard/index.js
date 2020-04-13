@@ -18,7 +18,7 @@ class StudioAssessmentDashboard extends React.Component {
       ));
     return (
       <div className="dashboard">
-        <Navbar/>
+        <Navbar isAdmin={this.props.isAdmin} />
         <div className="content">
           <h1>Studio Assessments</h1>
           <div className="table-container">

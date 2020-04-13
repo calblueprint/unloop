@@ -69,4 +69,4 @@
 <%= link_to 'New Studio Assessment', new_studio_assessment_path %>
 <% end %>
 
-<%= react_component("StudioAssessmentDashboard", {assessments: @studio_assessments }) %>
+<%= react_component("StudioAssessmentDashboard", {assessments: @studio_assessments,  is_admin: @user.admin? }) %>
