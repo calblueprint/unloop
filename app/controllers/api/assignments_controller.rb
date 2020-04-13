@@ -78,7 +78,6 @@ class Api::AssignmentsController < ApplicationController
 
         if @template.save
             render json: @template, status: :created
-
         else
             render json: { error: 'Could not create template' }, status: :unprocessable_entity
         end
