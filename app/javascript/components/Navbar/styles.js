@@ -16,10 +16,11 @@ const styles = theme => ({
   drawer: {
     width: 100,
     marginRight: 10,
+    alignItems: "left",
   },
   navBarItem: {
     color: theme.palette.common.white,
-    textAlign: 'center',
+    
     
     
   },
