@@ -11,9 +11,9 @@ export const theme = createMuiTheme({
       grey: '#d2dce1',
       lightGrey: '#C4C4C4',
       lightestGrey: '#F4F4F4',
-      r0: '#009FAD',
-      r1: '#5870EB',
-      r2: '#DF6C8E',
+      r0: '#5870EB',
+      r1: 'rgba(235, 102, 88, 0.5)',
+      r2: 'rgba(0, 159, 173, 0.5)',
     },
     primary: {
       light: '#009FAD',

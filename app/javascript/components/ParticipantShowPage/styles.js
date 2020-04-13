@@ -30,7 +30,19 @@ const styles = theme => ({
   avatarStyle: {
     width: 60,
     height: 60,
-    backgroundColor: '#EB6658',
+    backgroundColor: ({ status }) => {
+      switch (status.toUpperCase()) {
+        case 'R0':
+          return theme.palette.common.r0;
+        case 'R1':
+          return theme.palette.common.r1;
+        case 'R2':
+          return theme.palette.common.r2;
+        default:
+          console.error('Participant has no status');
+          return theme.palette.common.black;
+      }
+    },
   },
   unloopLogo: {
     paddingLeft: '10px',

@@ -5,6 +5,7 @@ import { IconButton, Button, Grid, Drawer } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import GroupIcon from '@material-ui/icons/Group';
 import UnloopLogo from 'images/unloop_logo.png';
+import * as Sentry from '@sentry/browser';
 import styles from './styles';
 import { apiGet } from '../../utils/axios';
 
@@ -15,6 +16,7 @@ function Navbar({ classes, isAdmin }) {
 
   const navigateToHomepage = () => {
     window.location.href = '/';
+    Sentry.configureScope(scope => scope.setUser(null));
   };
   const navigateToAssignments = () => {
     window.location.href = '/assignments';
@@ -36,7 +38,13 @@ function Navbar({ classes, isAdmin }) {
     const path = '/users/sign_out';
     apiGet(path)
       .then(navigateToHomepage)
-      .catch(error => console.error(error));
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'Navbar');
+          scope.setExtra('action', 'apiGet');
+        });
+        Sentry.captureException(error);
+      });
   };
 
   return (

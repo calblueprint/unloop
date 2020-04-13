@@ -1,4 +1,4 @@
-const styles = () => ({
+const styles = theme => ({
   body: {
     margin: 0,
   },
@@ -10,7 +10,7 @@ const styles = () => ({
   },
 
   background: {
-    background: 'rgb(41, 49, 60)',
+    background: theme.palette.common.black,
     margin: -10,
     padding: -10,
   },
@@ -22,7 +22,7 @@ const styles = () => ({
   },
 
   loginContainer: {
-    background: 'rgb(41, 49, 60)',
+    background: theme.palette.common.black,
     margin: 0,
     display: 'flex',
     alignContent: 'center',

@@ -4,7 +4,7 @@
  * This contains all the styles for the CaseNoteCard container.
  */
 
-export const styles = (/* theme */) => ({
+export const styles = () => ({
   buttonStyle: {
     marginTop: '5px',
     marginBottom: '10px',
@@ -30,21 +30,6 @@ export const styles = (/* theme */) => ({
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
     marginTop: '10px',
-  },
-  MUIRichTextEditorStyle: {
-    border: '5px solid',
-    padding: '10px',
-  },
-  dialogStyle: {
-    padding: '20px',
-  },
-  dialogContentTextStyle: {
-    color: 'black',
-    marginBottom: '2px',
-  },
-  dialogContentTextFieldStyle: {
-    marginTop: '2px',
-    borderStyle: 'solid 4px grey',
   },
 });
 
