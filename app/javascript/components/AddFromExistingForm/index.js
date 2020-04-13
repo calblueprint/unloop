@@ -1,7 +1,11 @@
 import React from 'react';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import InputBase from '@material-ui/core/InputBase';
+import TextField from '@material-ui/core/TextField';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import Fab from '@material-ui/core/Fab';
@@ -40,15 +44,16 @@ class AddFromExistingForm extends React.Component {
 
   filterActionItems(e) {
     const searchValue = e.target.value;
-    if (searchValue == '') {
+    if (searchValue === '') {
       this.setState({
         actionItemTemplates: this.props.actionItemTemplates,
       });
-    } else {
-      this.setState(prevState => ({
-        actionItemTemplates: prevState.trie.get(searchValue),
-      }));
+      return;
     }
+
+    this.setState(prevState => ({
+      actionItemTemplates: prevState.trie.get(searchValue),
+    }));
   }
 
   render() {
@@ -59,25 +64,32 @@ class AddFromExistingForm extends React.Component {
           : template,
       )
       .map(template => (
-        <ActionItemCard
-          key={template.id}
-          title={template.title}
-          description={template.description}
-          selectTemplate={this.props.selectTemplateFunc}
-        />
+        <ListItem style={{ margin: 0 }}>
+          <ActionItemCard
+            key={template.id}
+            title={template.title}
+            description={template.description}
+            selectTemplate={this.props.selectTemplateFunc}
+            category="Finances"
+          />
+        </ListItem>
       ));
-
-    const categoryList = this.props.categories.map(category => (
+    const categories = [
+      'Finances',
+      'Project',
+      'Community',
+      'Startup',
+      'Treatment',
+      'Health',
+      'Education',
+    ];
+    const categoryList = categories.map(category => (
       <Grid item>
         <Fab
-          // NEED TO PLACE THIS IN STYLES!!
-          style={{ backgroundColor: '#DCF0F2', margin: '0px 10px' }}
+          className={this.props.classes.iconStyle}
           component="span"
           variant="extended"
           size="small"
-          disabled
-          disableRipple
-          disableFocusRipple
           aria-label="category"
         >
           <Typography
@@ -96,46 +108,54 @@ class AddFromExistingForm extends React.Component {
     }
 
     return (
-      <div style={{ width: '502px', height: '539px' }}>
-        <Paper
-          elevation={3}
-          className={this.props.classes.formStyle}
-          style={{ padding: 10 }}
-        >
-          <Grid container spacing={2} direction="column">
-            <Grid item container direction="column" spacing={1}>
-              <Grid item>Search by Category</Grid>
-              <Grid item container direction="row">
-                {categoryList.slice(0, 3)}
-              </Grid>
-              <Grid container item direction="row-reverse">
-                {categoryList.slice(3)}
-              </Grid>
+      <Paper
+        elevation={3}
+        className={this.props.classes.formStyle}
+        style={{ padding: 10 }}
+      >
+        <Grid container spacing={3} direction="column">
+          <Grid item container direction="column" spacing={2}>
+            <Grid item>SEARCH BY CATEGORY</Grid>
+            <Grid item container direction="row" justify="space-evenly">
+              {categoryList.slice(0, 4)}
             </Grid>
-            <Grid item container direction="column" alignItems="stretch">
-              <Grid item>
-                <Typography> Search for assignment </Typography>
-              </Grid>
-              <Grid item>
-                <InputBase
-                  placeholder="filter participants"
-                  onChange={this.filterActionItems}
-                />
-              </Grid>
-            </Grid>
-            <Grid item container alignItems="center" justify="center">
-              <Grid item style={{ width: '100%', padding: 0, margin: 0 }}>
-                <ActionItemCard
-                  title="Assignment Title"
-                  description="Assignment description goes here"
-                  dueDate="04/02/2020"
-                  category="Treatment"
-                />
-              </Grid>
+            <Grid
+              container
+              item
+              justify="center"
+              spacing={3}
+              direction="row-reverse"
+            >
+              {categoryList.slice(4)}
             </Grid>
           </Grid>
-        </Paper>
-      </div>
+          <Grid item container direction="column" alignItems="stretch">
+            <Grid item>
+              <div>SEARCH FOR ASSIGNMENT</div>
+              <TextField
+                className={this.props.classes.searchBar}
+                onChange={this.filterActionItems}
+                variant="outlined"
+                type="text"
+                margin="dense"
+              />
+            </Grid>
+          </Grid>
+          <List
+            dense
+            style={{
+              overflow: 'auto',
+              width: '100%',
+              position: 'relative',
+              maxHeight: '600px',
+              height: '50vh',
+              minHeight: '400px',
+            }}
+          >
+            {templatesList.slice(0, 4)}
+          </List>
+        </Grid>
+      </Paper>
     );
   }
 }

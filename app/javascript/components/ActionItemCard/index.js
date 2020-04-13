@@ -20,22 +20,17 @@ function ActionItemCard({
 }) {
   return (
     <ThemeProvider theme={theme}>
-
-        <Card className={classes.cardStyle}>
-        <Grid container spacing={1} direction={"column"} style={{ margin: '5px' }}>
+        <Grid container spacing={1} className={classes.cardStyle} direction={"column"} style={{ margin: '10px 15px' }}>
             <Grid item container alignItems="center" spacing={3}>
                 <Grid item>
                     <Typography variant="subtitle1"> {title} </Typography>
                 </Grid>
-                <Grid item className={classes.categoryStyle}>
+                <Grid item>
                     <Fab
-                    style={{backgroundColor: '#DCF0F2'}}
+                    className={classes.iconStyle}
                     component="span"
                     variant="extended"
                     size="small"
-                    disabled
-                    disableRipple
-                    disableFocusRipple
                     aria-label="category"
                     >
                     <Typography
@@ -48,12 +43,12 @@ function ActionItemCard({
                     </Fab>
                 </Grid>
             </Grid>
-            <Grid item container justify="space-between" alignItems="center">
+            <Grid item container alignItems="flex-start" spacing={6}>
             <Grid item xs={9}>
                 <Typography variant="body1">{description}</Typography>
             </Grid>
             <Grid item>
-                <AddIcon style={{ paddingRight: '30px' }} />
+                <AddIcon />
             </Grid>
             </Grid>
             <Grid item container justify="space-between" alignItems="center">
@@ -76,7 +71,6 @@ function ActionItemCard({
             </Grid>
             </Grid>
         </Grid>
-        </Card>
     </ThemeProvider>
 
   );

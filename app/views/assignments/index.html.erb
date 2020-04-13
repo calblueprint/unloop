@@ -2,15 +2,5 @@
 <br>
 <%= react_component("AddFromExistingForm", {
   templates: ActionItem.where(is_template: true),
-  categories: ["Treatment", "Health", "Education", "Finances", "Project", "Community"]
-  })%>
-
-<br>
-<br>
-
-<%= react_component("ActionItemCard", {
-  title: ActionItem.where(is_template: true).first.title,
-  description: ActionItem.where(is_template: true).first.description,
-  category: "Treatment",
   })%>
 
