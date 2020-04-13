@@ -6,6 +6,7 @@ import styles from './styles';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import theme from 'utils/theme';
 
+
 class StudioAssessmentDashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +27,9 @@ class StudioAssessmentDashboard extends React.Component {
         <div className= {classes.content}>
           <h1>Studio Assessments</h1>
           <div className= {classes.tableContainer}>
+          <div className={classes.searchBar}>
+                  Hi
+                </div>
             <div>
             <table>
                 <thead>
