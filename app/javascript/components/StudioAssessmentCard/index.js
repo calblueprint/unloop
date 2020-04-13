@@ -30,7 +30,7 @@ class StudioAssessmentCard extends React.Component {
           onClick={this.showParticipant}
           onKeyDown={this.showParticipant}
         >
-          {ass.participant_id}
+          {assessment.participant_id}
         </td>
         <td>
             {bigPic}
