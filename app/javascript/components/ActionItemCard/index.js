@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
+import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -16,12 +16,23 @@ function ActionItemCard({
   description,
   dueDate,
   category,
-  transferCallback,
+  // Used by style file
+  // eslint-disable-next-line no-unused-vars
+  lastEntry=false,
+  selectCardFunc,
 }) {
+    const renderPlusIcon = () => {
+        return (
+            <IconButton aria-label="add" onClick={selectCardFunc}>
+                <AddIcon />
+            </IconButton>
+        )
+    }
+
   return (
     <ThemeProvider theme={theme}>
-        <Grid container spacing={1} className={classes.cardStyle} direction={"column"} style={{ margin: '10px 15px' }}>
-            <Grid item container alignItems="center" spacing={3}>
+        <Grid container spacing={1} className={classes.cardStyle} direction={"column"}>
+            <Grid item container alignItems="center" spacing={2}>
                 <Grid item>
                     <Typography variant="subtitle1"> {title} </Typography>
                 </Grid>
@@ -44,16 +55,16 @@ function ActionItemCard({
                 </Grid>
             </Grid>
             <Grid item container alignItems="flex-start" spacing={6}>
-            <Grid item xs={9}>
+            <Grid item xs={9} className={classes.descriptionStyle}>
                 <Typography variant="body1">{description}</Typography>
             </Grid>
             <Grid item>
-                <AddIcon />
+                {selectCardFunc ? renderPlusIcon() : null}
             </Grid>
             </Grid>
-            <Grid item container justify="space-between" alignItems="center">
+            <Grid item container justify="space-between" alignItems="flex-end">
             <Grid item>
-                {dueDate ? <Typography variant="body2">Due date: 04/21/2020</Typography> : null}
+                {dueDate ? <Typography variant="body2">Due date: {dueDate}</Typography> : null}
             </Grid>
             <Grid
                 item
@@ -63,10 +74,10 @@ function ActionItemCard({
                 justify="space-evenly"
             >
                 <Grid item>
-                <Button size="small">Small</Button>
+                <Button size="small" className={classes.buttonStyle}>EDIT</Button>
                 </Grid>
                 <Grid item>
-                <Button size="small">Small2</Button>
+                <Button size="small" className={classes.buttonStyle}>DELETE</Button>
                 </Grid>
             </Grid>
             </Grid>
@@ -80,7 +91,9 @@ ActionItemCard.propTypes = {
     classes: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
     dueDate: PropTypes.string,
-    transferCallback: PropTypes.func
+    selectCardFunc: PropTypes.func,
+    lastEntry: PropTypes.bool,
   };
 export default withStyles(styles)(ActionItemCard);

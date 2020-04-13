@@ -8,15 +8,26 @@ const styles = theme => ({
     fontSize: '10px',
     width: '60px',
     textAlign: 'center',
-    paddingLeft: '30px',
-    paddingRight: '30px',
+    paddingLeft: '16px',
+    paddingRight: '16px',
   },
   cardStyle: {
     width: '95%',
     height: '150px',
     padding: 0,
+    margin: '0px 15px',
     boxShadow: '0px 0px 0px 0px',
-    borderBottom: `.75px solid ${theme.palette.common.lightGrey}`,
+    borderBottom: ({ lastEntry }) =>
+      lastEntry ? '0px' : `.75px solid ${theme.palette.common.lightGrey}`,
   },
+  descriptionStyle: {
+    textOverflow: 'ellipsis', 
+    overflow: 'hidden', 
+    maxHeight: '75px', 
+    marginBottom: '20px'
+  },
+  buttonStyle: {
+    color: theme.palette.common.r0,
+  }
 });
 export default styles;
