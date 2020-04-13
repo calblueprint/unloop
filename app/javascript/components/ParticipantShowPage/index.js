@@ -100,7 +100,7 @@ class ParticipantShowPage extends React.Component {
               </Grid>
               <Grid item style={{ padding: '0px', marginTop: '20px' }}>
                 <PaperworkList
-                  paperworks={paperworks}
+                  initialPaperworks={paperworks}
                   participantId={participantId}
                   formatDate={this.formatDate}
                   userType={userType}

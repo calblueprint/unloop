@@ -21,6 +21,7 @@ import PaperworkForm from 'components/PaperworkForm';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import DoneIcon from '@material-ui/icons/Done';
 import { apiPatch } from 'utils/axios';
+import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
 function PaperworkEntry({
@@ -29,6 +30,7 @@ function PaperworkEntry({
   paperwork,
   userType,
   participantId,
+  updatePaperwork,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
@@ -44,7 +46,14 @@ function PaperworkEntry({
         .then(res => {
           setHasViewed(res.data.viewed);
         })
-        .catch(error => console.error(error));
+        .catch(error => {
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'PaperworkEntry');
+            scope.setExtra('action', 'apiPatch (viewed)');
+            scope.setExtra('paperwork_id', id);
+          });
+          Sentry.captureException(error);
+        });
     }
   };
 
@@ -56,7 +65,14 @@ function PaperworkEntry({
         setAgreed(res.data.agree);
         setOpen(false);
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'PaperworkEntry');
+          scope.setExtra('action', 'apiPatch (complete)');
+          scope.setExtra('paperwork_id', id);
+        });
+        Sentry.captureException(error);
+      });
   };
 
   const loadAvatar = () =>
@@ -72,6 +88,7 @@ function PaperworkEntry({
             paperworkTitle={title}
             paperworkLink={link}
             paperworkId={id}
+            updatePaperwork={updatePaperwork}
           />
           <Button color="primary" href={link} target="_blank">
             View
@@ -166,6 +183,7 @@ PaperworkEntry.propTypes = {
   paperwork: PropTypes.object.isRequired,
   userType: PropTypes.oneOf(['staff', 'participant']),
   participantId: PropTypes.number.isRequired,
+  updatePaperwork: PropTypes.func,
   lastEntry: PropTypes.bool,
   id: PropTypes.number,
 };

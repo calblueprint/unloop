@@ -9,7 +9,7 @@ const styles = theme => ({
   navBar: {
     height: '100vh',
     paddingTop: 40,
-    backgroundColor: '#29313C',
+    backgroundColor: theme.palette.common.black,
     position: 'fixed',
     minWidth: 60,
   },

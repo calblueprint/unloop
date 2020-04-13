@@ -1,7 +1,4 @@
-const backgroundBlue = '#d2dce1';
-const white = '#fff';
-
-const styles = () => ({
+const styles = theme => ({
   dashboard: {
     height: '100%',
     width: '100%',
@@ -11,7 +8,7 @@ const styles = () => ({
       '& th': {
         paddingBottom: 16,
       },
-      borderBottom: '2px solid #eb6658',
+      borderBottom: `2px solid ${theme.palette.secondary.main}`,
     },
     '& h1': {
       marginLeft: 50,
@@ -51,12 +48,12 @@ const styles = () => ({
       '& th, & td': {
         padding: '25px 3%',
         textAlign: 'left',
-        borderBottom: '1px solid #ddd',
+        borderBottom: `1px solid ${theme.palette.common.lightGrey}`,
       },
 
       '& tbody': {
         '& tr:hover': {
-          backgroundColor: '#f5f5f5',
+          backgroundColor: theme.palette.common.lightestGrey,
         },
       },
 
@@ -72,10 +69,10 @@ const styles = () => ({
   tableContainer: {
     height: '100%',
     minHeight: '100vh',
-    backgroundColor: backgroundBlue,
+    backgroundColor: theme.palette.common.grey,
     padding: '20px 42px',
     '& > div': {
-      backgroundColor: white,
+      backgroundColor: theme.palette.common.white,
       boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
       borderRadius: 20,
       padding: 30,
@@ -92,7 +89,7 @@ const styles = () => ({
     marginLeft: 30,
     borderRadius: 2,
     width: 260,
-    border: '1px solid #bdbdbd',
+    border: `1px solid ${theme.palette.common.lightGrey}`,
     paddingLeft: 10,
     display: 'flex',
     flexDirection: 'row',
