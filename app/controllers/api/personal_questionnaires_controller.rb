@@ -9,9 +9,11 @@ class Api::PersonalQuestionnairesController < ApplicationController
     def create
       @questionnaire = PersonalQuestionnaire.new(questionnaire_params)
       authorize @questionnaire, policy_class: QuestionnairePolicy
+      sentry_helper(@questionnaire)
       if @questionnaire.save
         render json: @questionnaire, status: :created
       else
+        Raven.capture_message("Could not create personal questionnaire")
         render json: { error: 'Could not create personal questionnaire' }, status: :unprocessable_entity
       end
     end
@@ -21,6 +23,7 @@ class Api::PersonalQuestionnairesController < ApplicationController
       if @questionnaire.update(questionnaire_params)
         render json: @questionnaire, status: :ok
       else
+        Raven.capture_message("Could not update personal questionnaire")
         render json: { error: 'Could not update personal questionnaire' }, status: :unprocessable_entity
       end
     end
@@ -30,6 +33,7 @@ class Api::PersonalQuestionnairesController < ApplicationController
       if @questionnaire.destroy
         render json: @questionnaire, status: :ok
       else
+        Raven.capture_message("Failed to delete personal questionnaire")
         render json: { error: 'Failed to delete personal questionnaire' }, status: :unprocessable_entity
       end
     end
@@ -37,8 +41,16 @@ class Api::PersonalQuestionnairesController < ApplicationController
     private
     def set_questionnaire
       @questionnaire = authorize PersonalQuestionnaire.find(params[:id]), policy_class: QuestionnairePolicy
-    rescue ActiveRecord::RecordNotFound
+      sentry_helper(@questionnaire)
+    rescue ActiveRecord::RecordNotFound => exception
+      Raven.extra_context(personal_questionnaire_id: params[:id])
+      Raven.capture_exception(exception)
       render json: { error: 'Could not find personal questionnaire' }, status: :not_found
+    end
+
+    def sentry_helper(personal_questionnaire)
+      Raven.extra_context(case_note: personal_questionnaire.attributes)
+      Raven.extra_context(participant: personal_questionnaire.participant.user.attributes)
     end
   
     def questionnaire_params

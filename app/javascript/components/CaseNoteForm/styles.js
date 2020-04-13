@@ -1,6 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-
-const grey = '#d2dce1';
+import theme from 'utils/theme';
 
 const styles = () => ({
   dialogActionsStyle: {
@@ -19,7 +18,7 @@ const styles = () => ({
   },
   dialogContentTextFieldStyle: {
     marginTop: '2px',
-    borderStyle: 'solid 4px grey',
+    borderStyle: 'solid',
   },
   primaryButton: {
     border: 'none',
@@ -33,7 +32,7 @@ const styles = () => ({
     lineHeight: '32px',
     borderRadius: '100%',
     textAlign: 'center',
-    backgroundColor: grey,
+    backgroundColor: theme.palette.common.grey,
     marginLeft: '8%',
     boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.25)',
     fontSize: 18,
@@ -46,9 +45,9 @@ Object.assign(defaultTheme, {
   overrides: {
     MUIRichTextEditor: {
       root: {
-        borderLeft: 'solid 1px #C4C4C4',
-        borderRight: 'solid 1px #C4C4C4',
-        borderBottom: 'solid 1px #C4C4C4',
+        borderLeft: `solid 1px ${theme.palette.common.lightGrey}`,
+        borderRight: `solid 1px ${theme.palette.common.lightGrey}`,
+        borderBottom: `solid 1px ${theme.palette.common.lightGrey}`,
         borderRadius: '4px',
       },
       editorContainer: {
@@ -57,7 +56,7 @@ Object.assign(defaultTheme, {
         height: '130px',
       },
       toolbar: {
-        backgroundColor: '#F4F4F4',
+        backgroundColor: theme.palette.common.lightestGrey,
       },
     },
   },

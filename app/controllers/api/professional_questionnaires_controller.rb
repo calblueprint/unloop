@@ -9,9 +9,11 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
     def create
       @questionnaire = ProfessionalQuestionnaire.new(questionnaire_params)
       authorize @questionnaire, policy_class: QuestionnairePolicy
+      sentry_helper(@questionnaire)
       if @questionnaire.save
         render json: @questionnaire, status: :created
       else
+        Raven.capture_message("Could not create professional questionnaire")
         render json: { error: 'Could not create professional questionnaire' }
       end
     end
@@ -21,6 +23,7 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
       if @questionnaire.update(questionnaire_params)
         render json: @questionnaire, status: :ok
       else
+        Raven.capture_message("Could not update professional questionnaire")
         render json: { error: 'Could not update professional questionnaire' }, status: :unprocessable_entity
       end
     end
@@ -30,6 +33,7 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
       if @questionnaire.destroy
         render json: @questionnaire, status: :ok
       else
+        Raven.capture_message("Failed to delete professional questionnaire")
         render json: { error: 'Failed to delete professional questionnaire' }, status: :unprocessable_entity
       end
     end
@@ -37,8 +41,15 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
     private
     def set_questionnaire
       @questionnaire = authorize ProfessionalQuestionnaire.find(params[:id]), policy_class: QuestionnairePolicy
-    rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound => exception
+      Raven.extra_context(professional_questionnaire_id: params[:id])
+      Raven.capture_exception(exception)
       render json: { error: 'Could not find professional questionnaire' }, status: :not_found
+    end
+
+    def sentry_helper(professional_questionnaire)
+      Raven.extra_context(professional_questionnaire: professional_questionnaire.attributes)
+      Raven.extra_context(participant: professional_questionnaire.participant.user.attributes)
     end
   
     # may not work

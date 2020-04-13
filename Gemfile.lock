@@ -291,6 +291,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    sentry-raven (2.13.0)
+      faraday (>= 0.7.6, < 1.0)
     solargraph (0.37.2)
       backport (~> 1.1)
       bundler (>= 1.17.2)
@@ -363,6 +365,7 @@ DEPENDENCIES
   rspec-rails
   rubocop
   sass-rails (~> 5)
+  sentry-raven
   solargraph
   spring
   spring-watcher-listen (~> 2.0.0)
