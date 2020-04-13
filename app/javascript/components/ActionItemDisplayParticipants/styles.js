@@ -1,3 +1,5 @@
+import theme from '../../utils/theme';
+
 export const styles = () => ({
   participant: {
     marginTop: '12px',
@@ -9,7 +11,7 @@ export const styles = () => ({
   },
 
   boxProps: {
-    backgroundColor: '#5870EB',
+    backgroundColor: theme.palette.common.indigo,
     width: '15rem',
     height: '0.4rem',
     borderRadius: '5px 5px 0px 0px',
@@ -17,7 +19,7 @@ export const styles = () => ({
   },
 
   boundaryBox: {
-    borderColor: '#FFFFFF',
+    borderColor: theme.palette.common.white,
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
     borderRadius: '10px',
     border: 1,

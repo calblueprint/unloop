@@ -26,6 +26,7 @@ class ActionItemSearchParticipants extends React.Component {
       selectedStatus: null,
       filteredParticipants: this.props.participants,
       searchValue: '',
+      //   allSelected: false,
     };
     this.filterByName = this.filterByName.bind(this);
     this.changeChecked = this.changeChecked.bind(this);
@@ -48,7 +49,7 @@ class ActionItemSearchParticipants extends React.Component {
   }
 
   // For searching the different participants
-  // Can only be rendered if found in the Trie AND is appropriate category (category is first filter, name is second)
+  // Can only be rendered if found in the Trie AND is appropriate category
   filterParticipants(searchVal, status) {
     // Find filtered participants via Trie
     let filterTemp;
@@ -88,6 +89,7 @@ class ActionItemSearchParticipants extends React.Component {
         selectedStatus: status,
       });
       this.filterParticipants(this.state.searchValue, status);
+
       // 2
     } else {
       this.setState({
@@ -100,22 +102,18 @@ class ActionItemSearchParticipants extends React.Component {
   // Change the state for one of the child components when the 'plus' button is toggled and passes this info to parent class.
   changeChecked(user) {
     if (this.isSelected(user)) {
-      console.log('rmoving');
-
       this.props.removeUser(user);
     } else {
       this.props.addUser(user);
-
-      console.log('adding');
     }
   }
 
   // For selecting or de-selecting all participants
   allSelect(e) {
     if (e.target.checked) {
-      this.props.addAllUsers();
+      this.props.addAllUsers(this.state.filteredParticipants);
     } else {
-      this.props.removeAllUsers();
+      this.props.removeAllUsers(this.state.filteredParticipants);
     }
   }
 
@@ -123,9 +121,21 @@ class ActionItemSearchParticipants extends React.Component {
   statusButtons() {
     return Object.keys(this.state.statuses).map(status => {
       const importedStyles = styles().statusButton;
-      importedStyles.backgroundColor = theme.palette.buttons[status];
+      const dark = theme.palette.darkerButton[status];
+      const light = theme.palette.lighterButton[status];
+      if (this.state.selectedStatus !== status) {
+        importedStyles.backgroundColor = dark;
+        importedStyles.color = light;
+      } else {
+        importedStyles.backgroundColor = light;
+        importedStyles.color = dark;
+      }
       return (
-        <Fab style={importedStyles} onClick={() => this.filterByStatus(status)}>
+        <Fab
+          style={importedStyles}
+          onClick={() => this.filterByStatus(status)}
+          key={status}
+        >
           {status}
         </Fab>
       );
@@ -140,6 +150,19 @@ class ActionItemSearchParticipants extends React.Component {
       }
     }
     return false;
+  }
+
+  isAllSelected() {
+    if (this.state.filteredParticipants.length === 0) {
+      return false;
+    }
+    for (let i = 0; i < this.state.filteredParticipants.length; i += 1) {
+      const filterP = this.state.filteredParticipants[i];
+      if (!this.isSelected(filterP)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   render() {
@@ -158,18 +181,18 @@ class ActionItemSearchParticipants extends React.Component {
     });
 
     return (
-      <div className="searchParticipant">
+      <div>
         {/* For the top 'ADD STUDENTS' Bar */}
-        <div className="topBar" style={{ color: '#5870EB' }}>
+        <div style={{ color: theme.palette.common.indigo }}>
           Add Students
           <Box className={classes.boxProps} />
           <Divider />
         </div>
 
-        <div className="outerRectangle">
+        <div>
           <Box className={classes.boundaryBox}>
             {/* Filter By Category */}
-            <div className="categories">
+            <div>
               FILTER BY CATEGORY
               <div>{this.statusButtons()}</div>
             </div>
@@ -186,13 +209,19 @@ class ActionItemSearchParticipants extends React.Component {
 
             {/* List all the participant cards in scrolling fashion */}
             <div className={classes.searchScroll}>
-              <div className="listIndividuals">{participantCards}</div>
+              <div>{participantCards}</div>
             </div>
 
             {/* Select All Button */}
             <FormControlLabel
               className={classes.selectAll}
-              control={<Checkbox color="default" onClick={this.allSelect} />}
+              control={
+                <Checkbox
+                  color="default"
+                  checked={this.isAllSelected()}
+                  onClick={this.allSelect}
+                />
+              }
               label="SELECT ALL"
             />
           </Box>

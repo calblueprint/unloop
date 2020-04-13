@@ -38,16 +38,32 @@ class ActionItemSelectParticipants extends React.Component {
   }
 
   // Adds all users at once to be displayed
-  addAllUsersToState() {
+  addAllUsersToState(filteredParticipants) {
+    const toAdd = [];
+    const selectedIds = new Set(this.state.selectedParticipants.map(p => p.id));
+    for (let i = 0; i < filteredParticipants.length; i += 1) {
+      if (!selectedIds.has(filteredParticipants[i].id)) {
+        toAdd.push(filteredParticipants[i]);
+      }
+    }
+
     this.setState(prevState => ({
-      selectedParticipants: prevState.participants,
+      selectedParticipants: prevState.selectedParticipants.concat(toAdd),
     }));
   }
 
   // Removes all users at once from display
-  removeAllUsersFromState() {
+  removeAllUsersFromState(filteredParticipants) {
+    const newParticipants = [];
+    const filteredIds = new Set(filteredParticipants.map(p => p.id));
+    for (let i = 0; i < this.state.selectedParticipants.length; i += 1) {
+      if (!filteredIds.has(this.state.selectedParticipants[i].id)) {
+        newParticipants.push(this.state.selectedParticipants[i]);
+      }
+    }
+
     this.setState({
-      selectedParticipants: [],
+      selectedParticipants: newParticipants,
     });
   }
 
@@ -71,15 +87,9 @@ class ActionItemSelectParticipants extends React.Component {
         </Button>
         <Dialog
           onClose={() => this.toggleModal()}
-          open // {this.state.openModal} // true
+          open // {this.state.openModal}
           fullWidth
           maxWidth="lg"
-          style={
-            {
-              // minHeight: '60vh',
-              // maxHeight: '60vh',
-            }
-          }
         >
           <DialogContent style={{ overflow: 'hidden' }}>
             Create New Assignment List
@@ -91,14 +101,14 @@ class ActionItemSelectParticipants extends React.Component {
             >
               {/* <div style={{display: 'flex', flexDirection: 'row', maxHeight: '80vh'}}> */}
               {/* Rendering left side of page (for listing people) */}
-              <div className="displayParticipants">
+              <div>
                 <ActionItemDisplayParticipants
                   selectedParticipants={this.state.selectedParticipants}
                 />
               </div>
 
               {/* Rendering right side of page (for searching). */}
-              <div className="searchParticipants">
+              <div>
                 <ActionItemSearchParticipants
                   participants={this.state.participants}
                   selectedParticipants={this.state.selectedParticipants}

@@ -4,34 +4,24 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import ActionItemParticipant from '../ActionItemParticipant';
 import styles from './styles';
-
-// class ActionItemDisplayParticipants extends React.Component {
-//   constructor(props) {
-//     super(props);
-//   }
-
-//   render() {
+import theme from '../../utils/theme';
 
 function ActionItemDisplayParticipants({ classes, selectedParticipants }) {
   // Julian importing the cards
-
   // let { participantCards } = this.props;
 
   let participantCards;
 
   if (selectedParticipants) {
     participantCards = selectedParticipants.map(p => (
-      <ActionItemParticipant
-        participant={p}
-        backgroundColor={styles.participant}
-      />
+      <ActionItemParticipant participant={p} key={p.id} />
     ));
   }
 
   return (
     <div className={classes.displayParticipant}>
       {/* Students top bar */}
-      <div className="students" style={{ color: '#5870EB' }}>
+      <div style={{ color: theme.palette.common.indigo }}>
         Students
         <Box className={classes.boxProps} />
         <Divider />
@@ -40,7 +30,7 @@ function ActionItemDisplayParticipants({ classes, selectedParticipants }) {
       <Box className={classes.boundaryBox}>
         <div className={classes.displayScroll}>
           {/* List students out */}
-          <div className="participants" style={{ direction: 'ltr' }}>
+          <div style={{ direction: 'ltr' }}>
             {/* Julian passing in cards */}
             {participantCards}
           </div>
