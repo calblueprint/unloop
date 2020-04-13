@@ -15,7 +15,7 @@ class AssignmentButton extends React.Component {
           description: 'ANOTHER DESCRIPTION WOW!',
         },
       ],
-      assigned_to_ids: [58],
+      assigned_to_ids: [59],
     };
     apiPost(`/api/assignments/`, payload)
       .then(resp => console.log(resp))
