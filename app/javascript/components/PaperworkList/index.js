@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Paper, List } from '@material-ui/core';
@@ -15,11 +15,24 @@ import styles from './styles';
 
 function PaperworkList({
   classes,
-  paperworks,
+  initialPaperworks,
   participantId,
   userType,
   formatDate,
 }) {
+  const [paperworks, setPaperworks] = useState(initialPaperworks);
+
+  const updatePaperwork = updatedPaperwork => {
+    const allPaperworks = [...paperworks];
+    const paperworkIndex = allPaperworks.findIndex(
+      paperwork => paperwork.id === updatedPaperwork.id,
+    );
+    if (paperworkIndex !== -1) {
+      allPaperworks[paperworkIndex] = updatedPaperwork;
+      setPaperworks(allPaperworks);
+    }
+  };
+
   const paperworkEntries = paperworks.map((paperwork, i) => (
     <PaperworkEntry
       key={paperwork.id}
@@ -27,6 +40,7 @@ function PaperworkList({
       participantId={participantId}
       userType={userType}
       date={formatDate(paperwork.created_at)}
+      updatePaperwork={updatePaperwork}
       lastEntry={paperworks.length - 1 === i}
     />
   ));
@@ -48,6 +62,9 @@ function PaperworkList({
             type="create"
             hide={userType !== 'staff'}
             participantId={participantId}
+            appendPaperwork={paperwork =>
+              setPaperworks([paperwork, ...paperworks])
+            }
           />
         </Grid>
       </Grid>
@@ -79,7 +96,7 @@ function PaperworkList({
 PaperworkList.propTypes = {
   userType: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  paperworks: PropTypes.array.isRequired,
+  initialPaperworks: PropTypes.array.isRequired,
   participantId: PropTypes.number.isRequired,
   formatDate: PropTypes.func.isRequired,
 };

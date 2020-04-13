@@ -34,6 +34,7 @@ gem 'jbuilder', '~> 2.7'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'rails_admin', '~> 2.0'
 gem 'react-rails', '~> 2.6.0'
+gem "sentry-raven"
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 gem 'active_model_serializers', '~> 0.10.0'

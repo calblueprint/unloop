@@ -12,7 +12,6 @@ import { DialogContent, Grid, Typography } from '@material-ui/core';
 import styles from './styles';
 
 function QuestionnaireView({ classes, questionnaire }) {
-  // console.log(questionnaire)
   const renderField = (title, body) => {
     if (title === 'id' || title === 'participant') {
       return null;
