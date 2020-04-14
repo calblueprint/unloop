@@ -50,10 +50,48 @@ class StudioAssessmentDashboard extends React.Component {
   }
 
   handleDropdown = (event) => {
+    const category = event.target.value;
+    let currAssessments = this.props.assessments;
+    if(category === "bigPic"){
+      currAssessments.sort((a, b) => (a.bigpictureScore < b.bigpictureScore) ? 1 : -1);
+    }
+    else if (category === "progFun"){
+      currAssessments.sort((a, b) => (a.progfundamentalsScore < b.progfundamentalsScore) ? 1 : -1);
+    }
+    else if (category === "verCon"){
+      currAssessments.sort((a, b) => (a.versioncontrolScore < b.versioncontrolScore) ? 1 : -1);
+    }
+    else if (category === "react"){
+      currAssessments.sort((a, b) => (a.reactScore < b.reactScore) ? 1 : -1);
+    }
+    else if (category === "node"){
+      currAssessments.sort((a, b) => (a.nodeScore < b.nodeScore) ? 1 : -1);
+    }
+    else if (category === "Db"){
+      currAssessments.sort((a, b) => (a.dbScore < b.dbScore) ? 1 : -1);
+    }
+    else if (category === "probSol"){
+      currAssessments.sort((a, b) => (a.problemsolvingScore < b.problemsolvingScore) ? 1 : -1);
+    }
+    else if (category === "probAlt"){
+      currAssessments.sort((a, b) => (a.problemsolvingaltScore < b.problemsolvingaltScore) ? 1 : -1);
+    }
     this.setState({
-      selectedCat: event.target.value,
+      assessments: currAssessments,
+      selectedCat: category,
     });
   }
+
+  // const assessment = this.props.assessment;
+  //   const bigPic = assessment.bigpictureScore;
+  //   const  prog = assessment.progfundamentalsScore;
+  //   const  vc = assessment.versioncontrolScore;
+  //   const  react = assessment.reactScore;
+  //   const  node = assessment.nodeScore;
+  //   const  db = assessment.dbScore;
+  //   const probSolve = assessment.problemsolvingScore;
+  //   const probSolveAlt = assessment.problemsolvingaltScore;
+
 
   renderDropDown(){
     const { classes } = this.props;
@@ -95,7 +133,7 @@ class StudioAssessmentDashboard extends React.Component {
             <div>
             <div className={classes.searchBar}>
                   <InputBase
-                    placeholder="search participants"
+                    placeholder="search assessments"
                     onChange={this.handleSearch}
                   />
                   <IconButton type="submit" aria-label="search">
