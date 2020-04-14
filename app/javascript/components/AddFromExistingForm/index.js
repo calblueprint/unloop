@@ -56,7 +56,7 @@ class AddFromExistingForm extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
 
     let filteredTemplates = this.state.actionItemTemplates.filter(template =>
       this.state.categorySelected
@@ -103,7 +103,7 @@ class AddFromExistingForm extends React.Component {
             variant="extended"
             size="small"
             aria-label="category"
-            onClick={() => this.selectCategory(category)} //TODO: Replace this with this.props.selectCardFunc when 
+            onClick={() => this.selectCategory(category)} // TODO: Replace this with this.props.selectCardFunc when
           >
             <Typography
               className={classes.categoryButtonStyle}
@@ -134,13 +134,7 @@ class AddFromExistingForm extends React.Component {
               <Grid item container direction="row" justify="space-evenly">
                 {categoryList.slice(0, 4)}
               </Grid>
-              <Grid
-                container
-                item
-                justify="center"
-                spacing={3}
-                direction="row-reverse"
-              >
+              <Grid container item justify="center" spacing={2}>
                 {categoryList.slice(4)}
               </Grid>
             </Grid>

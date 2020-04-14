@@ -7,17 +7,14 @@ const styles = theme => ({
     paddingRight: '16px',
   },
   formStyle: {
-    height: '100%',
-    width: '100%',
-    width: '50vw',
     minWidth: '475px',
     maxWidth: '590px',
+    width: '50vw',
     height: '80vh',
     minHeight: '650px',
   },
   iconStyle: {
     boxShadow: 'None',
-    margin: '0px, 5px',
   },
   searchBar: {
     width: '100%',
