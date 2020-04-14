@@ -15,14 +15,14 @@ class StudioAssessmentCard extends React.Component {
 
   render() {
     const assessment = this.props.assessment;
-    const bigPic = assessment.bigpicture_score;
-    const  prog = assessment.progfundamentals_score;
-    const  vc = assessment.versioncontrol_score;
-    const  react = assessment.react_score;
-    const  node = assessment.node_score;
-    const  db = assessment.db_score;
-    const probSolve = assessment.problemsolving_score;
-    const probSolveAlt = assessment.problemsolvingalt_score;
+    const bigPic = assessment.bigpictureScore;
+    const  prog = assessment.progfundamentalsScore;
+    const  vc = assessment.versioncontrolScore;
+    const  react = assessment.reactScore;
+    const  node = assessment.nodeScore;
+    const  db = assessment.dbScore;
+    const probSolve = assessment.problemsolvingScore;
+    const probSolveAlt = assessment.problemsolvingaltScore;
 
 
     return (
@@ -33,7 +33,7 @@ class StudioAssessmentCard extends React.Component {
           onClick={this.showParticipant}
           onKeyDown={this.showParticipant}
         >
-          {assessment.participant_id}
+          {assessment.name}
         </td>
         <td>
             {bigPic}
