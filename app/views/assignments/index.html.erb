@@ -1,5 +1,12 @@
-
+<%# 
 <%= react_component("AddFromExistingForm", {
+  templates: ActionItem.where(is_template: true),
+  })%>
+
+<br>
+<br>
+
+<%= react_component("ActionItemCreationContainer", {
   templates: ActionItem.where(is_template: true),
   })%>
 
