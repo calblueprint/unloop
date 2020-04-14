@@ -56,6 +56,8 @@ const styles = theme => ({
   },
   iconStyle: {
     backgroundColor: theme.palette.common.lighterBlue, 
+    paddingLeft: '30px',
+    paddingRight: '30px',
     margin: '0px 10px',
     boxShadow: 'None',
   },
@@ -63,13 +65,11 @@ const styles = theme => ({
     fontSize: '10px',
     width: '60px',
     textAlign: 'center',
-    paddingLeft: '30px',
-    paddingRight: '30px',
   },
 });
 
-const theme = createMuiTheme();
-Object.assign(theme, {
+const richTextTheme = createMuiTheme();
+Object.assign(richTextTheme, {
   overrides: {
     MUIRichTextEditor: {
       root: {
@@ -91,4 +91,4 @@ Object.assign(theme, {
   },
 });
 
-export { styles, theme };
+export { styles, richTextTheme };

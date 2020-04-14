@@ -9,6 +9,7 @@ import NoteSharpIcon from '@material-ui/icons/NoteSharp';
 import SentimentSatisfiedSharpIcon from '@material-ui/icons/SentimentSatisfiedSharp';
 import IconButton from '@material-ui/core/IconButton';
 import Fab from '@material-ui/core/Fab';
+import theme from 'utils/theme';
 import Typography from '@material-ui/core/Typography';
 import {
   Avatar,
@@ -20,10 +21,10 @@ import {
   DialogContentText,
   Grid,
 } from '@material-ui/core';
-import { withStyles, MuiThemeProvider } from '@material-ui/core/styles';
+import { withStyles, MuiThemeProvider, ThemeProvider } from '@material-ui/core/styles';
 
 import { convertToRaw } from 'draft-js';
-import { styles, theme } from './styles';
+import { styles, richTextTheme } from './styles';
 
 class ActionItemForm extends React.Component {
   constructor(props) {
@@ -130,23 +131,21 @@ class ActionItemForm extends React.Component {
   };
 
   render() {
+    const { classes } = this.props;
+
     const categories = ["Finances", "Project", "Community", "Startup", "Treatment", "Health", "Education"]
+    console.log(classes)
     const categoryList = categories.map(category => (
     <Grid item>
       <Fab
-        className={this.props.classes.iconStyle} style = {{backgroundColor: '#DCF0F2',  margin: '0px 10px',
-        boxShadow: 'None'}}
+        className={classes.iconStyle}
         component="span"
         variant="extended"
-        size="small"
+        size="medium"
         aria-label="category"
       >
         <Typography
-          className={this.props.classes.categoryButtonStyle} style = {{fontSize: '10px',
-          width: '60px',
-          textAlign: 'center',
-          paddingLeft: '30px',
-          paddingRight: '30px'}}
+          className={classes.categoryButtonStyle}
           color="primary"
           align="center"
         >
@@ -155,7 +154,6 @@ class ActionItemForm extends React.Component {
       </Fab>
     </Grid>
    ));
-    const { classes } = this.props;
     let description =
       this.state.type === 'create' ? 'description' : 'newDescription';
     if (this.state.type === 'create') {
@@ -166,7 +164,8 @@ class ActionItemForm extends React.Component {
     let dialog;
     if (this.state.type === 'create' || this.state.type === 'edit') {
       dialog = (
-        <Dialog
+        <ThemeProvider theme={theme}>
+          <Dialog
           styles={styles.dialogStyle}
           open={this.state.open}
           onClose={this.handleClose}
@@ -189,7 +188,7 @@ class ActionItemForm extends React.Component {
                   <Grid item container direction="row" justify="space-evenly">
                     {categoryList.slice(0, 4)}
               </Grid>
-              <Grid container item justify="center" spacing={3} direction="row-reverse">
+              <Grid container item justify="center" spacing={2}>
                 {categoryList.slice(4)}
               </Grid>
             </Grid>
@@ -279,7 +278,7 @@ class ActionItemForm extends React.Component {
             <DialogContentText style={styles.dialogContentTextStyle}>
               Description
             </DialogContentText>
-            <MuiThemeProvider theme={theme}>
+            <MuiThemeProvider theme={richTextTheme}>
               <MUIRichTextEditor
                 name="description"
                 value={
@@ -341,6 +340,8 @@ class ActionItemForm extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        
+        </ThemeProvider>
       );
     }
     return (
