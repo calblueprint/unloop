@@ -168,11 +168,12 @@ class Api::AssignmentsController < ApplicationController
 
     def action_item_params
         action_item_param = params.require(:assignment).permit(:title,
-                                                               :description)
+                                                               :description,
+                                                               :category)
     end
 
     def bulk_assignment_params
-        all_assignment_params = params.permit(assignments: [:title, :description, :due_date], assigned_to_ids: [])
+        all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category], assigned_to_ids: [])
      end
 
     def assignment_params
