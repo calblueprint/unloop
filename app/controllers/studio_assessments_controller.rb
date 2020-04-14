@@ -5,6 +5,14 @@ class StudioAssessmentsController < ApplicationController
   # GET /studio_assessments.json
   def index
     @studio_assessments = StudioAssessment.all
+    @studio_list = []
+    @studio_assessments.each do |s|
+      curr = {
+        "name" => s.participant.full_name,
+      }
+      @studio_list.push(curr)
+    end 
+
     @user = current_user
     skip_policy_scope
   end
