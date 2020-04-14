@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 import Fab from '@material-ui/core/Fab';
 import Paper from '@material-ui/core/Paper';
 import ActionItemCard from 'components/ActionItemCard';
-import styles from './styles';
 import theme from 'utils/theme';
+import styles from './styles';
 
 const TrieSearch = require('trie-search');
 
@@ -37,7 +37,7 @@ class AddFromExistingForm extends React.Component {
     if (categorySelected === this.state.categorySelected) {
       this.setState({ categorySelected: null });
     } else {
-      this.setState({ categorySelected: categorySelected });
+      this.setState({ categorySelected });
     }
   }
 
@@ -56,27 +56,28 @@ class AddFromExistingForm extends React.Component {
   }
 
   render() {
-    let filteredTemplates = this.state.actionItemTemplates
-      .filter(template =>
-        this.state.categorySelected
-          ? template.category === this.state.categorySelected
-          : template
-      );
+    const { classes } = this.props
 
-    filteredTemplates = filteredTemplates
-      .map((template, i) => (
-        <ListItem>
-          <ActionItemCard
-            key={template.id}
-            title={template.title}
-            key={template.id}
-            description={template.description}
-            category="Finances" // TODO: Need to replace with template.category but templates don't have categories yet.
-            lastEntry={filteredTemplates.length - 1 === i}
-            selectCardFunc={() => {console.log("Hello!")}}
-          />
-        </ListItem>
-      ));
+    let filteredTemplates = this.state.actionItemTemplates.filter(template =>
+      this.state.categorySelected
+        ? template.category.toUpperCase() === this.state.categorySelected
+        : template,
+    );
+
+    filteredTemplates = filteredTemplates.map((template, i) => (
+      <ListItem>
+        <ActionItemCard
+          key={template.id}
+          title={template.title}
+          description={template.description}
+          category={template.category}
+          lastEntry={filteredTemplates.length - 1 === i}
+          selectCardFunc={() => {
+            console.log('Will change!'); // Placeholder since function will be passed down from parent
+          }}
+        />
+      </ListItem>
+    ));
     const categories = [
       'FINANCES',
       'PROJECT',
@@ -86,36 +87,45 @@ class AddFromExistingForm extends React.Component {
       'HEALTH',
       'EDUCATION',
     ];
-    const categoryList = categories.map((category, i) =>  {
-      const isSelectedCategory = this.state.categorySelected && this.state.categorySelected.toUpperCase() === category.toUpperCase();
+    const categoryList = categories.map(category => {
+      const isSelectedCategory =
+        this.state.categorySelected && this.state.categorySelected === category;
       return (
         <Grid item>
-            <Fab
-              className={this.props.classes.iconStyle}
-              style={{backgroundColor: isSelectedCategory ? theme.palette.primary.main : theme.palette.common.lighterBlue}}
-              component="span"
-              variant="extended"
-              size="small"
-              key={i}
-              aria-label="category"
-              onClick={() => this.selectCategory(category)}
+          <Fab
+            className={classes.iconStyle}
+            style={{
+              backgroundColor: isSelectedCategory
+                ? theme.palette.primary.main
+                : theme.palette.common.lighterBlue,
+            }}
+            component="span"
+            variant="extended"
+            size="small"
+            aria-label="category"
+            onClick={() => this.selectCategory(category)} //TODO: Replace this with this.props.selectCardFunc when 
+          >
+            <Typography
+              className={classes.categoryButtonStyle}
+              style={{
+                color: isSelectedCategory
+                  ? theme.palette.common.lighterBlue
+                  : theme.palette.primary.main,
+              }}
+              align="center"
             >
-              <Typography
-                className={this.props.classes.categoryButtonStyle}
-                style={{color: isSelectedCategory ? theme.palette.common.lighterBlue : theme.palette.primary.main}}
-                align="center"
-              >
-                {category.toUpperCase()}
-              </Typography>
-            </Fab>
+              {category.toUpperCase()}
+            </Typography>
+          </Fab>
         </Grid>
-    )});
+      );
+    });
 
     return (
       <ThemeProvider theme={theme}>
         <Paper
           elevation={3}
-          className={this.props.classes.formStyle}
+          className={classes.formStyle}
           style={{ padding: 10 }}
         >
           <Grid container spacing={3} direction="column">
@@ -138,7 +148,7 @@ class AddFromExistingForm extends React.Component {
               <Grid item>
                 <div>SEARCH FOR ASSIGNMENT</div>
                 <TextField
-                  className={this.props.classes.searchBar}
+                  className={classes.searchBar}
                   onChange={this.filterActionItems}
                   variant="outlined"
                   type="text"
@@ -151,24 +161,22 @@ class AddFromExistingForm extends React.Component {
               style={{
                 overflow: 'auto',
                 width: '100%',
-                height: '100%',
                 maxHeight: '600px',
                 height: '50vh',
                 minHeight: '400px',
               }}
             >
-            {filteredTemplates.length !== 0 ? (
-                      filteredTemplates
-                    ) : (
-                      <ListItem className={this.props.classes.noActionItemsDisplay}>
-                        <Typography variant="h5"> No templates! </Typography>
-                      </ListItem>
-                    )}
+              {filteredTemplates.length !== 0 ? (
+                filteredTemplates
+              ) : (
+                <ListItem className={classes.noActionItemsDisplay}>
+                  <Typography variant="h5"> No templates! </Typography>
+                </ListItem>
+              )}
             </List>
           </Grid>
         </Paper>
       </ThemeProvider>
-
     );
   }
 }
@@ -176,6 +184,7 @@ class AddFromExistingForm extends React.Component {
 AddFromExistingForm.propTypes = {
   classes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
+  selectCardFunc: PropTypes.func,
 };
 
 export default withStyles(styles)(AddFromExistingForm);
