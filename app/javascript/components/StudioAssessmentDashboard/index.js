@@ -9,6 +9,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import SearchIcon from '@material-ui/icons/Search';
+import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
+
+const TrieSearch = require('trie-search');
 
 class StudioAssessmentDashboard extends React.Component {
   constructor(props) {
@@ -17,6 +22,31 @@ class StudioAssessmentDashboard extends React.Component {
         assessments: this.props.assessments,
         selectedCat: "overall",
     };
+    this.handleSearch = this.handleSearch.bind(this);
+
+  }
+
+  componentDidMount() {
+    const { assessments } = this.props;
+    const trie = new TrieSearch('name');
+    trie.addAll(assessments);
+    this.setState({
+      trie,
+    });
+  }
+
+  handleSearch(e) {
+    const searchVal = e.target.value;
+    if (searchVal === '') {
+      this.setState({
+        assessments: this.props.assessments,
+      });
+      return;
+    }
+    const assessments = this.state.trie.get(searchVal);
+    this.setState({
+      assessments,
+    });
   }
 
   handleDropdown = (event) => {
@@ -63,6 +93,15 @@ class StudioAssessmentDashboard extends React.Component {
           <h1>Studio Assessments</h1>
           <div className= {classes.tableContainer}>
             <div>
+            <div className={classes.searchBar}>
+                  <InputBase
+                    placeholder="search participants"
+                    onChange={this.handleSearch}
+                  />
+                  <IconButton type="submit" aria-label="search">
+                    <SearchIcon />
+                  </IconButton>
+                </div>
             <table>
                 <thead>
                     <tr>
