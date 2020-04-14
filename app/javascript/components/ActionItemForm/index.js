@@ -8,6 +8,8 @@ import CreateSharpIcon from '@material-ui/icons/CreateSharp';
 import NoteSharpIcon from '@material-ui/icons/NoteSharp';
 import SentimentSatisfiedSharpIcon from '@material-ui/icons/SentimentSatisfiedSharp';
 import IconButton from '@material-ui/core/IconButton';
+import Fab from '@material-ui/core/Fab';
+import Typography from '@material-ui/core/Typography';
 import {
   Avatar,
   Button,
@@ -83,7 +85,6 @@ class ActionItemForm extends React.Component {
     const { value } = event.target;
     this.setState({ [name]: value });
   };
-
   handleDescriptionChange = name => state => {
     const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
     this.setState({ [name]: value });
@@ -93,7 +94,6 @@ class ActionItemForm extends React.Component {
     console.log(name);
     this.setState({ category: name });
   };
-
   handleSubmit() {
     const { type } = this.state;
 
@@ -130,6 +130,31 @@ class ActionItemForm extends React.Component {
   };
 
   render() {
+    const categories = ["Finances", "Project", "Community", "Startup", "Treatment", "Health", "Education"]
+    const categoryList = categories.map(category => (
+    <Grid item>
+      <Fab
+        className={this.props.classes.iconStyle} style = {{backgroundColor: '#DCF0F2',  margin: '0px 10px',
+        boxShadow: 'None'}}
+        component="span"
+        variant="extended"
+        size="small"
+        aria-label="category"
+      >
+        <Typography
+          className={this.props.classes.categoryButtonStyle} style = {{fontSize: '10px',
+          width: '60px',
+          textAlign: 'center',
+          paddingLeft: '30px',
+          paddingRight: '30px'}}
+          color="primary"
+          align="center"
+        >
+          {category.toUpperCase()}
+        </Typography>
+      </Fab>
+    </Grid>
+   ));
     const { classes } = this.props;
     let description =
       this.state.type === 'create' ? 'description' : 'newDescription';
@@ -159,7 +184,16 @@ class ActionItemForm extends React.Component {
               justify="flex-start"
               alignItems="flex-start"
             >
-              <Grid item xs>
+              <Grid item container direction="column" spacing={2}>
+                  <Grid item>SEARCH BY CATEGORY</Grid>
+                  <Grid item container direction="row" justify="space-evenly">
+                    {categoryList.slice(0, 4)}
+              </Grid>
+              <Grid container item justify="center" spacing={3} direction="row-reverse">
+                {categoryList.slice(4)}
+              </Grid>
+            </Grid>
+              {/* <Grid item xs>
                 <IconButton
                   name="HouseIcon"
                   onClick={this.handleCategoryChange('HouseIcon')}
@@ -218,7 +252,7 @@ class ActionItemForm extends React.Component {
                 >
                   <Avatar className={classes.yellow}>0</Avatar>
                 </IconButton>
-              </Grid>
+              </Grid> */}
             </Grid>
           </DialogContent>
           <DialogContent maxwidth="sm">
@@ -324,7 +358,7 @@ ActionItemForm.propTypes = {
   dueDate: PropTypes.string,
   category: PropTypes.string,
   addCard: PropTypes.func,
-  classes: PropTypes.func,
+  classes: PropTypes.object,
 };
 
 ActionItemForm.defaultProps = {

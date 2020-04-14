@@ -54,6 +54,18 @@ const styles = theme => ({
     marginBottom: '0',
     marginTop: '0',
   },
+  iconStyle: {
+    backgroundColor: theme.palette.common.lighterBlue, 
+    margin: '0px 10px',
+    boxShadow: 'None',
+  },
+  categoryButtonStyle: {
+    fontSize: '10px',
+    width: '60px',
+    textAlign: 'center',
+    paddingLeft: '30px',
+    paddingRight: '30px',
+  },
 });
 
 const theme = createMuiTheme();
