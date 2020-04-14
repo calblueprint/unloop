@@ -21,6 +21,9 @@ class StudioAssessmentCard extends React.Component {
     const  react = assessment.react_score;
     const  node = assessment.node_score;
     const  db = assessment.db_score;
+    const probSolve = assessment.problemsolving_score;
+    const probSolveAlt = assessment.problemsolvingalt_score;
+
 
     return (
       <tr>
@@ -50,6 +53,13 @@ class StudioAssessmentCard extends React.Component {
         <td>
             {db}
         </td>
+        <td>
+            {probSolve}
+        </td>
+        <td>
+            {probSolveAlt}
+        </td>
+        
       </tr>
     );
   }

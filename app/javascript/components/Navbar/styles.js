@@ -19,10 +19,7 @@ const styles = theme => ({
     alignItems: "left",
   },
   navBarItem: {
-    color: theme.palette.common.white,
-    
-    
-    
+    color: theme.palette.common.white, 
   },
   unloopLogo: {
     width: '100%',
@@ -37,7 +34,7 @@ const styles = theme => ({
     lineHeight: '16px',
     letterSpacing: '1.5px',
     textTransform: 'uppercase',
-    color: white,
+    color: white ,
   },
 
 });
