@@ -9,30 +9,29 @@ export default function RadioButtonsGroup({
   rubricItems, questionType, score, radioHandler
 }) {
   const [value, setValue] = React.useState(
-    score === null ?
     `${questionType}_score${score}` 
-    :
-    `${questionType}_score1`
   );
   const rubricList = rubricItems;
+
   const handleChange = event => {
+    console.log(`${questionType}_score${score}`)
     console.log("radio")
     console.log(event.target.value)
-    setValue(event.target.value);
     radioHandler(event.target.value.slice(-1))
-    console.log(value.slice(-1))
+    setValue(event.target.value);
+    console.log(event.target.value)
   };
 
   return (
     <FormControl component="fieldset">
       <FormLabel component="legend">
-        Enter score based on rubric items:
+        Enter score based on rubric items!:
       </FormLabel>
       <br />
       <RadioGroup
         aria-label="gender"
         name="gender1"
-        value={value}
+        value={`${questionType}_score${score}`}
         onChange={handleChange}
       >
         <FormControlLabel

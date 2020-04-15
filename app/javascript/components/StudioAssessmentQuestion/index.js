@@ -133,10 +133,16 @@ class Question extends React.Component {
 //     console.log(this.state)
 //   }
   radioButtonHandler(score) {
+      console.log("hi")
+      console.log(this.state)
       console.log(score)
-      this.state.studioAssessment[`${this.props.questionType}_score`] = parseInt(score, 10);
+      this.setState(s => ({
+        studioAssessment: {
+          ...s.studioAssessment,
+          [`${this.props.questionType}_score`]: parseInt(score, 10),
+        },
+      }));
   }
-  
 
   handleSubmit() {
     const { id } = this.props.studioAssessment;
@@ -240,28 +246,16 @@ class Question extends React.Component {
           {this.generateField(this.props.questionType)}
           <div className={this.props.classes.buttons}>
             <br />
-            {this.props.questionID === 0 ? 
                 <Button
                     type="submit"
                     variant="contained"
                     color="primary"
                     className='button'
-                    disabled={true}
+                    disabled={this.props.questionID === 0 ? true : false}
                     onClick={() => this.setState({direction: 'back'})}
                 >
                 back
               </Button> 
-              :
-            <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={this.props.classes.button}
-                onClick={() => this.setState({direction: 'back'})}
-                >
-                Back
-              </Button>
-            }
             
             <Button
               type="submit"
