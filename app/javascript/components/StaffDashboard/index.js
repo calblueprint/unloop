@@ -7,7 +7,6 @@ import theme from 'utils/theme';
 import ParticipantCard from 'components/ParticipantCard';
 import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
-import ActionItemSelectParticipants from 'components/ActionItemSelectParticipants/index';
 import styles from './styles';
 
 const TrieSearch = require('trie-search');
@@ -59,9 +58,6 @@ class StaffDashboard extends React.Component {
           <Navbar isAdmin={this.props.isAdmin} />
           <div className={classes.content}>
             <h1>Participant Dashboard</h1>
-            <ActionItemSelectParticipants
-              participants={this.props.participants}
-            ></ActionItemSelectParticipants>
             <div className={classes.tableContainer}>
               <div>
                 <div className={classes.searchBar}>
