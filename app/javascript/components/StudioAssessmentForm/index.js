@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Question from 'components/StudioAssessmentQuestion';
-import styles from './styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,6 +37,7 @@ export const StudioAssessmentForm = ({
   participantId,
   userType,
   onClose,
+  type,
 }) => {
   const questionType = [
     'bigpicture',
@@ -80,9 +81,17 @@ export const StudioAssessmentForm = ({
         studioAssessment={studioAssessment}
         participantId={participantId}
         userType={userType}
-        open={open}
         onClose={onClose}
+        type={type}
       />
     </div>
   );
+};
+
+StudioAssessmentForm.propTypes = {
+  studioAssessment: PropTypes.object.isRequired,
+  participantId: PropTypes.number.isRequired,
+  userType: PropTypes.oneOf(['staff', 'participant']).isRequired,
+  onClose: PropTypes.func,
+  type: PropTypes.string,
 };

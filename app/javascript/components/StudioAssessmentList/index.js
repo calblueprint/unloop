@@ -16,10 +16,8 @@ function StudioAssessmentList({
   initialStudioAssessments,
   participantId,
   userType,
-  formatDate,
 }) {
   const [studioAssessments] = useState(initialStudioAssessments);
-  console.log(initialStudioAssessments)
   // const updateStudioAssessment = updatedAssessments => {
   //   const allAssessments = [...studioAssessments];
   //   const assessmentIndex = allAssessments.findIndex(
@@ -30,16 +28,14 @@ function StudioAssessmentList({
   //     setPaperworks(allAssessments);
   //   }
   // };
-  console.log("list entries")
-  const studioAssessmentEntries = studioAssessments.map((studioAssessment) => (
+  const studioAssessmentEntries = studioAssessments.map(studioAssessment => (
     <StudioAssessmentModal
       studioAssessment={studioAssessment}
       userType={userType}
       participantId={participantId}
-      type="create"
+      type="edit"
     />
   ));
-
 
   return (
     <Paper elevation={3} className={classes.containerStyle}>
@@ -56,7 +52,8 @@ function StudioAssessmentList({
         <Grid item>
           <StudioAssessmentModal
             participantId={participantId}
-            studioAssessment={studioAssessments[0]}
+            // studioAssessment={studioAssessments[0]}
+            type="create"
           />
         </Grid>
       </Grid>
@@ -78,7 +75,6 @@ StudioAssessmentList.propTypes = {
   classes: PropTypes.object.isRequired,
   initialStudioAssessments: PropTypes.array.isRequired,
   participantId: PropTypes.number.isRequired,
-  formatDate: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(StudioAssessmentList);

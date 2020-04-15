@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { useStyles } from '@material-ui/core/styles';
-import { apiPut, apiPost, apiPatch } from 'utils/axios';
+import { apiPost, apiPatch } from 'utils/axios';
 import { Button } from '@material-ui/core';
+// import { consoleSandbox } from '@sentry/utils';
 import RadioButtonsGroup from './radioButtons';
 import styles from './styles';
-import { consoleSandbox } from '@sentry/utils';
 
 const questions = [
   'Understands the Big Picture of the Full Stack',
@@ -19,7 +18,6 @@ const questions = [
   'Database Core Competencies',
   'Problem Solving: Whiteboarding',
 ];
-
 
 const questionContent = [
   [
@@ -51,7 +49,6 @@ const questionContent = [
     'What distinguishes a web application from a static webpage?',
   ],
 ];
-
 
 const rubricItems = [
   [
@@ -93,195 +90,195 @@ const rubricItems = [
     'Explain the difference between var, let, and const?',
     'Explain the difference between var, let, and const?',
     'Explain the difference between var, let, and const?',
-  ]
+  ],
 ];
-
 
 class Question extends React.Component {
   constructor(props) {
     super(props);
-    const studioAssessment = {}
+    const studioAssessment = {};
     if (this.props.studioAssessment != null) {
-        Object.keys(this.props.studioAssessment).forEach(k => {
-            studioAssessment[k] = this.props.studioAssessment[k];
-        });
+      Object.keys(this.props.studioAssessment).forEach(k => {
+        studioAssessment[k] = this.props.studioAssessment[k];
+      });
     }
     this.state = {
-        direction: 'back',
-        studioAssessment: studioAssessment
+      direction: 'back',
+      studioAssessment,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSubmitFinal = this.handleSubmitFinal.bind(this);
     this.generateField = this.generateField.bind(this);
-    this.radioButtonHandler = this.radioButtonHandler.bind(this)
+    this.radioButtonHandler = this.radioButtonHandler.bind(this);
   }
 
-//   componentDidMount() {
-//     // store the information from this.props.questionnaire into state
-//     console.log("this me props")
-//     console.log(this.props.studioAssessment)
-//     const studioAssessment = {};
-//     if (this.props.studioAssessment != null) {
-//         Object.keys(this.props.studioAssessment).forEach(k => {
-//             studioAssessment[k] = this.props.studioAssessment[k];
-//         });
-//         this.setState({
-//           studioAssessment,
-//         });
-//     }
-//     console.log("my state after mount")
-//     console.log(this.state)
-//   }
   radioButtonHandler(score) {
-      console.log("hi")
-      console.log(this.state)
-      console.log(score)
-      this.setState(s => ({
-        studioAssessment: {
-          ...s.studioAssessment,
-          [`${this.props.questionType}_score`]: parseInt(score, 10),
-        },
-      }));
+    this.setState(s => ({
+      studioAssessment: {
+        ...s.studioAssessment,
+        [`${this.props.questionType}_score`]: parseInt(score, 10),
+      },
+    }));
   }
 
   handleSubmit() {
     const { id } = this.props.studioAssessment;
     const body = {};
     if (this.state.studioAssessment != null) {
-        Object.keys(this.state.studioAssessment).forEach(f => {
-            if (f !== 'id' && f !== 'participant') {
-                body[f] = this.state.studioAssessment[f];
-            }
-        });
+      Object.keys(this.state.studioAssessment).forEach(f => {
+        if (f !== 'id' && f !== 'participant') {
+          body[f] = this.state.studioAssessment[f];
+        }
+      });
     }
     body.participant_id = this.props.participantId;
-    console.log({studio_assessment : body})
     const request = `/api/studio_assessments/${id}`;
-    if (type == "edit") {}
-    apiPatch(request, { studio_assessment : body })
-        // .then(() => window.location.reload())
-      .catch(error => console.error(error));
+    apiPatch(request, { studio_assessment: body })
+      // .then(() => window.location.reload())
+      // .catch(error => console.error(error));
   }
 
-
   handleSubmitFinal() {
-    const { id } = this.props.studioAssessment;
     const body = {};
     if (this.state.studioAssessment != null) {
-        Object.keys(this.state.studioAssessment).forEach(f => {
-            if (f !== 'id' && f !== 'participant') {
-                body[f] = this.state.studioAssessment[f];
-            }
-        });
+      Object.keys(this.state.studioAssessment).forEach(f => {
+        if (f !== 'participant') {
+          body[f] = this.state.studioAssessment[f];
+        }
+      });
     }
     body.participant_id = this.props.participantId;
-    console.log({studio_assessment : body})
-    const request = `/api/studio_assessments/${id}`;
-    apiPatch(request, { studio_assessment : body })
+
+    if (this.props.type === 'create') {
+      apiPost('/api/studio_assessments', { studio_assessment: body }).then(() =>
+        window.location.reload(),
+      );
+    } else {
+      const { id } = this.props.studioAssessment;
+      const request = `/api/studio_assessments/${id}`;
+      apiPatch(request, { studio_assessment: body })
         .then(() => window.location.reload())
-      .catch(error => console.error(error));
+        // .catch(error => console.error(error));
+    }
   }
 
   handleTextFormChange(e, questionType) {
-      const { value } = e.target;
-      console.log(value)
-      console.log(questionType)
-      this.setState(s => ({
-        studioAssessment: {
-          ...s.studioAssessment,
-          [questionType]: value,
-        },
-      }));
-      console.log("my state")
-      console.log(this.state)
+    const { value } = e.target;
+    this.setState(s => ({
+      studioAssessment: {
+        ...s.studioAssessment,
+        [questionType]: value,
+      },
+    }));
   }
 
   generateField(questionType) {
-    return (<Field
-                className={this.props.classes.TextField}
-                name={`${this.props.questionType}_comment`}
-                onChange={e => this.handleTextFormChange(e, `${this.props.questionType}_comment`)}
-                variant="outlined"
-                id={this.props.questionType}
-                multiline
-                type="text"
-                margin="dense"
-                value={this.state.studioAssessment[`${questionType}_comment`] !== null ? 
-                    this.state.studioAssessment[`${questionType}_comment`]
-                    :
-                    ""
-                }
-                as={TextField}
-                />
-            );
+    return (
+      <Field
+        className={this.props.classes.TextField}
+        name={`${this.props.questionType}_comment`}
+        onChange={e =>
+          this.handleTextFormChange(e, `${this.props.questionType}_comment`)
+        }
+        variant="outlined"
+        id={this.props.questionType}
+        multiline
+        type="text"
+        margin="dense"
+        value={
+          this.state.studioAssessment[`${questionType}_comment`] !== null
+            ? this.state.studioAssessment[`${questionType}_comment`]
+            : ''
+        }
+        as={TextField}
+      />
+    );
   }
 
   render() {
     return (
-    <Formik
+      <Formik
         initialValues={this.props.formData}
-        onSubmit={values => {
-        this.state.direction === 'back' ? this.props.prevStep() : this.props.nextStep();
-      }}
-    >
-      <Form className={this.props.classes.form}>
-        <h1 className={this.props.classes.header}>{questions[this.props.questionID]}</h1>
-        <div className={this.props.classes.questions}>
-          <p>
-            {questionContent[this.props.questionID].map(item => (
-              <li>{item}</li>
-            ))}
-          </p>
-        </div>
-        <div className={this.props.classes.radio}>
-          <RadioButtonsGroup
-            rubricItems={rubricItems[this.props.questionID]}
-            questionType={this.props.questionType}
-            score={this.state.studioAssessment[`${this.props.questionType}_score`]}
-            radioHandler={this.radioButtonHandler}
-          />
-        </div>
-        <div className={this.props.classes.comments}>
-          <h3>Enter comments below:</h3>
-          {this.generateField(this.props.questionType)}
-          <div className={this.props.classes.buttons}>
-            <br />
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    className='button'
-                    disabled={this.props.questionID === 0 ? true : false}
-                    onClick={() => this.setState({direction: 'back'})}
-                >
-                back
-              </Button> 
-            
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={this.props.classes.button}
-              disabled={this.props.questionID === 6 ? true : false}
-                onClick={() => this.setState({direction: 'forward'})}
-            >
-              next
-            </Button>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    className={this.props.classes.button}
-                    onClick={this.handleSubmitFinal}
-                >
-                save and close
-              </Button> 
-            <br />
+        onSubmit={() => {
+          this.state.direction === 'back'
+            ? this.props.prevStep()
+            : this.props.nextStep();
+        }}
+      >
+        <Form className={this.props.classes.form}>
+          <h1 className={this.props.classes.header}>
+            {questions[this.props.questionID]}
+          </h1>
+          <div className={this.props.classes.questions}>
+            <p>
+              {questionContent[this.props.questionID].map(item => (
+                <li>{item}</li>
+              ))}
+            </p>
           </div>
-        </div>
-      </Form>
-    </Formik>
+          <div className={this.props.classes.radio}>
+            <RadioButtonsGroup
+              rubricItems={rubricItems[this.props.questionID]}
+              questionType={this.props.questionType}
+              score={
+                this.state.studioAssessment[`${this.props.questionType}_score`]
+              }
+              radioHandler={this.radioButtonHandler}
+            />
+          </div>
+          <div className={this.props.classes.comments}>
+            <h3>Enter comments below:</h3>
+            {this.generateField(this.props.questionType)}
+            <div className={this.props.classes.buttons}>
+              <br />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className="button"
+                disabled={this.props.questionID === 0}
+                onClick={() => this.setState({ direction: 'back' })}
+              >
+                back
+              </Button>
+
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={this.props.classes.button}
+                disabled={this.props.questionID === 6}
+                onClick={() => this.setState({ direction: 'forward' })}
+              >
+                next
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                className={this.props.classes.button}
+                onClick={this.handleSubmitFinal}
+              >
+                save and close
+              </Button>
+              <br />
+            </div>
+          </div>
+        </Form>
+      </Formik>
     );
   }
+}
+
+Question.propTypes = {
+  classes: PropTypes.object.isRequired,
+  studioAssessment: PropTypes.object.isRequired,
+  participantId: PropTypes.number.isRequired,
+  formData: PropTypes.object,
+  questionType: PropTypes.string.isRequired,
+  prevStep: PropTypes.func,
+  nextStep: PropTypes.func,
+  questionID: PropTypes.number,
+  type: PropTypes.string
 };
-  
+
 export default withStyles(styles)(Question);
