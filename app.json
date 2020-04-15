@@ -20,18 +20,5 @@
     "RAILS_MASTER_KEY": {
       "description": "Master key for rails credentials"
     }
-  },
-  "addons": [
-    {
-      "plan": "heroku-postgresql"
-    }
-  ],
-  "buildpacks": [
-    {
-      "url": "heroku/ruby"
-    },
-    {
-      "url": "heroku/nodejs"
-    }
-  ]
+  }
 }
