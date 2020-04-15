@@ -1,5 +1,5 @@
-class AssignmentMailer < ApplicationMailer
-    skip_before_action :verify_authenticity_token
+class AssignmentMailer < ActionMailer::Base
+
     def new_assignment
         @assignment = params[:assignment]
         if Rails.env.production?
