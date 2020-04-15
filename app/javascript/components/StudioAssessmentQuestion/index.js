@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { useStyles } from '@material-ui/core/styles';
-import { apiPut, apiPost } from 'utils/axios';
+import { apiPut, apiPost, apiPatch } from 'utils/axios';
 import { Button } from '@material-ui/core';
 import RadioButtonsGroup from './radioButtons';
 import styles from './styles';
@@ -109,6 +109,8 @@ class Question extends React.Component {
 
   componentDidMount() {
     // store the information from this.props.questionnaire into state
+    console.log("this me props")
+    console.log(this.props)
     const studioAssessment = {};
     if (this.props.studioAssessment != null) {
         Object.keys(this.props.studioAssessment).forEach(k => {
@@ -120,7 +122,6 @@ class Question extends React.Component {
     }
     if (this.state.studioAssessment) {
         const { studioAssessment } = this.state;
-
     }
   }
   
@@ -137,12 +138,11 @@ class Question extends React.Component {
         });
     }
     body.participant_id = this.props.participantId;
+    console.log({studio_assessment : body})
     const request = `/api/studio_assessments/${id}`;
-    apiPut(request, { studio_assessment: body })
+    apiPatch(request, { studio_assessment : body })
+        // .then(() => window.location.reload())
       .catch(error => console.error(error));
-    console.log("request")
-    console.log(request)
-    console.log(this.state)
   }
 
   handleTextFormChange(e, questionType) {
@@ -213,7 +213,7 @@ class Question extends React.Component {
                     disabled={true}
                     onClick={() => this.setState({direction: 'back'})}
                 >
-                disable
+                back
               </Button> 
               :
             <Button
