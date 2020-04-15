@@ -8,6 +8,7 @@ import { apiPut, apiPost, apiPatch } from 'utils/axios';
 import { Button } from '@material-ui/core';
 import RadioButtonsGroup from './radioButtons';
 import styles from './styles';
+import { consoleSandbox } from '@sentry/utils';
 
 const questions = [
   'Understands the Big Picture of the Full Stack',
@@ -51,7 +52,6 @@ const questionContent = [
   ],
 ];
 
-const rubricItemTitles = ['1 - NOT READY', '2 - UNCERTAIN', '3 - PROFICIENT'];
 
 const rubricItems = [
   [
@@ -99,30 +99,42 @@ const rubricItems = [
 
 class Question extends React.Component {
   constructor(props) {
-
     super(props);
-    this.state = {
-        direction: 'back',
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.generateField = this.generateField.bind(this);
-  }
-
-  componentDidMount() {
-    // store the information from this.props.questionnaire into state
-    console.log("this me props")
-    console.log(this.props.studioAssessment)
-    const studioAssessment = {};
+    const studioAssessment = {}
     if (this.props.studioAssessment != null) {
         Object.keys(this.props.studioAssessment).forEach(k => {
             studioAssessment[k] = this.props.studioAssessment[k];
         });
-        this.setState({
-          studioAssessment,
-        });
     }
-    console.log("my state after mount")
-    console.log(this.state)
+    this.state = {
+        direction: 'back',
+        studioAssessment: studioAssessment
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmitFinal = this.handleSubmitFinal.bind(this);
+    this.generateField = this.generateField.bind(this);
+    this.radioButtonHandler = this.radioButtonHandler.bind(this)
+  }
+
+//   componentDidMount() {
+//     // store the information from this.props.questionnaire into state
+//     console.log("this me props")
+//     console.log(this.props.studioAssessment)
+//     const studioAssessment = {};
+//     if (this.props.studioAssessment != null) {
+//         Object.keys(this.props.studioAssessment).forEach(k => {
+//             studioAssessment[k] = this.props.studioAssessment[k];
+//         });
+//         this.setState({
+//           studioAssessment,
+//         });
+//     }
+//     console.log("my state after mount")
+//     console.log(this.state)
+//   }
+  radioButtonHandler(score) {
+      console.log(score)
+      this.state.studioAssessment[`${this.props.questionType}_score`] = parseInt(score, 10);
   }
   
 
@@ -139,8 +151,28 @@ class Question extends React.Component {
     body.participant_id = this.props.participantId;
     console.log({studio_assessment : body})
     const request = `/api/studio_assessments/${id}`;
+    if (type == "edit") {}
     apiPatch(request, { studio_assessment : body })
         // .then(() => window.location.reload())
+      .catch(error => console.error(error));
+  }
+
+
+  handleSubmitFinal() {
+    const { id } = this.props.studioAssessment;
+    const body = {};
+    if (this.state.studioAssessment != null) {
+        Object.keys(this.state.studioAssessment).forEach(f => {
+            if (f !== 'id' && f !== 'participant') {
+                body[f] = this.state.studioAssessment[f];
+            }
+        });
+    }
+    body.participant_id = this.props.participantId;
+    console.log({studio_assessment : body})
+    const request = `/api/studio_assessments/${id}`;
+    apiPatch(request, { studio_assessment : body })
+        .then(() => window.location.reload())
       .catch(error => console.error(error));
   }
 
@@ -168,10 +200,14 @@ class Question extends React.Component {
                 multiline
                 type="text"
                 margin="dense"
-                value=
-                    {this.props.studioAssessment[`${questionType}_comment`]}
+                value={this.state.studioAssessment[`${questionType}_comment`] !== null ? 
+                    this.state.studioAssessment[`${questionType}_comment`]
+                    :
+                    ""
+                }
                 as={TextField}
-                />);
+                />
+            );
   }
 
   render() {
@@ -195,7 +231,8 @@ class Question extends React.Component {
           <RadioButtonsGroup
             rubricItems={rubricItems[this.props.questionID]}
             questionType={this.props.questionType}
-            studioAssessment={this.props.studioAssessment}
+            score={this.state.studioAssessment[`${this.props.questionType}_score`]}
+            radioHandler={this.radioButtonHandler}
           />
         </div>
         <div className={this.props.classes.comments}>
@@ -240,9 +277,9 @@ class Question extends React.Component {
                     variant="contained"
                     color="secondary"
                     className={this.props.classes.button}
-                    onClick={this.handleSubmit()}
+                    onClick={this.handleSubmitFinal}
                 >
-                {this.props.questionID === 6 ? "submit" : "save"}
+                save and close
               </Button> 
             <br />
           </div>

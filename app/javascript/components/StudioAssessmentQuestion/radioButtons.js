@@ -6,20 +6,21 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
 export default function RadioButtonsGroup({ 
-  rubricItems, questionType, studioAssessment 
+  rubricItems, questionType, score, radioHandler
 }) {
-  const [value, setValue] = React.useState(`${{ questionType }}1`);
+  const [value, setValue] = React.useState(
+    score === null ?
+    `${questionType}_score${score}` 
+    :
+    `${questionType}_score1`
+  );
   const rubricList = rubricItems;
   const handleChange = event => {
+    console.log("radio")
+    console.log(event.target.value)
     setValue(event.target.value);
-    const { id } = event.target;
-      const { value } = event.target;
-      this.setState(s => ({
-        studioAssessment: {
-          ...s.studioAssessment,
-          [id]: value,
-        },
-    }));
+    radioHandler(event.target.value.slice(-1))
+    console.log(value.slice(-1))
   };
 
   return (
@@ -35,19 +36,19 @@ export default function RadioButtonsGroup({
         onChange={handleChange}
       >
         <FormControlLabel
-          value={`${questionType}1`}
+          value={`${questionType}_score1`}
           control={<Radio />}
           label={rubricList[0]}
         />
         <br />
         <FormControlLabel
-          value={`${questionType}2`}
+          value={`${questionType}_score2`}
           control={<Radio />}
           label={rubricList[1]}
         />
         <br />
         <FormControlLabel
-          value={`${questionType}3`}
+          value={`${questionType}_score3`}
           control={<Radio />}
           label={rubricList[2]}
         />
