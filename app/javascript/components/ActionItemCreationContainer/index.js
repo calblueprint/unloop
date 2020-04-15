@@ -18,7 +18,7 @@ function ActionItemCreationContainer({ classes, templates, selectCardFunc }) {
   const renderButtonRow = () => {
     const isTemplateSetting = creationSetting === Setting.TEMPLATE;
     return (
-      <Grid container item justify="space-evenly" spacing={1}>
+      <Grid container item justify="space-evenly">
         <Grid item>
           <Button
             variant={isTemplateSetting ? 'contained' : null}

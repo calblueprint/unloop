@@ -1,9 +1,14 @@
 import React from 'react';
-import { Grid, Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
+import Fab from '@material-ui/core/Fab';
+import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Navbar from 'components/Navbar';
+import Divider from '@material-ui/core/Divider';
 import ActionItemCreationContainer from 'components/ActionItemCreationContainer';
 import styles from './styles';
+
+
 
 class AssignmentCreationPage extends React.Component {
   constructor(props) {
@@ -12,7 +17,6 @@ class AssignmentCreationPage extends React.Component {
       step: 0,
       participants: this.props.participants,
     };
-    console.log(`Is admin: ${this.props.isAdmin}`);
   }
 
   nextStep() {
@@ -24,54 +28,81 @@ class AssignmentCreationPage extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
       <Grid container style={{ height: '100vh', width: '100vw' }}>
         <Grid item xs={1}>
           <Navbar isAdmin={this.props.isAdmin} />
         </Grid>
-        <Grid
-          container
-          item
-          direction="column"
-          alignItems="center"
-          justify="center"
-          xs={11}
-        >
-          <Grid container item direction="row" justify="flex-start">
-            <Grid item>
-              <h1 style={{ paddingLeft: '10%', width: '100%' }}>
-                {' '}
-                Add Assignments to List
-              </h1>
-            </Grid>
-          </Grid>
-          <Grid
+        <Grid item container xs={11} justify="center">
+            <Grid
             container
             item
-            xs={9}
-            spacing={1}
-            className={this.props.classes.mainBackgroundStyle}
-            justify="space-evenly"
+            direction="column"
             alignItems="center"
-          >
-            <Grid item>
-              <ActionItemCreationContainer templates={this.props.templates} />
+            justify="center"
+            xs={11}
+            spacing={2}
+            >
+            <Grid container item direction="row" justify="flex-start">
+                <Grid item>
+                    <Typography className={classes.topLeftTextStyle}>
+                        Add Assignments to List
+                    </Typography>
+                </Grid>
             </Grid>
-            <Grid item>
-              <ActionItemCreationContainer templates={this.props.templates} />
+            <Grid
+                container
+                item
+                xs={9}
+                spacing={1}
+                className={classes.mainBackgroundStyle}
+                justify="space-evenly"
+                alignItems="center"
+            >
+                <Grid item>
+                    <Typography className={classes.underlineStyle}>
+                        Assignments 
+                    </Typography>
+                    <hr className={classes.borderStyle}></hr>
+                    <Divider style={{marginBottom: '10px'}}/>
+                    <ActionItemCreationContainer templates={this.props.templates} />
+                </Grid>
+                <Grid item>
+                    <Typography className={classes.underlineStyle}>
+                        Assignments
+                    </Typography>
+                    <hr className={classes.borderStyle}></hr>
+                    <Divider style={{marginBottom: '10px'}}/>
+                    <ActionItemCreationContainer templates={this.props.templates} />
+                </Grid>
             </Grid>
-          </Grid>
-          <Grid
-            container
-            item
-            direction="row-reverse"
-            alignItems="center"
-            spacing={3}
-          >
-            <Grid item>
-              <Button style={{ paddingRight: 100 }}>BUtton!!</Button>
+            <Grid
+                container
+                item
+                direction="row-reverse"
+                alignItems="center"
+                spacing={3}
+            >
+                <Grid item>
+                    <Fab
+                    className={classes.iconStyle}
+                    component="span"
+                    variant="extended"
+                    size="medium"
+                    aria-label="category"
+                    >
+                    <Typography
+                        className={classes.categoryButtonStyle}
+                        align="center"
+                    >
+                        {"Save and Continue"}
+                    </Typography>
+                    </Fab>
+                </Grid>
             </Grid>
-          </Grid>
+            </Grid>
         </Grid>
       </Grid>
     );

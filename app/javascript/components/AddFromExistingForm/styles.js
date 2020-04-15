@@ -7,8 +7,7 @@ const styles = theme => ({
     paddingRight: '8px',
   },
   formStyle: {
-    minWidth: '350px',
-    maxWidth: '400px',
+    width: '400px',
     height: '40%',
     padding: '10px',
     minHeight: '300px',
@@ -34,7 +33,7 @@ const styles = theme => ({
     marginBottom: '20px',
   },
   noActionItemsDisplay: {
-    width: '50%',
+    width: '100%',
     height: '50%',
     display: 'block',
     marginTop: '10%',

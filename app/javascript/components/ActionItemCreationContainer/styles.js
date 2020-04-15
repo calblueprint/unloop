@@ -8,6 +8,9 @@ const styles = theme => ({
   },
   unselectedButton: {
     color: theme.palette.common.r0,
+    '&:hover': {
+      backgroundColor: theme.palette.common.lightestGrey,
+    },
   },
 });
 
