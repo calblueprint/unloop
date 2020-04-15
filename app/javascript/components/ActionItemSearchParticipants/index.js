@@ -5,13 +5,11 @@ import {
   InputBase,
   Fab,
   Box,
-  Divider,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import theme from 'utils/theme';
 import ActionItemParticipant from 'components/ActionItemParticipant';
-import { apiGet } from 'utils/axios';
 import styles from './styles';
 
 const TrieSearch = require('trie-search');
@@ -22,7 +20,7 @@ class ActionItemSearchParticipants extends React.Component {
     // The following dictionary keeps track of each participants to see if they've been selected or not (by the checkmark),
     // and whether not they should be visible, depending on which category and search are input to filter the participants on.
     this.state = {
-      statuses: [],
+      statuses: this.props.statuses,
       selectedStatus: null,
       filteredParticipants: this.props.participants,
       searchValue: '',
@@ -40,11 +38,6 @@ class ActionItemSearchParticipants extends React.Component {
       trie,
     });
 
-    apiGet('api/participants/statuses').then(p => {
-      this.setState({
-        statuses: p.data,
-      });
-    });
   }
 
   // For searching the different participants
@@ -125,7 +118,7 @@ class ActionItemSearchParticipants extends React.Component {
       const importedStyles = styles().statusButton;
       importedStyles.backgroundColor = theme.palette.buttons[status];
       return (
-        <Fab style={importedStyles} onClick={() => this.filterByStatus(status)}>
+        <Fab style={importedStyles} size="small" onClick={() => this.filterByStatus(status)}>
           {status}
         </Fab>
       );
@@ -159,13 +152,6 @@ class ActionItemSearchParticipants extends React.Component {
 
     return (
       <div className="searchParticipant">
-        {/* For the top 'ADD STUDENTS' Bar */}
-        <div className="topBar" style={{ color: '#5870EB' }}>
-          Add Students
-          <Box className={classes.boxProps} />
-          <Divider />
-        </div>
-
         <div className="outerRectangle">
           <Box className={classes.boundaryBox}>
             {/* Filter By Category */}

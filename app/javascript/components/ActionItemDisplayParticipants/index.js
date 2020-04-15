@@ -30,13 +30,6 @@ function ActionItemDisplayParticipants({ classes, selectedParticipants }) {
 
   return (
     <div className={classes.displayParticipant}>
-      {/* Students top bar */}
-      <div className="students" style={{ color: '#5870EB' }}>
-        Students
-        <Box className={classes.boxProps} />
-        <Divider />
-      </div>
-
       <Box className={classes.boundaryBox}>
         <div className={classes.displayScroll}>
           {/* List students out */}

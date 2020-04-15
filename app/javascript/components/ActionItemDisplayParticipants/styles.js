@@ -18,20 +18,24 @@ export const styles = () => ({
 
   boundaryBox: {
     borderColor: '#FFFFFF',
+    backgroundColor: '#FFFFFF',
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
     borderRadius: '10px',
     border: 1,
-    width: '100%',
+    width: '400px',
     height: '80%',
+    minHeight: '400px',
     marginTop: '7px',
     marginBottom: '15px',
     paddingLeft: '30px',
     paddingTop: '20px',
     paddingRight: '20px',
+    paddingBottom: '20px'
   },
 
   displayScroll: {
     marginTop: '35px',
+    // marginBottom: '35px',
     overflowY: 'scroll',
     left: 0,
     height: '65vh',

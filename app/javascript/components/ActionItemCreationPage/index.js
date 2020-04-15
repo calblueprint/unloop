@@ -6,6 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Navbar from 'components/Navbar';
 import Divider from '@material-ui/core/Divider';
 import ActionItemCreationContainer from 'components/ActionItemCreationContainer';
+import ActionItemSearchParticipants from 'components/ActionItemSearchParticipants';
+import ActionItemDisplayParticipants from 'components/ActionItemDisplayParticipants';
 import styles from './styles';
 
 
@@ -16,7 +18,15 @@ class AssignmentCreationPage extends React.Component {
     this.state = {
       step: 0,
       participants: this.props.participants,
+      selectedParticipants: [],
     };
+
+    this.addUserToState = this.addUserToState.bind(this);
+    this.removeUserFromState = this.removeUserFromState.bind(this);
+    this.addAllUsersToState = this.addAllUsersToState.bind(this);
+    this.removeAllUsersFromState = this.removeAllUsersFromState.bind(this);
+    this.nextStep = this.nextStep.bind(this);
+    this.prevStep = this.prevStep.bind(this);
   }
 
   nextStep() {
@@ -25,6 +35,36 @@ class AssignmentCreationPage extends React.Component {
 
   prevStep() {
     this.setState(prevState => ({ step: prevState.step - 1 }));
+  }
+
+  addUserToState(user) {
+    this.setState(prevState => ({
+      selectedParticipants: [...prevState.selectedParticipants, user],
+    }));
+  }
+
+  // Removes user from display
+  removeUserFromState(user) {
+    this.setState(prevState => {
+      const copy = [...prevState.selectedParticipants];
+      const index = this.state.selectedParticipants.indexOf(user);
+      copy.splice(index, 1); // Removes one element at `index` location
+      return { selectedParticipants: copy };
+    });
+  }
+
+  // Adds all users at once to be displayed
+  addAllUsersToState() {
+    this.setState(prevState => ({
+      selectedParticipants: prevState.participants,
+    }));
+  }
+
+  // Removes all users at once from display
+  removeAllUsersFromState() {
+    this.setState({
+      selectedParticipants: [],
+    });
   }
 
   render() {
@@ -67,7 +107,10 @@ class AssignmentCreationPage extends React.Component {
                     </Typography>
                     <hr className={classes.borderStyle}></hr>
                     <Divider style={{marginBottom: '10px'}}/>
-                    <ActionItemCreationContainer templates={this.props.templates} />
+                    <ActionItemDisplayParticipants
+                      selectedParticipants={this.state.selectedParticipants}
+                      />
+                    {/* <ActionItemCreationContainer templates={this.props.templates} /> */}
                 </Grid>
                 <Grid item>
                     <Typography className={classes.underlineStyle}>
@@ -75,7 +118,16 @@ class AssignmentCreationPage extends React.Component {
                     </Typography>
                     <hr className={classes.borderStyle}></hr>
                     <Divider style={{marginBottom: '10px'}}/>
-                    <ActionItemCreationContainer templates={this.props.templates} />
+                    <ActionItemSearchParticipants
+                      participants={this.state.participants}
+                      selectedParticipants={this.state.selectedParticipants}
+                      statuses={this.props.statuses}
+                      addUser={this.addUserToState}
+                      removeUser={this.removeUserFromState}
+                      addAllUsers={this.addAllUsersToState}
+                      removeAllUsers={this.removeAllUsersFromState}
+                    />
+                    {/* <ActionItemCreationContainer templates={this.props.templates} /> */}
                 </Grid>
             </Grid>
             <Grid

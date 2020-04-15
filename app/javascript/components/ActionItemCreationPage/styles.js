@@ -24,6 +24,7 @@ const styles = theme => ({
     paddingRight: '8px',
   },
   underlineStyle: {
+      color: theme.palette.common.r0,
       fontSize: '16px', 
       lineHeight: '19px', 
   },

@@ -28,6 +28,11 @@ export const theme = createMuiTheme({
       main: '#EB6658',
       dark: '#EB6658',
     },
+    buttons: {
+      r0: '#5870EB',
+      r1: '#009FAD',
+      r2: '#EB6658',
+    },
   },
 });
 
