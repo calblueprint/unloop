@@ -11,6 +11,10 @@ class PaperworkPolicy < ApplicationPolicy
     user.staff?
   end
 
+  def viewed?
+    user.participant?
+  end
+
   def complete?
     user.participant? && user.participant.id == resource.participant_id
   end

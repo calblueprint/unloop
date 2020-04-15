@@ -4,7 +4,7 @@
  * This contains all the styles for the ParticipantShowPage container.
  */
 
-export const styles = theme => ({
+const styles = theme => ({
   leftHalf: {
     paddingLeft: 28,
     paddingRight: 28,
@@ -13,6 +13,7 @@ export const styles = theme => ({
   rightHalf: {
     paddingTop: 40,
     paddingLeft: 28,
+    marginRight: 0,
     backgroundColor: theme.palette.common.lightBlue,
   },
   navBar: {
@@ -21,27 +22,35 @@ export const styles = theme => ({
     backgroundColor: theme.palette.common.black,
   },
   navBarSignOut: {
-    paddingLeft: 28,
-    paddingRight: 28,
     color: theme.palette.common.white,
   },
   navBarItem: {
-    paddingLeft: 40,
-    paddingRight: 40,
     color: theme.palette.common.white,
   },
   avatarStyle: {
     width: 60,
     height: 60,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: ({ status }) => {
+      switch (status.toUpperCase()) {
+        case 'R0':
+          return theme.palette.common.r0;
+        case 'R1':
+          return theme.palette.common.r1;
+        case 'R2':
+          return theme.palette.common.r2;
+        default:
+          console.error('Participant has no status');
+          return theme.palette.common.black;
+      }
+    },
   },
   unloopLogo: {
-    width: 'auto',
-    height: '100%',
+    paddingLeft: '10px',
+    paddingBottom: '10px',
+    width: '100%',
     objectFit: 'contain',
+    overflowX: 'hidden',
     backgroundColor: theme.palette.common.black,
-    marginBottom: 0,
-    paddingBottom: 0,
   },
 });
 

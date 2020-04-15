@@ -1,5 +1,5 @@
 class Api::PaperworksController < ApplicationController
-  before_action :set_paperwork, only: [:show, :update, :complete, :destroy]
+  before_action :set_paperwork, only: [:show, :update, :complete, :viewed, :destroy]
   respond_to :json
 
   def show
@@ -8,9 +8,11 @@ class Api::PaperworksController < ApplicationController
 
   def create
     @paperwork = authorize Paperwork.new(paperwork_params)
+    sentry_helper(@paperwork)
     if @paperwork.save
       render json: @paperwork, status: :created
     else
+      Raven.capture_message("Could not create paperwork")
       render json: { error: 'Could not create paperwork' }, status: :unprocessable_entity
     end
   end
@@ -19,6 +21,7 @@ class Api::PaperworksController < ApplicationController
     if @paperwork.update(paperwork_params)
       render json: @paperwork, status: :ok
     else
+      Raven.capture_message("Could not update paperwork")
       render json: { error: 'Could not update paperwork' }, status: :unprocessable_entity
     end
   end
@@ -27,7 +30,17 @@ class Api::PaperworksController < ApplicationController
     if @paperwork.update(agree: true)
       render json: @paperwork, status: :ok
     else
+      Raven.capture_message("Failed to mark as agreed")
       render json: { error: 'Failed to mark as agreed' }, status: :unprocessable_entity
+    end
+  end
+
+  def viewed
+    if @paperwork.update(viewed: true)
+      render json: @paperwork, status: :ok
+    else
+      Raven.capture_message("Failed to mark as agreed")
+      render json: { error: 'Failed to mark as agreed' }, status: :unprocessable_entity  
     end
   end
 
@@ -35,6 +48,7 @@ class Api::PaperworksController < ApplicationController
     if @paperwork.destroy
       render json: @paperwork, status: :ok
     else
+      Raven.capture_message("Failed to delete paperwork")
       render json: { error: 'Failed to delete paperwork' }, status: :unprocessable_entity
     end
   end
@@ -47,8 +61,16 @@ class Api::PaperworksController < ApplicationController
 
   def set_paperwork
     @paperwork = authorize Paperwork.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
+  rescue ActiveRecord::RecordNotFound => exception
+    Raven.extra_context(paperwork_id: params[:id])
+    Raven.capture_exception(exception)
     render json: { error: 'Could not find paperwork' }, status: :not_found
+  end
+
+  def sentry_helper(paperwork)
+    Raven.extra_context(paperwork: paperwork.attributes)
+    Raven.extra_context(staff: paperwork.staff.user.attributes)
+    Raven.extra_context(participant: paperwork.participant.user.attributes)
   end
 
   def paperwork_params

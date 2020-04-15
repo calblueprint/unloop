@@ -11,6 +11,7 @@ const config = {
 export function apiGet(path) {
   return axios.get(path, config);
 }
+
 export function apiPost(path, data) {
   return axios.post(path, data, config);
 }

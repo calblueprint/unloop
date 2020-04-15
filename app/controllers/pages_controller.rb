@@ -26,7 +26,7 @@ class PagesController < ApplicationController
               @user = current_user
               @participant = @user.participant
               @paperworks = @user.participant.paperworks
-              @case_notes = @user.participant.case_notes.where(internal: false)
+              @case_notes = @user.participant.case_notes.where(visible: true)
 
               if @participant.personal_questionnaire.nil?
                 @personal_questionnaire = PersonalQuestionnaire.create("participant_id": @participant.id)

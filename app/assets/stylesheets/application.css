@@ -13,3 +13,19 @@
  *= require_tree .
  *= require_self
  */
+ @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+ 
+ .alert {
+    text-align: center;
+    background-color: rgba(210, 220, 225, 0.63);
+    color: black;
+    padding: 20px 0;
+    font-weight: bold;
+    margin: 0 0;
+ }
+
+ .alert-success {
+    background-color: rgba(0, 159, 173, 1);
+    color: white;
+    font-weight: normal;
+ }

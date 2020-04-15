@@ -4,10 +4,10 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Paper, List } from '@material-ui/core';
+import { Grid, Paper, List } from '@material-ui/core';
 import PaperworkEntry from 'components/PaperworkEntry';
 import PaperworkForm from 'components/PaperworkForm';
 
@@ -15,20 +15,32 @@ import styles from './styles';
 
 function PaperworkList({
   classes,
-  paperworks,
+  initialPaperworks,
   participantId,
   userType,
   formatDate,
 }) {
+  const [paperworks, setPaperworks] = useState(initialPaperworks);
+
+  const updatePaperwork = updatedPaperwork => {
+    const allPaperworks = [...paperworks];
+    const paperworkIndex = allPaperworks.findIndex(
+      paperwork => paperwork.id === updatedPaperwork.id,
+    );
+    if (paperworkIndex !== -1) {
+      allPaperworks[paperworkIndex] = updatedPaperwork;
+      setPaperworks(allPaperworks);
+    }
+  };
+
   const paperworkEntries = paperworks.map((paperwork, i) => (
     <PaperworkEntry
       key={paperwork.id}
-      agree={paperwork.agree}
-      id={paperwork.id}
+      paperwork={paperwork}
       participantId={participantId}
-      link={paperwork.link}
-      title={paperwork.title}
+      userType={userType}
       date={formatDate(paperwork.created_at)}
+      updatePaperwork={updatePaperwork}
       lastEntry={paperworks.length - 1 === i}
     />
   ));
@@ -43,13 +55,16 @@ function PaperworkList({
         className={classes.componentTitle}
       >
         <Grid item>
-          <Typography variant="h4">Paperworks</Typography>
+          <h3 className={classes.headerStyle}>Paperworks</h3>
         </Grid>
         <Grid item>
           <PaperworkForm
             type="create"
             hide={userType !== 'staff'}
             participantId={participantId}
+            appendPaperwork={paperwork =>
+              setPaperworks([paperwork, ...paperworks])
+            }
           />
         </Grid>
       </Grid>
@@ -60,10 +75,10 @@ function PaperworkList({
           <div>
             <img
               src="/assets/noPaperworks.svg"
-              className="no-paperworks-img"
+              className={classes.noPaperworksImg}
               alt="no Case Notes"
             />
-            <div className="no-paperworks-txt">
+            <div className={classes.noPaperworksTxt}>
               <h3>No paperworks yet</h3>
               {userType === 'staff' ? (
                 <p>Click on ASSIGN PAPERWORK + to assign one.</p>
@@ -81,7 +96,7 @@ function PaperworkList({
 PaperworkList.propTypes = {
   userType: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  paperworks: PropTypes.array.isRequired,
+  initialPaperworks: PropTypes.array.isRequired,
   participantId: PropTypes.number.isRequired,
   formatDate: PropTypes.func.isRequired,
 };

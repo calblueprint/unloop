@@ -8,17 +8,18 @@ import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import validator from 'validator';
-import { apiPost, apiPatch } from 'utils/axios';
+import { apiPost, apiPatch, apiDelete } from 'utils/axios';
+import * as Sentry from '@sentry/browser';
 import {
   Button,
   Dialog,
   DialogContent,
   DialogActions,
+  DialogTitle,
   Grid,
   TextField,
   Typography,
 } from '@material-ui/core';
-
 import styles from './styles';
 
 function PaperworkForm({
@@ -28,10 +29,14 @@ function PaperworkForm({
   paperworkTitle,
   paperworkLink,
   paperworkId,
+  appendPaperwork,
+  updatePaperwork,
+  incrementNumPaperworks,
   participantId,
   display,
 }) {
   const [open, setOpen] = useState(false);
+  const [openDeleteModal, setDeleteModal] = useState(false);
   const [paperwork, setPaperwork] = useState({
     title: paperworkTitle,
     link: paperworkLink,
@@ -85,15 +90,59 @@ function PaperworkForm({
     if (!hasErrors) {
       if (type === 'create') {
         apiPost('/api/paperworks', { paperwork: body })
-          .then(() => window.location.reload())
-          .catch(error => console.error(error));
-        // TODO: Change this to flash an error message
-      } else {
+          .then(response => {
+            if (appendPaperwork) {
+              appendPaperwork(response.data);
+            } else if (incrementNumPaperworks) {
+              incrementNumPaperworks();
+            }
+            setOpen(false);
+          })
+          .catch(error => {
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'PaperworkForm');
+              scope.setExtra('action', 'apiPost');
+              scope.setExtra('paperwork', body);
+            });
+            Sentry.captureException(error);
+          });
+          // TODO: Change this to flash an error message
+      } else if (type === 'edit') {
         apiPatch(`/api/paperworks/${paperworkId}`, { paperwork: body })
-          .then(() => window.location.reload())
-          .catch(error => console.error(error));
-        // TODO: Change this to flash an error message
+          .then(response => {
+            updatePaperwork(response.data);
+            setOpen(false);
+          })
+          .catch(error => {
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'PaperworkForm');
+              scope.setExtra('action', 'apiPatch');
+              scope.setExtra('paperwork', body);
+            });
+            Sentry.captureException(error);
+          });
+          // TODO: Change this to flash an error message
       }
+    }
+  };
+
+  const handleDelete = event => {
+    event.preventDefault();
+    if (type === 'edit') {
+      apiDelete(`/api/paperworks/${paperworkId}`)
+        .then(() => {
+          setDeleteModal(false);
+          setOpen(false);
+          window.location.reload();
+        })
+        .catch(error => {
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'PaperworkForm');
+            scope.setExtra('action', 'apiDelete');
+            scope.setExtra('paperwork_id', paperworkId);
+          });
+          Sentry.captureException(error);
+        });
     }
   };
 
@@ -109,7 +158,7 @@ function PaperworkForm({
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="plus-button"
+            className={classes.plusButton}
           >
             +
           </button>
@@ -117,9 +166,8 @@ function PaperworkForm({
       } else if (type === 'create') {
         ret = (
           <Button
-            className="assign-paperwork-button"
             variant="contained"
-            color="secondary"
+            color="primary"
             onClick={() => setOpen(true)}
           >
             ASSIGN PAPERWORK +
@@ -127,12 +175,7 @@ function PaperworkForm({
         );
       } else if (type === 'edit') {
         ret = (
-          <Button
-            className="assign-paperwork-button"
-            variant="contained"
-            color="primary"
-            onClick={() => setOpen(true)}
-          >
+          <Button color="primary" onClick={() => setOpen(true)}>
             edit
           </Button>
         );
@@ -141,9 +184,71 @@ function PaperworkForm({
     return ret;
   };
 
+  const deleteModal = () => (
+    <Dialog
+      open={openDeleteModal}
+      onClose={() => setDeleteModal(false)}
+      aria-labelledby="form-dialog-title"
+      maxWidth="sm"
+      fullWidth
+    >
+      <DialogTitle>Are you sure you want to delete this paperwork?</DialogTitle>
+      <DialogActions>
+        <Button
+          color="primary"
+          variant="contained"
+          type="submit"
+          onClick={handleDelete}
+        >
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+
+  const dialogOptions = () => {
+    let ret;
+    if (type === 'create') {
+      ret = (
+        <Grid container direction="row-reverse">
+          <Grid item>
+            <Button type="submit" variant="contained" color="primary">
+              Save Document
+            </Button>
+          </Grid>
+        </Grid>
+      );
+    } else if (type === 'edit') {
+      ret = (
+        <Grid container direction="row" justify="space-between">
+          <Grid item>
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              onClick={event => {
+                event.preventDefault();
+                setDeleteModal(true);
+              }}
+            >
+              Delete Document
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button type="submit" variant="contained" color="primary">
+              Save Document
+            </Button>
+          </Grid>
+        </Grid>
+      );
+    }
+    return ret;
+  };
+
   return (
     <>
       {button()}
+      {deleteModal()}
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
@@ -206,9 +311,7 @@ function PaperworkForm({
             </Grid>
           </DialogContent>
           <DialogActions className={classes.dialogActions}>
-            <Button type="submit" variant="contained" color="primary">
-              Save Document
-            </Button>
+            {dialogOptions()}
           </DialogActions>
         </form>
       </Dialog>
@@ -218,11 +321,14 @@ function PaperworkForm({
 
 PaperworkForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  type: PropTypes.string,
+  type: PropTypes.oneOf(['create', 'edit']),
   hide: PropTypes.bool,
   paperworkTitle: PropTypes.string,
   paperworkLink: PropTypes.string,
   participantId: PropTypes.number.isRequired,
+  appendPaperwork: PropTypes.func,
+  incrementNumPaperworks: PropTypes.func,
+  updatePaperwork: PropTypes.func,
   paperworkId: PropTypes.number,
   display: PropTypes.string,
 };

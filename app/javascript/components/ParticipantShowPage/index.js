@@ -11,15 +11,8 @@ import QuestionnaireModal from 'components/QuestionnaireModal';
 import PaperworkList from 'components/PaperworkList';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import theme from 'utils/theme';
-import {
-  IconButton,
-  Button,
-  Grid,
-  Typography,
-  Avatar,
-} from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
-import UnloopLogo from 'images/unloop_logo.png';
+import Navbar from 'components/Navbar';
+import { Grid, Typography, Avatar } from '@material-ui/core';
 import styles from './styles';
 
 class ParticipantShowPage extends React.Component {
@@ -52,6 +45,7 @@ class ParticipantShowPage extends React.Component {
       personalQuestionnaire,
       professionalQuestionnaire,
       userType,
+      isAdmin,
     } = this.props;
 
     return (
@@ -59,53 +53,15 @@ class ParticipantShowPage extends React.Component {
         <Grid
           container
           direction="row"
-          style={{ height: '100vh', width: '100vw' }}
+          style={{
+            height: '100vh',
+            width: '100vw',
+            margin: '0px',
+            padding: '0px',
+          }}
+          justify="space-between"
         >
-          {/* TODO: REMOVE NAVBAR AND CREATE PARTIAL */}
-          <Grid item xs={1} className={classes.navBar}>
-            <Grid container direction="column" alignItems="center" spacing={5}>
-              <Grid item>
-                <Button
-                  component="a"
-                  disableFocusRipple
-                  disableTouchRipple
-                  className={classes.navBarSignOut}
-                >
-                  Sign Out
-                </Button>
-              </Grid>
-              <Grid item>
-                <IconButton
-                  disableFocusRipple
-                  disableTouchRipple
-                  className={classes.navBarItem}
-                >
-                  <HomeIcon fontSize="large" />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <Grid
-                  item
-                  xs
-                  container
-                  justify="center"
-                  direction="column"
-                  spacing={10}
-                >
-                  {/* Grid items used to pad Unloop logo to bottom of screen */}
-                  <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item>{/* Intentionally left blank */}</Grid>
-                  <Grid item class={classes.unloopLogo}>
-                    <img src={UnloopLogo} alt="Unloop Logo" />
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
+          <Navbar isAdmin={isAdmin} />
           <Grid item xs={5} className={classes.leftHalf}>
             <Grid container direction="column" spacing={3}>
               <Grid
@@ -142,9 +98,9 @@ class ParticipantShowPage extends React.Component {
                   />
                 </Grid>
               </Grid>
-              <Grid item>
+              <Grid item style={{ padding: '0px', marginTop: '20px' }}>
                 <PaperworkList
-                  paperworks={paperworks}
+                  initialPaperworks={paperworks}
                   participantId={participantId}
                   formatDate={this.formatDate}
                   userType={userType}
@@ -152,7 +108,7 @@ class ParticipantShowPage extends React.Component {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6} className={classes.rightHalf}>
+          <Grid item xs={5} className={classes.rightHalf}>
             <CaseNoteContainer
               participant={participant}
               caseNotes={caseNotes}
@@ -167,6 +123,7 @@ class ParticipantShowPage extends React.Component {
 
 ParticipantShowPage.propTypes = {
   userType: PropTypes.string.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   paperworks: PropTypes.array.isRequired,
   caseNotes: PropTypes.array.isRequired,
