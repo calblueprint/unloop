@@ -123,13 +123,9 @@ class AddFromExistingForm extends React.Component {
 
     return (
       <ThemeProvider theme={theme}>
-        <Paper
-          elevation={3}
-          className={classes.formStyle}
-          style={{ padding: 10 }}
-        >
-          <Grid container spacing={3} direction="column">
-            <Grid item container direction="column" spacing={2}>
+        <Paper elevation={3} className={classes.formStyle}>
+          <Grid container spacing={1} direction="column">
+            <Grid item container direction="column" spacing={1}>
               <Grid item>SEARCH BY CATEGORY</Grid>
               <Grid item container direction="row" justify="space-evenly">
                 {categoryList.slice(0, 4)}
@@ -150,16 +146,7 @@ class AddFromExistingForm extends React.Component {
                 />
               </Grid>
             </Grid>
-            <List
-              dense
-              style={{
-                overflow: 'auto',
-                width: '100%',
-                maxHeight: '600px',
-                height: '50vh',
-                minHeight: '400px',
-              }}
-            >
+            <List dense className={classes.listStyle}>
               {filteredTemplates.length !== 0 ? (
                 filteredTemplates
               ) : (

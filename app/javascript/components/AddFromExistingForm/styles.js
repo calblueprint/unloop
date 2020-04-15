@@ -3,15 +3,15 @@ const styles = theme => ({
     fontSize: '10px',
     textAlign: 'center',
     width: 60,
-    paddingLeft: '16px',
-    paddingRight: '16px',
+    paddingLeft: '8px',
+    paddingRight: '8px',
   },
   formStyle: {
-    minWidth: '475px',
-    maxWidth: '590px',
-    width: '50vw',
-    height: '80vh',
-    minHeight: '650px',
+    minWidth: '350px',
+    maxWidth: '400px',
+    height: '40%',
+    padding: '10px',
+    minHeight: '300px',
   },
   iconStyle: {
     boxShadow: 'None',
@@ -19,7 +19,19 @@ const styles = theme => ({
   searchBar: {
     width: '100%',
     borderStyle: 'solid',
+    padding: '0px',
+    '& input': {
+      padding: '5px 5px',
+    },
     backgroundColor: theme.palette.common.searchBox,
+  },
+  listStyle: {
+    overflow: 'auto',
+    width: '100%',
+    maxHeight: '100%',
+    height: '30vh',
+    minHeight: '240px',
+    marginBottom: '20px',
   },
   noActionItemsDisplay: {
     width: '50%',
@@ -28,6 +40,7 @@ const styles = theme => ({
     marginTop: '10%',
     marginLeft: 'auto',
     marginRight: 'auto',
+    padding: '10px',
     textAlign: 'center',
   },
 });

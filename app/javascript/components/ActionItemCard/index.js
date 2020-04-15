@@ -59,11 +59,13 @@ function ActionItemCard({
         </Grid>
         <Grid item container alignItems="flex-start" spacing={6}>
           <Grid item xs={9} className={classes.descriptionStyle}>
-            <Typography variant="body1">{description}</Typography>
+            <Typography variant="body1" style={{ fontSize: '14px' }}>
+              {description}
+            </Typography>
           </Grid>
           <Grid item>{selectCardFunc ? renderSelectIcon() : null}</Grid>
         </Grid>
-        <Grid item container justify="space-between" alignItems="flex-end">
+        <Grid item container justify="space-between" alignItems="flex-start">
           <Grid item>
             {dueDate ? (
               <Typography variant="body2">Due date: {dueDate}</Typography>

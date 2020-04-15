@@ -22,7 +22,6 @@ function ActionItemCreationContainer({ classes, templates, selectCardFunc }) {
         <Grid item>
           <Button
             variant={isTemplateSetting ? 'contained' : null}
-            fullWidth
             className={
               isTemplateSetting
                 ? classes.selectedButton
@@ -36,7 +35,6 @@ function ActionItemCreationContainer({ classes, templates, selectCardFunc }) {
         <Grid item>
           <Button
             variant={!isTemplateSetting ? 'contained' : null}
-            fullWidth
             className={
               !isTemplateSetting
                 ? classes.selectedButton
@@ -56,8 +54,8 @@ function ActionItemCreationContainer({ classes, templates, selectCardFunc }) {
         container
         direction="column"
         alignItems="center"
+        justify="center"
         spacing={1}
-        style={{ minWidth: '475px', maxWidth: '590px', width: '50vw' }}
       >
         {renderButtonRow()}
         <Grid item>
