@@ -49,6 +49,8 @@ function StudioAssessmentModal({
 
 StudioAssessmentModal.propTypes = {
   participantId: PropTypes.number.isRequired,
+  userType: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 export default memo(withStyles(styles)(StudioAssessmentModal));

@@ -18,18 +18,18 @@ function StudioAssessmentList({
   userType,
   formatDate,
 }) {
-  const [studioAssessments, setStudioAssessments] = useState(initialStudioAssessments);
+  const [studioAssessments] = useState(initialStudioAssessments);
   console.log(initialStudioAssessments)
-  const updateStudioAssessment = updatedAssessments => {
-    const allAssessments = [...studioAssessments];
-    const assessmentIndex = allAssessments.findIndex(
-      assessment => assessment.id === updatedAssessments.id,
-    );
-    if (assessmentIndex !== -1) {
-      allAssessments[assessmentIndex] = updatedAssessments;
-      setPaperworks(allAssessments);
-    }
-  };
+  // const updateStudioAssessment = updatedAssessments => {
+  //   const allAssessments = [...studioAssessments];
+  //   const assessmentIndex = allAssessments.findIndex(
+  //     assessment => assessment.id === updatedAssessments.id,
+  //   );
+  //   if (assessmentIndex !== -1) {
+  //     allAssessments[assessmentIndex] = updatedAssessments;
+  //     setPaperworks(allAssessments);
+  //   }
+  // };
   console.log("list entries")
   const studioAssessmentEntries = studioAssessments.map((studioAssessment) => (
     <StudioAssessmentModal
