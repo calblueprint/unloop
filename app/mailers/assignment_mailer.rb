@@ -1,5 +1,5 @@
 class AssignmentMailer < ActionMailer::Base
-    default from: 'unloopauth@gmail.com'
+    default from: 'no-reply@unloop.org'
 
     def new_assignment
         @assignment = params[:assignment]

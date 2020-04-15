@@ -63,13 +63,13 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { host: "localhost:3000" }
+  config.action_mailer.default_url_options = { host: ENV['HOST'], protocol: 'https' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    user_name:     "unloopauth@gmail.com",
-    password:      "ILoveBlueprint!",
-    domain:        "gmail.com",
-    address:       "smtp.gmail.com",
+    user_name:     ENV['SENDMAIL_USERNAME'],
+    password:      ENV['SENDMAIL_PASSWORD'],
+    domain:        ENV['SMTP_DOMAIN'],
+    address:       "smtp.sendgrid.net",
     port:          587,
     authentication: :plain,
     enable_starttls_auto: true
