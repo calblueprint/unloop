@@ -4,6 +4,8 @@ class ParticipantSerializer < ActiveModel::Serializer
   has_many :case_notes
   has_many :paperworks
 
+  has_many :studio_assessments
+
   has_one :personal_questionnaire
   has_one :professional_questionnaire
 
