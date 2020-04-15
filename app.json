@@ -21,10 +21,17 @@
       "description": "Master key for rails credentials"
     }
   },
-  "image": "heroku/ruby",
   "addons": [
     {
       "plan": "heroku-postgresql"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    },
+    {
+      "url": "heroku/nodejs"
     }
   ]
 }
