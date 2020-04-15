@@ -105,12 +105,13 @@ class Question extends React.Component {
         direction: 'back',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.generateField = this.generateField.bind(this);
   }
 
   componentDidMount() {
     // store the information from this.props.questionnaire into state
     console.log("this me props")
-    console.log(this.props)
+    console.log(this.props.studioAssessment)
     const studioAssessment = {};
     if (this.props.studioAssessment != null) {
         Object.keys(this.props.studioAssessment).forEach(k => {
@@ -120,15 +121,13 @@ class Question extends React.Component {
           studioAssessment,
         });
     }
-    if (this.state.studioAssessment) {
-        const { studioAssessment } = this.state;
-    }
+    console.log("my state after mount")
+    console.log(this.state)
   }
   
 
   handleSubmit() {
     const { id } = this.props.studioAssessment;
-    
     const body = {};
     if (this.state.studioAssessment != null) {
         Object.keys(this.state.studioAssessment).forEach(f => {
@@ -159,6 +158,22 @@ class Question extends React.Component {
       console.log(this.state)
   }
 
+  generateField(questionType) {
+    return (<Field
+                className={this.props.classes.TextField}
+                name={`${this.props.questionType}_comment`}
+                onChange={e => this.handleTextFormChange(e, `${this.props.questionType}_comment`)}
+                variant="outlined"
+                id={this.props.questionType}
+                multiline
+                type="text"
+                margin="dense"
+                value=
+                    {this.props.studioAssessment[`${questionType}_comment`]}
+                as={TextField}
+                />);
+  }
+
   render() {
     return (
     <Formik
@@ -185,23 +200,7 @@ class Question extends React.Component {
         </div>
         <div className={this.props.classes.comments}>
           <h3>Enter comments below:</h3>
-          <Field
-            className={this.props.classes.TextField}
-            name={`${this.props.questionType}_comment`}
-            onChange={e => this.handleTextFormChange(e, `${this.props.questionType}_comment`)}
-            label="Comments"
-            variant="outlined"
-            id={this.props.questionType}
-            multiline
-            type="text"
-            margin="dense"
-            defaultValue={this.state.studioAssessment === null ? 
-                this.state.studioAssessment[`${this.props.questionType}_comment`]
-                :
-                "enter comment"
-            }
-            as={TextField}
-          />
+          {this.generateField(this.props.questionType)}
           <div className={this.props.classes.buttons}>
             <br />
             {this.props.questionID === 0 ? 
