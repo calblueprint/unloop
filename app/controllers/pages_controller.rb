@@ -27,7 +27,8 @@ class PagesController < ApplicationController
               @participant = @user.participant
               @paperworks = @user.participant.paperworks
               @case_notes = @user.participant.case_notes.where(visible: true)
-
+              # @studio_assessments = @user.participant.studio_assessments
+              
               if @participant.personal_questionnaire.nil?
                 @personal_questionnaire = PersonalQuestionnaire.create("participant_id": @participant.id)
               else
@@ -39,6 +40,14 @@ class PagesController < ApplicationController
               else
                 @professional_questionnaire = @participant.professional_questionnaire
               end
+
+              if @participant.studio_assessments.nil?
+                studio_assessment = StudioAssessment.create("participant_id": @participant.id)
+                @studio_assessments[studio_assessment.id] = StudioAssessmentSerializer.new(studio_assessment)
+              else
+                @studio_assessments = @participant.studio_assessments
+              end
+              # @studio_assessments = StudioAssessmentSerializer.new(studio_assessment)
 
               authorize Participant
               dashboard_participants_path

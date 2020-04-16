@@ -13,6 +13,8 @@ import CaseNoteContainer from 'components/CaseNoteContainer';
 import theme from 'utils/theme';
 import Navbar from 'components/Navbar';
 import { Grid, Typography, Avatar } from '@material-ui/core';
+import StudioAssessmentList from 'components/StudioAssessmentList';
+import StudioAssessmentModal from 'components/StudioAssessmentModal';
 import styles from './styles';
 
 class ParticipantShowPage extends React.Component {
@@ -44,6 +46,7 @@ class ParticipantShowPage extends React.Component {
       participantId,
       personalQuestionnaire,
       professionalQuestionnaire,
+      studioAssessments,
       userType,
       isAdmin,
     } = this.props;
@@ -105,6 +108,17 @@ class ParticipantShowPage extends React.Component {
                   formatDate={this.formatDate}
                   userType={userType}
                 />
+                <StudioAssessmentList
+                  initialStudioAssessments={studioAssessments.splice(0,3)}
+                  formatDate={this.formatDate}
+                  userType={userType}
+                  participantId={participantId}
+                />
+                {/* <StudioAssessmentModal
+                  studioAssessments={studioAssessments}
+                  userType={userType}
+                  participantId={participantId}
+                  />  */}
               </Grid>
             </Grid>
           </Grid>
@@ -133,6 +147,7 @@ ParticipantShowPage.propTypes = {
   participantId: PropTypes.number.isRequired,
   personalQuestionnaire: PropTypes.object.isRequired,
   professionalQuestionnaire: PropTypes.object.isRequired,
+  studioAssessments: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(ParticipantShowPage);
