@@ -1,7 +1,6 @@
 const styles = theme => ({
   containerStyle: {
     minWidth: '400px',
-    height: '90%',
   },
   selectedButton: {
     backgroundColor: theme.palette.common.purpleSecondary,

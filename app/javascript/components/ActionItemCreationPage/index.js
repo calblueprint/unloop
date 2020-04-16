@@ -93,7 +93,7 @@ class AssignmentCreationPage extends React.Component {
             <Grid
               container
               item
-              xs={9}
+              xs={8}
               spacing={1}
               className={classes.mainBackgroundStyle}
               justify="space-evenly"
@@ -116,7 +116,7 @@ class AssignmentCreationPage extends React.Component {
                 </Typography>
                 <hr className={classes.borderStyle}></hr>
                 <Divider style={{ marginBottom: '10px' }} />
-                <ActionItemSearchParticipants
+                {/* <ActionItemSearchParticipants
                   participants={this.state.participants}
                   selectedParticipants={this.state.selectedParticipants}
                   statuses={this.props.statuses}
@@ -124,8 +124,8 @@ class AssignmentCreationPage extends React.Component {
                   removeUser={this.removeUserFromState}
                   addAllUsers={this.addAllUsersToState}
                   removeAllUsers={this.removeAllUsersFromState}
-                />
-                {/* <ActionItemCreationContainer templates={this.props.templates} /> */}
+                /> */}
+                <ActionItemCreationContainer templates={this.props.templates} />
               </Grid>
             </Grid>
             <Grid
@@ -147,7 +147,23 @@ class AssignmentCreationPage extends React.Component {
                     className={classes.categoryButtonStyle}
                     align="center"
                   >
-                    Save and Continue
+                    SAVE & CONTINUE
+                  </Typography>
+                </Fab>
+              </Grid>
+              <Grid item>
+                <Fab
+                  className={classes.iconStyle}
+                  component="span"
+                  variant="extended"
+                  size="medium"
+                  aria-label="category"
+                >
+                  <Typography
+                    className={classes.categoryButtonStyle}
+                    align="center"
+                  >
+                    BACK
                   </Typography>
                 </Fab>
               </Grid>

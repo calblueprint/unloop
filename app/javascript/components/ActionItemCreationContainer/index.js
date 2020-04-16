@@ -3,6 +3,7 @@ import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import AddFromExistingForm from 'components/AddFromExistingForm';
+import ActionItemForm from 'components/ActionItemForm';
 import PropTypes from 'prop-types';
 
 import theme from 'utils/theme';
@@ -15,10 +16,21 @@ const Setting = {
 
 function ActionItemCreationContainer({ classes, templates, selectCardFunc }) {
   const [creationSetting, setCreationSetting] = useState(Setting.SCRATCH);
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [categorySelected, setCategory] = useState(null);
+  const [addToTemplates, setAddToTemplates] = useState(false);
+
   const renderButtonRow = () => {
     const isTemplateSetting = creationSetting === Setting.TEMPLATE;
     return (
-      <Grid container item justify="space-evenly">
+      <Grid
+        container
+        item
+        justify="space-evenly"
+        className={classes.containerStyle}
+      >
         <Grid item>
           <Button
             variant={isTemplateSetting ? 'contained' : null}
@@ -60,10 +72,17 @@ function ActionItemCreationContainer({ classes, templates, selectCardFunc }) {
       >
         {renderButtonRow()}
         <Grid item>
-          <AddFromExistingForm
-            templates={templates}
-            selectCardFunc={selectCardFunc}
-          />
+          {creationSetting === Setting.SCRATCH ? 
+          (<ActionItemForm title={title} setTitle={setTitle} 
+              description={description} setDescription={setDescription} 
+                          categorySelected={categorySelected} setCategory={setCategory}
+                          addToTemplates={addToTemplates} setAddToTemplates={setAddToTemplates}
+          />) :
+          (<AddFromExistingForm
+          templates={templates}
+          selectCardFunc={selectCardFunc}
+          />)
+          }
         </Grid>
       </Grid>
     </ThemeProvider>
