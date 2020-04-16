@@ -13,8 +13,6 @@ import styles from './styles';
 
 const TrieSearch = require('trie-search');
 
-
-
 class StaffDashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -33,7 +31,6 @@ class StaffDashboard extends React.Component {
     });
   }
 
-  
   handleChange(e) {
     const searchVal = e.target.value;
     if (searchVal === '') {
@@ -49,27 +46,44 @@ class StaffDashboard extends React.Component {
 
   render() {
     const headCells = [
-      { id: 'participant', numeric: false, disablePadding: true, label: 'Participant' },
+      {
+        id: 'participant',
+        numeric: false,
+        disablePadding: true,
+        label: 'Participant',
+      },
       { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
-      { id: 'paperwork', numeric: true, disablePadding: false, label: 'Paperwork' },
-      { id: 'casenotes', numeric: true, disablePadding: false, label: 'Casenotes' },
-      { id: 'form_status', numeric: true, disablePadding: false, label: 'Form Status' },
+      {
+        id: 'paperwork',
+        numeric: true,
+        disablePadding: false,
+        label: 'Paperwork',
+      },
+      {
+        id: 'casenotes',
+        numeric: true,
+        disablePadding: false,
+        label: 'Casenotes',
+      },
+      {
+        id: 'form_status',
+        numeric: true,
+        disablePadding: false,
+        label: 'Form Status',
+      },
     ];
 
-    let rows = []
-    rows = this.state.participants.map(p => (
-      {"participant": p.name,
-       "status": p.status,
-       "paperwork": p.paperworksCount,
-       "casenotes": p.caseNotesCount,
-       "form_status": p.questionnaireStatus,
-      }
-    ));
-    
-    console.log(rows)
-    return (
-      <EnhancedTable headCells={headCells} rows={rows} ></EnhancedTable>
-    );
+    let rows = [];
+    rows = this.state.participants.map(p => ({
+      participant: p.name,
+      status: p.status,
+      paperwork: p.paperworksCount,
+      casenotes: p.caseNotesCount,
+      form_status: p.questionnaireStatus,
+    }));
+
+    console.log(rows);
+    return <EnhancedTable headCells={headCells} rows={rows}></EnhancedTable>;
   }
 }
 
