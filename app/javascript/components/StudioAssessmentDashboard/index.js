@@ -125,9 +125,6 @@ class StudioAssessmentDashboard extends React.Component {
         <div className= {classes.content}>
           <h1>Studio Assessments</h1>
           <div className= {classes.tableContainer}>
-          <div className={classes.searchBar}>
-                  Hi
-                </div>
             <div>
             <div className={classes.searchBar}>
                   <InputBase
