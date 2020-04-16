@@ -24,7 +24,6 @@
     <% end %>
     <%= yield %>
   </body>
-
   <% if Rails.env.production? || Rails.env.staging? %>
     <script>
       window['_fs_debug'] = false;
@@ -63,7 +62,6 @@
       "admin": "<%= current_user.admin.to_s %>"
     })
   <% end %>
-
   <% if current_user %>
     <script>
       Sentry.configureScope(function(scope) {
