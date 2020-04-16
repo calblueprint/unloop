@@ -2,14 +2,18 @@ import React from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import { withStyles, ThemeProvider } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
 import theme from 'utils/theme';
 import ParticipantCard from 'components/ParticipantCard';
 import Navbar from 'components/Navbar';
+import EnhancedTable from 'components/EnhancedTable';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
 const TrieSearch = require('trie-search');
+
+
 
 class StaffDashboard extends React.Component {
   constructor(props) {
@@ -29,6 +33,7 @@ class StaffDashboard extends React.Component {
     });
   }
 
+  
   handleChange(e) {
     const searchVal = e.target.value;
     if (searchVal === '') {
@@ -43,50 +48,27 @@ class StaffDashboard extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-    let participantsList = this.state.participants.map(p => (
-      <ParticipantCard key={p.id} participant={p}></ParticipantCard>
+    const headCells = [
+      { id: 'participant', numeric: false, disablePadding: true, label: 'Participant' },
+      { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
+      { id: 'paperwork', numeric: true, disablePadding: false, label: 'Paperwork' },
+      { id: 'casenotes', numeric: true, disablePadding: false, label: 'Casenotes' },
+      { id: 'form_status', numeric: true, disablePadding: false, label: 'Form Status' },
+    ];
+
+    let rows = []
+    rows = this.state.participants.map(p => (
+      {"participant": p.name,
+       "status": p.status,
+       "paperwork": p.paperworksCount,
+       "casenotes": p.caseNotesCount,
+       "form_status": p.questionnaireStatus,
+      }
     ));
-
-    if (this.state.participants.length === 0) {
-      participantsList = <p>There are no participants to show.</p>;
-    }
-
+    
+    console.log(rows)
     return (
-      <ThemeProvider theme={theme}>
-        <div className={classes.dashboard}>
-          <Navbar isAdmin={this.props.isAdmin} />
-          <div className={classes.content}>
-            <h1>Participant Dashboard</h1>
-            <div className={classes.tableContainer}>
-              <div>
-                <div className={classes.searchBar}>
-                  <InputBase
-                    placeholder="filter participants"
-                    onChange={this.handleChange}
-                  />
-                  <IconButton type="submit" aria-label="search">
-                    <SearchIcon />
-                  </IconButton>
-                </div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>PARTICIPANT</th>
-                      <th>STATUS</th>
-                      <th>PAPERWORK</th>
-                      <th>CASE NOTES</th>
-                      <th>FORM STATUS</th>
-                      <th> </th>
-                    </tr>
-                  </thead>
-                  <tbody>{participantsList}</tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
+      <EnhancedTable headCells={headCells} rows={rows} ></EnhancedTable>
     );
   }
 }
