@@ -42,40 +42,39 @@ class StudioAssessmentCard extends React.Component {
     const currCategory = this.props.selectedCat;
     return (
       <tr>
-        <td
-          className="name"
-          style={{ cursor: 'pointer' }}
-          onClick={this.showParticipant}
-          onKeyDown={this.showParticipant}
-        >
-          {this.props.assessment.name}
-        </td>
-        <td className={currCategory === 'bigPic' ? classes.selected: null}>
-          {bigPic}
-        </td>
-        <td className={currCategory === 'progFun' ? classes.selected: null}>
-            {prog}
-        </td>
-        <td className={currCategory === 'verCon"' ? classes.selected: null}>
-            {vc}
-        </td>
-        <td className={currCategory === 'react' ? classes.selected: null}>
-           {react}
-        </td>
-        <td className={currCategory === 'node' ? classes.selected: null}>
-            {node}
-        </td>
-        <td className={currCategory === 'Db' ? classes.selected: null}>
-            {db}
-        </td>
-        <td className={currCategory === 'probSol' ? classes.selected: null}>
-            {probSolve}
-        </td>
-        <td className={currCategory === 'probAlt' ? classes.selected: null}>
-            {probSolveAlt}
-        </td>
-        
-      </tr>
+      <td
+        className="name"
+        style={{ cursor: 'pointer' }}
+        onClick={this.showParticipant}
+        onKeyDown={this.showParticipant}
+      >
+        {this.props.assessment.name}
+      </td>
+      <td className={currCategory === 'bigPic' ? classes.selected : null}>
+        {bigPic}
+      </td>
+      <td className={currCategory === 'progFun' ? classes.selected : null}>
+        {prog}
+      </td>
+      <td className={currCategory === 'verCon"' ? classes.selected : null}>
+        {vc}
+      </td>
+      <td className={currCategory === 'react' ? classes.selected : null}>
+        {react}
+      </td>
+      <td className={currCategory === 'node' ? classes.selected : null}>
+        {node}
+      </td>
+      <td className={currCategory === 'Db' ? classes.selected : null}>
+        {db}
+      </td>
+      <td className={currCategory === 'probSol' ? classes.selected : null}>
+        {probSolve}
+      </td>
+      <td className={currCategory === 'probAlt' ? classes.selected : null}>
+        {probSolveAlt}
+      </td>
+    </tr>
     );
   }
 }

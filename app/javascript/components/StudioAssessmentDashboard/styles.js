@@ -1,6 +1,6 @@
 const backgroundBlue = '#d2dce1';
 const white = '#fff';
-const unloopBlue ='#009FAD';
+const unloopBlue = '#009FAD';
 const styles = () => ({
   dashboard: {
     height: '100%',
@@ -60,7 +60,7 @@ const styles = () => ({
         },
         '& td#selected': {
           backgroundColor: '#00a0ac',
-        }
+        },
       },
 
       '& td': {
@@ -102,8 +102,6 @@ const styles = () => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  
-
 });
 
 export default styles;
