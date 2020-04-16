@@ -13,10 +13,9 @@ import CaseNoteContainer from 'components/CaseNoteContainer';
 import theme from 'utils/theme';
 import Navbar from 'components/Navbar';
 import { Grid, Typography, Avatar } from '@material-ui/core';
-import ActionItemCard from 'components/ActionItemCard';
 import styles from './styles';
 
-class ParticipantShowPage extends React.Component {
+class Dummy extends React.Component {
   onFormFieldChange = model => (field, value) => {
     this.setState(prevState => ({
       [model]: {
@@ -100,14 +99,6 @@ class ParticipantShowPage extends React.Component {
                 </Grid>
               </Grid>
               <Grid item style={{ padding: '0px', marginTop: '20px' }}>
-                {/* These are caseNotes */}
-                <CaseNoteContainer
-                  participant={participant}
-                  caseNotes={caseNotes}
-                  userType={userType}
-                />
-              </Grid>
-              <Grid item style={{ padding: '0px', marginTop: '20px' }}>
                 {/* These are paperwork lists */}
                 <PaperworkList
                   initialPaperworks={paperworks}
@@ -119,34 +110,12 @@ class ParticipantShowPage extends React.Component {
             </Grid>
           </Grid>
           <Grid item xs={5} className={classes.rightHalf}>
-            <Grid item style={{ padding: '0px', marginTop: '40px' }}>
-              {/* These are assignment lists */}
-              <PaperworkList
-                initialPaperworks={paperworks}
-                participantId={participantId}
-                formatDate={this.formatDate}
-                userType={userType}
-              />
-              <ActionItemCard
-                title="hello there"
-                description="hi there again"
-                category="education"
-                dueDate="4/20/20"
-                selectCardFunc={e => {
-                  console.log(e);
-                }}
-                lastEntry
-              />
-            </Grid>
-            <Grid item style={{ padding: '0px', marginTop: '20px' }}>
-              {/* These are studio assessments lists */}
-              <PaperworkList
-                initialPaperworks={paperworks}
-                participantId={participantId}
-                formatDate={this.formatDate}
-                userType={userType}
-              />
-            </Grid>
+            {/* These are case notes */}
+            <CaseNoteContainer
+              participant={participant}
+              caseNotes={caseNotes}
+              userType={userType}
+            />
           </Grid>
         </Grid>
       </ThemeProvider>
@@ -154,17 +123,7 @@ class ParticipantShowPage extends React.Component {
   }
 }
 
-// ActionItemCard.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   title: PropTypes.string.isRequired,
-//   description: PropTypes.string.isRequired,
-//   category: PropTypes.string.isRequired,
-//   dueDate: PropTypes.string,
-//   selectCardFunc: PropTypes.func,
-//   lastEntry: PropTypes.bool,
-// };
-
-ParticipantShowPage.propTypes = {
+Dummy.propTypes = {
   userType: PropTypes.string.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
@@ -178,4 +137,4 @@ ParticipantShowPage.propTypes = {
   professionalQuestionnaire: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ParticipantShowPage);
+export default withStyles(styles)(Dummy);
