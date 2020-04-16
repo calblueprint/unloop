@@ -130,23 +130,40 @@ class QuestionView extends React.Component {
             </p>
           </div>
           <div className={this.props.classes.radio}>
-              {this.state.studioAssessment[`${this.props.questionType}_score`] !== null ? 
+            {this.state.studioAssessment[`${this.props.questionType}_score`] !== null ? (
               <div>
-                <h3>Score: {this.state.studioAssessment[`${this.props.questionType}_score`].toString()}</h3>
-                <p>{rubricItems[this.state.studioAssessment[`${this.props.questionType}_score`]]}</p>
+                <h3>
+                  Score:{' '}
+                  {this.state.studioAssessment[
+                    `${this.props.questionType}_score`
+                  ].toString()}
+                </h3>
+                <p>
+                  {
+                    rubricItems[
+                      this.state.studioAssessment[
+                        `${this.props.questionType}_score`
+                      ]
+                    ]
+                  }
+                </p>
               </div>
-              :
+            ) : (
               <div>
                 <h3>Score:</h3>
                 <p>No score entered yet</p>
               </div>
-              }
+            )}
           </div>
           <div className={this.props.classes.radio}>
             <h3>Comments</h3>
             <p>
-              {this.state.studioAssessment[`${this.props.questionType}_comment`] !== null
-                ? this.state.studioAssessment[`${this.props.questionType}_comment`]
+              {this.state.studioAssessment[
+                `${this.props.questionType}_comment`
+              ] !== null
+                ? this.state.studioAssessment[
+                    `${this.props.questionType}_comment`
+                  ]
                 : 'No comment yet'}
             </p>
           </div>

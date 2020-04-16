@@ -109,7 +109,7 @@ class ParticipantShowPage extends React.Component {
                   userType={userType}
                 />
                 <StudioAssessmentList
-                  initialStudioAssessments={studioAssessments.splice(0,3)}
+                  initialStudioAssessments={studioAssessments.splice(0, 3)} // Render first 3 assessments
                   formatDate={this.formatDate}
                   userType={userType}
                   participantId={participantId}

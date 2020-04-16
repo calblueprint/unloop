@@ -72,7 +72,7 @@ export const StudioAssessmentForm = ({
           ))}
         </Stepper>
       </div>
-      {type !== 'view' ? 
+      {type !== 'view' ? (
         <Question
           formData={formData}
           setFormData={setFormData}
@@ -86,7 +86,7 @@ export const StudioAssessmentForm = ({
           onClose={onClose}
           type={type}
         />
-        :
+      ) : (
         <QuestionView
           formData={formData}
           setFormData={setFormData}
@@ -100,7 +100,7 @@ export const StudioAssessmentForm = ({
           onClose={onClose}
           type={type}
         />
-      }
+      )}
     </div>
   );
 };

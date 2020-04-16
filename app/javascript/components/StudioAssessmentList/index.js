@@ -60,6 +60,7 @@ function StudioAssessmentList({
         <Grid item>
           <StudioAssessmentModal
             participantId={participantId}
+            userType={userType}
             // studioAssessment={studioAssessments[0]}
             type="create"
           />
