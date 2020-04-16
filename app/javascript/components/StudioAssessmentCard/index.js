@@ -6,11 +6,53 @@ class StudioAssessmentCard extends React.Component {
   constructor(props) {
     super(props);
     this.showParticipant = this.showParticipant.bind(this);
+    const assessment = this.props.assessment;
+
   }
 
   showParticipant() {
-    const pId = this.props.assessment.participant_id;
+    const pId = this.props.assessment.id;
     window.location.assign(`participants/${String(pId)}`);
+  }
+
+  // <MenuItem value = {"overall"}>Overall Rankings  </MenuItem>
+  //       <MenuItem value = {"bigPic"}>Big Picture       </MenuItem>
+  //       <MenuItem value = {"progFun"}>Prog Fundamentals </MenuItem>
+  //       <MenuItem value = {"verCon"}>Version Control   </MenuItem>
+  //       <MenuItem value = {"react"}>React             </MenuItem>
+  //       <MenuItem value = {"node"}>Node              </MenuItem>
+  //       <MenuItem value = {"Db"}>Db                </MenuItem>
+  //       <MenuItem value = {"probSol"}>Prob Solve        </MenuItem>
+  //       <MenuItem value = {"probAlt"}>Prob Solve Alt    </MenuItem>
+
+  nameCol() {
+    return(
+      <td
+          className="name"
+          style={{ cursor: 'pointer' }}
+          onClick={this.showParticipant}
+          onKeyDown={this.showParticipant}
+        >
+          {this.props.assessment.name}
+        </td>
+    );
+  }
+
+  bigPicCol() {
+    if (this.props.selectedCat === "bigPic") {
+      return (
+        <td style="backgroundColor:#00a0ac;">
+          {this.props.assessment.bigpictureScore}
+        </td>
+      );
+    }
+    else {
+      return (
+        <td>
+          {this.props.assessment.bigpictureScore}
+        </td>
+      );
+    }
   }
 
   render() {
@@ -27,17 +69,8 @@ class StudioAssessmentCard extends React.Component {
 
     return (
       <tr>
-        <td
-          className="name"
-          style={{ cursor: 'pointer' }}
-          onClick={this.showParticipant}
-          onKeyDown={this.showParticipant}
-        >
-          {assessment.name}
-        </td>
-        <td>
-            {bigPic}
-        </td>
+        {this.nameCol()}
+        {this.bigPicCol()}
         <td>
             {prog}
         </td>

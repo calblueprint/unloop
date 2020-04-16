@@ -58,6 +58,9 @@ const styles = () => ({
         '& tr:hover': {
           backgroundColor: '#f5f5f5',
         },
+        '& td#selected': {
+          backgroundColor: '#00a0ac',
+        }
       },
 
       '& td': {

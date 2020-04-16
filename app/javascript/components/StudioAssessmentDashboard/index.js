@@ -30,7 +30,9 @@ class StudioAssessmentDashboard extends React.Component {
     const { assessments } = this.props;
     const trie = new TrieSearch('name');
     trie.addAll(assessments);
+    assessments.sort((a, b) => (a.name > b.name) ? 1 : -1);
     this.setState({
+      assessments: assessments,
       trie,
     });
   }
@@ -52,6 +54,9 @@ class StudioAssessmentDashboard extends React.Component {
   handleDropdown = (event) => {
     const category = event.target.value;
     let currAssessments = this.props.assessments;
+    if(category === "overall"){
+      currAssessments.sort((a, b) => (a.name > b.name) ? 1 : -1);
+    }
     if(category === "bigPic"){
       currAssessments.sort((a, b) => (a.bigpictureScore < b.bigpictureScore) ? 1 : -1);
     }
@@ -82,17 +87,6 @@ class StudioAssessmentDashboard extends React.Component {
     });
   }
 
-  // const assessment = this.props.assessment;
-  //   const bigPic = assessment.bigpictureScore;
-  //   const  prog = assessment.progfundamentalsScore;
-  //   const  vc = assessment.versioncontrolScore;
-  //   const  react = assessment.reactScore;
-  //   const  node = assessment.nodeScore;
-  //   const  db = assessment.dbScore;
-  //   const probSolve = assessment.problemsolvingScore;
-  //   const probSolveAlt = assessment.problemsolvingaltScore;
-
-
   renderDropDown(){
     const { classes } = this.props;
     let select = this.state.selectedCat;
@@ -120,7 +114,7 @@ class StudioAssessmentDashboard extends React.Component {
   render() {
     const { classes } = this.props;
     let assessmentsList = this.state.assessments.map((p, i) => (
-        <StudioAssessmentCard key={i} assessment={p}/>
+        <StudioAssessmentCard key={i} assessment={p} selectedCat = {this.state.selectedCat}/>
       ));
 
     return (

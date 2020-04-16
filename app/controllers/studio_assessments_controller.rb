@@ -17,6 +17,7 @@ class StudioAssessmentsController < ApplicationController
         "db_score" =>s.db_score,
         "problemsolving_score" => s.problemsolving_score,
         "problemsolvingalt_score" => s.problemsolvingalt_score,
+        "id" => s.participant_id,
       }
       @studio_list.push(curr)
     end 
