@@ -2,102 +2,104 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import validator from 'validator';
 import MUIRichTextEditor from 'mui-rte';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+  makeStyles,
+  createMuiTheme,
+  MuiThemeProvider,
+} from '@material-ui/core/styles';
 import { apiPost, apiPatch } from 'utils/axios';
 import {
-    Button, 
-    TextField,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    MenuItem,
-    Switch, 
-    Grid, 
-    Paper
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  MenuItem,
+  Switch,
+  Grid,
+  Paper,
 } from '@material-ui/core';
-import { createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles'
+
 import { EditorState, convertToRaw } from 'draft-js';
 
-
 const styles = {
-    buttonStyle: {
-      marginLeft: 'auto',
-      marginRight: '0',
-    },
-    actionItemDescStyle: {
-        marginLeft: '20px',
-        paddingTop: '20px',
-    },
-    dialogActionsStyle: {
-      padding: '30px',
-    },
-    dialogStyle: {
-      padding: '20px',
-    },
-    dialogContentTextStyle: {
-      color: 'black',
-      marginBottom: '2px',
-    },
-    dialogContentTextFieldStyle: {
-      marginTop: '2px',
-      borderStyle: 'solid 4px grey',
-    },
-    MUIRichTextEditorStyle: {
-      border: '5px solid',
-      padding: '10px',
-    },
-    modalItems: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: '750px',
-      height: '100%',
-      margin: 'auto',
-      backgroundColor: 'white',
-      padding: '50px'
-    },
-    actionItemDescriptionStyle: {
-        height: '380px',
+  buttonStyle: {
+    marginLeft: 'auto',
+    marginRight: '0',
+  },
+  actionItemDescStyle: {
+    marginLeft: '20px',
+    paddingTop: '20px',
+  },
+  dialogActionsStyle: {
+    padding: '30px',
+  },
+  dialogStyle: {
+    padding: '20px',
+  },
+  dialogContentTextStyle: {
+    color: 'black',
+    marginBottom: '2px',
+  },
+  dialogContentTextFieldStyle: {
+    marginTop: '2px',
+    borderStyle: 'solid 4px grey',
+  },
+  MUIRichTextEditorStyle: {
+    border: '5px solid',
+    padding: '10px',
+  },
+  modalItems: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '750px',
+    height: '100%',
+    margin: 'auto',
+    backgroundColor: 'white',
+    padding: '50px',
+  },
+  actionItemDescriptionStyle: {
+    height: '380px',
     overflow: 'auto',
-    },
-    backgroundColor: {
-      backgroundColor: '#28303B',
-      padding: '50px',
-    },
-    titleStyle: {
-      color: 'white',
-      fontSize: '36px',
-      marginBottom: '0',
-      marginTop: '0',
-    },
-  };
+  },
+  backgroundColor: {
+    backgroundColor: '#28303B',
+    padding: '50px',
+  },
+  titleStyle: {
+    color: 'white',
+    fontSize: '36px',
+    marginBottom: '0',
+    marginTop: '0',
+  },
+};
 
-
-  const theme = createMuiTheme();
-  Object.assign(theme, {
-      overrides: {
-          MUIRichTextEditor: {
-              root: {
-                borderLeft: 'solid 1px #C4C4C4',
-                borderRight: 'solid 1px #C4C4C4',
-                borderBottom: 'solid 1px #C4C4C4',
-                borderRadius: '4px',
-                overflow: 'auto',
-              },
-              editorContainer: {
-                padding: '20px',
-                overflow: 'auto',
-                height: '130px',
-              },
-              toolbar: {
-                backgroundColor: '#F4F4F4',
-              },
-        },
+const theme = createMuiTheme();
+Object.assign(theme, {
+  overrides: {
+    MUIRichTextEditor: {
+      root: {
+        borderLeft: 'solid 1px #C4C4C4',
+        borderRight: 'solid 1px #C4C4C4',
+        borderBottom: 'solid 1px #C4C4C4',
+        borderRadius: '4px',
+        overflow: 'auto',
       },
-  });
+      editorContainer: {
+        padding: '20px',
+        overflow: 'auto',
+        height: '130px',
+      },
+      toolbar: {
+        backgroundColor: '#F4F4F4',
+      },
+    },
+  },
+});
 
-//   const textStyles = makeStyles(theme => ({ 
+//   const textStyles = makeStyles(theme => ({
 //     root: {
 //       '& > *': {
 //           margin: theme.spacing(1),
@@ -106,7 +108,6 @@ const styles = {
 //     },
 //   }));
 
-
 //   const classes = textStyles();
 //         return (
 //             <form className={classes.root} noValidate autoComplete="off">
@@ -114,52 +115,52 @@ const styles = {
 //             </form>
 //     );
 
-
-
 class ActionItemForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            description: this.props.description,
-            participant_id: this.props.participant_id,
-            internal: this.props.internal,
-            type: this.props.type,
-            id: this.props.id,
-            title: this.props.title,
-            default: false,
-            completed: false,
-            open: false,
-            editorState: EditorState.createEmpty(),
-            errors: {
-              title: '',
-            },
-            display: this.props.display
-        };
-        this.onChange = editorState => this.setState({ editorState });
-        this.handleClose = this.handleClose.bind(this);
-        this.handleOpen = this.handleOpen.bind(this);
-        this.handleInternalChange = this.handleInternalChange.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+  constructor(props) {
+    super(props);
+    this.state = {
+      description: this.props.description,
+      participant_id: this.props.participant_id,
+      internal: this.props.internal,
+      type: this.props.type,
+      id: this.props.id,
+      title: this.props.title,
+      default: false,
+      completed: false,
+      open: false,
+      editorState: EditorState.createEmpty(),
+      errors: {
+        title: '',
+      },
+      display: this.props.display,
+    };
+    this.onChange = editorState => this.setState({ editorState });
+    this.handleClose = this.handleClose.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleInternalChange = this.handleInternalChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-    }
-    handleOpen() {
-        this.setState({open: true});
-    }
-    handleClose() {
-        this.setState({ 
-        open: false,
-        internal: this.props.internal,
-        title: this.props.title
-      });
-    //handleInternalChange = 
-    if(this.state.type == 'edit') {
-      this.state.internal = this.props.internal,
-      this.state.title = this.props.title,
-      this.state.description = this.props.description
+  handleOpen() {
+    this.setState({ open: true });
+  }
+
+  handleClose() {
+    this.setState({
+      open: false,
+      internal: this.props.internal,
+      title: this.props.title,
+    });
+    // handleInternalChange =
+    if (this.state.type == 'edit') {
+      (this.state.internal = this.props.internal),
+      (this.state.title = this.props.title),
+      (this.state.description = this.props.description);
     }
   }
+
   checkErrors = field => () => {
     let errorMessage = '';
     if (field === 'title') {
@@ -182,9 +183,7 @@ class ActionItemForm extends React.Component {
   };
 
   handleInternalChange = name => event => {
-    this.setState(
-      { [name]: event.target.checked }
-    );
+    this.setState({ [name]: event.target.checked });
   };
 
   handleDescriptionChange = name => state => {
@@ -214,7 +213,6 @@ class ActionItemForm extends React.Component {
           .then(() => window.location.reload())
           .catch(error => console.error(error));
       } else {
-
         const newTitle = this.state.title;
         const newDescription = this.state.tempDescription;
         const newInternal = this.state.internal;
@@ -225,67 +223,65 @@ class ActionItemForm extends React.Component {
           internal: newInternal,
         });
 
-      const body = {
-        title: this.state.title,
-        description: this.state.description,
-        internal: this.state.internal,
-        participant_id: this.state.participant_id
-      };
-      apiPatch(`/api/case_note/${this.state.id}/`, {case_note: body}).then(() => window.location.reload())
-      .catch(error => console.error(error));
+        const body = {
+          title: this.state.title,
+          description: this.state.description,
+          internal: this.state.internal,
+          participant_id: this.state.participant_id,
+        };
+        apiPatch(`/api/case_note/${this.state.id}/`, { case_note: body })
+          .then(() => window.location.reload())
+          .catch(error => console.error(error));
+      }
     }
   }
-}
-button = () => {
-  let ret;
-  if (this.state.display == 'plus') {
-    ret = (
-      <button onClick={this.handleOpen} className="plus-button">
-        +
-      </button>
-    );
-  } else if (this.state.type === 'create') {
-    ret = (
-      <Button
-        className="primary-button"
-        variant="contained"
-        color="secondary"
-        onClick={this.handleOpen}
-      >
-        NEW ACTIONITEM +
-      </Button>
-    );
-  } else if (this.state.type === 'edit') {
-    ret = <MenuItem onClick={this.handleOpen}>Edit</MenuItem>;
-  } 
-  return ret;
-};
 
+  button = () => {
+    let ret;
+    if (this.state.display == 'plus') {
+      ret = (
+        <button onClick={this.handleOpen} className="plus-button">
+          +
+        </button>
+      );
+    } else if (this.state.type === 'create') {
+      ret = (
+        <Button
+          className="primary-button"
+          variant="contained"
+          color="secondary"
+          onClick={this.handleOpen}
+        >
+          NEW ACTIONITEM +
+        </Button>
+      );
+    } else if (this.state.type === 'edit') {
+      ret = <MenuItem onClick={this.handleOpen}>Edit</MenuItem>;
+    }
+    return ret;
+  };
 
-
-    render(){
-      let description;
-      if(this.state.type = 'create') {
-        description = 'description';
-      }
-      else if (this.state.type == 'edit') {
-        description = 'newDescription'
-      }
-      let dialog;
-      if(this.state.type == 'create' || this.state.type == 'edit') {
-        dialog = (
-          <Dialog styles = {styles.dialogStyle}
-          open = {this.state.open}
-          onClose = {this.handleClose}
+  render() {
+    let description;
+    if ((this.state.type = 'create')) {
+      description = 'description';
+    } else if (this.state.type == 'edit') {
+      description = 'newDescription';
+    }
+    let dialog;
+    if (this.state.type == 'create' || this.state.type == 'edit') {
+      dialog = (
+        <Dialog
+          styles={styles.dialogStyle}
+          open={this.state.open}
+          onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
           maxWidth="sm"
           fullWidth
-          >
+        >
           <DialogContent maxwidth="sm">
-          <DialogContentText>
-            Title
-          </DialogContentText>
-            <TextField 
+            <DialogContentText>Title</DialogContentText>
+            <TextField
               value={this.state.title}
               style={styles.dialogContentTextFieldStyle}
               name="title"
@@ -299,11 +295,11 @@ button = () => {
               fullWidth
               error={this.state.errors.title !== ''}
               helperText={this.state.errors.title}
-              />
-            </DialogContent>
-            <br />
+            />
+          </DialogContent>
+          <br />
 
-            <DialogContent maxwidth="sm">
+          <DialogContent maxwidth="sm">
             <DialogContentText style={styles.dialogContentTextStyle}>
               Description
             </DialogContentText>
@@ -330,7 +326,7 @@ button = () => {
               />
             </MuiThemeProvider>
           </DialogContent>
-          <br/>
+          <br />
           <DialogContent>
             <DialogContentText style={styles.dialogContentTextStyle}>
               Visible to Participant
@@ -345,51 +341,51 @@ button = () => {
             </DialogContentText>
           </DialogContent>
 
-
-            <DialogActions styles = {styles.dialogActionsStyle}>
-              <Button 
-                onClick = {this.handleClose}
-                variant = "outlined"
-                color = "secondary"
-                >
-                  Cancel
-                </Button>
-                <Button
-                onClick={this.handleSubmit}
-                variant="outlined"
-                color="primary">
-
-                {this.state.type === 'create'
+          <DialogActions styles={styles.dialogActionsStyle}>
+            <Button
+              onClick={this.handleClose}
+              variant="outlined"
+              color="secondary"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={this.handleSubmit}
+              variant="outlined"
+              color="primary"
+            >
+              >
+              {this.state.type === 'create'
                 ? 'Submit Action Item'
                 : 'Edit Action Item'}
-              </Button>
-            </DialogActions>
-          </Dialog>
-        );
-      }
-        return(
-          <>
-          {this.button()}
-          {dialog}
-          </>
+            </Button>
+          </DialogActions>
+        </Dialog>
+      );
+    }
+    return (
+      <>
+        {this.button()}
+        {dialog}
+      </>
     );
   }
 }
- ActionItemForm.propTypes= {
-   type: PropTypes.oneOf(['create', 'edit']),
-   title: PropTypes.string,
-   description: PropTypes.string,
-   internal: PropTypes.bool,
-   open: PropTypes.bool,
- };
- ActionItemForm.defaultProps = {
-     title: '',
-     default: false,
-     completed: false,
-     open: false,
-     itnernal: true,
-     type: 'create',
-     description: '',
-   };
-  
-export default ActionItemForm; 
+ActionItemForm.propTypes = {
+  type: PropTypes.oneOf(['create', 'edit']),
+  title: PropTypes.string,
+  description: PropTypes.string,
+  internal: PropTypes.bool,
+  open: PropTypes.bool,
+};
+ActionItemForm.defaultProps = {
+  title: '',
+  default: false,
+  completed: false,
+  open: false,
+  itnernal: true,
+  type: 'create',
+  description: '',
+};
+
+export default ActionItemForm;

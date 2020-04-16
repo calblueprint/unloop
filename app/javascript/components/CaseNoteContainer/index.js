@@ -7,8 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import CaseNoteForm from 'components/CaseNoteForm';
 import CaseNoteCard from 'components/CaseNoteCard';
 import PropTypes from 'prop-types';
-import styles from './styles';
 import ActionItemForm from 'components/ActionItemForm';
+import styles from './styles';
 
 class CaseNoteContainer extends React.Component {
   constructor(props) {
@@ -123,7 +123,7 @@ class CaseNoteContainer extends React.Component {
                     marginBottom: '25px',
                   }}
                 >
-                  <ActionItemForm/>
+                  <ActionItemForm />
                   <Grid item xs={4}>
                     <h2 className={classes.headerStyle}>Casenotes</h2>
                   </Grid>
