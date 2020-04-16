@@ -34,6 +34,7 @@ function ActionItemCard({
         spacing={1}
         className={classes.cardStyle}
         direction="column"
+        justify="space-evenly"
       >
         <Grid item container alignItems="center" spacing={2}>
           <Grid item>
@@ -65,7 +66,7 @@ function ActionItemCard({
           </Grid>
           <Grid item>{selectCardFunc ? renderSelectIcon() : null}</Grid>
         </Grid>
-        <Grid item container justify="space-between" alignItems="flex-start">
+        <Grid item container justify="space-between" alignItems="center">
           <Grid item>
             {dueDate ? (
               <Typography variant="body2">Due date: {dueDate}</Typography>

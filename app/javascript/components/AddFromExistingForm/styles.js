@@ -25,9 +25,10 @@ const styles = theme => ({
     backgroundColor: theme.palette.common.searchBox,
   },
   listStyle: {
-    overflow: 'auto',
     width: '100%',
     maxHeight: '100%',
+    overflowY: 'auto',
+    flexWrap: 'nowrap',
     height: '30vh',
     minHeight: '240px',
     marginBottom: '20px',

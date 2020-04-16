@@ -5,12 +5,14 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Navbar from 'components/Navbar';
 import Divider from '@material-ui/core/Divider';
+import PropTypes from 'prop-types';
 import ActionItemCreationContainer from 'components/ActionItemCreationContainer';
 import ActionItemSearchParticipants from 'components/ActionItemSearchParticipants';
+import ActionItemList from 'components/ActionItemList';
 import ActionItemDisplayParticipants from 'components/ActionItemDisplayParticipants';
 import styles from './styles';
 
-class AssignmentCreationPage extends React.Component {
+class ActionItemCreationPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -105,9 +107,10 @@ class AssignmentCreationPage extends React.Component {
                 </Typography>
                 <hr className={classes.borderStyle}></hr>
                 <Divider style={{ marginBottom: '10px' }} />
-                <ActionItemDisplayParticipants
+                {/* <ActionItemDisplayParticipants
                   selectedParticipants={this.state.selectedParticipants}
-                />
+                /> */}
+                <ActionItemList selectedActionItems={this.props.templates} />
                 {/* <ActionItemCreationContainer templates={this.props.templates} /> */}
               </Grid>
               <Grid item>
@@ -175,4 +178,11 @@ class AssignmentCreationPage extends React.Component {
   }
 }
 
-export default withStyles(styles)(AssignmentCreationPage);
+ActionItemCreationPage.propTypes = {
+  classes: PropTypes.object.isRequired,
+  templates: PropTypes.array.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  participants: PropTypes.array.isRequired,
+};
+
+export default withStyles(styles)(ActionItemCreationPage);

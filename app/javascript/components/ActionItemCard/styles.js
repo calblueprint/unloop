@@ -27,6 +27,7 @@ const styles = theme => ({
     lineHeight: '1.5em',
     height: '4.5em',
     margin: '0px',
+    marginBottom: '15px',
   },
   buttonStyle: {
     color: theme.palette.common.r0,

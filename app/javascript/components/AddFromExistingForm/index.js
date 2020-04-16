@@ -2,8 +2,6 @@ import React from 'react';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import Fab from '@material-ui/core/Fab';
@@ -65,7 +63,7 @@ class AddFromExistingForm extends React.Component {
     );
 
     filteredTemplates = filteredTemplates.map((template, i) => (
-      <ListItem>
+      <Grid item>
         <ActionItemCard
           key={template.id}
           title={template.title}
@@ -76,7 +74,7 @@ class AddFromExistingForm extends React.Component {
             console.log('Will change!'); // Placeholder since function will be passed down from parent
           }}
         />
-      </ListItem>
+      </Grid>
     ));
     const categories = [
       'FINANCES',
@@ -103,7 +101,7 @@ class AddFromExistingForm extends React.Component {
             variant="extended"
             size="small"
             aria-label="category"
-            onClick={() => this.selectCategory(category)} // TODO: Replace this with this.props.selectCardFunc when
+            onClick={() => this.selectCategory(category)}
           >
             <Typography
               className={classes.categoryButtonStyle}
@@ -146,15 +144,21 @@ class AddFromExistingForm extends React.Component {
                 />
               </Grid>
             </Grid>
-            <List dense className={classes.listStyle}>
+            <Grid
+              item
+              container
+              zerominWidth
+              direction="column"
+              className={classes.listStyle}
+            >
               {filteredTemplates.length !== 0 ? (
                 filteredTemplates
               ) : (
-                <ListItem className={classes.noActionItemsDisplay}>
+                <Grid item className={classes.noActionItemsDisplay}>
                   <Typography variant="h5"> No templates! </Typography>
-                </ListItem>
+                </Grid>
               )}
-            </List>
+            </Grid>
           </Grid>
         </Paper>
       </ThemeProvider>
