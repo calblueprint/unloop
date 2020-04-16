@@ -37,7 +37,6 @@ class ActionItemSearchParticipants extends React.Component {
     this.setState({
       trie,
     });
-
   }
 
   // For searching the different participants
@@ -118,7 +117,11 @@ class ActionItemSearchParticipants extends React.Component {
       const importedStyles = styles().statusButton;
       importedStyles.backgroundColor = theme.palette.buttons[status];
       return (
-        <Fab style={importedStyles} size="small" onClick={() => this.filterByStatus(status)}>
+        <Fab
+          style={importedStyles}
+          size="small"
+          onClick={() => this.filterByStatus(status)}
+        >
           {status}
         </Fab>
       );
@@ -191,6 +194,7 @@ class ActionItemSearchParticipants extends React.Component {
 ActionItemSearchParticipants.propTypes = {
   classes: PropTypes.object.isRequired,
   participants: PropTypes.array.isRequired,
+  statuses: PropTypes.array.isRequired,
   selectedParticipants: PropTypes.array.isRequired,
   addUser: PropTypes.func.isRequired,
   removeUser: PropTypes.func.isRequired,

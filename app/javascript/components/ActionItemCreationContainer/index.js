@@ -56,6 +56,7 @@ function ActionItemCreationContainer({ classes, templates, selectCardFunc }) {
         alignItems="center"
         justify="center"
         spacing={1}
+        className={classes.containerStyle}
       >
         {renderButtonRow()}
         <Grid item>

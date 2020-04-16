@@ -10,8 +10,6 @@ import ActionItemSearchParticipants from 'components/ActionItemSearchParticipant
 import ActionItemDisplayParticipants from 'components/ActionItemDisplayParticipants';
 import styles from './styles';
 
-
-
 class AssignmentCreationPage extends React.Component {
   constructor(props) {
     super(props);
@@ -76,7 +74,7 @@ class AssignmentCreationPage extends React.Component {
           <Navbar isAdmin={this.props.isAdmin} />
         </Grid>
         <Grid item container xs={11} justify="center">
-            <Grid
+          <Grid
             container
             item
             direction="column"
@@ -84,77 +82,77 @@ class AssignmentCreationPage extends React.Component {
             justify="center"
             xs={11}
             spacing={2}
-            >
+          >
             <Grid container item direction="row" justify="flex-start">
-                <Grid item>
-                    <Typography className={classes.topLeftTextStyle}>
-                        Add Assignments to List
-                    </Typography>
-                </Grid>
+              <Grid item>
+                <Typography className={classes.topLeftTextStyle}>
+                  Add Assignments to List
+                </Typography>
+              </Grid>
             </Grid>
             <Grid
-                container
-                item
-                xs={9}
-                spacing={1}
-                className={classes.mainBackgroundStyle}
-                justify="space-evenly"
-                alignItems="center"
+              container
+              item
+              xs={9}
+              spacing={1}
+              className={classes.mainBackgroundStyle}
+              justify="space-evenly"
+              alignItems="flex-start"
             >
-                <Grid item>
-                    <Typography className={classes.underlineStyle}>
-                        Assignments 
-                    </Typography>
-                    <hr className={classes.borderStyle}></hr>
-                    <Divider style={{marginBottom: '10px'}}/>
-                    <ActionItemDisplayParticipants
-                      selectedParticipants={this.state.selectedParticipants}
-                      />
-                    {/* <ActionItemCreationContainer templates={this.props.templates} /> */}
-                </Grid>
-                <Grid item>
-                    <Typography className={classes.underlineStyle}>
-                        Assignments
-                    </Typography>
-                    <hr className={classes.borderStyle}></hr>
-                    <Divider style={{marginBottom: '10px'}}/>
-                    <ActionItemSearchParticipants
-                      participants={this.state.participants}
-                      selectedParticipants={this.state.selectedParticipants}
-                      statuses={this.props.statuses}
-                      addUser={this.addUserToState}
-                      removeUser={this.removeUserFromState}
-                      addAllUsers={this.addAllUsersToState}
-                      removeAllUsers={this.removeAllUsersFromState}
-                    />
-                    {/* <ActionItemCreationContainer templates={this.props.templates} /> */}
-                </Grid>
+              <Grid item>
+                <Typography className={classes.underlineStyle}>
+                  Assignments
+                </Typography>
+                <hr className={classes.borderStyle}></hr>
+                <Divider style={{ marginBottom: '10px' }} />
+                <ActionItemDisplayParticipants
+                  selectedParticipants={this.state.selectedParticipants}
+                />
+                {/* <ActionItemCreationContainer templates={this.props.templates} /> */}
+              </Grid>
+              <Grid item>
+                <Typography className={classes.underlineStyle}>
+                  Assignments
+                </Typography>
+                <hr className={classes.borderStyle}></hr>
+                <Divider style={{ marginBottom: '10px' }} />
+                <ActionItemSearchParticipants
+                  participants={this.state.participants}
+                  selectedParticipants={this.state.selectedParticipants}
+                  statuses={this.props.statuses}
+                  addUser={this.addUserToState}
+                  removeUser={this.removeUserFromState}
+                  addAllUsers={this.addAllUsersToState}
+                  removeAllUsers={this.removeAllUsersFromState}
+                />
+                {/* <ActionItemCreationContainer templates={this.props.templates} /> */}
+              </Grid>
             </Grid>
             <Grid
-                container
-                item
-                direction="row-reverse"
-                alignItems="center"
-                spacing={3}
+              container
+              item
+              direction="row-reverse"
+              alignItems="center"
+              spacing={3}
             >
-                <Grid item>
-                    <Fab
-                    className={classes.iconStyle}
-                    component="span"
-                    variant="extended"
-                    size="medium"
-                    aria-label="category"
-                    >
-                    <Typography
-                        className={classes.categoryButtonStyle}
-                        align="center"
-                    >
-                        {"Save and Continue"}
-                    </Typography>
-                    </Fab>
-                </Grid>
+              <Grid item>
+                <Fab
+                  className={classes.iconStyle}
+                  component="span"
+                  variant="extended"
+                  size="medium"
+                  aria-label="category"
+                >
+                  <Typography
+                    className={classes.categoryButtonStyle}
+                    align="center"
+                  >
+                    Save and Continue
+                  </Typography>
+                </Fab>
+              </Grid>
             </Grid>
-            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     );
