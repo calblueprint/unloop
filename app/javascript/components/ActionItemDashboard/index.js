@@ -21,7 +21,7 @@ class ActionItemDashboard extends React.Component {
   render() {
     return (
       <div className="dashboard">
-        <Navbar />
+        <Navbar isAdmin={this.props.isAdmin} />
         <div className="content">
           <h1>Assignment Dashboard</h1>
           <div className="table-container">

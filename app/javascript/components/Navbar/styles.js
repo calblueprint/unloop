@@ -9,7 +9,7 @@ const styles = theme => ({
   navBar: {
     height: '100vh',
     paddingTop: 40,
-    backgroundColor: '#29313C',
+    backgroundColor: theme.palette.common.black,
     position: 'fixed',
     minWidth: 60,
   },
@@ -18,10 +18,7 @@ const styles = theme => ({
     marginRight: 10,
   },
   navBarItem: {
-    color: theme.palette.common.white,
-    textAlign: 'center',
-    
-    
+    color: theme.palette.common.white, 
   },
   unloopLogo: {
     width: '100%',
@@ -36,7 +33,7 @@ const styles = theme => ({
     lineHeight: '16px',
     letterSpacing: '1.5px',
     textTransform: 'uppercase',
-    color: white,
+    color: white ,
   },
 
 });

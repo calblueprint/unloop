@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core/';
 import { withStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import MUIRichTextEditor from 'mui-rte';
+import * as Sentry from '@sentry/browser';
 import { styles, defaultTheme } from './styles';
 
 class CaseNoteForm extends React.Component {
@@ -29,7 +30,7 @@ class CaseNoteForm extends React.Component {
       visible: this.props.visible,
       open: false,
       type: this.props.type,
-      id: this.props.id,
+      caseNoteId: this.props.caseNoteId,
       tempDescription: this.props.description,
       errors: {
         title: '',
@@ -111,8 +112,22 @@ class CaseNoteForm extends React.Component {
         };
 
         apiPost('/api/case_notes', { case_note: body })
-          .then(() => window.location.reload())
-          .catch(error => console.error(error));
+          .then(response => {
+            if (this.props.appendCaseNote) {
+              this.props.appendCaseNote(response.data);
+            } else if (this.props.incrementNumCaseNotes) {
+              this.props.incrementNumCaseNotes();
+            }
+            this.handleClose();
+          })
+          .catch(error => {
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'CaseNoteForm');
+              scope.setExtra('action', 'apiPost');
+              scope.setExtra('case_note', body);
+            });
+            Sentry.captureException(error);
+          });
       } else {
         this.setState(prevState => ({
           description: prevState.tempDescription,
@@ -124,10 +139,21 @@ class CaseNoteForm extends React.Component {
           visible: this.state.visible,
           participant_id: this.state.participant_id,
         };
-
-        apiPatch(`/api/case_notes/${this.state.id}`, { case_note: body })
-          .then(() => window.location.reload())
-          .catch(error => console.error(error));
+        apiPatch(`/api/case_notes/${this.state.caseNoteId}`, {
+          case_note: body,
+        })
+          .then(response => {
+            this.props.updateCaseNote(response.data);
+            this.setState({ open: false });
+          })
+          .catch(error => {
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'CaseNoteForm');
+              scope.setExtra('action', 'apiPatch');
+              scope.setExtra('case_note', body);
+            });
+            Sentry.captureException(error);
+          });
       }
     }
   }
@@ -284,8 +310,11 @@ CaseNoteForm.propTypes = {
   description: PropTypes.string,
   visible: PropTypes.bool,
   display: PropTypes.string,
-  id: PropTypes.number,
+  caseNoteId: PropTypes.number,
   participantId: PropTypes.number.isRequired,
+  incrementNumCaseNotes: PropTypes.func,
+  appendCaseNote: PropTypes.func,
+  updateCaseNote: PropTypes.func,
 };
 
 CaseNoteForm.defaultProps = {
