@@ -19,6 +19,12 @@ class ActionItemCreationPage extends React.Component {
       step: 0,
       participants: this.props.participants,
       selectedParticipants: [],
+      actionItemTitle: '',
+      actionItemDescription: '',
+      actionItemCategory: null,
+      createNewTemplate: false,
+      unselectedTemplateActionItems: this.props.templates,
+      selectedActionItems: [],
     };
 
     this.addUserToState = this.addUserToState.bind(this);
@@ -27,6 +33,24 @@ class ActionItemCreationPage extends React.Component {
     this.removeAllUsersFromState = this.removeAllUsersFromState.bind(this);
     this.nextStep = this.nextStep.bind(this);
     this.prevStep = this.prevStep.bind(this);
+    this.getMainComponents = this.getMainComponents.bind(this);
+    this.getButtonsGrid = this.getButtons.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  //TODO: ADD HANDLECHANGE TO ActionItemCreationContainer
+  handleChange(name) {
+    return event => {
+      const { value } = event.target;
+      this.setState({ [name] : value })
+    }
+  }
+
+  //TODO: Use addActionItemCard in ActionItemCreation Container
+  //TODO: Pass down appropriate edit/delete buttons!
+  //Create callback functions for actionItemCards.
+  addActionItemCard(cardInfo) {
+    this.setState(prevState => ({selectedActionItems : [cardInfo, ...prevState.selectedActionItems]}))
   }
 
   nextStep() {
@@ -67,8 +91,188 @@ class ActionItemCreationPage extends React.Component {
     });
   }
 
+  getMainComponents(stepSize) {
+    let leftComponent;
+    let rightComponent;
+    switch (stepSize) {
+      case 0:
+        leftComponent = (
+          <ActionItemList selectedActionItems={this.props.templates} />
+        );
+        rightComponent = (
+          <ActionItemCreationContainer 
+            templates={this.props.templates}
+          />
+        ); // CHANGE LATER
+        break;
+      case 1:
+        leftComponent = (
+          <ActionItemDisplayParticipants
+            selectedParticipants={this.state.selectedParticipants}
+          />
+        );
+        rightComponent = (
+          <ActionItemSearchParticipants
+            participants={this.state.participants}
+            selectedParticipants={this.state.selectedParticipants}
+            statuses={this.props.statuses}
+            addUser={this.addUserToState}
+            removeUser={this.removeUserFromState}
+            addAllUsers={this.addAllUsersToState}
+            removeAllUsers={this.removeAllUsersFromState}
+          />
+        );
+        break;
+      case 2:
+        leftComponent = (
+          <ActionItemDisplayParticipants
+            selectedParticipants={this.state.selectedParticipants}
+          />
+        );
+        rightComponent = (
+          <ActionItemList selectedActionItems={this.props.templates} />
+        ); // CHANGE LATER
+        break;
+      default:
+        leftComponent = null;
+        rightComponent = null;
+    }
+    return { leftComponent, rightComponent };
+  }
+
+  getButtons(stepSize) {
+    const { classes } = this.props;
+
+    switch (stepSize) {
+      case 0:
+        return (
+          <Grid
+            container
+            item
+            direction="row-reverse"
+            alignItems="center"
+            spacing={3}
+          >
+            <Grid item>
+              <Fab
+                className={classes.iconStyle}
+                component="span"
+                variant="extended"
+                size="medium"
+                aria-label="category"
+                onClick={this.nextStep}
+              >
+                <Typography
+                  className={classes.categoryButtonStyle}
+                  align="center"
+                >
+                  SAVE & CONTINUE
+                </Typography>
+              </Fab>
+            </Grid>
+          </Grid>
+        );
+      case 1:
+        return (
+          <Grid
+            container
+            item
+            direction="row-reverse"
+            alignItems="center"
+            spacing={3}
+          >
+            {' '}
+            <Grid item>
+              <Fab
+                className={classes.iconStyle}
+                component="span"
+                variant="extended"
+                size="medium"
+                aria-label="category"
+                onClick={this.nextStep}
+              >
+                <Typography
+                  className={classes.categoryButtonStyle}
+                  align="center"
+                >
+                  SAVE & CONTINUE
+                </Typography>
+              </Fab>
+            </Grid>
+            <Grid item>
+              <Fab
+                className={classes.iconStyle}
+                component="span"
+                variant="extended"
+                size="medium"
+                aria-label="category"
+                onClick={this.prevStep}
+              >
+                <Typography
+                  className={classes.categoryButtonStyle}
+                  align="center"
+                >
+                  BACK
+                </Typography>
+              </Fab>
+            </Grid>
+          </Grid>
+        );
+      case 2:
+        return (
+          <Grid
+            container
+            item
+            direction="row-reverse"
+            alignItems="center"
+            spacing={3}
+          >
+            <Grid item>
+              <Fab
+                className={classes.iconStyle}
+                component="span"
+                variant="extended"
+                size="medium"
+                aria-label="category"
+              >
+                <Typography
+                  className={classes.categoryButtonStyle}
+                  align="center"
+                >
+                  ASSIGN
+                </Typography>
+              </Fab>
+            </Grid>
+            <Grid item>
+              <Fab
+                className={classes.iconStyle}
+                component="span"
+                variant="extended"
+                size="medium"
+                aria-label="category"
+                onClick={this.prevStep}
+              >
+                <Typography
+                  className={classes.categoryButtonStyle}
+                  align="center"
+                >
+                  BACK
+                </Typography>
+              </Fab>
+            </Grid>
+          </Grid>
+        );
+      default:
+        return null;
+    }
+  }
+
   render() {
     const { classes } = this.props;
+    const { leftComponent, rightComponent } = this.getMainComponents(
+      this.state.step,
+    );
+    const buttonsGrid = this.getButtonsGrid(this.state.step);
 
     return (
       <Grid container style={{ height: '100vh', width: '100vw' }}>
@@ -107,11 +311,7 @@ class ActionItemCreationPage extends React.Component {
                 </Typography>
                 <hr className={classes.borderStyle}></hr>
                 <Divider style={{ marginBottom: '10px' }} />
-                {/* <ActionItemDisplayParticipants
-                  selectedParticipants={this.state.selectedParticipants}
-                /> */}
-                <ActionItemList selectedActionItems={this.props.templates} />
-                {/* <ActionItemCreationContainer templates={this.props.templates} /> */}
+                {leftComponent}
               </Grid>
               <Grid item>
                 <Typography className={classes.underlineStyle}>
@@ -119,58 +319,10 @@ class ActionItemCreationPage extends React.Component {
                 </Typography>
                 <hr className={classes.borderStyle}></hr>
                 <Divider style={{ marginBottom: '10px' }} />
-                {/* <ActionItemSearchParticipants
-                  participants={this.state.participants}
-                  selectedParticipants={this.state.selectedParticipants}
-                  statuses={this.props.statuses}
-                  addUser={this.addUserToState}
-                  removeUser={this.removeUserFromState}
-                  addAllUsers={this.addAllUsersToState}
-                  removeAllUsers={this.removeAllUsersFromState}
-                /> */}
-                <ActionItemCreationContainer templates={this.props.templates} />
+                {rightComponent}
               </Grid>
             </Grid>
-            <Grid
-              container
-              item
-              direction="row-reverse"
-              alignItems="center"
-              spacing={3}
-            >
-              <Grid item>
-                <Fab
-                  className={classes.iconStyle}
-                  component="span"
-                  variant="extended"
-                  size="medium"
-                  aria-label="category"
-                >
-                  <Typography
-                    className={classes.categoryButtonStyle}
-                    align="center"
-                  >
-                    SAVE & CONTINUE
-                  </Typography>
-                </Fab>
-              </Grid>
-              <Grid item>
-                <Fab
-                  className={classes.iconStyle}
-                  component="span"
-                  variant="extended"
-                  size="medium"
-                  aria-label="category"
-                >
-                  <Typography
-                    className={classes.categoryButtonStyle}
-                    align="center"
-                  >
-                    BACK
-                  </Typography>
-                </Fab>
-              </Grid>
-            </Grid>
+            {buttonsGrid}
           </Grid>
         </Grid>
       </Grid>
@@ -181,6 +333,7 @@ class ActionItemCreationPage extends React.Component {
 ActionItemCreationPage.propTypes = {
   classes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
+  statuses: PropTypes.array.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   participants: PropTypes.array.isRequired,
 };
