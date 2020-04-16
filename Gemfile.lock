@@ -295,9 +295,9 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sentry-raven (3.0.0)
-      faraday (>= 1.0)
-    solargraph (0.38.5)
+    sentry-raven (2.13.0)
+      faraday (>= 0.7.6, < 1.0)
+    solargraph (0.37.2)
       backport (~> 1.1)
       benchmark
       bundler (>= 1.17.2)

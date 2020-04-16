@@ -1,4 +1,5 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { apiDelete } from 'utils/axios';
 import * as Sentry from '@sentry/browser';
@@ -54,9 +55,10 @@ class DeleteModal extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     const dialog = (
       <Dialog
-        style={styles.dialogStyle}
+        className={classes.dialogStyle}
         open={this.state.open}
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
@@ -64,22 +66,22 @@ class DeleteModal extends React.Component {
         fullWidth
       >
         <DialogContent maxwidth="sm">
-          <DialogContentText style={styles.dialogContentTextStyle}>
+          <DialogContentText className={classes.dialogContentTextStyle}>
             {this.state.message}
           </DialogContentText>
         </DialogContent>
 
-        <DialogActions style={styles.dialogActionsStyle}>
+        <DialogActions className={classes.dialogActionsStyle}>
           <Button
             onClick={this.handleClose}
-            variant="outlined"
+            variant="contained"
             color="secondary"
           >
             Cancel
           </Button>
           <Button
             onClick={this.handleSubmit}
-            variant="outlined"
+            variant="contained"
             color="primary"
           >
             Delete
@@ -97,9 +99,10 @@ class DeleteModal extends React.Component {
 }
 
 DeleteModal.propTypes = {
+  classes: PropTypes.object.isRequired,
   body: PropTypes.object.isRequired,
   req: PropTypes.string.isRequired,
   message: PropTypes.string,
 };
 
-export default DeleteModal;
+export default withStyles(styles)(DeleteModal);

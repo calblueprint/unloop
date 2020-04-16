@@ -106,7 +106,7 @@ function PaperworkForm({
             });
             Sentry.captureException(error);
           });
-        // TODO: Change this to flash an error message
+          // TODO: Change this to flash an error message
       } else if (type === 'edit') {
         apiPatch(`/api/paperworks/${paperworkId}`, { paperwork: body })
           .then(response => {
@@ -121,7 +121,7 @@ function PaperworkForm({
             });
             Sentry.captureException(error);
           });
-        // TODO: Change this to flash an error message
+          // TODO: Change this to flash an error message
       }
     }
   };

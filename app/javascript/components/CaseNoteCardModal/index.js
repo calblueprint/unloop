@@ -3,33 +3,10 @@ import PropTypes from 'prop-types';
 import MUIRichTextEditor from 'mui-rte';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
-import { withStyles, createMuiTheme } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import { Button, Dialog, Grid, Paper } from '@material-ui/core/';
 import styles from './styles';
 
-// TODO: Move to global theme
-const defaultTheme = createMuiTheme();
-Object.assign(defaultTheme, {
-  overrides: {
-    MUIRichTextEditor: {
-      root: {
-        borderLeft: 'solid 1px #C4C4C4',
-        borderRight: 'solid 1px #C4C4C4',
-        borderBottom: 'solid 1px #C4C4C4',
-        borderRadius: '4px',
-        overflow: 'auto',
-      },
-      editorContainer: {
-        padding: '20px',
-        overflow: 'auto',
-        height: '130px',
-      },
-      toolbar: {
-        backgroundColor: '#F4F4F4',
-      },
-    },
-  },
-});
 
 function CaseNoteCardModal({ classes, description, title }) {
   const [open, setOpen] = useState(false);

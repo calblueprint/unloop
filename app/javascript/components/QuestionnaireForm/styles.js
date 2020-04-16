@@ -4,10 +4,7 @@
  * This contains all the styles for the QuestionnaireForm container.
  */
 
-const styles = (/* theme */) => ({
-  root: {
-    backgroundColor: '#000000',
-  },
+const styles = () => ({
   dialogActions: {
     padding: 30,
   },
@@ -18,8 +15,8 @@ const styles = (/* theme */) => ({
     width: '100%',
   },
   dialogContentTextField: {
-    marginTop: 2,
-    borderStyle: 'solid 4px grey',
+    marginTop: 8,
+    borderStyle: 'solid',
   },
   questionnaireEntry: {
     marginBottom: 20,
