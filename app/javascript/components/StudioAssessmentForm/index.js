@@ -6,6 +6,7 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Question from 'components/StudioAssessmentQuestion';
+import QuestionView from 'components/StudioAssessmentQuestionView';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -71,19 +72,35 @@ export const StudioAssessmentForm = ({
           ))}
         </Stepper>
       </div>
-      <Question
-        formData={formData}
-        setFormData={setFormData}
-        nextStep={nextStep}
-        prevStep={prevStep}
-        questionType={questionType[step - 1]}
-        questionID={step - 1}
-        studioAssessment={studioAssessment}
-        participantId={participantId}
-        userType={userType}
-        onClose={onClose}
-        type={type}
-      />
+      {type !== 'view' ? 
+        <Question
+          formData={formData}
+          setFormData={setFormData}
+          nextStep={nextStep}
+          prevStep={prevStep}
+          questionType={questionType[step - 1]}
+          questionID={step - 1}
+          studioAssessment={studioAssessment}
+          participantId={participantId}
+          userType={userType}
+          onClose={onClose}
+          type={type}
+        />
+        :
+        <QuestionView
+          formData={formData}
+          setFormData={setFormData}
+          nextStep={nextStep}
+          prevStep={prevStep}
+          questionType={questionType[step - 1]}
+          questionID={step - 1}
+          studioAssessment={studioAssessment}
+          participantId={participantId}
+          userType={userType}
+          onClose={onClose}
+          type={type}
+        />
+      }
     </div>
   );
 };

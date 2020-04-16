@@ -29,12 +29,20 @@ function StudioAssessmentList({
   //   }
   // };
   const studioAssessmentEntries = studioAssessments.map(studioAssessment => (
-    <StudioAssessmentModal
-      studioAssessment={studioAssessment}
-      userType={userType}
-      participantId={participantId}
-      type="edit"
-    />
+    <div>
+      <StudioAssessmentModal
+        studioAssessment={studioAssessment}
+        userType={userType}
+        participantId={participantId}
+        type="edit"
+      />
+      <StudioAssessmentModal
+        studioAssessment={studioAssessment}
+        userType={userType}
+        participantId={participantId}
+        type="view"
+      />
+    </div>
   ));
 
   return (

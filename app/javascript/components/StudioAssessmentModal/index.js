@@ -36,7 +36,12 @@ function StudioAssessmentModal({
   return (
     <>
       <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
-        {type === 'create' ? 'New Studio Assessment' : 'Edit Studio Assessment'}
+        {type === 'create'
+          ? 'New Studio Assessment'
+          : type === 'edit'
+            ? 'Edit Studio Assessment'
+            : 'View Studio Assessment'}
+        }
       </Button>
       <Dialog
         open={open}
