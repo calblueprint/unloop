@@ -61,7 +61,9 @@ class ParticipantShowPage extends React.Component {
           }}
           justify="space-between"
         >
-          <Navbar isAdmin={isAdmin} />
+          <Grid item xs={1}>
+            <Navbar isAdmin={isAdmin} />
+          </Grid>
           <Grid item xs={5} className={classes.leftHalf}>
             <Grid container direction="column" spacing={3}>
               <Grid

@@ -12,10 +12,6 @@ const styles = theme => ({
     position: 'fixed',
     minWidth: 60,
   },
-  drawer: {
-    width: 100,
-    marginRight: 10,
-  },
   navBarItem: {
     color: theme.palette.common.white,
     textAlign: 'center',
