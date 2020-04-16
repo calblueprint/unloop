@@ -1,4 +1,4 @@
-const styles = () => ({
+const styles = theme => ({
   iconLarge: {
     width: 35,
     height: 35,
@@ -9,10 +9,10 @@ const styles = () => ({
     maxWidth: 80,
   },
   r0Color: {
-    backgroundColor: '#009FAD',
+    backgroundColor: theme.palette.common.r0,
   },
   r1Color: {
-    backgroundColor: '#5870EB',
+    backgroundColor: theme.palette.common.r1,
   },
   status: {
     width: 52,
@@ -21,7 +21,20 @@ const styles = () => ({
     textAlign: 'center',
     verticalAlign: 'middle',
     lineHeight: '52px',
-    color: '#fff',
+    color: theme.palette.common.white,
+    backgroundColor: ({ participant }) => {
+      switch (participant.status.toUpperCase()) {
+        case 'R0':
+          return theme.palette.common.r0;
+        case 'R1':
+          return theme.palette.common.r1;
+        case 'R2':
+          return theme.palette.common.r2;
+        default:
+          console.error('Participant has no status');
+          return theme.palette.common.black;
+      }
+    },
   },
   newAssignment: {
     '& > div': {

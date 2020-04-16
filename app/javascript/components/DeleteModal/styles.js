@@ -1,4 +1,4 @@
-const styles = () => ({
+const styles = theme => ({
   dialogActionsStyle: {
     padding: '30px',
   },
@@ -10,7 +10,7 @@ const styles = () => ({
     padding: '20px',
   },
   dialogContentTextStyle: {
-    color: 'black',
+    color: theme.palette.common.black,
     marginBottom: '2px',
   },
 });
