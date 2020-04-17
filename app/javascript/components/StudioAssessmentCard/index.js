@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 class StudioAssessmentCard extends React.Component {
   constructor(props) {
     super(props);
@@ -14,13 +13,13 @@ class StudioAssessmentCard extends React.Component {
   }
 
   render() {
-    const assessment = this.props.assessment;
+    const { assessment } = this.props;
     const bigPic = assessment.bigpicture_score;
-    const  prog = assessment.progfundamentals_score;
-    const  vc = assessment.versioncontrol_score;
-    const  react = assessment.react_score;
-    const  node = assessment.node_score;
-    const  db = assessment.db_score;
+    const prog = assessment.progfundamentals_score;
+    const vc = assessment.versioncontrol_score;
+    const react = assessment.react_score;
+    const node = assessment.node_score;
+    const db = assessment.db_score;
 
     return (
       <tr>
@@ -32,24 +31,12 @@ class StudioAssessmentCard extends React.Component {
         >
           {assessment.participant_id}
         </td>
-        <td>
-            {bigPic}
-        </td>
-        <td>
-            {prog}
-        </td>
-        <td>
-            {vc}
-        </td>
-        <td>
-           {react}
-        </td>
-        <td>
-            {node}
-        </td>
-        <td>
-            {db}
-        </td>
+        <td>{bigPic}</td>
+        <td>{prog}</td>
+        <td>{vc}</td>
+        <td>{react}</td>
+        <td>{node}</td>
+        <td>{db}</td>
       </tr>
     );
   }
@@ -59,4 +46,4 @@ StudioAssessmentCard.propTypes = {
   assessment: PropTypes.object,
 };
 
-export default StudioAssessmentCard ;
+export default StudioAssessmentCard;
