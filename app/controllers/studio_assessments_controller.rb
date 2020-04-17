@@ -5,6 +5,7 @@ class StudioAssessmentsController < ApplicationController
   # GET /studio_assessments.json
   def index
     @studio_assessments = StudioAssessment.all
+    @user = current_user
     skip_policy_scope
   end
 

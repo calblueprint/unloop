@@ -41,6 +41,7 @@ function ParticipantCard({ classes, participant }) {
     ></FontAwesomeIcon>
   );
 
+
   const caseNotes =
     numCaseNotes === 1
       ? `${numCaseNotes} case note`
@@ -63,6 +64,7 @@ function ParticipantCard({ classes, participant }) {
         <div>
           <div className={classes.paperworkText}>
             {participant.paperworksCompleted} / {numPaperworks} completed{' '}
+
           </div>
           <PaperworkForm
             display="plus"
