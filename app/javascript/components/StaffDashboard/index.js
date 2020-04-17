@@ -39,9 +39,10 @@ class StaffDashboard extends React.Component {
       });
       return;
     }
-    this.setState(prevState => ({
-      participants: prevState.trie.get(searchVal),
-    }));
+    const participants = this.state.trie.get(searchVal);
+    this.setState({
+      participants,
+    });
   }
 
   render() {
