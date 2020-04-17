@@ -16,18 +16,6 @@ class StudioAssessmentCard extends React.Component {
     window.location.assign(`participants/${String(pId)}`);
   }
 
-  // <MenuItem value = {"overall"}>Overall Rankings  </MenuItem>
-  //       <MenuItem value = {"bigPic"}>Big Picture       </MenuItem>
-  //       <MenuItem value = {"progFun"}>Prog Fundamentals </MenuItem>
-  //       <MenuItem value = {"verCon"}>Version Control   </MenuItem>
-  //       <MenuItem value = {"react"}>React             </MenuItem>
-  //       <MenuItem value = {"node"}>Node              </MenuItem>
-  //       <MenuItem value = {"Db"}>Db                </MenuItem>
-  //       <MenuItem value = {"probSol"}>Prob Solve        </MenuItem>
-  //       <MenuItem value = {"probAlt"}>Prob Solve Alt    </MenuItem>
-  // className={currCategory === “category 0” ? classes.selectedColumn : classes.column}’
-
-
   render() {
     const assessment = this.props.assessment;
     const bigPic = assessment.bigpictureScore;
