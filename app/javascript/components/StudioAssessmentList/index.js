@@ -1,6 +1,6 @@
 /**
  *
- * AssignmentsList
+ * Studio Assessment List
  *
  */
 
@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Paper, List } from '@material-ui/core';
+import StudioAssessmentModal from 'components/StudioAssessmentModal';
 import PaperworkEntry from 'components/PaperworkEntry';
 import PaperworkForm from 'components/PaperworkForm';
 import ActionItemForm from 'components/ActionItemForm';

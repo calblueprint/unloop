@@ -5,6 +5,8 @@ class Participant < ApplicationRecord
   has_many :assignments
   has_many :studio_assessments
 
+  has_many :studio_assessments
+
   has_one :personal_questionnaire
   has_one :professional_questionnaire
 
@@ -30,6 +32,7 @@ class Participant < ApplicationRecord
       field :status
       field :case_notes
       field :paperworks
+      field :studio_assessments
       field :created_at
       field :updated_at
     end
@@ -40,6 +43,7 @@ class Participant < ApplicationRecord
         field :status
         field :case_notes
         field :paperworks
+        field :studio_assessments
       end
     end
   end

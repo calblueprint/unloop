@@ -32,6 +32,14 @@ rails db:setup
 # This runs db:create, db:schema:load, and db:seed
 ```
 
+3. SMTP server
+
+```bash
+gem install mailcatcher
+# This installs a simple mail server that sends and receives all emails
+```
+
+
 ## Secret Credentials
 
 If your master.key has been compromised, you might want to regenerate it.

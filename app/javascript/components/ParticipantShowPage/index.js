@@ -47,6 +47,7 @@ class ParticipantShowPage extends React.Component {
       participantId,
       personalQuestionnaire,
       professionalQuestionnaire,
+      studioAssessments,
       userType,
       isAdmin,
       assignments,
@@ -123,6 +124,17 @@ class ParticipantShowPage extends React.Component {
                   formatDate={this.formatDate}
                   userType={userType}
                 />
+                <StudioAssessmentList
+                  initialStudioAssessments={studioAssessments.splice(0, 3)} // Render first 3 assessments
+                  formatDate={this.formatDate}
+                  userType={userType}
+                  participantId={participantId}
+                />
+                {/* <StudioAssessmentModal
+                  studioAssessments={studioAssessments}
+                  userType={userType}
+                  participantId={participantId}
+                  />  */}
               </Grid>
             </Grid>
           </Grid>
@@ -184,9 +196,13 @@ ParticipantShowPage.propTypes = {
   participantId: PropTypes.number.isRequired,
   personalQuestionnaire: PropTypes.object.isRequired,
   professionalQuestionnaire: PropTypes.object.isRequired,
+<<<<<<< HEAD
   // Need the following for the assignments and studioAssessments
   assignments: PropTypes.array.isRequired,
   studioAssessments: PropTypes.array.isRequired,
+=======
+  studioAssessments: PropTypes.object.isRequired,
+>>>>>>> joelene/studio-assessment-form
 };
 
 export default withStyles(styles)(ParticipantShowPage);

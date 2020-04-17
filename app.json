@@ -1,0 +1,24 @@
+{
+  "name": "Unloop",
+  "description": "Internal dashboard for Unloop to help them build a pipeline from prison to tech.",
+  "repository": "https://github.com/calblueprint/unloop",
+  "scripts": {
+    "postdeploy": "bundle exec rails db:schema:load db:seed"
+  },
+  "env": {
+    "SMTP_HOST": {
+      "description": "The hostname of deployed app. If does not exist, default to ENV['HEROKU_APP_NAME'].herokuapp.com.",
+      "required": false
+    },
+    "SMTP_PASSWORD": {
+      "description": "Password for the email account used to send emails.."
+    },
+    "SMTP_USERNAME": {
+      "description": "Email address used to send emails.",
+      "value": "unloopauth@gmail.com"
+    },
+    "RAILS_MASTER_KEY": {
+      "description": "Master key for rails credentials"
+    }
+  }
+}

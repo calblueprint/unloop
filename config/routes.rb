@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  resources :assignments, :paperworks, :case_notes, :professional_questionnaires, :personal_questionnaires, only: [:index, :show, :new, :edit]
+  resources :assignments, :paperworks, :case_notes, :studio_assessments, :professional_questionnaires, :personal_questionnaires, only: [:index, :show, :new, :edit]
 
   resources :staffs, only: [] do
     collection do
@@ -43,9 +43,17 @@ Rails.application.routes.draw do
       delete 'templates/:id', to: 'assignments#destroy_template'
     end
 
+    resources :studio_assessments, only: [:show, :create, :update, :destroy]
     resources :assignments, only: [:show, :create, :update, :destroy]
     resources :professional_questionnaires, only: [:show, :create, :update, :destroy]
     resources :personal_questionnaires, only: [:show, :create, :update, :destroy]
+    
+    resources :participants, only: [] do
+      collection do
+        get 'statuses', to: 'participants#statuses'
+      end
+    end
+    
   end
 
   root 'pages#dashboard'
