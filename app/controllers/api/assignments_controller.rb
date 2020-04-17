@@ -148,7 +148,7 @@ class Api::AssignmentsController < ApplicationController
         Raven.extra_context(assignment: assignment.attributes)
         Raven.extra_context(action_item: assignment.action_item.attributes)
         Raven.extra_context(assigned_by: assignment.assigned_by.user.attributes)
-        Raven.extra_context(assigned_to: assignment.assigned_to.user.attributes)
+        Raven.extra_context(assigned_to: assignment.assigned_to.attributes)
     end
           
     def prepare_bulk_assignment(assigned_to_ids, action_item)

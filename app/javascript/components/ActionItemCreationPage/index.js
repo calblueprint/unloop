@@ -41,6 +41,7 @@ class ActionItemCreationPage extends React.Component {
     this.selectActionItemTemplate = this.selectActionItemTemplate.bind(this);
     this.removeSelectedActionItem = this.removeSelectedActionItem.bind(this);
     this.deleteTemplate = this.deleteTemplate.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(name) {
@@ -50,20 +51,28 @@ class ActionItemCreationPage extends React.Component {
     };
   }
 
+  handleSubmit() {
+    const participantIds = this.state.selectedParticipants.map(participant => participant.id);
+    const body = {assignments: this.state.selectedActionItems, assigned_to_ids: participantIds}
+    apiPost('/api/assignments', body)
+    .then(resp => console.log(resp))
+    .catch(error => console.log(error))
+  }
+
   deleteTemplate(templateActionItem) {
     if (!templateActionItem.is_template || !templateActionItem.id) {
       return;
     }
     apiDelete(`/api/assignments/templates/${templateActionItem.id}`)
-        .then(() => (
-          this.setState(prevState => {
-            const remainingTemplates = prevState.unselectedTemplateActionItems.filter(
-              item => item !== templateActionItem
-            )
-            return {unselectedTemplateActionItems: remainingTemplates}
-          })
-        ))
-        .catch(error => console.log(error))
+      .then(() =>
+        this.setState(prevState => {
+          const remainingTemplates = prevState.unselectedTemplateActionItems.filter(
+            item => item !== templateActionItem,
+          );
+          return { unselectedTemplateActionItems: remainingTemplates };
+        }),
+      )
+      .catch(error => console.log(error));
   }
 
   removeSelectedActionItem(actionItem) {
@@ -78,7 +87,7 @@ class ActionItemCreationPage extends React.Component {
 
     this.setState(prevState => {
       const filteredActionItems = prevState.selectedActionItems.filter(
-        item => item !== actionItem
+        item => item !== actionItem,
       );
       return { selectedActionItems: filteredActionItems };
     });
@@ -106,7 +115,7 @@ class ActionItemCreationPage extends React.Component {
         description: actionItemDescription,
         category: actionItemCategory,
       };
-      //TODO: Use the response instead of creating an actual actionItem if possible!
+      // TODO: Use the response instead of creating an actual actionItem if possible!
       apiPost('/api/assignments/templates', { assignment: template })
         .then(resp => console.log(resp))
         .catch(error => console.log(error));
@@ -128,9 +137,14 @@ class ActionItemCreationPage extends React.Component {
 
   selectActionItemTemplate(actionItem) {
     this.setState(prevState => {
-      const unselectedTemplates = prevState.unselectedTemplateActionItems.filter(item => item !== actionItem)
-      return {selectedActionItems: [actionItem, ...prevState.selectedActionItems], unselectedTemplateActionItems: unselectedTemplates}
-    })
+      const unselectedTemplates = prevState.unselectedTemplateActionItems.filter(
+        item => item !== actionItem,
+      );
+      return {
+        selectedActionItems: [actionItem, ...prevState.selectedActionItems],
+        unselectedTemplateActionItems: unselectedTemplates,
+      };
+    });
     // const templates = [...this.state.unselectedTemplateActionItems];
     // const index = templates.findIndex(
     //   actionItem => actionItem.id === actionItemId,
@@ -347,6 +361,7 @@ class ActionItemCreationPage extends React.Component {
                 variant="extended"
                 size="medium"
                 aria-label="category"
+                onClick={this.handleSubmit}
               >
                 <Typography
                   className={classes.categoryButtonStyle}

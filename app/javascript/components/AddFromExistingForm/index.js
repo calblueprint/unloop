@@ -177,7 +177,7 @@ AddFromExistingForm.propTypes = {
   classes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
   selectActionItemTemplate: PropTypes.func.isRequired,
-  deleteTemplate: PropTypes.func.isRequired
+  deleteTemplate: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(AddFromExistingForm);

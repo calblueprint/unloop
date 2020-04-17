@@ -122,7 +122,7 @@ ActionItemCreationContainer.propTypes = {
   selectActionItemTemplate: PropTypes.func.isRequired,
   setDueDate: PropTypes.func.isRequired,
   setCategory: PropTypes.func.isRequired,
-  deleteTemplate: PropTypes.func.isRequired
+  deleteTemplate: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ActionItemCreationContainer);
