@@ -14,12 +14,8 @@ const Setting = {
   TEMPLATE: 1,
 };
 
-function ActionItemCreationContainer({ classes, templates, selectCardFunc }) {
+function ActionItemCreationContainer({ classes, templates, title, setTitle, description, setDescription, categorySelected, setCategory, selectActionItemTemplate, createActionItem}) {
   const [creationSetting, setCreationSetting] = useState(Setting.SCRATCH);
-
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [categorySelected, setCategory] = useState(null);
   const [addToTemplates, setAddToTemplates] = useState(false);
 
   const renderButtonRow = () => {
@@ -74,13 +70,15 @@ function ActionItemCreationContainer({ classes, templates, selectCardFunc }) {
         <Grid item>
           {creationSetting === Setting.SCRATCH ? 
           (<ActionItemForm title={title} setTitle={setTitle} 
-              description={description} setDescription={setDescription} 
-                          categorySelected={categorySelected} setCategory={setCategory}
-                          addToTemplates={addToTemplates} setAddToTemplates={setAddToTemplates}
+                           description={description} setDescription={setDescription} 
+                           categorySelected={categorySelected} setCategory={setCategory}
+                           addToTemplates={addToTemplates} setAddToTemplates={setAddToTemplates}
+                           createActionItem={createActionItem}
+
           />) :
           (<AddFromExistingForm
           templates={templates}
-          selectCardFunc={selectCardFunc}
+          selectActionItemTemplate={selectActionItemTemplate}
           />)
           }
         </Grid>
@@ -92,6 +90,10 @@ function ActionItemCreationContainer({ classes, templates, selectCardFunc }) {
 ActionItemCreationContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  setTitle: PropTypes.func.isRequired,
+  setDescription: PropTypes.func.isRequired,
   selectCardFunc: PropTypes.func,
 };
 

@@ -31,6 +31,7 @@ function ActionItemForm({
   setCategory,
   addToTemplates,
   setAddToTemplates,
+  createActionItem,
 }) {
   const categoryList = categories.map(category => {
     const isSelectedCategory =
@@ -49,7 +50,7 @@ function ActionItemForm({
           size="small"
           aria-label="category"
           onClick={() =>
-            setCategory(categorySelected !== category ? category : null)
+            setCategory(categorySelected !== category ? {target: {value: category}} : {target: {value: null}})
           }
         >
           <Typography
@@ -92,7 +93,7 @@ function ActionItemForm({
               <div>Assignment Title</div>
               <TextField
                 className={classes.searchBar}
-                onChange={e => setTitle(e.target.value)}
+                onChange={e => setTitle(e)}
                 defaultValue={title}
                 variant="outlined"
                 type="text"
@@ -104,7 +105,7 @@ function ActionItemForm({
               <TextField
                 variant="outlined"
                 className={classes.searchBar}
-                onChange={e => setDescription(e.target.value)}
+                onChange={e => setDescription(e)}
                 multiline
                 type="text"
                 margin="dense"
@@ -132,7 +133,7 @@ function ActionItemForm({
                 </Typography>
               </Grid>
               <Grid item>
-                <Button>
+                <Button onClick={() => createActionItem(addToTemplates)}>
                   <Typography
                     display="inline"
                     size="small"
@@ -152,8 +153,6 @@ function ActionItemForm({
 
 ActionItemForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  templates: PropTypes.array.isRequired,
-  selectCardFunc: PropTypes.func,
 };
 
 export default withStyles(styles)(ActionItemForm);

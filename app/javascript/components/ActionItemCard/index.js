@@ -16,13 +16,14 @@ function ActionItemCard({
   description,
   dueDate,
   category,
+  actionItemId,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
-  selectCardFunc,
+  selectActionItemTemplate,
 }) {
   const renderSelectIcon = () => (
-    <IconButton aria-label="add" onClick={selectCardFunc}>
+    <IconButton aria-label="add" onClick={selectActionItemTemplate}>
       <AddIcon />
     </IconButton>
   );
@@ -64,7 +65,7 @@ function ActionItemCard({
               {description}
             </Typography>
           </Grid>
-          <Grid item>{selectCardFunc ? renderSelectIcon() : null}</Grid>
+          <Grid item>{selectActionItemTemplate ? renderSelectIcon() : null}</Grid>
         </Grid>
         <Grid item container justify="space-between" alignItems="center">
           <Grid item>
@@ -102,7 +103,7 @@ ActionItemCard.propTypes = {
   description: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   dueDate: PropTypes.string,
-  selectCardFunc: PropTypes.func,
+  selectActionItemTemplate: PropTypes.func,
   lastEntry: PropTypes.bool,
 };
 export default withStyles(styles)(ActionItemCard);

@@ -31,6 +31,12 @@ class AddFromExistingForm extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    if (this.props.templates.length !== this.state.actionItemTemplates.length) {
+      this.setState({actionItemTemplates: this.props.templates})
+    }
+  }
+
   selectCategory(categorySelected) {
     if (categorySelected === this.state.categorySelected) {
       this.setState({ categorySelected: null });
@@ -70,9 +76,7 @@ class AddFromExistingForm extends React.Component {
           description={template.description}
           category={template.category}
           lastEntry={filteredTemplates.length - 1 === i}
-          selectCardFunc={() => {
-            console.log('Will change!'); // Placeholder since function will be passed down from parent
-          }}
+          selectActionItemTemplate={() => this.props.selectActionItemTemplate(template.id)}
         />
       </Grid>
     ));
@@ -169,7 +173,7 @@ class AddFromExistingForm extends React.Component {
 AddFromExistingForm.propTypes = {
   classes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
-  selectCardFunc: PropTypes.func,
+  selectActionItemTemplate: PropTypes.func,
 };
 
 export default withStyles(styles)(AddFromExistingForm);

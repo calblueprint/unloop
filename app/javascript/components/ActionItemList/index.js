@@ -6,17 +6,20 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 
 function ActionItemList({ classes, selectedActionItems }) {
-  const selectedCards = selectedActionItems.map((template, i) => (
-    <Grid item>
-      <ActionItemCard
-        key={template.id}
-        title={template.title}
-        description={template.description}
-        lastEntry={i === selectedActionItems.length - 1}
-        category={template.category}
-      />
-    </Grid>
-  ));
+
+  const selectedCards = selectedActionItems.map((actionItem, i) =>  {
+    return(
+      <Grid item>
+        <ActionItemCard
+          key={actionItem.id}
+          title={actionItem.title}
+          description={actionItem.description}
+          lastEntry={i === selectedActionItems.length - 1}
+          category={actionItem.category}
+        />
+      </Grid>
+    );
+  });
 
   return (
     <Grid

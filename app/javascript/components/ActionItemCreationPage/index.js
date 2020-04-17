@@ -22,11 +22,11 @@ class ActionItemCreationPage extends React.Component {
       actionItemTitle: '',
       actionItemDescription: '',
       actionItemCategory: null,
-      createNewTemplate: false,
       unselectedTemplateActionItems: this.props.templates,
       selectedActionItems: [],
     };
 
+    console.log(this.props.templates)
     this.addUserToState = this.addUserToState.bind(this);
     this.removeUserFromState = this.removeUserFromState.bind(this);
     this.addAllUsersToState = this.addAllUsersToState.bind(this);
@@ -36,7 +36,10 @@ class ActionItemCreationPage extends React.Component {
     this.getMainComponents = this.getMainComponents.bind(this);
     this.getButtonsGrid = this.getButtons.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.createActionItem = this.createActionItem.bind(this);
+    this.selectActionItemTemplate = this.selectActionItemTemplate.bind(this);
   }
+  // Need to do dates!!
 
   //TODO: ADD HANDLECHANGE TO ActionItemCreationContainer
   handleChange(name) {
@@ -46,12 +49,40 @@ class ActionItemCreationPage extends React.Component {
     }
   }
 
+  createActionItem(saveToTemplates) {
+    const { actionItemTitle, actionItemDescription } = this.state
+
+    if (actionItemTitle === '' || actionItemDescription === '') {
+      return;
+    }
+
+    if (saveToTemplates) {
+      // Make post request to templates
+    }
+    const actionItem = {title: actionItemTitle, description: actionItemDescription} // add dueDate eventually
+    this.setState(prevState => ({
+                                 selectedActionItems: [actionItem, ...prevState.selectedActionItems], 
+                                 actionItemTitle: '', 
+                                 actionItemDescription: ''
+                                }))
+  }
+
+  selectActionItemTemplate(actionItemId) {
+    const templates = [...this.state.unselectedTemplateActionItems];
+    const index = templates.findIndex(actionItem => actionItem.id === actionItemId);
+    
+    if (index !== -1) {
+      const actionItem = templates.splice(index, 1)[0]
+      this.setState(prevState => ({
+                                    selectedActionItems: [actionItem, ...prevState.selectedActionItems], 
+                                    unselectedTemplateActionItems: templates
+                                  }))
+    }
+  }
+
   //TODO: Use addActionItemCard in ActionItemCreation Container
   //TODO: Pass down appropriate edit/delete buttons!
   //Create callback functions for actionItemCards.
-  addActionItemCard(cardInfo) {
-    this.setState(prevState => ({selectedActionItems : [cardInfo, ...prevState.selectedActionItems]}))
-  }
 
   nextStep() {
     this.setState(prevState => ({ step: prevState.step + 1 }));
@@ -97,11 +128,19 @@ class ActionItemCreationPage extends React.Component {
     switch (stepSize) {
       case 0:
         leftComponent = (
-          <ActionItemList selectedActionItems={this.props.templates} />
+          <ActionItemList selectedActionItems={this.state.selectedActionItems} />
         );
         rightComponent = (
           <ActionItemCreationContainer 
-            templates={this.props.templates}
+            templates={this.state.unselectedTemplateActionItems}
+            title={this.state.actionItemTitle}
+            setTitle={this.handleChange('actionItemTitle')}
+            description={this.state.actionItemDescription}
+            setDescription={this.handleChange('actionItemDescription')}
+            categorySelected={this.state.actionItemCategory}
+            setCategory={this.handleChange('actionItemCategory')}
+            createActionItem={this.createNewActionItem}
+            selectActionItemTemplate={this.selectActionItemTemplate}
           />
         ); // CHANGE LATER
         break;
