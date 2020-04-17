@@ -33,7 +33,7 @@ class AddFromExistingForm extends React.Component {
 
   componentDidUpdate() {
     if (this.props.templates.length !== this.state.actionItemTemplates.length) {
-      this.setState({actionItemTemplates: this.props.templates})
+      this.setState({ actionItemTemplates: this.props.templates });
     }
   }
 
@@ -64,7 +64,7 @@ class AddFromExistingForm extends React.Component {
 
     let filteredTemplates = this.state.actionItemTemplates.filter(template =>
       this.state.categorySelected
-        ? template.category.toUpperCase() === this.state.categorySelected
+        ? template.category === this.state.categorySelected
         : template,
     );
 
@@ -76,18 +76,20 @@ class AddFromExistingForm extends React.Component {
           description={template.description}
           category={template.category}
           lastEntry={filteredTemplates.length - 1 === i}
-          selectActionItemTemplate={() => this.props.selectActionItemTemplate(template.id)}
+          selectActionItemTemplate={() =>
+            this.props.selectActionItemTemplate(template.id)
+          }
         />
       </Grid>
     ));
     const categories = [
-      'FINANCES',
-      'PROJECT',
-      'COMMUNITY',
-      'STARTUP',
-      'TREATMENT',
-      'HEALTH',
-      'EDUCATION',
+      'Finances',
+      'Project',
+      'Community',
+      'Startup',
+      'Treatment',
+      'Health',
+      'Education',
     ];
     const categoryList = categories.map(category => {
       const isSelectedCategory =

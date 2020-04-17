@@ -10,6 +10,7 @@ import ActionItemCreationContainer from 'components/ActionItemCreationContainer'
 import ActionItemSearchParticipants from 'components/ActionItemSearchParticipants';
 import ActionItemList from 'components/ActionItemList';
 import ActionItemDisplayParticipants from 'components/ActionItemDisplayParticipants';
+import { apiPost } from 'utils/axios';
 import styles from './styles';
 
 class ActionItemCreationPage extends React.Component {
@@ -83,15 +84,21 @@ class ActionItemCreationPage extends React.Component {
     }
 
     if (saveToTemplates) {
-      console.log('Save is true!');
-      // Make post request to templates
+      const template = {
+        title: actionItemTitle,
+        description: actionItemDescription,
+        category: actionItemCategory,
+      };
+      apiPost('/api/assignments/templates', { assignment: template })
+        .then(resp => console.log(resp))
+        .catch(error => console.log(error));
     }
     const actionItem = {
       title: actionItemTitle,
       description: actionItemDescription,
       category: actionItemCategory,
       dueDate: actionItemDueDate,
-    }; // add dueDate eventually
+    };
     this.setState(prevState => ({
       selectedActionItems: [actionItem, ...prevState.selectedActionItems],
       actionItemTitle: '',
@@ -183,7 +190,7 @@ class ActionItemCreationPage extends React.Component {
             createActionItem={this.createActionItem}
             selectActionItemTemplate={this.selectActionItemTemplate}
           />
-        ); // CHANGE LATER
+        );
         break;
       case 1:
         leftComponent = (
@@ -210,8 +217,11 @@ class ActionItemCreationPage extends React.Component {
           />
         );
         rightComponent = (
-          <ActionItemList selectedActionItems={this.props.templates} />
-        ); // CHANGE LATER
+          <ActionItemList
+            selectedActionItems={this.state.selectedActionItems}
+            removeSelectedActionItem={this.removeSelectedActionItem}
+          />
+        );
         break;
       default:
         leftComponent = null;

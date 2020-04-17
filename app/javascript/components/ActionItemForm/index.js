@@ -12,13 +12,13 @@ import theme from 'utils/theme';
 import styles from './styles';
 
 const categories = [
-  'FINANCES',
-  'PROJECT',
-  'COMMUNITY',
-  'STARTUP',
-  'TREATMENT',
-  'HEALTH',
-  'EDUCATION',
+  'Finances',
+  'Project',
+  'Community',
+  'Startup',
+  'Treatment',
+  'Health',
+  'Education',
 ];
 
 function ActionItemForm({
