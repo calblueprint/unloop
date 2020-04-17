@@ -14,7 +14,20 @@ const Setting = {
   TEMPLATE: 1,
 };
 
-function ActionItemCreationContainer({ classes, templates, title, setTitle, description, setDescription, categorySelected, setCategory, selectActionItemTemplate, createActionItem}) {
+function ActionItemCreationContainer({
+  classes,
+  templates,
+  title,
+  setTitle,
+  description,
+  setDescription,
+  categorySelected,
+  setCategory,
+  dueDate,
+  setDueDate,
+  selectActionItemTemplate,
+  createActionItem,
+}) {
   const [creationSetting, setCreationSetting] = useState(Setting.SCRATCH);
   const [addToTemplates, setAddToTemplates] = useState(false);
 
@@ -68,19 +81,26 @@ function ActionItemCreationContainer({ classes, templates, title, setTitle, desc
       >
         {renderButtonRow()}
         <Grid item>
-          {creationSetting === Setting.SCRATCH ? 
-          (<ActionItemForm title={title} setTitle={setTitle} 
-                           description={description} setDescription={setDescription} 
-                           categorySelected={categorySelected} setCategory={setCategory}
-                           addToTemplates={addToTemplates} setAddToTemplates={setAddToTemplates}
-                           createActionItem={createActionItem}
-
-          />) :
-          (<AddFromExistingForm
-          templates={templates}
-          selectActionItemTemplate={selectActionItemTemplate}
-          />)
-          }
+          {creationSetting === Setting.SCRATCH ? (
+            <ActionItemForm
+              title={title}
+              setTitle={setTitle}
+              description={description}
+              setDescription={setDescription}
+              categorySelected={categorySelected}
+              setCategory={setCategory}
+              dueDate={dueDate}
+              setDueDate={setDueDate}
+              addToTemplates={addToTemplates}
+              setAddToTemplates={setAddToTemplates}
+              createActionItem={createActionItem}
+            />
+          ) : (
+            <AddFromExistingForm
+              templates={templates}
+              selectActionItemTemplate={selectActionItemTemplate}
+            />
+          )}
         </Grid>
       </Grid>
     </ThemeProvider>
@@ -92,9 +112,14 @@ ActionItemCreationContainer.propTypes = {
   templates: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  dueDate: PropTypes.string.isRequired,
+  categorySelected: PropTypes.string,
   setTitle: PropTypes.func.isRequired,
   setDescription: PropTypes.func.isRequired,
-  selectCardFunc: PropTypes.func,
+  createActionItem: PropTypes.func.isRequired,
+  selectActionItemTemplate: PropTypes.func.isRequired,
+  setDueDate: PropTypes.func.isRequired,
+  setCategory: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ActionItemCreationContainer);

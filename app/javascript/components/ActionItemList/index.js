@@ -5,21 +5,23 @@ import ActionItemCard from 'components/ActionItemCard';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
-function ActionItemList({ classes, selectedActionItems }) {
-
-  const selectedCards = selectedActionItems.map((actionItem, i) =>  {
-    return(
-      <Grid item>
-        <ActionItemCard
-          key={actionItem.id}
-          title={actionItem.title}
-          description={actionItem.description}
-          lastEntry={i === selectedActionItems.length - 1}
-          category={actionItem.category}
-        />
-      </Grid>
-    );
-  });
+function ActionItemList({
+  classes,
+  selectedActionItems,
+  removeSelectedActionItem,
+}) {
+  const selectedCards = selectedActionItems.map((actionItem, i) => (
+    <Grid item>
+      <ActionItemCard
+        title={actionItem.title}
+        description={actionItem.description}
+        dueDate={actionItem.dueDate}
+        lastEntry={i === selectedActionItems.length - 1}
+        category={actionItem.category}
+        removeActionItem={() => removeSelectedActionItem(actionItem)}
+      />
+    </Grid>
+  ));
 
   return (
     <Grid
@@ -37,6 +39,7 @@ function ActionItemList({ classes, selectedActionItems }) {
 ActionItemList.propTypes = {
   classes: PropTypes.object.isRequired,
   selectedActionItems: PropTypes.array.isRequired,
+  removeSelectedActionItem: PropTypes.func,
 };
 
 export default withStyles(styles)(ActionItemList);

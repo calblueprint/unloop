@@ -21,12 +21,12 @@ class ActionItemCreationPage extends React.Component {
       selectedParticipants: [],
       actionItemTitle: '',
       actionItemDescription: '',
+      actionItemDueDate: '',
       actionItemCategory: null,
       unselectedTemplateActionItems: this.props.templates,
       selectedActionItems: [],
     };
 
-    console.log(this.props.templates)
     this.addUserToState = this.addUserToState.bind(this);
     this.removeUserFromState = this.removeUserFromState.bind(this);
     this.addAllUsersToState = this.addAllUsersToState.bind(this);
@@ -38,51 +38,87 @@ class ActionItemCreationPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.createActionItem = this.createActionItem.bind(this);
     this.selectActionItemTemplate = this.selectActionItemTemplate.bind(this);
+    this.removeSelectedActionItem = this.removeSelectedActionItem.bind(this);
   }
-  // Need to do dates!!
 
-  //TODO: ADD HANDLECHANGE TO ActionItemCreationContainer
   handleChange(name) {
     return event => {
       const { value } = event.target;
-      this.setState({ [name] : value })
+      this.setState({ [name]: value });
+    };
+  }
+
+  removeSelectedActionItem(actionItem) {
+    if (actionItem.is_template) {
+      this.setState(prevState => ({
+        unselectedTemplateActionItems: [
+          actionItem,
+          ...prevState.unselectedTemplateActionItems,
+        ],
+      }));
     }
+
+    this.setState(prevState => {
+      const filteredActionItems = prevState.selectedActionItems.filter(
+        item => item !== actionItem,
+      );
+      return { selectedActionItems: filteredActionItems };
+    });
   }
 
   createActionItem(saveToTemplates) {
-    const { actionItemTitle, actionItemDescription } = this.state
+    const {
+      actionItemTitle,
+      actionItemDescription,
+      actionItemCategory,
+      actionItemDueDate,
+    } = this.state;
 
-    if (actionItemTitle === '' || actionItemDescription === '') {
+    if (
+      actionItemTitle === '' ||
+      actionItemDescription === '' ||
+      actionItemCategory === null
+    ) {
       return;
     }
 
     if (saveToTemplates) {
+      console.log('Save is true!');
       // Make post request to templates
     }
-    const actionItem = {title: actionItemTitle, description: actionItemDescription} // add dueDate eventually
+    const actionItem = {
+      title: actionItemTitle,
+      description: actionItemDescription,
+      category: actionItemCategory,
+      dueDate: actionItemDueDate,
+    }; // add dueDate eventually
     this.setState(prevState => ({
-                                 selectedActionItems: [actionItem, ...prevState.selectedActionItems], 
-                                 actionItemTitle: '', 
-                                 actionItemDescription: ''
-                                }))
+      selectedActionItems: [actionItem, ...prevState.selectedActionItems],
+      actionItemTitle: '',
+      actionItemDescription: '',
+      actionItemDueDate: '',
+      actionItemCategory: null,
+    }));
   }
 
   selectActionItemTemplate(actionItemId) {
     const templates = [...this.state.unselectedTemplateActionItems];
-    const index = templates.findIndex(actionItem => actionItem.id === actionItemId);
-    
+    const index = templates.findIndex(
+      actionItem => actionItem.id === actionItemId,
+    );
+
     if (index !== -1) {
-      const actionItem = templates.splice(index, 1)[0]
+      const actionItem = templates.splice(index, 1)[0];
       this.setState(prevState => ({
-                                    selectedActionItems: [actionItem, ...prevState.selectedActionItems], 
-                                    unselectedTemplateActionItems: templates
-                                  }))
+        selectedActionItems: [actionItem, ...prevState.selectedActionItems],
+        unselectedTemplateActionItems: templates,
+      }));
     }
   }
 
-  //TODO: Use addActionItemCard in ActionItemCreation Container
-  //TODO: Pass down appropriate edit/delete buttons!
-  //Create callback functions for actionItemCards.
+  // TODO: Use addActionItemCard in ActionItemCreation Container
+  // TODO: Pass down appropriate edit/delete buttons!
+  // Create callback functions for actionItemCards.
 
   nextStep() {
     this.setState(prevState => ({ step: prevState.step + 1 }));
@@ -128,10 +164,13 @@ class ActionItemCreationPage extends React.Component {
     switch (stepSize) {
       case 0:
         leftComponent = (
-          <ActionItemList selectedActionItems={this.state.selectedActionItems} />
+          <ActionItemList
+            selectedActionItems={this.state.selectedActionItems}
+            removeSelectedActionItem={this.removeSelectedActionItem}
+          />
         );
         rightComponent = (
-          <ActionItemCreationContainer 
+          <ActionItemCreationContainer
             templates={this.state.unselectedTemplateActionItems}
             title={this.state.actionItemTitle}
             setTitle={this.handleChange('actionItemTitle')}
@@ -139,7 +178,9 @@ class ActionItemCreationPage extends React.Component {
             setDescription={this.handleChange('actionItemDescription')}
             categorySelected={this.state.actionItemCategory}
             setCategory={this.handleChange('actionItemCategory')}
-            createActionItem={this.createNewActionItem}
+            dueDate={this.state.actionItemDueDate}
+            setDueDate={this.handleChange('actionItemDueDate')}
+            createActionItem={this.createActionItem}
             selectActionItemTemplate={this.selectActionItemTemplate}
           />
         ); // CHANGE LATER
@@ -372,7 +413,7 @@ class ActionItemCreationPage extends React.Component {
 ActionItemCreationPage.propTypes = {
   classes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
-  statuses: PropTypes.array.isRequired,
+  statuses: PropTypes.object.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   participants: PropTypes.array.isRequired,
 };

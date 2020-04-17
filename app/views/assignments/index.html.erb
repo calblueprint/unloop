@@ -1,7 +1,8 @@
 <%= react_component("ActionItemCreationPage", {
   templates: ActionItem.where(is_template: true),
   participants: @participants_list,
-  statuses: Participant.statuses.except(:studio)
+  statuses: Participant.statuses.except(:studio),
+  isAdmin: current_user.admin
   }) %>
 
 

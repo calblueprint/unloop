@@ -29,6 +29,8 @@ function ActionItemForm({
   setDescription,
   categorySelected,
   setCategory,
+  dueDate,
+  setDueDate,
   addToTemplates,
   setAddToTemplates,
   createActionItem,
@@ -50,7 +52,11 @@ function ActionItemForm({
           size="small"
           aria-label="category"
           onClick={() =>
-            setCategory(categorySelected !== category ? {target: {value: category}} : {target: {value: null}})
+            setCategory(
+              categorySelected !== category
+                ? { target: { value: category } }
+                : { target: { value: null } },
+            )
           }
         >
           <Typography
@@ -94,7 +100,7 @@ function ActionItemForm({
               <TextField
                 className={classes.searchBar}
                 onChange={e => setTitle(e)}
-                defaultValue={title}
+                value={title}
                 variant="outlined"
                 type="text"
                 margin="dense"
@@ -109,13 +115,18 @@ function ActionItemForm({
                 multiline
                 type="text"
                 margin="dense"
-                defaultValue={description}
+                value={description}
                 rows={2}
               />
             </Grid>
             <Grid item>
               <div>Due Date</div>
-              <TextField type="date" className={classes.searchBar} />
+              <TextField
+                type="date"
+                value={dueDate}
+                className={classes.searchBar}
+                onChange={e => setDueDate(e)}
+              />
             </Grid>
             <Grid item container justify="space-between">
               <Grid item>
@@ -153,6 +164,17 @@ function ActionItemForm({
 
 ActionItemForm.propTypes = {
   classes: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+  setTitle: PropTypes.func.isRequired,
+  description: PropTypes.string.isRequired,
+  setDescription: PropTypes.func.isRequired,
+  categorySelected: PropTypes.string,
+  setCategory: PropTypes.func.isRequired,
+  dueDate: PropTypes.string.isRequired,
+  setDueDate: PropTypes.func.isRequired,
+  addToTemplates: PropTypes.bool.isRequired,
+  setAddToTemplates: PropTypes.func.isRequired,
+  createActionItem: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ActionItemForm);
