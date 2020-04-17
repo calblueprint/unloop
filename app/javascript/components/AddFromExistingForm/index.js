@@ -77,8 +77,9 @@ class AddFromExistingForm extends React.Component {
           category={template.category}
           lastEntry={filteredTemplates.length - 1 === i}
           selectActionItemTemplate={() =>
-            this.props.selectActionItemTemplate(template.id)
+            this.props.selectActionItemTemplate(template)
           }
+          removeActionItem={() => this.props.deleteTemplate(template)}
         />
       </Grid>
     ));
@@ -175,7 +176,8 @@ class AddFromExistingForm extends React.Component {
 AddFromExistingForm.propTypes = {
   classes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
-  selectActionItemTemplate: PropTypes.func,
+  selectActionItemTemplate: PropTypes.func.isRequired,
+  deleteTemplate: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(AddFromExistingForm);

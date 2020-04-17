@@ -27,6 +27,7 @@ function ActionItemCreationContainer({
   setDueDate,
   selectActionItemTemplate,
   createActionItem,
+  deleteTemplate,
 }) {
   const [creationSetting, setCreationSetting] = useState(Setting.SCRATCH);
   const [addToTemplates, setAddToTemplates] = useState(false);
@@ -99,6 +100,7 @@ function ActionItemCreationContainer({
             <AddFromExistingForm
               templates={templates}
               selectActionItemTemplate={selectActionItemTemplate}
+              deleteTemplate={deleteTemplate}
             />
           )}
         </Grid>
@@ -120,6 +122,7 @@ ActionItemCreationContainer.propTypes = {
   selectActionItemTemplate: PropTypes.func.isRequired,
   setDueDate: PropTypes.func.isRequired,
   setCategory: PropTypes.func.isRequired,
+  deleteTemplate: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ActionItemCreationContainer);
