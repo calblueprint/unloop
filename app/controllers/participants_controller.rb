@@ -3,6 +3,8 @@ class ParticipantsController < ApplicationController
     @participant = authorize Participant.find(params[:id])
     @paperworks = @participant.paperworks
     @case_notes = @participant.case_notes
+    @assignments = @participant.assignments
+    @studio_assessments = @participant.studio_assessments
 
     if @participant.personal_questionnaire.nil?
       personal_q = PersonalQuestionnaire.create("participant_id": @participant.id)

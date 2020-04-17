@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import { ThemeProvider, withStyles } from '@material-ui/core/styles';
 import QuestionnaireModal from 'components/QuestionnaireModal';
 import PaperworkList from 'components/PaperworkList';
+import AssignmentList from 'components/AssignmentList';
+import StudioAssessmentList from 'components/StudioAssessmentList';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import theme from 'utils/theme';
 import Navbar from 'components/Navbar';
@@ -47,7 +49,13 @@ class ParticipantShowPage extends React.Component {
       professionalQuestionnaire,
       userType,
       isAdmin,
+      assignments,
+      studioAssessments,
     } = this.props;
+
+    console.log("case notes", caseNotes);
+    console.log("assignments", assignments);
+    console.log("participantId", participantId);
 
     return (
       <ThemeProvider theme={theme}>
@@ -121,8 +129,8 @@ class ParticipantShowPage extends React.Component {
           <Grid item xs={5} className={classes.rightHalf}>
             <Grid item style={{ padding: '0px', marginTop: '40px' }}>
               {/* These are assignment lists */}
-              <PaperworkList
-                initialPaperworks={paperworks}
+              <AssignmentList
+                initialPaperworks={assignments}
                 participantId={participantId}
                 formatDate={this.formatDate}
                 userType={userType}
@@ -140,8 +148,8 @@ class ParticipantShowPage extends React.Component {
             </Grid>
             <Grid item style={{ padding: '0px', marginTop: '20px' }}>
               {/* These are studio assessments lists */}
-              <PaperworkList
-                initialPaperworks={paperworks}
+              <StudioAssessmentList
+                initialPaperworks={studioAssessments}
                 participantId={participantId}
                 formatDate={this.formatDate}
                 userType={userType}
@@ -176,6 +184,9 @@ ParticipantShowPage.propTypes = {
   participantId: PropTypes.number.isRequired,
   personalQuestionnaire: PropTypes.object.isRequired,
   professionalQuestionnaire: PropTypes.object.isRequired,
+  // Need the following for the assignments and studioAssessments
+  assignments: PropTypes.array.isRequired,
+  studioAssessments: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(ParticipantShowPage);

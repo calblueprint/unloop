@@ -7,7 +7,7 @@ NUM_PERSONAL_QUESTIONNAIRE = 25
 NUM_PROF_QUESTIONNAIRE = 25
 NUM_TEMPLATE_ACTION_ITEMS = 10
 NUM_ACTION_ITEMS = 25
-
+NUM_STUDIO_ASSESSMENTS = 25
 STAFF_START_ID = Staff.count + 1
 STAFF_END_ID = STAFF_START_ID + NUM_STAFF - 1
 PARTICIPANT_START_ID = Participant.count + 1
@@ -144,6 +144,34 @@ def create_google_accounts
   end
 end
 
+def create_studio_assesments 
+  1.upto(NUM_STUDIO_ASSESSMENTS) do |i|
+    StudioAssessment.create!(
+      bigpicture_score: Faker::Number.between(from: 0, to: 3),
+      bigpicture_comment: Faker::Cannabis.buzzword,
+      progfundamentals_score: Faker::Number.between(from: 0, to: 3),
+      progfundamentals_comment: Faker::Cannabis.buzzword,
+      versioncontrol_score: Faker::Number.between(from: 0, to: 3),
+      versioncontrol_comment: Faker::Cannabis.buzzword,
+      react_score: Faker::Number.between(from: 0, to: 3),
+      react_comment: Faker::Cannabis.buzzword,
+      node_score: Faker::Number.between(from: 0, to: 3),
+      node_comment: Faker::Cannabis.buzzword,
+      db_score: Faker::Number.between(from: 0, to: 3),
+      db_comment: Faker::Cannabis.buzzword,
+      problemsolving_score: Faker::Number.between(from: 0, to: 3),
+      problemsolving_comment:Faker::Cannabis.buzzword,
+      problemsolvingalt_score: Faker::Number.between(from: 0, to: 3),
+      problemsolvingalt_comment:Faker::Cannabis.buzzword,
+      capstone_passed: Faker::Boolean.boolean,
+      capstone_comment:Faker::Cannabis.buzzword,
+      assessment_type: Faker::Hacker.say_something_smart,
+      staff_id: Faker::Number.between(from: STAFF_START_ID, to: STAFF_END_ID),
+      participant_id: Faker::Number.between(from: PARTICIPANT_START_ID, to: PARTICIPANT_END_ID)
+    )
+  end
+  puts "Created #{NUM_STUDIO_ASSESSMENTS} Studio Assessments"
+end
 
 create_staff
 create_participants
@@ -154,3 +182,4 @@ create_google_accounts
 create_questionnaires
 create_template_action_items
 create_assignments
+create_studio_assesments

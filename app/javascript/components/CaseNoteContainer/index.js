@@ -123,7 +123,6 @@ class CaseNoteContainer extends React.Component {
                     marginBottom: '25px',
                   }}
                 >
-                  <ActionItemForm />
                   <Grid item xs={4}>
                     <h2 className={classes.headerStyle}>Casenotes</h2>
                   </Grid>

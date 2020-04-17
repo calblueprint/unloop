@@ -27,6 +27,8 @@ class PagesController < ApplicationController
               @participant = @user.participant
               @paperworks = @user.participant.paperworks
               @case_notes = @user.participant.case_notes.where(visible: true)
+              @assignments = Assignment.where('assigned_to_id': @participant.id)
+              @studio_assessments = @user.participant.studio_assessments            
 
               if @participant.personal_questionnaire.nil?
                 @personal_questionnaire = PersonalQuestionnaire.create("participant_id": @participant.id)
