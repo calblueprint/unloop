@@ -10,7 +10,7 @@ class StudioAssessmentCard extends React.Component {
   }
 
   showParticipant() {
-    const pId = this.props.assessment.id;
+    const pId = this.props.assessment.participantId;
     window.location.assign(`participants/${String(pId)}`);
   }
 

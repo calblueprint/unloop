@@ -126,7 +126,7 @@ class CaseNoteForm extends React.Component {
             Sentry.configureScope(function(scope) {
               scope.setExtra('file', 'CaseNoteForm');
               scope.setExtra('action', 'apiPost');
-              scope.setExtra('case_note', body);
+              scope.setExtra('case_note', JSON.stringify(body));
             });
             Sentry.captureException(error);
           });
@@ -152,7 +152,7 @@ class CaseNoteForm extends React.Component {
             Sentry.configureScope(function(scope) {
               scope.setExtra('file', 'CaseNoteForm');
               scope.setExtra('action', 'apiPatch');
-              scope.setExtra('case_note', body);
+              scope.setExtra('case_note', JSON.stringify(body));
             });
             Sentry.captureException(error);
           });

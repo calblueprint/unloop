@@ -15,6 +15,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import { apiPost, apiDelete } from 'utils/axios';
+import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
 class ActionItemCreationPage extends React.Component {
@@ -66,7 +67,15 @@ class ActionItemCreationPage extends React.Component {
     };
     apiPost('/api/assignments', body)
       .then(() => this.setState({ submissionModal: true }))
-      .catch(error => console.log(error));
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'ActionItemCreationPage');
+          scope.setExtra('action', 'apiPost (handleSubmit)');
+          scope.setExtra('participantIds', participantIds);
+          scope.setExtra('body', JSON.stringify(body));
+        });
+        Sentry.captureException(error);
+      });
   }
 
   deleteTemplate(templateActionItem) {
@@ -82,7 +91,14 @@ class ActionItemCreationPage extends React.Component {
           return { unselectedTemplateActionItems: remainingTemplates };
         }),
       )
-      .catch(error => console.log(error));
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'ActionItemCreationPage');
+          scope.setExtra('action', 'apiDelete');
+          scope.setExtra('templateActionItemId', templateActionItem.id);
+        });
+        Sentry.captureException(error);
+      });
   }
 
   removeSelectedActionItem(actionItem) {
@@ -128,7 +144,14 @@ class ActionItemCreationPage extends React.Component {
       // TODO: Use the response instead of creating an actual actionItem if possible!
       apiPost('/api/assignments/templates', { assignment: template })
         .then(resp => console.log(resp))
-        .catch(error => console.log(error));
+        .catch(error => {
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'ActionItemCreationPage');
+            scope.setExtra('action', 'apiPost (createActionItem)');
+            scope.setExtra('template', JSON.stringify(template));
+          });
+          Sentry.captureException(error);
+        });
     }
     const actionItem = {
       title: actionItemTitle,

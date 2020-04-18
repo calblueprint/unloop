@@ -104,7 +104,7 @@ function PaperworkForm({
             Sentry.configureScope(function(scope) {
               scope.setExtra('file', 'PaperworkForm');
               scope.setExtra('action', 'apiPost');
-              scope.setExtra('paperwork', body);
+              scope.setExtra('paperwork', JSON.stringify(body));
             });
             Sentry.captureException(error);
           });
@@ -119,7 +119,7 @@ function PaperworkForm({
             Sentry.configureScope(function(scope) {
               scope.setExtra('file', 'PaperworkForm');
               scope.setExtra('action', 'apiPatch');
-              scope.setExtra('paperwork', body);
+              scope.setExtra('paperwork', JSON.stringify(body));
             });
             Sentry.captureException(error);
           });
