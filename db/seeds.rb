@@ -95,9 +95,9 @@ def create_assignments
       assigned = Participant.find(Participant.pluck(:id).sample)
       Assignment.create!(action_item: action_item, 
                          completed: Faker::Boolean.boolean,
-                         assigned_by: asignee,
+                         staff_id: asignee.id,
                          due_date: Faker::Time.forward(days: 365, period: :all),
-                         assigned_to: assigned.user,
+                         participant_id: assigned.id,
                         )
     end
   end
@@ -163,7 +163,7 @@ def create_studio_assesments
       problemsolving_comment:Faker::Cannabis.buzzword,
       problemsolvingalt_score: Faker::Number.between(from: 0, to: 3),
       problemsolvingalt_comment:Faker::Cannabis.buzzword,
-      passed_capstone: Faker::Boolean.boolean,
+      capstone_passed: Faker::Boolean.boolean,
       capstone_comment:Faker::Cannabis.buzzword,
       assessment_type: Faker::Hacker.say_something_smart,
       staff_id: Faker::Number.between(from: STAFF_START_ID, to: STAFF_END_ID),

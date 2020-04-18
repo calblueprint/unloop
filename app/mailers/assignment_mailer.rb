@@ -3,6 +3,6 @@ class AssignmentMailer < ActionMailer::Base
 
     def new_assignment
         @assignment = params[:assignment]
-        mail(to: @assignment.assigned_to.email, subject: '[Unloop] New Action Item Assigned')
+        mail(to: @assignment.participant.email, subject: '[Unloop] New Action Item Assigned')
     end
 end

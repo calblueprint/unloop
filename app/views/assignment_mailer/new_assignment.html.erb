@@ -4,9 +4,9 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Hello, <%= @assignment.assigned_to.full_name %></h1>
+    <h1>Hello, <%= @assignment.participant.full_name %></h1>
     <p>
-      You have been assigned a new action item by <%= @assignment.assigned_by.full_name %>.<br>
+      You have been assigned a new action item by <%= @assignment.staff.full_name %>.<br>
     </p>
     <p>
       To view your action item, log in using this <%= link_to 'link', @assignment %>.

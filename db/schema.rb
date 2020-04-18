@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_13_091115) do
+ActiveRecord::Schema.define(version: 2020_04_18_062623) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,12 +29,12 @@ ActiveRecord::Schema.define(version: 2020_04_13_091115) do
     t.bigint "action_item_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "assigned_by_id"
-    t.bigint "assigned_to_id"
     t.datetime "due_date"
+    t.bigint "staff_id", null: false
+    t.bigint "participant_id", null: false
     t.index ["action_item_id"], name: "index_assignments_on_action_item_id"
-    t.index ["assigned_by_id"], name: "index_assignments_on_assigned_by_id"
-    t.index ["assigned_to_id"], name: "index_assignments_on_assigned_to_id"
+    t.index ["participant_id"], name: "index_assignments_on_participant_id"
+    t.index ["staff_id"], name: "index_assignments_on_staff_id"
   end
 
   create_table "case_notes", force: :cascade do |t|
@@ -161,6 +162,8 @@ ActiveRecord::Schema.define(version: 2020_04_13_091115) do
   end
 
   add_foreign_key "assignments", "action_items"
+  add_foreign_key "assignments", "participants"
+  add_foreign_key "assignments", "staffs"
   add_foreign_key "case_notes", "participants"
   add_foreign_key "case_notes", "staffs"
   add_foreign_key "paperworks", "participants"
