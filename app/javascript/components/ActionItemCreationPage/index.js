@@ -70,7 +70,7 @@ class ActionItemCreationPage extends React.Component {
       .catch(error => {
         Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'ActionItemCreationPage');
-          scope.setExtra('action', 'apiPost');
+          scope.setExtra('action', 'apiPost (handleSubmit)');
           scope.setExtra('participantIds', participantIds);
           scope.setExtra('body', body);
         });
@@ -91,7 +91,14 @@ class ActionItemCreationPage extends React.Component {
           return { unselectedTemplateActionItems: remainingTemplates };
         }),
       )
-      .catch(error => console.log(error));
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'ActionItemCreationPage');
+          scope.setExtra('action', 'apiDelete');
+          scope.setExtra('templateActionItemId', templateActionItem.id);
+        });
+        Sentry.captureException(error);
+      });
   }
 
   removeSelectedActionItem(actionItem) {
@@ -140,7 +147,7 @@ class ActionItemCreationPage extends React.Component {
         .catch(error => {
           Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'ActionItemCreationPage');
-            scope.setExtra('action', 'apiPost');
+            scope.setExtra('action', 'apiPost (createActionItem)');
             scope.setExtra('template', template);
           });
           Sentry.captureException(error);

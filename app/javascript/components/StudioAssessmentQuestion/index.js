@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { apiPost, apiPatch } from 'utils/axios';
 import { Button } from '@material-ui/core';
+import * as Sentry from '@sentry/browser';
 import RadioButtonsGroup from './radioButtons';
 import styles from './styles';
 import * as questions from './questions';
@@ -49,7 +50,15 @@ class Question extends React.Component {
     }
     body.participant_id = this.props.participantId;
     const request = `/api/studio_assessments/${id}`;
-    apiPatch(request, { studio_assessment: body });
+    apiPatch(request, { studio_assessment: body }).catch(error => {
+      Sentry.configureScope(function(scope) {
+        scope.setExtra('file', 'StudioAssessmentQuestion');
+        scope.setExtra('action', 'apiPatch (handleSubmit)');
+        scope.setExtra('studioAssessmentId', id);
+        scope.setExtra('body', body);
+      });
+      Sentry.captureException(error);
+    });
   }
 
   handleSubmitFinal() {
@@ -64,15 +73,30 @@ class Question extends React.Component {
     body.participant_id = this.props.participantId;
 
     if (this.props.type === 'create') {
-      apiPost('/api/studio_assessments', { studio_assessment: body }).then(() =>
-        window.location.reload(),
-      );
+      apiPost('/api/studio_assessments', { studio_assessment: body })
+        .then(() => window.location.reload())
+        .catch(error => {
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'StudioAssessmentQuestion');
+            scope.setExtra('action', 'apiPost');
+            scope.setExtra('studio_assessment', body);
+          });
+          Sentry.captureException(error);
+        });
     } else {
       const { id } = this.props.studioAssessment;
       const request = `/api/studio_assessments/${id}`;
-      apiPatch(request, { studio_assessment: body }).then(() =>
-        window.location.reload(),
-      );
+      apiPatch(request, { studio_assessment: body })
+        .then(() => window.location.reload())
+        .catch(error => {
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'StudioAssessmentQuestion');
+            scope.setExtra('action', 'apiPatch (handleSubmitFinal)');
+            scope.setExtra('studioAssessmentId', id);
+            scope.setExtra('body', body);
+          });
+          Sentry.captureException(error);
+        });
     }
   }
 
