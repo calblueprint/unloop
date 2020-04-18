@@ -57,30 +57,9 @@ class StudioAssessmentDashboard extends React.Component {
     let currAssessments = this.props.assessments;
     if(category === "overall"){
       currAssessments.sort((a, b) => (a.name > b.name) ? 1 : -1);
-    }
-    if(category === "bigPic"){
-      currAssessments.sort((a, b) => (a.bigpictureScore < b.bigpictureScore) ? 1 : -1);
-    }
-    else if (category === "progFun"){
-      currAssessments.sort((a, b) => (a.progfundamentalsScore < b.progfundamentalsScore) ? 1 : -1);
-    }
-    else if (category === "verCon"){
-      currAssessments.sort((a, b) => (a.versioncontrolScore < b.versioncontrolScore) ? 1 : -1);
-    }
-    else if (category === "react"){
-      currAssessments.sort((a, b) => (a.reactScore < b.reactScore) ? 1 : -1);
-    }
-    else if (category === "node"){
-      currAssessments.sort((a, b) => (a.nodeScore < b.nodeScore) ? 1 : -1);
-    }
-    else if (category === "Db"){
-      currAssessments.sort((a, b) => (a.dbScore < b.dbScore) ? 1 : -1);
-    }
-    else if (category === "probSol"){
-      currAssessments.sort((a, b) => (a.problemsolvingScore < b.problemsolvingScore) ? 1 : -1);
-    }
-    else if (category === "probAlt"){
-      currAssessments.sort((a, b) => (a.problemsolvingaltScore < b.problemsolvingaltScore) ? 1 : -1);
+    } else {
+      currAssessments.sort((a,b) => this.getComparator(a,b, category));
+
     }
     this.setState({
       assessments: currAssessments,
@@ -98,6 +77,18 @@ class StudioAssessmentDashboard extends React.Component {
     return 0;
   }
 
+  // const { assessment } = this.props;
+  //   const bigPic = assessment.bigpictureScore;
+  //   const prog = assessment.progfundamentalsScore;
+  //   const vc = assessment.versioncontrolScore;
+  //   const react = assessment.reactScore;
+  //   const node = assessment.nodeScore;
+  //   const db = assessment.dbScore;
+  //   const probSolve = assessment.problemsolvingScore;
+  //   const probSolveAlt = assessment.problemsolvingaltScore;
+  //   const { classes } = this.props;
+  //   const currCategory = this.props.selectedCat;
+
   renderDropDown(){
     const { classes } = this.props;
     let select = this.state.selectedCat;
@@ -109,14 +100,14 @@ class StudioAssessmentDashboard extends React.Component {
         onChange = {this.handleDropdown}
       >
         <MenuItem value = {"overall"}>Overall Rankings  </MenuItem>
-        <MenuItem value = {"bigPic"}>Big Picture       </MenuItem>
-        <MenuItem value = {"progFun"}>Programming Fundamentals </MenuItem>
-        <MenuItem value = {"verCon"}>Version Control   </MenuItem>
-        <MenuItem value = {"react"}>React             </MenuItem>
-        <MenuItem value = {"node"}>Node              </MenuItem>
-        <MenuItem value = {"Db"}>Db                </MenuItem>
-        <MenuItem value = {"probSol"}>Problem Solving        </MenuItem>
-        <MenuItem value = {"probAlt"}>Problem Solving Alternate   </MenuItem>
+        <MenuItem value = {"bigpictureScore"}>Big Picture       </MenuItem>
+        <MenuItem value = {"progfundamentalsScore"}>Programming Fundamentals </MenuItem>
+        <MenuItem value = {"verversioncontrolScoreCon"}>Version Control   </MenuItem>
+        <MenuItem value = {"reareactScorect"}>React             </MenuItem>
+        <MenuItem value = {"nodeScore"}>Node              </MenuItem>
+        <MenuItem value = {"dbScore"}>Db                </MenuItem>
+        <MenuItem value = {"problemsolvingScore"}>Problem Solving        </MenuItem>
+        <MenuItem value = {"proproblemsolvingaltScorebAlt"}>Problem Solving Alternate   </MenuItem>
       </Select>
     </FormControl>
     );

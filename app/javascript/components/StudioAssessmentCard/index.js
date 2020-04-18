@@ -37,28 +37,28 @@ class StudioAssessmentCard extends React.Component {
         >
           {this.props.assessment.name}
         </td>
-        <td className={currCategory === 'bigPic' ? classes.selected : null}>
+        <td className={currCategory === 'bigpictureScore' ? classes.selected : null}>
           {bigPic}
         </td>
-        <td className={currCategory === 'progFun' ? classes.selected : null}>
+        <td className={currCategory === 'progfundamentalsScore' ? classes.selected : null}>
           {prog}
         </td>
-        <td className={currCategory === 'verCon"' ? classes.selected : null}>
+        <td className={currCategory === 'versioncontrolScore' ? classes.selected : null}>
           {vc}
         </td>
-        <td className={currCategory === 'react' ? classes.selected : null}>
+        <td className={currCategory === 'reactScore' ? classes.selected : null}>
           {react}
         </td>
-        <td className={currCategory === 'node' ? classes.selected : null}>
+        <td className={currCategory === 'nodeScore' ? classes.selected : null}>
           {node}
         </td>
-        <td className={currCategory === 'Db' ? classes.selected : null}>
+        <td className={currCategory === 'dbScore' ? classes.selected : null}>
           {db}
         </td>
-        <td className={currCategory === 'probSol' ? classes.selected : null}>
+        <td className={currCategory === 'problemsolvingScore' ? classes.selected : null}>
           {probSolve}
         </td>
-        <td className={currCategory === 'probAlt' ? classes.selected : null}>
+        <td className={currCategory === 'problemsolvingaltScore' ? classes.selected : null}>
           {probSolveAlt}
         </td>
       </tr>
