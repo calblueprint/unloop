@@ -11,7 +11,6 @@ import QuestionnaireModal from 'components/QuestionnaireModal';
 import PaperworkList from 'components/PaperworkList';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import theme from 'utils/theme';
-import Navbar from 'components/Navbar';
 import { Grid, Typography, Avatar } from '@material-ui/core';
 import styles from './styles';
 

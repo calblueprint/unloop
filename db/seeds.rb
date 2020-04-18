@@ -54,7 +54,7 @@ def create_participants
       last_name: Faker::Name.last_name,
       password: 'password',
       password_confirmation: 'password',
-      user_type: rand(2)
+      user_type: 0
     )
     u.participant.status = PARTICIPANT_STATUSES[(i-1)%4]
     u.participant.save!
