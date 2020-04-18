@@ -42,5 +42,4 @@ class AssignmentsController < ApplicationController
         Raven.capture_exception(exception)
         redirect_to assignments_path
     end
-
 end

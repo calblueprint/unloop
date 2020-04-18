@@ -1,4 +1,6 @@
 class ParticipantsController < ApplicationController
+  before_action :set_participant, only: [:show]
+
   def show
     @participant = authorize Participant.find(params[:id])
     @paperworks = @participant.paperworks
@@ -24,5 +26,15 @@ class ParticipantsController < ApplicationController
 
   def dashboard
     redirect_to root_path
+  end
+
+  private
+
+  def set_participant
+    @participant = authorize Participant.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => exception
+    Raven.extra_context(participant_id: params[:id])
+    Raven.capture_exception(exception)
+    redirect_to participants_path
   end
 end
