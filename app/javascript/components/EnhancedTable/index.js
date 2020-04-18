@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import styles from './styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,12 +10,11 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import ParticipantCard from 'components/ParticipantCard';
+import styles from './styles';
 
 function descendingComparator(a, b, orderBy) {
-  console.log(a, b)
+  console.log(a, b);
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -54,22 +52,28 @@ function EnhancedTableHead(props) {
         {headCells.map(headCell => (
           <TableCell
             key={headCell.id}
-            align='left'
+            align="left"
             pointer-events={headCell.sortable}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            {headCell.sortable ? (<TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
-              ) : null}
-            </TableSortLabel>) : ""}
+            {headCell.sortable ? (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <span className={classes.visuallyHidden}>
+                    {order === 'desc'
+                      ? 'sorted descending'
+                      : 'sorted ascending'}
+                  </span>
+                ) : null}
+              </TableSortLabel>
+            ) : (
+              ''
+            )}
           </TableCell>
         ))}
       </TableRow>
@@ -112,8 +116,6 @@ function EnhancedTable(props) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  const handleClick = props.handleClick
-
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -121,7 +123,7 @@ function EnhancedTable(props) {
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size='large'
+            size="large"
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -131,16 +133,15 @@ function EnhancedTable(props) {
               onRequestSort={handleRequestSort}
               headCells={headCells}
             />
-            <TableBody >
+            <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => (
-                  <TableRow
-                    hover
-                    tabIndex={-1}
-                    key={index}
-                  >
-                    <ParticipantCard key={row.id} participant={row}></ParticipantCard>
+                .map((row) => (
+                  <TableRow hover tabIndex={-1} key={row.id}>
+                    <ParticipantCard
+                      key={row.id}
+                      participant={row}
+                    ></ParticipantCard>
                   </TableRow>
                 ))}
               {emptyRows > 0 && (
@@ -168,6 +169,7 @@ function EnhancedTable(props) {
 EnhancedTable.propTypes = {
   rows: PropTypes.array.isRequired,
   headCells: PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(EnhancedTable);

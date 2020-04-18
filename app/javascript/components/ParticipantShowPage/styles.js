@@ -9,12 +9,17 @@ const styles = theme => ({
     paddingLeft: 28,
     paddingRight: 28,
     paddingTop: 20,
-    width: '50%'
+    backgroundColor: theme.palette.common.white,
+    width: '50%',
+    height: '100vh',
   },
   rightHalf: {
+    paddingLeft: 28,
+    paddingRight: 28,
     paddingTop: 20,
     backgroundColor: theme.palette.common.lightBlue,
-    width: '50%'
+    width: '50%',
+    height: '100vh',
   },
   avatarStyle: {
     width: 60,

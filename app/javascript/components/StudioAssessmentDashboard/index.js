@@ -1,8 +1,8 @@
 import React from 'react';
-import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
 import StudioAssessmentCard from 'components/StudioAssessmentCard';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
+import theme from 'utils/theme';
 import styles from './styles';
 
 class StudioAssessmentDashboard extends React.Component {
@@ -19,6 +19,7 @@ class StudioAssessmentDashboard extends React.Component {
       <StudioAssessmentCard key={p.id} assessment={p} />
     ));
     return (
+      <ThemeProvider theme={theme}>
         <div className={classes.dashboard}>
           <div className={classes.content}>
             <h1>Studio Assessments</h1>
@@ -42,6 +43,7 @@ class StudioAssessmentDashboard extends React.Component {
             </div>
           </div>
         </div>
+      </ThemeProvider>
     );
   }
 }
@@ -49,7 +51,6 @@ class StudioAssessmentDashboard extends React.Component {
 StudioAssessmentDashboard.propTypes = {
   classes: PropTypes.object.isRequired,
   assessments: PropTypes.array,
-  isAdmin: PropTypes.bool,
 };
 
 export default withStyles(styles)(StudioAssessmentDashboard);

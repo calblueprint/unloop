@@ -1,19 +1,13 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import { ThemeProvider, withStyles } from '@material-ui/core/styles';
-import theme from 'utils/theme';
-import ParticipantCard from 'components/ParticipantCard';
-import Navbar from 'components/Navbar';
-import EnhancedTable from 'components/EnhancedTable';
 import PropTypes from 'prop-types';
-import styles from './styles';
-
+import { withStyles } from '@material-ui/core/styles';
+import EnhancedTable from 'components/EnhancedTable';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
-
+import styles from './styles';
 
 const TrieSearch = require('trie-search');
 
@@ -33,11 +27,6 @@ class StaffDashboard extends React.Component {
     this.setState({
       trie,
     });
-  }
-
-  handleClick(id) {
-    return (e) => {
-    window.location.assign(`participants/${String(id)}`)}
   }
 
   handleChange(e) {
@@ -63,9 +52,10 @@ class StaffDashboard extends React.Component {
         label: 'Participant',
         sortable: true,
       },
-      { id: 'status', 
-        numeric: true, 
-        disablePadding: false, 
+      {
+        id: 'status',
+        numeric: true,
+        disablePadding: false,
         label: 'Status',
         sortable: true,
       },
@@ -91,40 +81,45 @@ class StaffDashboard extends React.Component {
         id: 'next_arrow',
         label: ' ',
         sortable: false,
-      }
+      },
     ];
 
-    return (<div>
-      <AppBar position="static" height='80px'>
-        <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Participant Dashboard
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+    return (
+      <div>
+        <AppBar position="static" height="80px">
+          <Toolbar>
+            <Typography className={classes.title} variant="h6" noWrap>
+              Participant Dashboard
+            </Typography>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search a name..."
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={this.handleChange}
+              />
             </div>
-            <InputBase
-              placeholder="Search a name..."
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={this.handleChange}
-            />
-          </div>
-        </Toolbar>
-      </AppBar>
-      <EnhancedTable headCells={headCells} rows={this.state.participants} handleClick={this.handleClick}></EnhancedTable>);
-    </div>)
+          </Toolbar>
+        </AppBar>
+        <EnhancedTable
+          headCells={headCells}
+          rows={this.state.participants}
+        ></EnhancedTable>
+        );
+      </div>
+    );
   }
 }
 
 StaffDashboard.propTypes = {
   classes: PropTypes.object.isRequired,
   participants: PropTypes.array,
-  isAdmin: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(StaffDashboard);
