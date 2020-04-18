@@ -1,11 +1,14 @@
 class Api::StudioAssessmentsController < ApplicationController
+    before_action :set_studio_assessment, only: [:show, :update, :destroy]
     respond_to :json
 
     def create
         @studio_assessment = authorize StudioAssessment.new(studio_assessment_params)
+        sentry_helper(@studio_assessment)
         if @studio_assessment.save
             render json: @studio_assessment, status: :created
         else
+            Raven.capture_message("Could not create studio assessment")
             render json: { error: 'Could not create studio assessment' }, status: :unprocessable_entity
         end
     end
@@ -15,29 +18,45 @@ class Api::StudioAssessmentsController < ApplicationController
     end
     
     def show
-        @studio_assessment = authorize StudioAssessment.find(params[:id])
         render json: @studio_assessment
     end
     
     def update
-        @studio_assessment = authorize StudioAssessment.find(params[:id])
         if @studio_assessment.update(studio_assessment_params)
             render json: @studio_assessment, status: :ok
         else
+            Raven.capture_message("Could not update studio assessment")
             render json: { error: 'Could not update studio assessment' }, status: :unprocessable_entity
         end
     end
 
     def destroy
-        @studio_assessment = authorize StudioAssessment.find(params[:id])
         if @studio_assessment.destroy
             render json: @studio_assessment, status: :ok
         else
+            Raven.capture_message("Failed to delete studio assessment")
             render json: { error: 'Failed to delete studio assessment' }, status: :unprocessable_entity
         end
     end
 
     private
+    
+    def set_studio_assessment
+        @studio_assessment = authorize StudioAssessment.find(params[:id])
+        sentry_helper(@studio_assessment)
+    rescue ActiveRecord::RecordNotFound => exception
+        Raven.extra_context(studio_assessment_id: params[:id])
+        Raven.capture_exception(exception)
+        render json: { error: 'Could not find case note' }, status: :not_found
+    end
+
+    def sentry_helper(studio_assessment)
+        studio_assessment = authorize StudioAssessment.find(params[:id])
+        Raven.extra_context(studio_assessment: studio_assessment.attributes)
+        Raven.extra_context(staff: studio_assessment.staff.user.attributes)
+        Raven.extra_context(participant: studio_assessment.participant.user.attributes)
+    end
+
     def studio_assessment_params
         studio_assessment_param = params.require(:studio_assessment).permit(:participant_id, 
                                                                     :bigpicture_score, 

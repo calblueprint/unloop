@@ -3,7 +3,6 @@ import { Grid } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Navbar from 'components/Navbar';
 import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
 import ActionItemCreationContainer from 'components/ActionItemCreationContainer';
@@ -454,9 +453,6 @@ class ActionItemCreationPage extends React.Component {
           </DialogActions>
         </Dialog>
         <Grid container style={{ height: '100vh', width: '100vw' }}>
-          <Grid item xs={1}>
-            <Navbar isAdmin={this.props.isAdmin} />
-          </Grid>
           <Grid item container xs={11} justify="center">
             <Grid
               container
@@ -513,7 +509,6 @@ ActionItemCreationPage.propTypes = {
   classes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
   statuses: PropTypes.object.isRequired,
-  isAdmin: PropTypes.bool.isRequired,
   participants: PropTypes.array.isRequired,
 };
 
