@@ -24,9 +24,6 @@ const styles = theme => ({
     minHeight: '100vh',
       width: 'calc(100vw - 130px)'
     },
-    navBar: {
-      // padding: '40px 0px',
-    },
     navBarItem: {
       color: '#ffffff',
       paddingTop: 24,
