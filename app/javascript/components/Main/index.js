@@ -58,8 +58,7 @@ function Main(props) {
         >
         <ExitToAppIcon />
         <div className = {classes.navText} > Admin View </div>
-        </ListItem>
-        
+        </ListItem>  
     );
 
     const getIcon = (name) => {
