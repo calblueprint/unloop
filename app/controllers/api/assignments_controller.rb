@@ -20,9 +20,9 @@ class Api::AssignmentsController < ApplicationController
             action_item = ActionItem.new(action_item.except(:due_date)) 
             template_sentry_helper(action_item)
             action_item[:is_template] = false
-            if !assigned_to_ids.empty? && action_item.save
+            if !participant_ids.empty? && action_item.save
                 created_action_items.append(action_item)
-                prepare_bulk_assignment(assigned_to_ids, action_item).each do |assignment|
+                prepare_bulk_assignment(participant_ids, action_item).each do |assignment|
                     assignment_sentry_helper(assignment)  
                     if assignment.save
                         AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
@@ -157,20 +157,20 @@ class Api::AssignmentsController < ApplicationController
     def assignment_sentry_helper(assignment)
         Raven.extra_context(assignment: assignment.attributes)
         Raven.extra_context(action_item: assignment.action_item.attributes)
-        Raven.extra_context(assigned_by: assignment.assigned_by.user.attributes)
-        Raven.extra_context(assigned_to: assignment.assigned_to.attributes)
+        Raven.extra_context(staff: assignment.staff.user.attributes)
+        Raven.extra_context(participant: assignment.participant.user.attributes)
     end
           
-    def prepare_bulk_assignment(assigned_to_ids, action_item)
+    def prepare_bulk_assignment(participant_ids, action_item)
         bulk_assignment_params = []
         single_assignment_params = {
                                     action_item_id: action_item.id,
-                                    assigned_by_id: current_user.staff.id,
+                                    staff_id: current_user.staff.id,
                                     due_date: action_item[:due_date],
                                     completed: false,
                                    }
-        assigned_to_ids.each do |id|
-            assignment = Assignment.new(single_assignment_params.merge(assigned_to_id: id))
+        participant_ids.each do |id|
+            assignment = Assignment.new(single_assignment_params.merge(participant_id: id))
             bulk_assignment_params.append(assignment)
         end
         return bulk_assignment_params
@@ -183,14 +183,14 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def bulk_assignment_params
-        all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category], assigned_to_ids: [])
+        all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category], participant_ids: [])
      end
 
     def assignment_params
         assignment_param = params.require(:assignment).permit(:action_item_id,
                                                                :due_date,
                                                                :completed)
-        assignment_param.merge(assigned_by_id: current_user.staff.id)
+        assignment_param.merge(staff_id: current_user.staff.id)
     end
 
 end

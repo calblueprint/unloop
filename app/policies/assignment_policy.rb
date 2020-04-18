@@ -12,7 +12,7 @@ class AssignmentPolicy < ApplicationPolicy
     end
 
     def show?
-        staff? or (user.participant? and (user.id == resource.assigned_to.id))
+        staff? or (user.participant? and (user.id == resource.participant.id))
     end
 
     def index?
@@ -29,7 +29,7 @@ class AssignmentPolicy < ApplicationPolicy
         if user.staff?
             scope.all
         else
-            scope.where([assigned_to: user.id])
+            scope.where([participant: user.id])
         end
       end
     end

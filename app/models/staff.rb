@@ -3,6 +3,7 @@ class Staff < ApplicationRecord
   has_many :case_notes
   has_many :paperworks
   has_many :studio_assessments
+  has_many :assignments
 
   delegate :first_name, to: :user
   delegate :last_name, to: :user

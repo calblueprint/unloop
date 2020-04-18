@@ -3,7 +3,8 @@ class Participant < ApplicationRecord
   has_many :case_notes
   has_many :paperworks
   has_many :studio_assessments
-  
+  has_many :assignments
+
   has_one :personal_questionnaire
   has_one :professional_questionnaire
 
