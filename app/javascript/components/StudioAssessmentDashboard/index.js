@@ -1,16 +1,16 @@
 import React from 'react';
-import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
 import StudioAssessmentCard from 'components/StudioAssessmentCard';
-import { withStyles, ThemeProvider } from '@material-ui/core/styles';
-import theme from 'utils/theme';
+import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import SearchIcon from '@material-ui/icons/Search';
-import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import styles from './styles';
 
 const TrieSearch = require('trie-search');
@@ -20,7 +20,7 @@ class StudioAssessmentDashboard extends React.Component {
     super(props);
     this.state = {
       assessments: this.props.assessments,
-      selectedCat: "overall",
+      selectedCat: 'overall',
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSort = this.handleSort.bind(this);
@@ -83,20 +83,21 @@ class StudioAssessmentDashboard extends React.Component {
     const select = this.state.selectedCat;
     return (
       <FormControl>
-        <InputLabel className={classes.dropDown}>Sort By Score Categories</InputLabel>
-        <Select
-          value={select}
-          onChange = {this.handleSort}
-        >
-          <MenuItem value = "overall">Overall Rankings  </MenuItem>
-          <MenuItem value = "bigpictureScore">Big Picture       </MenuItem>
-          <MenuItem value = "progfundamentalsScore">Programming Fundamentals </MenuItem>
-          <MenuItem value = "versioncontrolScore">Version Control   </MenuItem>
-          <MenuItem value = "reactScore">React             </MenuItem>
-          <MenuItem value = "nodeScore">Node              </MenuItem>
-          <MenuItem value = "dbScore">Db                </MenuItem>
-          <MenuItem value = "problemsolvingScore">Problem Solving        </MenuItem>
-          <MenuItem value = "problemsolvingaltScore">Problem Solving Alternate   </MenuItem>
+        <InputLabel className={classes.dropDown}>Sort By Category</InputLabel>
+        <Select value={select} onChange={this.handleSort} width="100">
+          <MenuItem value="overall">Overall Rankings </MenuItem>
+          <MenuItem value="bigpictureScore">Big Picture </MenuItem>
+          <MenuItem value="progfundamentalsScore">
+            Programming Fundamentals
+          </MenuItem>
+          <MenuItem value="versioncontrolScore">Version Control </MenuItem>
+          <MenuItem value="reactScore">React </MenuItem>
+          <MenuItem value="nodeScore">Node </MenuItem>
+          <MenuItem value="dbScore">Db </MenuItem>
+          <MenuItem value="problemsolvingScore">Problem Solving </MenuItem>
+          <MenuItem value="problemsolvingaltScore">
+            Problem Solving Alternate
+          </MenuItem>
         </Select>
       </FormControl>
     );
@@ -104,95 +105,107 @@ class StudioAssessmentDashboard extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const assessmentsList = this.state.assessments.map((p, i) => (
-      <StudioAssessmentCard key={i} assessment={p} selectedCat = {this.state.selectedCat}/>
+    const assessmentsList = this.state.assessments.map(p => (
+      <StudioAssessmentCard
+        key={p.id}
+        assessment={p}
+        selectedCat={this.state.selectedCat}
+      />
     ));
 
     return (
-      <ThemeProvider theme={theme}>
-        <div className= {classes.dashboard}>
-          <Navbar isAdmin={this.props.isAdmin} />
-          <div className= {classes.content}>
-            <h1>Studio Assessments</h1>
-            <div className= {classes.tableContainer}>
-              <div>
-                <div className={classes.searchBar}>
-                  <InputBase
-                    placeholder="search assessments"
-                    onChange={this.handleSearch}
-                  />
-                  <IconButton type="submit" aria-label="search">
-                    <SearchIcon />
-                  </IconButton>
-                </div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>{this.renderDropDown()}</th>
-                      <th>
-                        <button 
-                          value = "bigpictureScore" onClick = {this.handleSort} >
-                          Big Picture
-                        </button>
-                      </th>
-                      <th>
-                        <button 
-                          value = "progfundamentalsScore" onClick = {this.handleSort} >
-                          Programming Fundamentals
-                        </button>
-                      </th>
-                      <th>
-                        <button 
-                          value = "versioncontrolScore" onClick = {this.handleSort} >
-                          Version Control
-                        </button>
-                      </th>
-                      <th>
-                        <button 
-                          value = "reactScore" onClick = {this.handleSort} >
-                          React
-                        </button>
-                      </th>
-                      <th>
-                        <button 
-                          value = "nodeScore" onClick = {this.handleSort} >
-                          Node
-                        </button>
-                      </th>
-                      <th>
-                        <button 
-                          value = "dbScore" onClick = {this.handleSort} >
-                          DB
-                        </button>
-                      </th>
-                      <th>
-                        <button 
-                          value = "problemsolvingScore" onClick = {this.handleSort} >
-                          Problem Solving
-                        </button>
-                      </th>
-                      <th>
-                        <button 
-                          value = "problemsolvingaltScore" onClick = {this.handleSort} >
-                          Problem Solving Alternate
-                        </button>
-                      </th>
-                      <th>
-                        <button  >
-                      Date
-                        </button>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {assessmentsList}
-                  </tbody> 
-                </table>
+      <div className={classes.dashboard}>
+        <AppBar position="static" height="80px">
+          <Toolbar>
+            <Typography className={classes.title} variant="h6" noWrap>
+              Participant Dashboard
+            </Typography>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
               </div>
+              <InputBase
+                placeholder="Search a name..."
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={this.handleSearch}
+              />
             </div>
+          </Toolbar>
+        </AppBar>
+        <div className={classes.content}>
+          <div className={classes.tableContainer}>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>{this.renderDropDown()}</th>
+                    <th>
+                      <button value="bigpictureScore" onClick={this.handleSort}>
+                        Big Picture
+                      </button>
+                    </th>
+                    <th>
+                      <button
+                        value="progfundamentalsScore"
+                        onClick={this.handleSort}
+                      >
+                        Programming Fundamentals
+                      </button>
+                    </th>
+                    <th>
+                      <button
+                        value="versioncontrolScore"
+                        onClick={this.handleSort}
+                      >
+                        Version Control
+                      </button>
+                    </th>
+                    <th>
+                      <button value="reactScore" onClick={this.handleSort}>
+                        React
+                      </button>
+                    </th>
+                    <th>
+                      <button value="nodeScore" onClick={this.handleSort}>
+                        Node
+                      </button>
+                    </th>
+                    <th>
+                      <button value="dbScore" onClick={this.handleSort}>
+                        DB
+                      </button>
+                    </th>
+                    <th>
+                      <button
+                        value="problemsolvingScore"
+                        onClick={this.handleSort}
+                      >
+                        Problem Solving
+                      </button>
+                    </th>
+                    <th>
+                      <button
+                        value="problemsolvingaltScore"
+                        onClick={this.handleSort}
+                      >
+                        Problem Solving Alternate
+                      </button>
+                    </th>
+                    <th>
+                      <button>Date</button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>{assessmentsList}</tbody>
+              </table>
             </div>
           </div>
-      </ThemeProvider>
+        </div>
+      </div>
     );
   }
 }

@@ -17,8 +17,9 @@ class StudioAssessmentsController < ApplicationController
         "db_score" =>s.db_score,
         "problemsolving_score" => s.problemsolving_score,
         "problemsolvingalt_score" => s.problemsolvingalt_score,
-        "id" => s.participant_id,
-        "updated_date" => s.updated_at.utc.strftime('%m/%d/%Y %H:%M %p'),
+        "participant_id" => s.participant_id,
+        "id" => s.id,
+        "updated_date" => s.updated_at.utc.strftime('%m/%d/%Y'),
       }
       @studio_list.push(curr)
     end 

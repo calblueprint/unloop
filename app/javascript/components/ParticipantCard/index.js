@@ -10,6 +10,8 @@ import {
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import TableCell from '@material-ui/core/TableCell';
+
 import styles from './styles';
 
 function ParticipantCard({ classes, participant }) {
@@ -20,11 +22,9 @@ function ParticipantCard({ classes, participant }) {
 
   // disabled eslint to make styling consistent
   // eslint-disable-next-line
-  const [numCaseNotes, setNumCaseNotes] = useState(
-    participant.caseNotesCount,
-  );
+  const [numCaseNotes, setNumCaseNotes] = useState(participant.caseNotesCount);
   const [numPaperworks, setNumPaperworks] = useState(
-    participant.paperworksCount,
+    participant.paperworksCount
   );
 
   const questionnaireStatus = participant.questionnaireStatus ? (
@@ -41,54 +41,46 @@ function ParticipantCard({ classes, participant }) {
     ></FontAwesomeIcon>
   );
 
-
   const caseNotes =
     numCaseNotes === 1
       ? `${numCaseNotes} case note`
       : `${numCaseNotes} case notes`;
 
   return (
-    <tr>
-      <td
-        className={classes.name}
+    <>
+      <TableCell
         style={{ cursor: 'pointer' }}
         onClick={showParticipant}
         onKeyDown={showParticipant}
       >
         {participant.name}
-      </td>
-      <td>
+      </TableCell>
+      <TableCell align="left" >
         <div className={classes.status}>{participant.status.toUpperCase()}</div>
-      </td>
-      <td className={classes.newAssignment}>
-        <div>
-          <div className={classes.paperworkText}>
-            {participant.paperworksCompleted} / {numPaperworks} completed{' '}
+      </TableCell>
+      <TableCell align="left" className={classes.newAssignment}>
+        {participant.paperworksCompleted} / {numPaperworks} completed{' '}
+        <PaperworkForm
+          display="plus"
+          type="create"
+          participantId={participant.id}
+          incrementNumPaperworks={() => setNumPaperworks(numPaperworks + 1)}
+        ></PaperworkForm>
+      </TableCell>
+      <TableCell className={classes.newAssignment}>
+        {caseNotes}
+        <CaseNoteForm
+          display="plus"
+          type="create"
+          participantId={participant.id}
+          incrementNumCaseNotes={() => setNumCaseNotes(numCaseNotes + 1)}
+        ></CaseNoteForm>
+      </TableCell>
+      <TableCell>
+      {questionnaireStatus}
 
-          </div>
-          <PaperworkForm
-            display="plus"
-            type="create"
-            participantId={participant.id}
-            incrementNumPaperworks={() => setNumPaperworks(numPaperworks + 1)}
-          ></PaperworkForm>
-        </div>
-      </td>
-      <td className={classes.newAssignment}>
-        <div>
-          <div className={classes.caseNoteText}>{caseNotes}</div>
-          <CaseNoteForm
-            display="plus"
-            type="create"
-            participantId={participant.id}
-            incrementNumCaseNotes={() => setNumCaseNotes(numCaseNotes + 1)}
-          ></CaseNoteForm>
-        </div>
-      </td>
-      <td>
-        <div className={classes.questionnaireStatus}>{questionnaireStatus}</div>
-      </td>
-      <td className={classes.arrow}>
+      </TableCell>
+      <TableCell align="center">
         <FontAwesomeIcon
           onClick={showParticipant}
           icon={faChevronRight}
@@ -96,8 +88,8 @@ function ParticipantCard({ classes, participant }) {
           style={{ cursor: 'pointer' }}
           className={classes.iconLarge}
         />
-      </td>
-    </tr>
+      </TableCell>
+    </>
   );
 }
 

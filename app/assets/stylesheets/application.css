@@ -29,3 +29,8 @@
     color: white;
     font-weight: normal;
  }
+
+ body {
+    background-color: 'rgba(210, 220, 225, 0.63)';
+    margin: 0px;
+ }
