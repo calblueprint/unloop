@@ -38,12 +38,7 @@ class PagesController < ApplicationController
                 @professional_questionnaire = @participant.professional_questionnaire
               end
 
-              if @participant.studio_assessments.nil?
-                studio_assessment = StudioAssessment.create("participant_id": @participant.id)
-                @studio_assessments[studio_assessment.id] = StudioAssessmentSerializer.new(studio_assessment)
-              else
-                @studio_assessments = @participant.studio_assessments
-              end
+              @studio_assessments = @participant.studio_assessments
 
               authorize Participant
               dashboard_participants_path

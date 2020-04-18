@@ -11,15 +11,14 @@ const styles = theme => ({
     paddingTop: 20,
     backgroundColor: theme.palette.common.white,
     width: '50%',
-    height: '100vh',
+    height: 'max(100%, 100vh)',
   },
   rightHalf: {
     paddingLeft: 28,
     paddingRight: 28,
     paddingTop: 20,
-    backgroundColor: theme.palette.common.lightBlue,
     width: '50%',
-    height: '100vh',
+    height: 'max(100%, 100vh)',
   },
   avatarStyle: {
     width: 60,

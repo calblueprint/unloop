@@ -12,7 +12,6 @@ import PaperworkList from 'components/PaperworkList';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import { Grid, Typography, Avatar } from '@material-ui/core';
 import StudioAssessmentList from 'components/StudioAssessmentList';
-import StudioAssessmentModal from 'components/StudioAssessmentModal';
 import styles from './styles';
 
 class ParticipantShowPage extends React.Component {
@@ -93,20 +92,20 @@ class ParticipantShowPage extends React.Component {
                   participantId={participantId}
                   questionnaire={professionalQuestionnaire}
                 />
-                <StudioAssessmentList
-                  initialStudioAssessments={studioAssessments.splice(0,3)}
+                <PaperworkList
+                  initialPaperworks={paperworks}
+                  participantId={participantId}
                   formatDate={this.formatDate}
                   userType={userType}
-                  participantId={participantId}
                 />
               </Grid>
             </Grid>
-            <Grid item style={{ padding: '0px', marginTop: '20px' }}>
-              <PaperworkList
-                initialPaperworks={paperworks}
-                participantId={participantId}
+            <Grid item style={{ marginTop: '20px' }}>
+              <StudioAssessmentList
+                initialStudioAssessments={studioAssessments}
                 formatDate={this.formatDate}
                 userType={userType}
+                participantId={participantId}
               />
             </Grid>
           </Grid>

@@ -9,7 +9,6 @@ import RadioButtonsGroup from './radioButtons';
 import styles from './styles';
 import * as questions from './questions';
 
-
 class Question extends React.Component {
   constructor(props) {
     super(props);
@@ -101,7 +100,7 @@ class Question extends React.Component {
         type="text"
         margin="dense"
         value={
-          this.state.studioAssessment[`${questionType}_comment`] !== null
+          this.state.studioAssessment[`${questionType}_comment`]
             ? this.state.studioAssessment[`${questionType}_comment`]
             : ''
         }
@@ -111,41 +110,52 @@ class Question extends React.Component {
   }
 
   render() {
-    var rubric;
-    var comment;
-    if (this.props.type === "view") {
-      rubric = <div>{this.state.studioAssessment[`${this.props.questionType}_score`] !== null ? 
-      <div>
-        <h3>Score: {this.state.studioAssessment[`${this.props.questionType}_score`].toString()}</h3>
-        <p>{rubricItems[this.state.studioAssessment[`${this.props.questionType}_score`]]}</p>
-      </div>
-      :
-      <div>
-        <h3>Score:</h3>
-        <p>No score entered yet</p>
-      </div>
-      }</div>
-      comments = <div>
-        <h3>Comments</h3>
-            <p>
-              {this.state.studioAssessment[`${this.props.questionType}_comment`] !== null
-                ? this.state.studioAssessment[`${this.props.questionType}_comment`]
-                : 'No comment yet'}
-            </p>
-      </div>
-    } else if (this.props.type !== "view"){
-      rubric = <RadioButtonsGroup
-      rubricItems={questions.rubricItems[this.props.questionID]}
-      questionType={this.props.questionType}
-      score={
-        this.state.studioAssessment[`${this.props.questionType}_score`]
-      }
-      radioHandler={this.radioButtonHandler}
-      />
-      comments = <div><h3>Enter comments below:</h3>
-      {this.generateField(this.props.questionType)}</div>
-    }
+    let rubric;
+    let comments;
 
+    if (this.props.type === 'view') {
+      rubric =
+        this.state.studioAssessment[`${this.props.questionType}_score`] !==
+        null ?
+          (<div>
+            <h3>Score: {this.state.studioAssessment[`${this.props.questionType}_score`].toString()}</h3>
+            <p>{this.state.studioAssessment[`${this.props.questionType}_score`]}</p>
+          </div>)
+          :
+          (<div>
+            <h3>Score:</h3>
+            <p>No score entered yet</p>
+          </div>)
+
+      comments = (
+        <div>
+          <h3>Comments</h3>
+          <p>
+            {this.state.studioAssessment[`${this.props.questionType}_comment`] !== null
+              ? this.state.studioAssessment[`${this.props.questionType}_comment`]
+              : 'No comment yet'}
+          </p>
+        </div>
+      );
+    } else {
+      rubric = (
+        <RadioButtonsGroup
+          rubricItems={questions.rubricItems[this.props.questionID]}
+          questionType={this.props.questionType}
+          score={
+            this.state.studioAssessment[`${this.props.questionType}_score`]
+          }
+          radioHandler={this.radioButtonHandler}
+        />
+      );
+      
+      comments = (
+        <div>
+          <h3>Enter comments below:</h3>
+          {this.generateField(this.props.questionType)}
+        </div>
+      );
+    }
 
     return (
       <Formik
@@ -167,11 +177,9 @@ class Question extends React.Component {
               ))}
             </p>
           </div>
-          <div className={this.props.classes.radio}>
-            {rubric}
-          </div>
+          <div className={this.props.classes.radio}>{rubric}</div>
           <div className={this.props.classes.comments}>
-            {comment}
+            {comments}
             <div className={this.props.classes.buttons}>
               <br />
               <Button
@@ -194,17 +202,18 @@ class Question extends React.Component {
               >
                 next
               </Button>
-              {this.props.type !== 'view' ? 
-              <Button
-                variant="contained"
-                color="secondary"
-                className={this.props.classes.button}
-                onClick={this.handleSubmitFinal}
-              >
-                save and close
-              </Button> : 
+              {this.props.type !== 'view' ? (
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  className={this.props.classes.button}
+                  onClick={this.handleSubmitFinal}
+                >
+                  save and close
+                </Button>
+              ) : (
                 <div></div>
-              }
+              )}
               <br />
             </div>
           </div>

@@ -19,12 +19,7 @@ class ParticipantsController < ApplicationController
     end
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
 
-    if @participant.studio_assessments.nil?
-      studio_assessment = StudioAssessment.create("participant_id": @participant.id)
-      @studio_assessments[studio_assessment.id] = StudioAssessmentSerializer.new(studio_assessment)
-    else
-      @studio_assessments = @participant.studio_assessments
-    end
+    @studio_assessments = @participant.studio_assessments
   end
 
   def dashboard

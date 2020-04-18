@@ -19,7 +19,7 @@ function StudioAssessmentList({
 }) {
   const [studioAssessments] = useState(initialStudioAssessments);
   const studioAssessmentEntries = studioAssessments.map(studioAssessment => (
-    <div>
+    <div key={studioAssessment.id}>
       <StudioAssessmentModal
         studioAssessment={studioAssessment}
         userType={userType}
@@ -48,10 +48,7 @@ function StudioAssessmentList({
           <h3 className={classes.headerStyle}>Studio Assessments</h3>
         </Grid>
         <Grid item>
-          <StudioAssessmentModal
-            participantId={participantId}
-            type="create"
-          />
+          <StudioAssessmentModal participantId={participantId} type="create" />
         </Grid>
       </Grid>
       <List className={classes.listStyle} dense>
