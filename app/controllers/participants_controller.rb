@@ -18,6 +18,8 @@ class ParticipantsController < ApplicationController
       professional_q = @participant.professional_questionnaire
     end
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
+
+    @studio_assessments = @participant.studio_assessments
   end
 
   def dashboard

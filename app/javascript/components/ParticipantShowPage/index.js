@@ -11,6 +11,7 @@ import QuestionnaireModal from 'components/QuestionnaireModal';
 import PaperworkList from 'components/PaperworkList';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import { Grid, Typography, Avatar } from '@material-ui/core';
+import StudioAssessmentList from 'components/StudioAssessmentList';
 import styles from './styles';
 
 class ParticipantShowPage extends React.Component {
@@ -42,6 +43,7 @@ class ParticipantShowPage extends React.Component {
       participantId,
       personalQuestionnaire,
       professionalQuestionnaire,
+      studioAssessments,
       userType,
     } = this.props;
 
@@ -90,14 +92,20 @@ class ParticipantShowPage extends React.Component {
                   participantId={participantId}
                   questionnaire={professionalQuestionnaire}
                 />
+                <PaperworkList
+                  initialPaperworks={paperworks}
+                  participantId={participantId}
+                  formatDate={this.formatDate}
+                  userType={userType}
+                />
               </Grid>
             </Grid>
-            <Grid item style={{ padding: '0px', marginTop: '20px' }}>
-              <PaperworkList
-                initialPaperworks={paperworks}
-                participantId={participantId}
+            <Grid item style={{ marginTop: '20px' }}>
+              <StudioAssessmentList
+                initialStudioAssessments={studioAssessments}
                 formatDate={this.formatDate}
                 userType={userType}
+                participantId={participantId}
               />
             </Grid>
           </Grid>
@@ -125,6 +133,7 @@ ParticipantShowPage.propTypes = {
   participantId: PropTypes.number.isRequired,
   personalQuestionnaire: PropTypes.object.isRequired,
   professionalQuestionnaire: PropTypes.object.isRequired,
+  studioAssessments: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(ParticipantShowPage);
