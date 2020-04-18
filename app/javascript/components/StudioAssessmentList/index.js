@@ -18,16 +18,6 @@ function StudioAssessmentList({
   userType,
 }) {
   const [studioAssessments] = useState(initialStudioAssessments);
-  // const updateStudioAssessment = updatedAssessments => {
-  //   const allAssessments = [...studioAssessments];
-  //   const assessmentIndex = allAssessments.findIndex(
-  //     assessment => assessment.id === updatedAssessments.id,
-  //   );
-  //   if (assessmentIndex !== -1) {
-  //     allAssessments[assessmentIndex] = updatedAssessments;
-  //     setPaperworks(allAssessments);
-  //   }
-  // };
   const studioAssessmentEntries = studioAssessments.map(studioAssessment => (
     <div>
       <StudioAssessmentModal
@@ -60,7 +50,6 @@ function StudioAssessmentList({
         <Grid item>
           <StudioAssessmentModal
             participantId={participantId}
-            // studioAssessment={studioAssessments[0]}
             type="create"
           />
         </Grid>

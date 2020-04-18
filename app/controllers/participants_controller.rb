@@ -3,7 +3,6 @@ class ParticipantsController < ApplicationController
     @participant = authorize Participant.find(params[:id])
     @paperworks = @participant.paperworks
     @case_notes = @participant.case_notes
-    # @studio_assessments = @participant.studio_assessments
 
     if @participant.personal_questionnaire.nil?
       personal_q = PersonalQuestionnaire.create("participant_id": @participant.id)
@@ -26,7 +25,6 @@ class ParticipantsController < ApplicationController
     else
       @studio_assessments = @participant.studio_assessments
     end
-    # @studio_assessments[studio_assessment.id] = StudioAssessmentSerializer.new(studio_assessment)
   end
 
   def dashboard

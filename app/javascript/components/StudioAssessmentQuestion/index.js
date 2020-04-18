@@ -5,93 +5,10 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { apiPost, apiPatch } from 'utils/axios';
 import { Button } from '@material-ui/core';
-// import { consoleSandbox } from '@sentry/utils';
 import RadioButtonsGroup from './radioButtons';
 import styles from './styles';
+import * as questions from './questions';
 
-const questions = [
-  'Understands the Big Picture of the Full Stack',
-  'JavaScript Fundamentals',
-  'Understands Version Control',
-  'React Core Competencies',
-  'NodeJs Core Competencies',
-  'Database Core Competencies',
-  'Problem Solving: Whiteboarding',
-];
-
-const questionContent = [
-  [
-    'Describe the roles of Html,Javascript, and CSS in a webpage.',
-    'What distinguishes a web application from a static webpage?',
-  ],
-  [
-    'Describe the roles of Html,Javascript, and CSS in a webpage.',
-    'What distinguishes a web application from a static webpage?',
-  ],
-  [
-    'Describe the roles of Html,Javascript, and CSS in a webpage.',
-    'What distinguishes a web application from a static webpage?',
-  ],
-  [
-    'Describe the roles of Html,Javascript, and CSS in a webpage.',
-    'What distinguishes a web application from a static webpage?',
-  ],
-  [
-    'Describe the roles of Html,Javascript, and CSS in a webpage.',
-    'What distinguishes a web application from a static webpage?',
-  ],
-  [
-    'Describe the roles of Html,Javascript, and CSS in a webpage.',
-    'What distinguishes a web application from a static webpage?',
-  ],
-  [
-    'Describe the roles of Html,Javascript, and CSS in a webpage.',
-    'What distinguishes a web application from a static webpage?',
-  ],
-];
-
-const rubricItems = [
-  [
-    'While they may recognize technologies, the student cannot articulate roles of varying technologies, let alone be able to decide what technology to use for a particular need or how it fits into the bigger picture.',
-    'The student articulates that there are different technologies with varied roles, can name the technologies involved with different roles, but struggles to decide what technology or role is involved in a particular domain. Also struggles with understanding how the technologies fit together.',
-    'The student articulates the varied technologies in a web stack, their roles, the roles of the client and server, how these technologies/roles fit together and can (mostly) decided where to implement varied needs such as authorization, validation, persistence, etc.',
-  ],
-
-  [
-    'Explain the difference between var, let, and const?',
-    'Explain the difference between var, let, and const?',
-    'Explain the difference between var, let, and const?',
-  ],
-
-  [
-    'Describe the roles of Html, Javascript, and CSS in a web page.',
-    'Describe the roles of Html, Javascript, and CSS in a web page.',
-    'Describe the roles of Html, Javascript, and CSS in a web page.',
-  ],
-
-  [
-    'Explain the difference between var, let, and const?',
-    'Explain the difference between var, let, and const?',
-    'Explain the difference between var, let, and const?',
-  ],
-
-  [
-    'Describe the roles of Html, Javascript, and CSS in a web page.',
-    'Describe the roles of Html, Javascript, and CSS in a web page.',
-    'Describe the roles of Html, Javascript, and CSS in a web page.',
-  ],
-
-  [
-    'Explain the difference between var, let, and const?',
-    'Explain the difference between var, let, and const?',
-    'Explain the difference between var, let, and const?',
-  ],
-  [
-    'Explain the difference between var, let, and const?',
-    'Explain the difference between var, let, and const?',
-    'Explain the difference between var, let, and const?',
-  ],
-];
 
 class Question extends React.Component {
   constructor(props) {
@@ -134,8 +51,6 @@ class Question extends React.Component {
     body.participant_id = this.props.participantId;
     const request = `/api/studio_assessments/${id}`;
     apiPatch(request, { studio_assessment: body });
-    // .then(() => window.location.reload())
-    // .catch(error => console.error(error));
   }
 
   handleSubmitFinal() {
@@ -159,7 +74,6 @@ class Question extends React.Component {
       apiPatch(request, { studio_assessment: body }).then(() =>
         window.location.reload(),
       );
-      // .catch(error => console.error(error));
     }
   }
 
@@ -197,6 +111,42 @@ class Question extends React.Component {
   }
 
   render() {
+    var rubric;
+    var comment;
+    if (this.props.type === "view") {
+      rubric = <div>{this.state.studioAssessment[`${this.props.questionType}_score`] !== null ? 
+      <div>
+        <h3>Score: {this.state.studioAssessment[`${this.props.questionType}_score`].toString()}</h3>
+        <p>{rubricItems[this.state.studioAssessment[`${this.props.questionType}_score`]]}</p>
+      </div>
+      :
+      <div>
+        <h3>Score:</h3>
+        <p>No score entered yet</p>
+      </div>
+      }</div>
+      comments = <div>
+        <h3>Comments</h3>
+            <p>
+              {this.state.studioAssessment[`${this.props.questionType}_comment`] !== null
+                ? this.state.studioAssessment[`${this.props.questionType}_comment`]
+                : 'No comment yet'}
+            </p>
+      </div>
+    } else if (this.props.type !== "view"){
+      rubric = <RadioButtonsGroup
+      rubricItems={questions.rubricItems[this.props.questionID]}
+      questionType={this.props.questionType}
+      score={
+        this.state.studioAssessment[`${this.props.questionType}_score`]
+      }
+      radioHandler={this.radioButtonHandler}
+      />
+      comments = <div><h3>Enter comments below:</h3>
+      {this.generateField(this.props.questionType)}</div>
+    }
+
+
     return (
       <Formik
         initialValues={this.props.formData}
@@ -208,28 +158,20 @@ class Question extends React.Component {
       >
         <Form className={this.props.classes.form}>
           <h1 className={this.props.classes.header}>
-            {questions[this.props.questionID]}
+            {questions.questions[this.props.questionID]}
           </h1>
           <div className={this.props.classes.questions}>
             <p>
-              {questionContent[this.props.questionID].map(item => (
+              {questions.questionContent[this.props.questionID].map(item => (
                 <li>{item}</li>
               ))}
             </p>
           </div>
           <div className={this.props.classes.radio}>
-            <RadioButtonsGroup
-              rubricItems={rubricItems[this.props.questionID]}
-              questionType={this.props.questionType}
-              score={
-                this.state.studioAssessment[`${this.props.questionType}_score`]
-              }
-              radioHandler={this.radioButtonHandler}
-            />
+            {rubric}
           </div>
           <div className={this.props.classes.comments}>
-            <h3>Enter comments below:</h3>
-            {this.generateField(this.props.questionType)}
+            {comment}
             <div className={this.props.classes.buttons}>
               <br />
               <Button
@@ -242,7 +184,6 @@ class Question extends React.Component {
               >
                 back
               </Button>
-
               <Button
                 type="submit"
                 variant="contained"
@@ -253,6 +194,7 @@ class Question extends React.Component {
               >
                 next
               </Button>
+              {this.props.type !== 'view' ? 
               <Button
                 variant="contained"
                 color="secondary"
@@ -260,7 +202,9 @@ class Question extends React.Component {
                 onClick={this.handleSubmitFinal}
               >
                 save and close
-              </Button>
+              </Button> : 
+                <div></div>
+              }
               <br />
             </div>
           </div>

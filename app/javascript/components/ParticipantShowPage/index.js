@@ -114,11 +114,6 @@ class ParticipantShowPage extends React.Component {
                   userType={userType}
                   participantId={participantId}
                 />
-                {/* <StudioAssessmentModal
-                  studioAssessments={studioAssessments}
-                  userType={userType}
-                  participantId={participantId}
-                  />  */}
               </Grid>
             </Grid>
           </Grid>
