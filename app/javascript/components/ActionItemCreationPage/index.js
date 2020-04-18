@@ -52,11 +52,16 @@ class ActionItemCreationPage extends React.Component {
   }
 
   handleSubmit() {
-    const participantIds = this.state.selectedParticipants.map(participant => participant.id);
-    const body = {assignments: this.state.selectedActionItems, assigned_to_ids: participantIds}
+    const participantIds = this.state.selectedParticipants.map(
+      participant => participant.id,
+    );
+    const body = {
+      assignments: this.state.selectedActionItems,
+      assigned_to_ids: participantIds,
+    };
     apiPost('/api/assignments', body)
-    .then(resp => console.log(resp))
-    .catch(error => console.log(error))
+      .then(resp => console.log(resp))
+      .catch(error => console.log(error));
   }
 
   deleteTemplate(templateActionItem) {
@@ -125,6 +130,7 @@ class ActionItemCreationPage extends React.Component {
       description: actionItemDescription,
       category: actionItemCategory,
       dueDate: actionItemDueDate,
+      is_template: saveToTemplates,
     };
     this.setState(prevState => ({
       selectedActionItems: [actionItem, ...prevState.selectedActionItems],
@@ -145,23 +151,7 @@ class ActionItemCreationPage extends React.Component {
         unselectedTemplateActionItems: unselectedTemplates,
       };
     });
-    // const templates = [...this.state.unselectedTemplateActionItems];
-    // const index = templates.findIndex(
-    //   actionItem => actionItem.id === actionItemId,
-    // );
-
-    // if (index !== -1) {
-    //   const actionItem = templates.splice(index, 1)[0];
-    //   this.setState(prevState => ({
-    //     selectedActionItems: [actionItem, ...prevState.selectedActionItems],
-    //     unselectedTemplateActionItems: templates,
-    //   }));
-    // }
   }
-
-  // TODO: Use addActionItemCard in ActionItemCreation Container
-  // TODO: Pass down appropriate edit/delete buttons!
-  // Create callback functions for actionItemCards.
 
   nextStep() {
     this.setState(prevState => ({ step: prevState.step + 1 }));
