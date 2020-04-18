@@ -97,12 +97,12 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def show_template
-        authorize @template, :show?
+        @template, :show?
         render json: @template, status: :ok
     end
 
     def update_template
-        authorize @template, :update?
+        @template, :update?
         if @template.update(action_item_params)
             render json: @template, status: :ok
         else
@@ -112,7 +112,7 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def destroy_template
-        authorize @template, :destroy?
+        @template, :destroy?
         if @template.is_template && @template.destroy
             render json: @template, status: :ok
         else
@@ -124,7 +124,7 @@ class Api::AssignmentsController < ApplicationController
     private
     
     def set_template
-        @template = ActionItem.find(params[:id])
+        @template = authorize ActionItem.find(params[:id])
         template_sentry_helper(@template)
     rescue ActiveRecord::RecordNotFound => exception
         Raven.extra_context(action_item_id: params[:id])
