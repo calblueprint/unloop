@@ -82,11 +82,12 @@ function ActionItemCard({
             xs={6}
             justify="space-evenly"
           >
-            <Grid item>
+            {/* Commented out because it doesn't have functionality right now */}
+            {/* <Grid item>
               <Button size="small" className={classes.buttonStyle}>
                 EDIT
               </Button>
-            </Grid>
+            </Grid> */}
             <Grid item>
               <Button
                 size="small"

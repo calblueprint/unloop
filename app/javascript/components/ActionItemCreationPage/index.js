@@ -10,6 +10,11 @@ import ActionItemCreationContainer from 'components/ActionItemCreationContainer'
 import ActionItemSearchParticipants from 'components/ActionItemSearchParticipants';
 import ActionItemList from 'components/ActionItemList';
 import ActionItemDisplayParticipants from 'components/ActionItemDisplayParticipants';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Button from '@material-ui/core/Button';
 import { apiPost, apiDelete } from 'utils/axios';
 import styles from './styles';
 
@@ -26,6 +31,7 @@ class ActionItemCreationPage extends React.Component {
       actionItemCategory: null,
       unselectedTemplateActionItems: this.props.templates,
       selectedActionItems: [],
+      submissionModal: false,
     };
 
     this.addUserToState = this.addUserToState.bind(this);
@@ -60,7 +66,7 @@ class ActionItemCreationPage extends React.Component {
       assigned_to_ids: participantIds,
     };
     apiPost('/api/assignments', body)
-      .then(resp => console.log(resp))
+      .then(() => this.setState({ submissionModal: true }))
       .catch(error => console.log(error));
   }
 
@@ -427,57 +433,78 @@ class ActionItemCreationPage extends React.Component {
     const buttonsGrid = this.getButtonsGrid(this.state.step);
 
     return (
-      <Grid container style={{ height: '100vh', width: '100vw' }}>
-        <Grid item xs={1}>
-          <Navbar isAdmin={this.props.isAdmin} />
-        </Grid>
-        <Grid item container xs={11} justify="center">
-          <Grid
-            container
-            item
-            direction="column"
-            alignItems="center"
-            justify="center"
-            xs={11}
-            spacing={2}
-          >
-            <Grid container item direction="row" justify="flex-start">
-              <Grid item>
-                <Typography className={classes.topLeftTextStyle}>
-                  Add Assignments to List
-                </Typography>
-              </Grid>
-            </Grid>
+      <div>
+        <Dialog open={this.state.submissionModal}>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Bulk assignment successfully submitted. Press the button to
+              refresh.
+            </DialogContentText>
+          </DialogContent>
+
+          <DialogActions>
+            <Button
+              onClick={() => {
+                window.location.href = '/assignments';
+              }}
+              color="primary"
+            >
+              REFRESH
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Grid container style={{ height: '100vh', width: '100vw' }}>
+          <Grid item xs={1}>
+            <Navbar isAdmin={this.props.isAdmin} />
+          </Grid>
+          <Grid item container xs={11} justify="center">
             <Grid
               container
               item
-              xs={8}
-              spacing={1}
-              className={classes.mainBackgroundStyle}
-              justify="space-evenly"
-              alignItems="flex-start"
+              direction="column"
+              alignItems="center"
+              justify="center"
+              xs={11}
+              spacing={2}
             >
-              <Grid item>
-                <Typography className={classes.underlineStyle}>
-                  {leftComponentText}
-                </Typography>
-                <hr className={classes.borderStyle}></hr>
-                <Divider style={{ marginBottom: '10px' }} />
-                {leftComponent}
+              <Grid container item direction="row" justify="flex-start">
+                <Grid item>
+                  <Typography className={classes.topLeftTextStyle}>
+                    Add Assignments to List
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography className={classes.underlineStyle}>
-                  {rightComponentText}
-                </Typography>
-                <hr className={classes.borderStyle}></hr>
-                <Divider style={{ marginBottom: '10px' }} />
-                {rightComponent}
+              <Grid
+                container
+                item
+                xs={8}
+                spacing={1}
+                className={classes.mainBackgroundStyle}
+                justify="space-evenly"
+                alignItems="flex-start"
+              >
+                <Grid item>
+                  <Typography className={classes.underlineStyle}>
+                    {leftComponentText}
+                  </Typography>
+                  <hr className={classes.borderStyle}></hr>
+                  <Divider style={{ marginBottom: '10px' }} />
+                  {leftComponent}
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.underlineStyle}>
+                    {rightComponentText}
+                  </Typography>
+                  <hr className={classes.borderStyle}></hr>
+                  <Divider style={{ marginBottom: '10px' }} />
+                  {rightComponent}
+                </Grid>
               </Grid>
+              {buttonsGrid}
             </Grid>
-            {buttonsGrid}
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     );
   }
 }
