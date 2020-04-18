@@ -51,7 +51,6 @@ class Api::StudioAssessmentsController < ApplicationController
     end
 
     def sentry_helper(studio_assessment)
-        studio_assessment = authorize StudioAssessment.find(params[:id])
         Raven.extra_context(studio_assessment: studio_assessment.attributes)
         Raven.extra_context(staff: studio_assessment.staff.user.attributes)
         Raven.extra_context(participant: studio_assessment.participant.user.attributes)
