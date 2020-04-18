@@ -96,7 +96,7 @@ class AddFromExistingForm extends React.Component {
       const isSelectedCategory =
         this.state.categorySelected && this.state.categorySelected === category;
       return (
-        <Grid item>
+        <Grid item key={category}>
           <Fab
             className={classes.iconStyle}
             style={{

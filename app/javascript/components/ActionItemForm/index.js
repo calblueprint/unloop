@@ -39,7 +39,7 @@ function ActionItemForm({
     const isSelectedCategory =
       categorySelected && categorySelected === category;
     return (
-      <Grid item>
+      <Grid item key={category}>
         <Fab
           className={classes.iconStyle}
           style={{

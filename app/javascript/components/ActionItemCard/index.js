@@ -54,7 +54,7 @@ function ActionItemCard({
                 color="primary"
                 align="center"
               >
-                {category.toUpperCase()}
+                {category ? category.toUpperCase() : category}
               </Typography>
             </Fab>
           </Grid>
