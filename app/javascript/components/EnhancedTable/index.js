@@ -14,7 +14,6 @@ import ParticipantCard from 'components/ParticipantCard';
 import styles from './styles';
 
 function descendingComparator(a, b, orderBy) {
-  console.log(a, b);
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -88,6 +87,7 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
   headCells: PropTypes.array.isRequired,
 };
+
 function EnhancedTable(props) {
   const { classes } = props;
   const [order, setOrder] = React.useState('asc');
