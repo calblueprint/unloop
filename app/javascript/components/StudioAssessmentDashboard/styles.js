@@ -1,7 +1,5 @@
-const backgroundBlue = '#d2dce1';
-const white = '#fff';
 
-const styles = () => ({
+const styles = (theme) => ({
   dashboard: {
     height: '100%',
     width: '100%',
@@ -58,6 +56,9 @@ const styles = () => ({
         '& tr:hover': {
           backgroundColor: '#f5f5f5',
         },
+        '& td#selected': {
+          backgroundColor: '#00a0ac',
+        },
       },
 
       '& td': {
@@ -72,10 +73,10 @@ const styles = () => ({
   tableContainer: {
     height: '100%',
     minHeight: '100vh',
-    backgroundColor: backgroundBlue,
+    backgroundColor: theme.palette.common.backgroundBlue,
     padding: '20px 42px',
     '& > div': {
-      backgroundColor: white,
+      backgroundColor: theme.palette.common.white,
       boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
       borderRadius: 20,
       padding: 30,

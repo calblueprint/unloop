@@ -63,7 +63,7 @@ function Navbar({ classes, isAdmin }) {
         xs={1}
         className={classes.navBar}
         direction="column"
-        alignItems="center"
+        alignItems="left"
         justify="space-between"
       >
         <Grid container item alignItems="center" direction="column">
