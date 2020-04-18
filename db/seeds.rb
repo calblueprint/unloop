@@ -12,6 +12,7 @@ STAFF_START_ID = Staff.count + 1
 STAFF_END_ID = STAFF_START_ID + NUM_STAFF - 1
 PARTICIPANT_START_ID = Participant.count + 1
 PARTICIPANT_END_ID = PARTICIPANT_START_ID + NUM_PARTICIPANTS - 1
+PARTICIPANT_STATUSES = ["r0", "r1", "r2", "studio"]
 
 # Use Faker gem to randomly generate fields
 require 'faker'
@@ -47,7 +48,7 @@ end
 
 def create_participants
   PARTICIPANT_START_ID.upto(PARTICIPANT_END_ID) do |i|
-    User.create!(
+    u = User.create!(
       email: "participant#{i}@gmail.com",
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
@@ -55,6 +56,8 @@ def create_participants
       password_confirmation: 'password',
       user_type: 0
     )
+    u.participant.status = PARTICIPANT_STATUSES[(i-1)%4]
+    u.participant.save!
   end
   puts "Created Participant ##{PARTICIPANT_START_ID}-#{PARTICIPANT_END_ID}"
 end
@@ -76,6 +79,7 @@ def create_template_action_items
   1.upto(NUM_TEMPLATE_ACTION_ITEMS) do |i|
     ActionItem.create(title: Faker::Hacker.noun,
                       description: Faker::Hacker.say_something_smart,
+                      category: Faker::Number.between(from: 0, to: ActionItem.categories.length - 1),
                       is_template: true,
                     )
   end
@@ -86,6 +90,7 @@ def create_assignments
   1.upto(NUM_ACTION_ITEMS) do |i|
     action_item = ActionItem.create!(title: Faker::Hacker.noun, 
                                      description: Faker::Hacker.say_something_smart,
+                                     category: Faker::Number.between(from: 0, to: ActionItem.categories.length - 1),
                                      is_template: false,
                                     )
     1.upto(rand(1...4)) do |i|

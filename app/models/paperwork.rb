@@ -31,6 +31,8 @@ class Paperwork < ApplicationRecord
   end
 
   def title_with_association
-    "#{title} for #{participant.full_name}"
+    if self.participant
+      "#{title} for #{self.participant.full_name}"
+    end
   end
 end
