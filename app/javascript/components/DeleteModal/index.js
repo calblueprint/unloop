@@ -48,7 +48,7 @@ class DeleteModal extends React.Component {
         Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'DeleteModal');
           scope.setExtra('action', 'apiDelete');
-          scope.setExtra('case_note', body);
+          scope.setExtra('case_note', JSON.stringify(body));
         });
         Sentry.captureException(error);
       });

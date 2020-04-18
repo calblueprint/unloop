@@ -72,7 +72,7 @@ class ActionItemCreationPage extends React.Component {
           scope.setExtra('file', 'ActionItemCreationPage');
           scope.setExtra('action', 'apiPost (handleSubmit)');
           scope.setExtra('participantIds', participantIds);
-          scope.setExtra('body', body);
+          scope.setExtra('body', JSON.stringify(body));
         });
         Sentry.captureException(error);
       });
@@ -148,7 +148,7 @@ class ActionItemCreationPage extends React.Component {
           Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'ActionItemCreationPage');
             scope.setExtra('action', 'apiPost (createActionItem)');
-            scope.setExtra('template', template);
+            scope.setExtra('template', JSON.stringify(template));
           });
           Sentry.captureException(error);
         });

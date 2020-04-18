@@ -55,7 +55,7 @@ class Question extends React.Component {
         scope.setExtra('file', 'StudioAssessmentQuestion');
         scope.setExtra('action', 'apiPatch (handleSubmit)');
         scope.setExtra('studioAssessmentId', id);
-        scope.setExtra('body', body);
+        scope.setExtra('body', JSON.stringify(body));
       });
       Sentry.captureException(error);
     });
@@ -79,7 +79,7 @@ class Question extends React.Component {
           Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'StudioAssessmentQuestion');
             scope.setExtra('action', 'apiPost');
-            scope.setExtra('studio_assessment', body);
+            scope.setExtra('studio_assessment', JSON.stringify(body));
           });
           Sentry.captureException(error);
         });
@@ -93,7 +93,7 @@ class Question extends React.Component {
             scope.setExtra('file', 'StudioAssessmentQuestion');
             scope.setExtra('action', 'apiPatch (handleSubmitFinal)');
             scope.setExtra('studioAssessmentId', id);
-            scope.setExtra('body', body);
+            scope.setExtra('body', JSON.stringify(body));
           });
           Sentry.captureException(error);
         });
@@ -140,23 +140,35 @@ class Question extends React.Component {
     if (this.props.type === 'view') {
       rubric =
         this.state.studioAssessment[`${this.props.questionType}_score`] !==
-        null ?
-          (<div>
-            <h3>Score: {this.state.studioAssessment[`${this.props.questionType}_score`].toString()}</h3>
-            <p>{this.state.studioAssessment[`${this.props.questionType}_score`]}</p>
-          </div>)
-          :
-          (<div>
-            <h3>Score:</h3>
-            <p>No score entered yet</p>
-          </div>)
+        null ? (
+            <div>
+              <h3>
+              Score:{' '}
+                {this.state.studioAssessment[
+                  `${this.props.questionType}_score`
+                ].toString()}
+              </h3>
+              <p>
+                {this.state.studioAssessment[`${this.props.questionType}_score`]}
+              </p>
+            </div>
+          ) : (
+            <div>
+              <h3>Score:</h3>
+              <p>No score entered yet</p>
+            </div>
+          );
 
       comments = (
         <div>
           <h3>Comments</h3>
           <p>
-            {this.state.studioAssessment[`${this.props.questionType}_comment`] !== null
-              ? this.state.studioAssessment[`${this.props.questionType}_comment`]
+            {this.state.studioAssessment[
+              `${this.props.questionType}_comment`
+            ] !== null
+              ? this.state.studioAssessment[
+                `${this.props.questionType}_comment`
+              ]
               : 'No comment yet'}
           </p>
         </div>
@@ -172,7 +184,7 @@ class Question extends React.Component {
           radioHandler={this.radioButtonHandler}
         />
       );
-      
+
       comments = (
         <div>
           <h3>Enter comments below:</h3>
