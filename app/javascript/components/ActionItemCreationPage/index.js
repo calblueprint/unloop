@@ -161,6 +161,7 @@ class ActionItemCreationPage extends React.Component {
     this.setState(prevState => ({ step: prevState.step - 1 }));
   }
 
+  // Adds selected user to state to be displayed
   addUserToState(user) {
     this.setState(prevState => ({
       selectedParticipants: [...prevState.selectedParticipants, user],
@@ -178,16 +179,32 @@ class ActionItemCreationPage extends React.Component {
   }
 
   // Adds all users at once to be displayed
-  addAllUsersToState() {
+  addAllUsersToState(filteredParticipants) {
+    const toAdd = [];
+    const selectedIds = new Set(this.state.selectedParticipants.map(p => p.id));
+    for (let i = 0; i < filteredParticipants.length; i += 1) {
+      if (!selectedIds.has(filteredParticipants[i].id)) {
+        toAdd.push(filteredParticipants[i]);
+      }
+    }
+
     this.setState(prevState => ({
-      selectedParticipants: prevState.participants,
+      selectedParticipants: prevState.selectedParticipants.concat(toAdd),
     }));
   }
 
   // Removes all users at once from display
-  removeAllUsersFromState() {
+  removeAllUsersFromState(filteredParticipants) {
+    const newParticipants = [];
+    const filteredIds = new Set(filteredParticipants.map(p => p.id));
+    for (let i = 0; i < this.state.selectedParticipants.length; i += 1) {
+      if (!filteredIds.has(this.state.selectedParticipants[i].id)) {
+        newParticipants.push(this.state.selectedParticipants[i]);
+      }
+    }
+
     this.setState({
-      selectedParticipants: [],
+      selectedParticipants: newParticipants,
     });
   }
 
@@ -198,8 +215,8 @@ class ActionItemCreationPage extends React.Component {
     let rightComponentText;
     switch (stepSize) {
       case 0:
-        leftComponentText = "Assignments";
-        rightComponentText = "Add Assignments";
+        leftComponentText = 'Assignments';
+        rightComponentText = 'Add Assignments';
         leftComponent = (
           <ActionItemList
             selectedActionItems={this.state.selectedActionItems}
@@ -224,8 +241,8 @@ class ActionItemCreationPage extends React.Component {
         );
         break;
       case 1:
-        leftComponentText = "Students";
-        rightComponentText= "Add Students";
+        leftComponentText = 'Students';
+        rightComponentText = 'Add Students';
         leftComponent = (
           <ActionItemDisplayParticipants
             selectedParticipants={this.state.selectedParticipants}
@@ -244,8 +261,8 @@ class ActionItemCreationPage extends React.Component {
         );
         break;
       case 2:
-        leftComponentText = "Review Students";
-        rightComponentText= "Review Assignments";
+        leftComponentText = 'Review Students';
+        rightComponentText = 'Review Assignments';
         leftComponent = (
           <ActionItemDisplayParticipants
             selectedParticipants={this.state.selectedParticipants}
@@ -264,7 +281,12 @@ class ActionItemCreationPage extends React.Component {
         leftComponentText = null;
         rightComponentText = null;
     }
-    return { leftComponent, rightComponent, leftComponentText, rightComponentText };
+    return {
+      leftComponent,
+      rightComponent,
+      leftComponentText,
+      rightComponentText,
+    };
   }
 
   getButtons(stepSize) {
@@ -397,9 +419,12 @@ class ActionItemCreationPage extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { leftComponent, leftComponentText, rightComponent, rightComponentText } = this.getMainComponents(
-      this.state.step,
-    );
+    const {
+      leftComponent,
+      leftComponentText,
+      rightComponent,
+      rightComponentText,
+    } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
 
     return (
