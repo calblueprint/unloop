@@ -29,7 +29,7 @@ class AssignmentPolicy < ApplicationPolicy
         if user.staff?
             scope.all
         else
-            scope.where([participant: user.id])
+            scope.where([participant_id: user.id])
         end
       end
     end
