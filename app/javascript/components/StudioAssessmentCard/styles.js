@@ -1,12 +1,10 @@
-const backgroundBlue = '#d2dce1';
-const white = '#fff';
-const highlightBlue = '#00a0ac';
-const styles = () => ({
+
+const styles = (theme) => ({
   selected: {
-    backgroundColor: highlightBlue,
+    backgroundColor: theme.palette.common.highlightBlue,
   },
   regular: {
-    backgroundColor: white,
+    backgroundColor: theme.palette.common.white,
   },
 });
 
