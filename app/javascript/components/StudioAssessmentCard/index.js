@@ -61,6 +61,9 @@ class StudioAssessmentCard extends React.Component {
         <td className={currCategory === 'problemsolvingaltScore' ? classes.selected : null}>
           {probSolveAlt}
         </td>
+        <td>
+          {this.props.assessment.updatedDate}
+        </td>
       </tr>
     );
   }
@@ -69,7 +72,7 @@ class StudioAssessmentCard extends React.Component {
 StudioAssessmentCard.propTypes = {
   assessment: PropTypes.object,
   classes: PropTypes.object.isRequired,
-  selectedCat: PropTypes.String,
+  selectedCat: PropTypes.string,
 };
 
 export default withStyles(styles)(StudioAssessmentCard);

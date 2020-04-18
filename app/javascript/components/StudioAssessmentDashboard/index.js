@@ -178,6 +178,11 @@ class StudioAssessmentDashboard extends React.Component {
                       Problem Solving Alternate
                       </button>
                     </th>
+                    <th>
+                      <button  >
+                      Date
+                      </button>
+                    </th>
                     </tr>
                 </thead>
                 <tbody>
