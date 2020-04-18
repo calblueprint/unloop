@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
-import { withStyles} from '@material-ui/core/styles';
 
 class StudioAssessmentCard extends React.Component {
   constructor(props) {
     super(props);
     this.showParticipant = this.showParticipant.bind(this);
-    const assessment = this.props.assessment;
-
+    const { assessment } = this.props;
   }
 
   showParticipant() {
@@ -17,7 +16,7 @@ class StudioAssessmentCard extends React.Component {
   }
 
   render() {
-    const assessment = this.props.assessment;
+    const { assessment } = this.props;
     const bigPic = assessment.bigpictureScore;
     const prog = assessment.progfundamentalsScore;
     const vc = assessment.versioncontrolScore;
@@ -30,45 +29,47 @@ class StudioAssessmentCard extends React.Component {
     const currCategory = this.props.selectedCat;
     return (
       <tr>
-      <td
-        className="name"
-        style={{ cursor: 'pointer' }}
-        onClick={this.showParticipant}
-        onKeyDown={this.showParticipant}
-      >
-        {this.props.assessment.name}
-      </td>
-      <td className={currCategory === 'bigPic' ? classes.selected : null}>
-        {bigPic}
-      </td>
-      <td className={currCategory === 'progFun' ? classes.selected : null}>
-        {prog}
-      </td>
-      <td className={currCategory === 'verCon"' ? classes.selected : null}>
-        {vc}
-      </td>
-      <td className={currCategory === 'react' ? classes.selected : null}>
-        {react}
-      </td>
-      <td className={currCategory === 'node' ? classes.selected : null}>
-        {node}
-      </td>
-      <td className={currCategory === 'Db' ? classes.selected : null}>
-        {db}
-      </td>
-      <td className={currCategory === 'probSol' ? classes.selected : null}>
-        {probSolve}
-      </td>
-      <td className={currCategory === 'probAlt' ? classes.selected : null}>
-        {probSolveAlt}
-      </td>
-    </tr>
+        <td
+          className="name"
+          style={{ cursor: 'pointer' }}
+          onClick={this.showParticipant}
+          onKeyDown={this.showParticipant}
+        >
+          {this.props.assessment.name}
+        </td>
+        <td className={currCategory === 'bigPic' ? classes.selected : null}>
+          {bigPic}
+        </td>
+        <td className={currCategory === 'progFun' ? classes.selected : null}>
+          {prog}
+        </td>
+        <td className={currCategory === 'verCon"' ? classes.selected : null}>
+          {vc}
+        </td>
+        <td className={currCategory === 'react' ? classes.selected : null}>
+          {react}
+        </td>
+        <td className={currCategory === 'node' ? classes.selected : null}>
+          {node}
+        </td>
+        <td className={currCategory === 'Db' ? classes.selected : null}>
+          {db}
+        </td>
+        <td className={currCategory === 'probSol' ? classes.selected : null}>
+          {probSolve}
+        </td>
+        <td className={currCategory === 'probAlt' ? classes.selected : null}>
+          {probSolveAlt}
+        </td>
+      </tr>
     );
   }
 }
 
 StudioAssessmentCard.propTypes = {
   assessment: PropTypes.object,
+  classes: PropTypes.object.isRequired,
+  selectedCat: PropTypes.String,
 };
 
 export default withStyles(styles)(StudioAssessmentCard);

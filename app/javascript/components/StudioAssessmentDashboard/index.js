@@ -88,6 +88,16 @@ class StudioAssessmentDashboard extends React.Component {
     });
   }
 
+  getComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  }
+
   renderDropDown(){
     const { classes } = this.props;
     let select = this.state.selectedCat;
