@@ -330,7 +330,6 @@ class ActionItemCreationPage extends React.Component {
             alignItems="center"
             spacing={3}
           >
-            {' '}
             <Grid item>
               <Fab
                 className={classes.iconStyle}
