@@ -116,7 +116,7 @@ const styles = theme => ({
     '& > div': {
       backgroundColor: theme.palette.common.white,
       boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
-      borderRadius: 20,
+      borderRadius: 18,
       padding: 30,
     },
   },

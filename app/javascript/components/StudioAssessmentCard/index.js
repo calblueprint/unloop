@@ -7,7 +7,6 @@ class StudioAssessmentCard extends React.Component {
   constructor(props) {
     super(props);
     this.showParticipant = this.showParticipant.bind(this);
-    const { assessment } = this.props;
   }
 
   showParticipant() {
@@ -37,13 +36,25 @@ class StudioAssessmentCard extends React.Component {
         >
           {this.props.assessment.name}
         </td>
-        <td className={currCategory === 'bigpictureScore' ? classes.selected : null}>
+        <td
+          className={
+            currCategory === 'bigpictureScore' ? classes.selected : null
+          }
+        >
           {bigPic}
         </td>
-        <td className={currCategory === 'progfundamentalsScore' ? classes.selected : null}>
+        <td
+          className={
+            currCategory === 'progfundamentalsScore' ? classes.selected : null
+          }
+        >
           {prog}
         </td>
-        <td className={currCategory === 'versioncontrolScore' ? classes.selected : null}>
+        <td
+          className={
+            currCategory === 'versioncontrolScore' ? classes.selected : null
+          }
+        >
           {vc}
         </td>
         <td className={currCategory === 'reactScore' ? classes.selected : null}>
@@ -55,15 +66,21 @@ class StudioAssessmentCard extends React.Component {
         <td className={currCategory === 'dbScore' ? classes.selected : null}>
           {db}
         </td>
-        <td className={currCategory === 'problemsolvingScore' ? classes.selected : null}>
+        <td
+          className={
+            currCategory === 'problemsolvingScore' ? classes.selected : null
+          }
+        >
           {probSolve}
         </td>
-        <td className={currCategory === 'problemsolvingaltScore' ? classes.selected : null}>
+        <td
+          className={
+            currCategory === 'problemsolvingaltScore' ? classes.selected : null
+          }
+        >
           {probSolveAlt}
         </td>
-        <td>
-          {this.props.assessment.updatedDate}
-        </td>
+        <td>{this.props.assessment.updatedDate}</td>
       </tr>
     );
   }

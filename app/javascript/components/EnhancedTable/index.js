@@ -71,7 +71,7 @@ function EnhancedTableHead(props) {
                 ) : null}
               </TableSortLabel>
             ) : (
-              ''
+              headCell.label
             )}
           </TableCell>
         ))}
@@ -136,7 +136,7 @@ function EnhancedTable(props) {
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => (
+                .map(row => (
                   <TableRow hover tabIndex={-1} key={row.id}>
                     <ParticipantCard
                       key={row.id}
