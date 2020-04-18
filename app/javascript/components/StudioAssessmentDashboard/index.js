@@ -24,6 +24,7 @@ class StudioAssessmentDashboard extends React.Component {
         selectedCat: "overall",
     };
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleSort = this.handleSort.bind(this);
 
   }
 
@@ -52,7 +53,7 @@ class StudioAssessmentDashboard extends React.Component {
     });
   }
 
-  handleDropdown = (event) => {
+  handleSort = (event) => {
     const category = event.target.value;
     let currAssessments = this.props.assessments;
     if(category === "overall"){
@@ -77,18 +78,6 @@ class StudioAssessmentDashboard extends React.Component {
     return 0;
   }
 
-  // const { assessment } = this.props;
-  //   const bigPic = assessment.bigpictureScore;
-  //   const prog = assessment.progfundamentalsScore;
-  //   const vc = assessment.versioncontrolScore;
-  //   const react = assessment.reactScore;
-  //   const node = assessment.nodeScore;
-  //   const db = assessment.dbScore;
-  //   const probSolve = assessment.problemsolvingScore;
-  //   const probSolveAlt = assessment.problemsolvingaltScore;
-  //   const { classes } = this.props;
-  //   const currCategory = this.props.selectedCat;
-
   renderDropDown(){
     const { classes } = this.props;
     let select = this.state.selectedCat;
@@ -97,17 +86,17 @@ class StudioAssessmentDashboard extends React.Component {
       <InputLabel className={classes.dropDown}>Sort By Score Categories</InputLabel>
       <Select
         value={select}
-        onChange = {this.handleDropdown}
+        onChange = {this.handleSort}
       >
         <MenuItem value = {"overall"}>Overall Rankings  </MenuItem>
         <MenuItem value = {"bigpictureScore"}>Big Picture       </MenuItem>
         <MenuItem value = {"progfundamentalsScore"}>Programming Fundamentals </MenuItem>
-        <MenuItem value = {"verversioncontrolScoreCon"}>Version Control   </MenuItem>
-        <MenuItem value = {"reareactScorect"}>React             </MenuItem>
+        <MenuItem value = {"versioncontrolScore"}>Version Control   </MenuItem>
+        <MenuItem value = {"reactScore"}>React             </MenuItem>
         <MenuItem value = {"nodeScore"}>Node              </MenuItem>
         <MenuItem value = {"dbScore"}>Db                </MenuItem>
         <MenuItem value = {"problemsolvingScore"}>Problem Solving        </MenuItem>
-        <MenuItem value = {"proproblemsolvingaltScorebAlt"}>Problem Solving Alternate   </MenuItem>
+        <MenuItem value = {"problemsolvingaltScore"}>Problem Solving Alternate   </MenuItem>
       </Select>
     </FormControl>
     );
@@ -141,14 +130,54 @@ class StudioAssessmentDashboard extends React.Component {
                 <thead>
                     <tr>
                     <th>{this.renderDropDown()}</th>
-                    <th>Big Picture</th>
-                    <th>Prog Fundamentals</th>
-                    <th>Version Control </th>
-                    <th>React </th>
-                    <th>Node </th>
-                    <th>Db</th>
-                    <th>Prob Solve </th>
-                    <th>Prob Solve Alt </th>
+                    <th>
+                      <button 
+                      value = {"bigpictureScore"} onClick = {this.handleSort} >
+                      Big Picture
+                      </button>
+                    </th>
+                    <th>
+                      <button 
+                      value = {"progfundamentalsScore"} onClick = {this.handleSort} >
+                      Programming Fundamentals 
+                      </button>
+                    </th>
+                    <th>
+                      <button 
+                      value = {"versioncontrolScore"} onClick = {this.handleSort} >
+                      Version Control
+                      </button>
+                    </th>
+                    <th>
+                      <button 
+                      value = {"reactScore"} onClick = {this.handleSort} >
+                      React
+                      </button>
+                    </th>
+                    <th>
+                      <button 
+                      value = {"nodeScore"} onClick = {this.handleSort} >
+                      Node
+                      </button>
+                    </th>
+                    <th>
+                      <button 
+                      value = {"dbScore"} onClick = {this.handleSort} >
+                      DB
+                      </button>
+                    </th>
+                    <th>
+                      <button 
+                      value = {"problemsolvingScore"} onClick = {this.handleSort} >
+                      Problem Solving  
+                      </button>
+                    </th>
+                    <th>
+                      <button 
+                      value = {"problemsolvingaltScore"} onClick = {this.handleSort} >
+                      Problem Solving Alternate
+                      </button>
+                    </th>
                     </tr>
                 </thead>
                 <tbody>
