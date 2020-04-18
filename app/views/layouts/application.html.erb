@@ -52,16 +52,20 @@
 
   <% if user_signed_in? %>
     <script>
-      FS.identify('id: <%= current_user.id %>', {
-        "email": "<%= current_user.email.to_s %>",
-        "first_name": "<%= current_user.first_name.to_s %>",
-        "last_name": "<%= current_user.last_name.to_s %>",
-        "user_type": "<%= current_user.user_type.to_s %>",
-        "provider": "<%= current_user.provider.to_s %>",
-        "uid": "<%= current_user.uid.to_s %>",
-        "user_type": "<%= current_user.user_type.to_s %>",
-        "admin": "<%= current_user.admin.to_s %>"
-      })
+      window.onload = function() {
+        if (window.FS) {
+          FS.identify('id: <%= current_user.id %>', {
+            "email": "<%= current_user.email.to_s %>",
+            "first_name": "<%= current_user.first_name.to_s %>",
+            "last_name": "<%= current_user.last_name.to_s %>",
+            "user_type": "<%= current_user.user_type.to_s %>",
+            "provider": "<%= current_user.provider.to_s %>",
+            "uid": "<%= current_user.uid.to_s %>",
+            "user_type": "<%= current_user.user_type.to_s %>",
+            "admin": "<%= current_user.admin.to_s %>"
+          })
+        }
+      }
     </script>
   <% end %>
   <% if current_user %>
