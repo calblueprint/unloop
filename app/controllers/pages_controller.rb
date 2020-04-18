@@ -26,7 +26,7 @@ class PagesController < ApplicationController
               @user = current_user
               @participant = @user.participant
               @paperworks = @user.participant.paperworks
-              @case_notes = @user.participant.case_notes.where(visible: true)
+              @case_notes = @user.participant.case_notes#.where(visible: true), changing for testing purposes
               @assignments = Assignment.where('assigned_to_id': @participant.id)
               @studio_assessments = @user.participant.studio_assessments            
 

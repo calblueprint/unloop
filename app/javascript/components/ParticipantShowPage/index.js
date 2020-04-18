@@ -51,13 +51,14 @@ class ParticipantShowPage extends React.Component {
       userType,
       isAdmin,
       assignments,
-      studioAssessments,
     } = this.props;
 
     console.log("case notes", caseNotes);
+    console.log("paperworks", paperworks);
     console.log("assignments", assignments);
     console.log("participantId", participantId);
-
+    console.log("studio assessments", studioAssessments[0]);
+    
     return (
       <ThemeProvider theme={theme}>
         <Grid
@@ -124,17 +125,6 @@ class ParticipantShowPage extends React.Component {
                   formatDate={this.formatDate}
                   userType={userType}
                 />
-                <StudioAssessmentList
-                  initialStudioAssessments={studioAssessments.splice(0, 3)} // Render first 3 assessments
-                  formatDate={this.formatDate}
-                  userType={userType}
-                  participantId={participantId}
-                />
-                {/* <StudioAssessmentModal
-                  studioAssessments={studioAssessments}
-                  userType={userType}
-                  participantId={participantId}
-                  />  */}
               </Grid>
             </Grid>
           </Grid>
@@ -161,10 +151,10 @@ class ParticipantShowPage extends React.Component {
             <Grid item style={{ padding: '0px', marginTop: '20px' }}>
               {/* These are studio assessments lists */}
               <StudioAssessmentList
-                initialPaperworks={studioAssessments}
-                participantId={participantId}
+                initialStudioAssessments={studioAssessments}
                 formatDate={this.formatDate}
                 userType={userType}
+                participantId={participantId}
               />
             </Grid>
           </Grid>
@@ -196,13 +186,9 @@ ParticipantShowPage.propTypes = {
   participantId: PropTypes.number.isRequired,
   personalQuestionnaire: PropTypes.object.isRequired,
   professionalQuestionnaire: PropTypes.object.isRequired,
-<<<<<<< HEAD
   // Need the following for the assignments and studioAssessments
   assignments: PropTypes.array.isRequired,
   studioAssessments: PropTypes.array.isRequired,
-=======
-  studioAssessments: PropTypes.object.isRequired,
->>>>>>> joelene/studio-assessment-form
 };
 
 export default withStyles(styles)(ParticipantShowPage);

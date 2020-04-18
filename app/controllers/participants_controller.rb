@@ -13,7 +13,6 @@ class ParticipantsController < ApplicationController
     end
     @personal_questionnaire = PersonalQuestionnaireSerializer.new(personal_q)
 
-    
     if @participant.professional_questionnaire.nil?
       professional_q = ProfessionalQuestionnaire.create("participant_id": @participant.id)
     else

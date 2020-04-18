@@ -7,104 +7,127 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Paper, List } from '@material-ui/core';
-import StudioAssessmentModal from 'components/StudioAssessmentModal';
-import PaperworkEntry from 'components/PaperworkEntry';
-import PaperworkForm from 'components/PaperworkForm';
-import ActionItemForm from 'components/ActionItemForm';
-import {
-  Fab,
-  Typography,
+import { 
+  Grid, 
+  Paper, 
+  List, 
+  Container 
 } from '@material-ui/core';
-
+import StudioAssessmentModal from 'components/StudioAssessmentModal';
 import styles from './styles';
 
-function StudioAssignmentList({
+function StudioAssessmentList({
   classes,
-  initialPaperworks,
+  formatDate,
+  initialStudioAssessments,
   participantId,
   userType,
-  formatDate,
 }) {
-  const [paperworks, setPaperworks] = useState(initialPaperworks);
+  const [studioAssessments] = useState(initialStudioAssessments);
+  // const updateStudioAssessment = updatedAssessments => {
+  //   const allAssessments = [...studioAssessments];
+  //   const assessmentIndex = allAssessments.findIndex(
+  //     assessment => assessment.id === updatedAssessments.id,
+  //   );
+  //   if (assessmentIndex !== -1) {
+  //     allAssessments[assessmentIndex] = updatedAssessments;
+  //     setPaperworks(allAssessments);
+  //   }
+  // };
+  console.log("studioAssessments", studioAssessments);
+  console.log("formatDate", formatDate);
+  console.log("initialStudioAssessments", initialStudioAssessments);
+  console.log("participantId", participantId);
+  console.log("userType", userType);
 
-  const updatePaperwork = updatedPaperwork => {
-    const allPaperworks = [...paperworks];
-    const paperworkIndex = allPaperworks.findIndex(
-      paperwork => paperwork.id === updatedPaperwork.id,
-    );
-    if (paperworkIndex !== -1) {
-      allPaperworks[paperworkIndex] = updatedPaperwork;
-      setPaperworks(allPaperworks);
-    }
-  };
+  // let createdDate = studioAssessments['created_at'];
 
-//   Switch these out with different assignment entries
-  const paperworkEntries = paperworks.map((paperwork, i) => (
-    <PaperworkEntry
-      key={paperwork.id}
-      paperwork={paperwork}
-      participantId={participantId}
-      userType={userType}
-      date={formatDate(paperwork.created_at)}
-      updatePaperwork={updatePaperwork}
-      lastEntry={paperworks.length - 1 === i}
-    />
+  const studioAssessmentEntries = studioAssessments.map(studioAssessment => (
+    <div>
+      {/* Only admins can edit the different studioAssessments */}
+      {userType === 'admin' ? (
+      <StudioAssessmentModal
+        studioAssessment={studioAssessment}
+        userType={userType}
+        participantId={participantId}
+        type="edit"
+      />
+      ) : (
+        <div/>
+      )}
+      <Container style={{padding: '0px'}}>
+          <Paper style={{marginTop: '10px', borderRadius: '10px'}}>
+            <div className={classes.paddingBox}>
+              <h3>
+                {formatDate(studioAssessment['created_at'])}
+              </h3>
+              {/* Everyone should be able to view */}
+              <StudioAssessmentModal
+                studioAssessment={studioAssessment}
+                userType={userType}
+                participantId={participantId}
+                type="view"
+              />
+            </div>
+          </Paper>
+      </Container>
+    </div>
   ));
 
   return (
-    <Grid
-      container
-      direction="row"
-      justify="space-between"
-      alignItems="center"
-      className={classes.componentTitle}
-    >
-      <Grid item>
-        <h3 className={classes.headerStyle}>Studio Assessments</h3>
-      </Grid>
-      <Grid item>
-        {/* Switch logic for rendering the button properly */}
-        {userType !== 'staff' ? (
-          <ActionItemForm />
-        ) : (
-          <div/>
-        )}
-      </Grid>
-    </Grid>
-      
-      // {/* Change these to handle rendering assignments instead */}
 
-      // {/* <List className={classes.listStyle} dense>
-      //   {assignments.length !== 0 ? (
-      //     assignmentEntries
-      //   ) : (
-      //     <div>
-      //       <img
-      //         src="/assets/noPaperworks.svg"
-      //         className={classes.noPaperworksImg}
-      //         alt="no Case Notes"
-      //       />
-      //       <div className={classes.noPaperworksTxt}>
-      //         <h3>No assignments yet</h3>
-      //         {userType === 'staff' ? (
-      //           <p>Click on ASSIGN ASSIGNMENT + to assign one.</p>
-      //         ) : (
-      //           <div />
-      //         )}
-      //       </div>
-      //     </div>
-      //   )}
-      // </List> */}
+    // This should render similarly to Paperwork notes
+    
+    // 1. Title Bar (without surrounding box, maybe like CaseNotes?)
+    // 2. Render new assessment button if the current user is a 'staff'
+    // 3. List out all the cards, but only let staff modify the modal. Participants
+    //    can only view (similar to how questionaires look for participants)
+
+    <div className={classes.containerStyle}>
+      <Grid
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="center"
+        className={classes.componentTitle}
+      >
+        <Grid item>
+          <h3 className={classes.headerStyle}>Studio Assessments</h3>
+        </Grid>
+        <Grid item>
+          {/* Only admins can see the create button */}
+          {userType === 'admin' ? ( 
+            <StudioAssessmentModal
+              participantId={participantId}
+              studioAssessment={studioAssessments[0]}
+              userType={userType}
+              type="create"
+            />
+          ) : (
+            <div/>
+          )}
+        </Grid>
+      </Grid>
+      {/* Listing out the different studioAssessments */}
+      <List>
+        {studioAssessments.length !== 0 ? (
+          studioAssessmentEntries
+        ) : (
+          <div>
+            <h2>no studio assessments assigned</h2>
+          </div>
+        )}
+      </List>
+    </div>
   );
 }
 
-StudioAssignmentList.propTypes = {
+StudioAssessmentList.propTypes = {
   userType: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  initialPaperworks: PropTypes.array.isRequired,
+  formatDate: PropTypes.func,
+  initialStudioAssessments: PropTypes.array.isRequired,
   participantId: PropTypes.number.isRequired,
-  formatDate: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(StudioAssignmentList);
+export default withStyles(styles)(StudioAssessmentList);

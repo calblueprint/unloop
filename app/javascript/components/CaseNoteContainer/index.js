@@ -9,6 +9,7 @@ import CaseNoteCard from 'components/CaseNoteCard';
 import PropTypes from 'prop-types';
 import ActionItemForm from 'components/ActionItemForm';
 import styles from './styles';
+import theme from '../../utils/theme';
 
 class CaseNoteContainer extends React.Component {
   constructor(props) {
@@ -108,7 +109,7 @@ class CaseNoteContainer extends React.Component {
     return (
       <>
         <CssBaseline />
-        <Container maxWidth="sm">
+        <Container style={{maxHeight: '60vh', padding: '16px', overflow: 'scroll'}}>
           <Grid>
             <Typography
               component="div"
@@ -119,7 +120,7 @@ class CaseNoteContainer extends React.Component {
                   container
                   justify="space-between"
                   style={{
-                    borderBottom: '5px solid #EB6658',
+                    borderBottom: '5px solid ' + theme.palette.common.r0,
                     marginBottom: '25px',
                   }}
                 >
