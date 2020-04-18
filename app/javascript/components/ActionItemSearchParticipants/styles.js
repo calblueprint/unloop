@@ -1,4 +1,4 @@
-import theme from '../../utils/theme';
+import theme from 'utils/theme';
 
 export const styles = () => ({
   statusButton: {
@@ -21,11 +21,14 @@ export const styles = () => ({
 
   boundaryBox: {
     borderColor: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
     borderRadius: '10px',
     border: 1,
-    width: '100%',
+    width: '90%',
+    minWidth: '400px',
     height: '90%',
+    minHeight: '300px',
     marginTop: '7px',
     marginBottom: '15px',
     paddingLeft: '30px',
@@ -39,7 +42,7 @@ export const styles = () => ({
 
   searchBar: {
     marginBottom: '10px',
-    backgroundColor: 'rgba(210, 220, 225, 0.47)',
+    backgroundColor: theme.palette.common.searchBox,
     width: '100%',
     borderRadius: '5px',
     marginTop: '5px',
@@ -48,7 +51,8 @@ export const styles = () => ({
   searchScroll: {
     overflowY: 'scroll',
     left: 0,
-    height: '40vh',
+    minHeight: '220px',
+    height: '30vh',
     top: 0,
   },
 

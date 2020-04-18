@@ -4,14 +4,17 @@ export const theme = createMuiTheme({
   palette: {
     common: {
       blue: '#187be5',
+      lighterBlue: '#DCF0F2',
       indigo: '#5870EB',
       lightBlue: 'rgba(210, 220, 225, 0.63)',
+      purpleSecondary: '#DEE2FB',
       darkBlue: '#28303B',
       darkestBlue: '#29313C',
       white: '#FFFFFF',
       grey: '#d2dce1',
       lightGrey: '#C4C4C4',
       lightestGrey: '#F4F4F4',
+      searchBox: 'rgba(210, 220, 225, 0.47)',
       highlightBlue: 'rgba(0, 159, 173, 0.17)',
       backgroundBlue: '#d2dce1',
       r0: '#009FAD',

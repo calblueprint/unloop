@@ -9,10 +9,8 @@ import {
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import * as Sentry from '@sentry/browser';
 import theme from '../../utils/theme';
 import ActionItemParticipant from '../ActionItemParticipant';
-import { apiGet } from '../../utils/axios';
 import styles from './styles';
 
 const TrieSearch = require('trie-search');
@@ -23,11 +21,10 @@ class ActionItemSearchParticipants extends React.Component {
     // The following dictionary keeps track of each participants to see if they've been selected or not (by the checkmark),
     // and whether not they should be visible, depending on which category and search are input to filter the participants on.
     this.state = {
-      statuses: [],
+      statuses: this.props.statuses,
       selectedStatus: null,
       filteredParticipants: this.props.participants,
       searchValue: '',
-      //   allSelected: false,
     };
     this.filterByName = this.filterByName.bind(this);
     this.changeChecked = this.changeChecked.bind(this);
@@ -41,24 +38,10 @@ class ActionItemSearchParticipants extends React.Component {
     this.setState({
       trie,
     });
-
-    apiGet('api/participants/statuses')
-      .then(p => {
-        this.setState({
-          statuses: p.data,
-        });
-      })
-      .catch(error => {
-        Sentry.configureScope(function(scope) {
-          scope.setExtra('file', 'ActionItemSearchParticipants');
-          scope.setExtra('action', 'apiGet');
-        });
-        Sentry.captureException(error);
-      });
   }
 
   // For searching the different participants
-  // Can only be rendered if found in the Trie AND is appropriate category
+  // Can only be rendered if found in the Trie AND is appropriate category (category is first filter, name is second)
   filterParticipants(searchVal, status) {
     // Find filtered participants via Trie
     let filterTemp;
@@ -98,7 +81,6 @@ class ActionItemSearchParticipants extends React.Component {
         selectedStatus: status,
       });
       this.filterParticipants(this.state.searchValue, status);
-
       // 2
     } else {
       this.setState({
@@ -191,13 +173,6 @@ class ActionItemSearchParticipants extends React.Component {
 
     return (
       <div>
-        {/* For the top 'ADD STUDENTS' Bar */}
-        <div style={{ color: theme.palette.common.indigo }}>
-          Add Students
-          <Box className={classes.boxProps} />
-          <Divider />
-        </div>
-
         <div>
           <Box className={classes.boundaryBox}>
             {/* Filter By Category */}
@@ -243,6 +218,7 @@ class ActionItemSearchParticipants extends React.Component {
 ActionItemSearchParticipants.propTypes = {
   classes: PropTypes.object.isRequired,
   participants: PropTypes.array.isRequired,
+  statuses: PropTypes.array.isRequired,
   selectedParticipants: PropTypes.array.isRequired,
   addUser: PropTypes.func.isRequired,
   removeUser: PropTypes.func.isRequired,

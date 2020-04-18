@@ -24,7 +24,7 @@ function ParticipantCard({ classes, participant }) {
   // eslint-disable-next-line
   const [numCaseNotes, setNumCaseNotes] = useState(participant.caseNotesCount);
   const [numPaperworks, setNumPaperworks] = useState(
-    participant.paperworksCount
+    participant.paperworksCount,
   );
 
   const questionnaireStatus = participant.questionnaireStatus ? (
@@ -55,7 +55,7 @@ function ParticipantCard({ classes, participant }) {
       >
         {participant.name}
       </TableCell>
-      <TableCell align="left" >
+      <TableCell align="left">
         <div className={classes.status}>{participant.status.toUpperCase()}</div>
       </TableCell>
       <TableCell align="left" className={classes.newAssignment}>
@@ -76,10 +76,7 @@ function ParticipantCard({ classes, participant }) {
           incrementNumCaseNotes={() => setNumCaseNotes(numCaseNotes + 1)}
         ></CaseNoteForm>
       </TableCell>
-      <TableCell>
-      {questionnaireStatus}
-
-      </TableCell>
+      <TableCell>{questionnaireStatus}</TableCell>
       <TableCell align="center">
         <FontAwesomeIcon
           onClick={showParticipant}
