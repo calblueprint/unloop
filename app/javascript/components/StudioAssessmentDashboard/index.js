@@ -3,7 +3,6 @@ import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
 import StudioAssessmentCard from 'components/StudioAssessmentCard';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
-import theme from 'utils/theme';
 import styles from './styles';
 
 class StudioAssessmentDashboard extends React.Component {
@@ -20,9 +19,7 @@ class StudioAssessmentDashboard extends React.Component {
       <StudioAssessmentCard key={p.id} assessment={p} />
     ));
     return (
-      <ThemeProvider theme={theme}>
         <div className={classes.dashboard}>
-          <Navbar isAdmin={this.props.isAdmin} />
           <div className={classes.content}>
             <h1>Studio Assessments</h1>
             <div className={classes.tableContainer}>
@@ -45,7 +42,6 @@ class StudioAssessmentDashboard extends React.Component {
             </div>
           </div>
         </div>
-      </ThemeProvider>
     );
   }
 }

@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { IconButton, Button, Grid } from '@material-ui/core';
+import { IconButton, Button, Grid, Drawer } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
+import GroupIcon from '@material-ui/icons/Group';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import UnloopLogo from 'images/unloop_logo.png';
 import * as Sentry from '@sentry/browser';
@@ -17,18 +20,26 @@ function Navbar({ classes, isAdmin }) {
     window.location.href = '/';
     Sentry.configureScope(scope => scope.setUser(null));
   };
+  const navigateToAssignments = () => {
+    window.location.href = '/assignments';
+  };
+  const navigateToStudio = () => {
+    window.location.href = '/studio_assessments';
+  };
+
 
   const renderAdminButton = () => (
-    <Button
-      component="a"
-      disableFocusRipple
-      disableTouchRipple
-      className={classes.navBarItem}
-      onClick={navigateToAdminBoard}
-    >
-      <ExitToAppIcon fontSize="large" />
-      <div className={classes.navText}> Admin View </div>
-    </Button>
+            <Button
+              component="a"
+              disableFocusRipple
+              disableTouchRipple
+              className={classes.navBarItem}
+              onClick={navigateToAdminBoard}
+            >
+              <ExitToAppIcon fontSize="large" />
+              <div className = {classes.navText} > Admin View </div>
+            </Button>
+            
   );
 
   const logout = () => {
@@ -44,46 +55,73 @@ function Navbar({ classes, isAdmin }) {
       });
   };
 
-  return (
-    <Grid
-      container
-      item
-      xs={1}
-      className={classes.navBar}
-      direction="column"
-      alignItems="center"
-      justify="space-between"
-    >
-      <Grid container item alignItems="center" direction="column">
-        <Grid item>
-          <Button
-            component="a"
-            disableFocusRipple
-            disableTouchRipple
-            className={classes.navBarItem}
-            onClick={logout}
-          >
-            Sign Out
-          </Button>
+  return (<Grid>
+      <Grid
+        container
+        xs={1}
+        className={classes.navBar}
+        direction="column"
+        alignItems="center"
+        justify="space-between"
+      >
+        <Grid container item alignItems="center" direction="column">
+          <Grid item>
+            <Button
+              component="a"
+              disableFocusRipple
+              disableTouchRipple
+              className={classes.navBarItem}
+              onClick={logout}
+            >
+               <AccountCircleIcon fontSize="large" />
+              <div className = {classes.navText} >Sign Out </div>
+            </Button>
+          </Grid>
+          {isAdmin ? <Grid item>{renderAdminButton()}</Grid> : null}
+          <Grid item>
+            <Button
+              component="a"
+              disableFocusRipple
+              disableTouchRipple
+              className={classes.navBarItem}
+              onClick={navigateToHomepage}
+            >
+               <HomeIcon fontSize="large" />
+               <div className = {classes.navText} > Dashboard </div>
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              component="a"
+              disableFocusRipple
+              disableTouchRipple
+              className={classes.navBarItem}
+              onClick={navigateToAssignments}
+            >
+               <GroupIcon fontSize="large" />
+               <div className = {classes.navText} > Bulk Assign </div>
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              component="a"
+              disableFocusRipple
+              disableTouchRipple
+              className={classes.navBarItem}
+              onClick={navigateToStudio}
+            >
+               <BarChartIcon fontSize="large" />
+               <div className = {classes.navText} > Assessment </div>
+            </Button>
+          </Grid>
         </Grid>
-        {isAdmin ? <Grid item>{renderAdminButton()}</Grid> : null}
-        <Grid item>
-          <IconButton
-            disableFocusRipple
-            disableTouchRipple
-            className={classes.navBarItem}
-            onClick={navigateToHomepage}
-          >
-            <HomeIcon fontSize="large" />
-          </IconButton>
+        <Grid item>  
+          <img
+            src={UnloopLogo}
+            className={classes.unloopLogo}
+            alt="Unloop Logo"
+          />
         </Grid>
-      </Grid>
-      <Grid item>
-        <img
-          src={UnloopLogo}
-          className={classes.unloopLogo}
-          alt="Unloop Logo"
-        />
       </Grid>
     </Grid>
   );

@@ -24,6 +24,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import UnloopLogo from 'images/unloop_logo.png';
 import * as Sentry from '@sentry/browser';
 import { apiGet } from '../../utils/axios';
+import StudioAssessmentDashboard from '../StudioAssessmentDashboard';
+import ParticipantShowPage from '../ParticipantShowPage';
 
 function Main(props) {
     const classes = props.classes;
@@ -54,7 +56,7 @@ function Main(props) {
         className={classes.navBarItem}
         onClick={() => window.location.href = '/admin'}
         >
-        <ExitToAppIcon fontSize="large" />
+        <ExitToAppIcon />
         <div className = {classes.navText} > Admin View </div>
         </ListItem>
         
@@ -84,6 +86,25 @@ function Main(props) {
         </ListItem>
     }
 
+    const getContent = () => {
+        const contentProps = Object.keys(props)
+            .filter(key => key !== "classes")
+            .reduce((obj, key) => {
+                return {
+                  ...obj,
+                  [key]: props[key]
+                };
+              }, {});
+
+        switch (props.content) {
+            case 'StaffDashboard':
+                return <StaffDashboard {...contentProps} ></StaffDashboard>
+            case 'ParticipantShowPage':
+                return <ParticipantShowPage {...contentProps}></ParticipantShowPage> 
+            case 'StudioAssessmentDashboard':
+                return <StudioAssessmentDashboard {...contentProps}></StudioAssessmentDashboard>
+        }
+    }
     
     return (
     <ThemeProvider theme={theme}>
@@ -116,7 +137,7 @@ function Main(props) {
             </Drawer>
         </div>
         <main className={classes.content}>
-            <StaffDashboard participants={props.participants} ></StaffDashboard>
+            {getContent()}
         </main>
     </ThemeProvider>
     );

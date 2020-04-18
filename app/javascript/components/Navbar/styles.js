@@ -4,12 +4,11 @@
  * This contains all the styles for the Navbar container.
  */
 
-const white = '#FFFFFF';
 const styles = theme => ({
   navBar: {
     height: '100vh',
     paddingTop: 40,
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: theme.palette.common.darkestBlue,
     position: 'fixed',
     minWidth: 60,
   },
@@ -30,7 +29,7 @@ const styles = theme => ({
     lineHeight: '16px',
     letterSpacing: '1.5px',
     textTransform: 'uppercase',
-    color: white,
+    color: theme.palette.common.white,
   },
 });
 

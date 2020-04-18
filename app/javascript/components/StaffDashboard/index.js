@@ -1,15 +1,19 @@
 import React from 'react';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
+import { ThemeProvider, withStyles } from '@material-ui/core/styles';
 import theme from 'utils/theme';
 import ParticipantCard from 'components/ParticipantCard';
 import Navbar from 'components/Navbar';
 import EnhancedTable from 'components/EnhancedTable';
 import PropTypes from 'prop-types';
 import styles from './styles';
+
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
+
 
 const TrieSearch = require('trie-search');
 
@@ -31,8 +35,13 @@ class StaffDashboard extends React.Component {
     });
   }
 
+  handleClick(id) {
+    return (e) => {
+    window.location.assign(`participants/${String(id)}`)}
+  }
+
   handleChange(e) {
-    const searchVal = e.target.value;
+    const searchVal = e.target.value.trim();
     if (searchVal === '') {
       this.setState({
         participants: this.props.participants,
@@ -46,45 +55,69 @@ class StaffDashboard extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     const headCells = [
       {
-        id: 'participant',
-        numeric: false,
-        disablePadding: true,
+        id: 'name',
+        disablePadding: false,
         label: 'Participant',
+        sortable: true,
       },
-      { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
+      { id: 'status', 
+        numeric: true, 
+        disablePadding: false, 
+        label: 'Status',
+        sortable: true,
+      },
       {
-        id: 'paperwork',
-        numeric: true,
+        id: 'paperworksCompleted',
         disablePadding: false,
         label: 'Paperwork',
+        sortable: true,
       },
       {
-        id: 'casenotes',
-        numeric: true,
+        id: 'caseNotesCount',
         disablePadding: false,
         label: 'Casenotes',
+        sortable: true,
       },
       {
         id: 'form_status',
-        numeric: true,
         disablePadding: false,
         label: 'Form Status',
+        sortable: false,
       },
+      {
+        id: 'next_arrow',
+        label: ' ',
+        sortable: false,
+      }
     ];
 
-    let rows = [];
-    rows = this.state.participants.map(p => ({
-      participant: p.name,
-      status: p.status,
-      paperwork: p.paperworksCount,
-      casenotes: p.caseNotesCount,
-      form_status: p.questionnaireStatus,
-    }));
-
-    console.log(rows);
-    return <EnhancedTable headCells={headCells} rows={rows}></EnhancedTable>;
+    return (<div>
+      <AppBar position="static" height='80px'>
+        <Toolbar>
+          <Typography className={classes.title} variant="h6" noWrap>
+            Participant Dashboard
+          </Typography>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search a name..."
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+              onChange={this.handleChange}
+            />
+          </div>
+        </Toolbar>
+      </AppBar>
+      <EnhancedTable headCells={headCells} rows={this.state.participants} handleClick={this.handleClick}></EnhancedTable>);
+    </div>)
   }
 }
 

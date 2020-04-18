@@ -32,7 +32,7 @@ const styles = theme => ({
           return theme.palette.common.r2;
         default:
           console.error('Participant has no status');
-          return theme.palette.common.black;
+          return theme.palette.common.darkestBlue;
       }
     },
   },

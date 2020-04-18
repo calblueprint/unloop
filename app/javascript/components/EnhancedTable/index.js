@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
+import styles from './styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,8 +13,10 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import ParticipantCard from 'components/ParticipantCard';
 
 function descendingComparator(a, b, orderBy) {
+  console.log(a, b)
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -51,11 +54,11 @@ function EnhancedTableHead(props) {
         {headCells.map(headCell => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
+            align='left'
+            pointer-events={headCell.sortable}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableSortLabel
+            {headCell.sortable ? (<TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
@@ -66,7 +69,7 @@ function EnhancedTableHead(props) {
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </span>
               ) : null}
-            </TableSortLabel>
+            </TableSortLabel>) : ""}
           </TableCell>
         ))}
       </TableRow>
@@ -81,40 +84,12 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
   headCells: PropTypes.array.isRequired,
 };
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100vw',
-    height: '100vh',
-  },
-  paper: {
-    width: '100%',
-    margin: '50px',
-    marginBottom: theme.spacing(2),
-  },
-  table: {
-    minWidth: 750,
-  },
-  visuallyHidden: {
-    border: 0,
-    clip: 'rect(0 0 0 0)',
-    height: 1,
-    margin: -1,
-    overflow: 'hidden',
-    padding: 0,
-    position: 'absolute',
-    top: 20,
-    width: 1,
-  },
-}));
-
-export default function EnhancedTable(props) {
-  const classes = useStyles();
+function EnhancedTable(props) {
+  const { classes } = props;
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('participant');
+  const [orderBy, setOrderBy] = React.useState('name');
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const { rows } = props;
   const { headCells } = props;
@@ -134,12 +109,10 @@ export default function EnhancedTable(props) {
     setPage(0);
   };
 
-  const handleChangeDense = event => {
-    setDense(event.target.checked);
-  };
-
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  const handleClick = props.handleClick
 
   return (
     <div className={classes.root}>
@@ -148,7 +121,7 @@ export default function EnhancedTable(props) {
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            size='large'
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -158,32 +131,20 @@ export default function EnhancedTable(props) {
               onRequestSort={handleRequestSort}
               headCells={headCells}
             />
-            <TableBody>
+            <TableBody >
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
                   <TableRow
                     hover
-                    //   onClick={(event) => handleClick(event, row.participant)}
                     tabIndex={-1}
                     key={index}
                   >
-                    <TableCell
-                      component="th"
-                      id={index}
-                      scope="row"
-                      padding="none"
-                    >
-                      {row.participant}
-                    </TableCell>
-                    <TableCell align="right">{row.status}</TableCell>
-                    <TableCell align="right">{row.paperwork}</TableCell>
-                    <TableCell align="right">{row.casenotes}</TableCell>
-                    <TableCell align="right">{row.form_status}</TableCell>
+                    <ParticipantCard key={row.id} participant={row}></ParticipantCard>
                   </TableRow>
                 ))}
               {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={5} />
                 </TableRow>
               )}
@@ -191,7 +152,7 @@ export default function EnhancedTable(props) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[10, 20, { value: -1, label: 'All' }]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
@@ -200,10 +161,6 @@ export default function EnhancedTable(props) {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </div>
   );
 }
@@ -212,3 +169,5 @@ EnhancedTable.propTypes = {
   rows: PropTypes.array.isRequired,
   headCells: PropTypes.array.isRequired,
 };
+
+export default withStyles(styles)(EnhancedTable);

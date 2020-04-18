@@ -1,6 +1,9 @@
 const drawerWidth = 130
 
 const styles = theme => ({
+    body: {
+      margin: 0
+    },
     root: {
       display: 'flex',
     },
@@ -18,14 +21,15 @@ const styles = theme => ({
       backgroundColor: 'rgba(210, 220, 225, 0.63)',
       position: 'absolute',
       left: drawerWidth,
-      height: '100vh',
+    minHeight: '100vh',
       width: 'calc(100vw - 130px)'
     },
     navBar: {
-      paddingTop: 40,
+      // padding: '40px 0px',
     },
     navBarItem: {
       color: '#ffffff',
+      paddingTop: 24,
     },
     unloopLogo: {
       width: '100%',

@@ -6,6 +6,7 @@ const styles = () => ({
     height: '100%',
     width: '100%',
     fontStyle: 'normal',
+    backgroundColor: '#ffffff',
 
     '& thead': {
       '& th': {
@@ -80,12 +81,6 @@ const styles = () => ({
       borderRadius: 20,
       padding: 30,
     },
-  },
-  content: {
-    position: 'absolute',
-    left: '8%',
-    width: 'calc(92%)',
-    display: 'inline-block',
   },
   searchBar: {
     height: 40,
