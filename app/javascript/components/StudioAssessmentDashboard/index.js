@@ -93,20 +93,20 @@ class StudioAssessmentDashboard extends React.Component {
     let select = this.state.selectedCat;
     return(
       <FormControl>
-      <InputLabel className={classes.dropDown}>Sort By</InputLabel>
+      <InputLabel className={classes.dropDown}>Sort By Score Categories</InputLabel>
       <Select
         value={select}
         onChange = {this.handleDropdown}
       >
         <MenuItem value = {"overall"}>Overall Rankings  </MenuItem>
         <MenuItem value = {"bigPic"}>Big Picture       </MenuItem>
-        <MenuItem value = {"progFun"}>Prog Fundamentals </MenuItem>
+        <MenuItem value = {"progFun"}>Programming Fundamentals </MenuItem>
         <MenuItem value = {"verCon"}>Version Control   </MenuItem>
         <MenuItem value = {"react"}>React             </MenuItem>
         <MenuItem value = {"node"}>Node              </MenuItem>
         <MenuItem value = {"Db"}>Db                </MenuItem>
-        <MenuItem value = {"probSol"}>Prob Solve        </MenuItem>
-        <MenuItem value = {"probAlt"}>Prob Solve Alt    </MenuItem>
+        <MenuItem value = {"probSol"}>Problem Solving        </MenuItem>
+        <MenuItem value = {"probAlt"}>Problem Solving Alternate   </MenuItem>
       </Select>
     </FormControl>
     );

@@ -19,11 +19,11 @@ class StudioAssessmentCard extends React.Component {
   render() {
     const assessment = this.props.assessment;
     const bigPic = assessment.bigpictureScore;
-    const  prog = assessment.progfundamentalsScore;
-    const  vc = assessment.versioncontrolScore;
-    const  react = assessment.reactScore;
-    const  node = assessment.nodeScore;
-    const  db = assessment.dbScore;
+    const prog = assessment.progfundamentalsScore;
+    const vc = assessment.versioncontrolScore;
+    const react = assessment.reactScore;
+    const node = assessment.nodeScore;
+    const db = assessment.dbScore;
     const probSolve = assessment.problemsolvingScore;
     const probSolveAlt = assessment.problemsolvingaltScore;
     const { classes } = this.props;

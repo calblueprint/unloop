@@ -161,7 +161,7 @@ def create_studio_assesments
       problemsolving_comment:Faker::Cannabis.buzzword,
       problemsolvingalt_score: Faker::Number.between(from: 0, to: 3),
       problemsolvingalt_comment:Faker::Cannabis.buzzword,
-      passed_capstone: Faker::Boolean.boolean,
+      capstone_passed: Faker::Boolean.boolean,
       capstone_comment:Faker::Cannabis.buzzword,
       assessment_type: Faker::Hacker.say_something_smart,
       staff_id: Faker::Number.between(from: STAFF_START_ID, to: STAFF_END_ID),

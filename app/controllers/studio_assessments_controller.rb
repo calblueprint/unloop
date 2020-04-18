@@ -21,8 +21,6 @@ class StudioAssessmentsController < ApplicationController
       }
       @studio_list.push(curr)
     end 
-
-    @user = current_user
     skip_policy_scope
   end
 
