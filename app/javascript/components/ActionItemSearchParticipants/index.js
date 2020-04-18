@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/browser';
 import theme from '../../utils/theme';
 import ActionItemParticipant from '../ActionItemParticipant';
 import { apiGet } from '../../utils/axios';
@@ -41,11 +42,19 @@ class ActionItemSearchParticipants extends React.Component {
       trie,
     });
 
-    apiGet('api/participants/statuses').then(p => {
-      this.setState({
-        statuses: p.data,
+    apiGet('api/participants/statuses')
+      .then(p => {
+        this.setState({
+          statuses: p.data,
+        });
+      })
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'ActionItemSearchParticipants');
+          scope.setExtra('action', 'apiGet');
+        });
+        Sentry.captureException(error);
       });
-    });
   }
 
   // For searching the different participants

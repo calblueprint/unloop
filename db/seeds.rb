@@ -12,6 +12,7 @@ STAFF_START_ID = Staff.count + 1
 STAFF_END_ID = STAFF_START_ID + NUM_STAFF - 1
 PARTICIPANT_START_ID = Participant.count + 1
 PARTICIPANT_END_ID = PARTICIPANT_START_ID + NUM_PARTICIPANTS - 1
+PARTICIPANT_STATUSES = ["r0", "r1", "r2", "studio"]
 
 # Use Faker gem to randomly generate fields
 require 'faker'
@@ -47,7 +48,7 @@ end
 
 def create_participants
   PARTICIPANT_START_ID.upto(PARTICIPANT_END_ID) do |i|
-    User.create!(
+    u = User.create!(
       email: "participant#{i}@gmail.com",
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
@@ -55,6 +56,8 @@ def create_participants
       password_confirmation: 'password',
       user_type: rand(2)
     )
+    u.participant.status = PARTICIPANT_STATUSES[(i-1)%4]
+    u.participant.save!
   end
   puts "Created Participant ##{PARTICIPANT_START_ID}-#{PARTICIPANT_END_ID}"
 end
@@ -163,7 +166,7 @@ def create_studio_assesments
       problemsolving_comment:Faker::Cannabis.buzzword,
       problemsolvingalt_score: Faker::Number.between(from: 0, to: 3),
       problemsolvingalt_comment:Faker::Cannabis.buzzword,
-      passed_capstone: Faker::Boolean.boolean,
+      capstone_passed: Faker::Boolean.boolean,
       capstone_comment:Faker::Cannabis.buzzword,
       assessment_type: Faker::Hacker.say_something_smart,
       staff_id: Faker::Number.between(from: STAFF_START_ID, to: STAFF_END_ID),
