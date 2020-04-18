@@ -35,6 +35,6 @@ class ParticipantsController < ApplicationController
   rescue ActiveRecord::RecordNotFound => exception
     Raven.extra_context(participant_id: params[:id])
     Raven.capture_exception(exception)
-    redirect_to participants_path
+    redirect_to participant_path
   end
 end
