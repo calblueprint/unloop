@@ -53,7 +53,7 @@ def create_participants
       last_name: Faker::Name.last_name,
       password: 'password',
       password_confirmation: 'password',
-      user_type: rand(2)
+      user_type: 0
     )
   end
   puts "Created Participant ##{PARTICIPANT_START_ID}-#{PARTICIPANT_END_ID}"
