@@ -1,3 +1,5 @@
+import theme from 'utils/theme';
+
 export const styles = () => ({
   statusButton: {
     borderRadius: '20px',
@@ -10,7 +12,7 @@ export const styles = () => ({
   },
 
   boxProps: {
-    backgroundColor: '#5870EB',
+    backgroundColor: theme.palette.common.indigo,
     width: '15rem',
     height: '0.4rem',
     borderRadius: '5px 5px 0px 0px',
@@ -18,8 +20,8 @@ export const styles = () => ({
   },
 
   boundaryBox: {
-    borderColor: '#FFFFFF',
-    backgroundColor: '#FFFFFF',
+    borderColor: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
     borderRadius: '10px',
     border: 1,
@@ -40,7 +42,7 @@ export const styles = () => ({
 
   searchBar: {
     marginBottom: '10px',
-    backgroundColor: 'rgba(210, 220, 225, 0.47)',
+    backgroundColor: theme.palette.common.searchBox,
     width: '100%',
     borderRadius: '5px',
     marginTop: '5px',

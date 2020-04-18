@@ -5,11 +5,12 @@ import {
   InputBase,
   Fab,
   Box,
+  Divider,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import theme from 'utils/theme';
-import ActionItemParticipant from 'components/ActionItemParticipant';
+import theme from '../../utils/theme';
+import ActionItemParticipant from '../ActionItemParticipant';
 import styles from './styles';
 
 const TrieSearch = require('trie-search');
@@ -92,22 +93,18 @@ class ActionItemSearchParticipants extends React.Component {
   // Change the state for one of the child components when the 'plus' button is toggled and passes this info to parent class.
   changeChecked(user) {
     if (this.isSelected(user)) {
-      console.log('rmoving');
-
       this.props.removeUser(user);
     } else {
       this.props.addUser(user);
-
-      console.log('adding');
     }
   }
 
   // For selecting or de-selecting all participants
   allSelect(e) {
     if (e.target.checked) {
-      this.props.addAllUsers();
+      this.props.addAllUsers(this.state.filteredParticipants);
     } else {
-      this.props.removeAllUsers();
+      this.props.removeAllUsers(this.state.filteredParticipants);
     }
   }
 
@@ -115,12 +112,20 @@ class ActionItemSearchParticipants extends React.Component {
   statusButtons() {
     return Object.keys(this.state.statuses).map(status => {
       const importedStyles = styles().statusButton;
-      importedStyles.backgroundColor = theme.palette.buttons[status];
+      const dark = theme.palette.darkerButton[status];
+      const light = theme.palette.lighterButton[status];
+      if (this.state.selectedStatus !== status) {
+        importedStyles.backgroundColor = dark;
+        importedStyles.color = light;
+      } else {
+        importedStyles.backgroundColor = light;
+        importedStyles.color = dark;
+      }
       return (
         <Fab
           style={importedStyles}
-          size="small"
           onClick={() => this.filterByStatus(status)}
+          key={status}
         >
           {status}
         </Fab>
@@ -136,6 +141,19 @@ class ActionItemSearchParticipants extends React.Component {
       }
     }
     return false;
+  }
+
+  isAllSelected() {
+    if (this.state.filteredParticipants.length === 0) {
+      return false;
+    }
+    for (let i = 0; i < this.state.filteredParticipants.length; i += 1) {
+      const filterP = this.state.filteredParticipants[i];
+      if (!this.isSelected(filterP)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   render() {
@@ -154,11 +172,11 @@ class ActionItemSearchParticipants extends React.Component {
     });
 
     return (
-      <div className="searchParticipant">
-        <div className="outerRectangle">
+      <div>
+        <div>
           <Box className={classes.boundaryBox}>
             {/* Filter By Category */}
-            <div className="categories">
+            <div>
               FILTER BY CATEGORY
               <div>{this.statusButtons()}</div>
             </div>
@@ -175,13 +193,19 @@ class ActionItemSearchParticipants extends React.Component {
 
             {/* List all the participant cards in scrolling fashion */}
             <div className={classes.searchScroll}>
-              <div className="listIndividuals">{participantCards}</div>
+              <div>{participantCards}</div>
             </div>
 
             {/* Select All Button */}
             <FormControlLabel
               className={classes.selectAll}
-              control={<Checkbox color="default" onClick={this.allSelect} />}
+              control={
+                <Checkbox
+                  color="default"
+                  checked={this.isAllSelected()}
+                  onClick={this.allSelect}
+                />
+              }
               label="SELECT ALL"
             />
           </Box>

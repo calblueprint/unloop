@@ -19,13 +19,7 @@ function ActionItemParticipant({
   if (checked != null) {
     // Checked or search, unchecked for display
     if (!checked) {
-      button = (
-        <AddIcon
-          styles={classes.participantSelect}
-          color="disabled"
-          onClick={() => changeChecked(participant)}
-        />
-      );
+      button = <AddIcon styles={classes.participantSelect} color="disabled" />;
     } else {
       button = (
         <CheckCircleIcon styles={classes.participantSelect} color="disabled" />
@@ -34,7 +28,12 @@ function ActionItemParticipant({
   }
 
   return (
-    <div onClick={() => changeChecked(participant)}>
+    <div
+      role="button"
+      tabIndex={0}
+      onKeyDown={() => changeChecked(participant)}
+      onClick={() => changeChecked(participant)}
+    >
       <div className={classes.participant}>
         <div
           style={{
@@ -47,7 +46,7 @@ function ActionItemParticipant({
           <Box
             className={classes.participantBar}
             style={{
-              backgroundColor: theme.palette.buttons[participant.status],
+              backgroundColor: theme.palette.darkerButton[participant.status],
             }}
           />
           {participant.name}

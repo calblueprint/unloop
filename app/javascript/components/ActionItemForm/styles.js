@@ -33,7 +33,7 @@ const styles = theme => ({
     marginBottom: '20px',
   },
   checkboxTextStyle: {
-    color: theme.palette.common.r0,
+    color: theme.palette.common.indigo,
     fontSize: '12px',
     margin: '5px',
   },

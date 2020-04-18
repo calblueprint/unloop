@@ -1,3 +1,4 @@
+<% if false %>
 <p id="notice"><%= notice %></p>
 
 <h1>Studio Assessments</h1>
@@ -33,8 +34,8 @@
   <tbody>
     <% @studio_assessments.each do |studio_assessment| %>
       <tr>
-        <td><%= studio_assessment.participant.id %></td>
-        <td><%= studio_assessment.staff.id %></td>
+        <td><%= studio_assessment.participant%></td>
+        <td><%= studio_assessment.staff%></td>
         <td><%= studio_assessment.bigpicture_score %></td>
         <td><%= studio_assessment.bigpicture_comment %></td>
         <td><%= studio_assessment.progfundamentals_score %></td>
@@ -53,8 +54,8 @@
         <td><%= studio_assessment.problemsolvingalt_comment %></td>
         <td><%= studio_assessment.passed_capstone %></td>
         <td><%= studio_assessment.capstone_comment %></td>
-        
         <td><%= studio_assessment.assessment_type %></td>
+        <td><%= studio_assessment.created_at%></td>
         <td><%= link_to 'Show', studio_assessment %></td>
         <td><%= link_to 'Edit', edit_studio_assessment_path(studio_assessment) %></td>
         <td><%= link_to 'Destroy', studio_assessment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -66,3 +67,6 @@
 <br>
 
 <%= link_to 'New Studio Assessment', new_studio_assessment_path %>
+<% end %>
+
+<%= react_component("StudioAssessmentDashboard", {assessments: @studio_assessments,  is_admin: @user.admin? }) %>

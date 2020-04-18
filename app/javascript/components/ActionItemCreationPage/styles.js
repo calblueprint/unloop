@@ -10,9 +10,9 @@ const styles = theme => ({
     minWidth: '950px',
   },
   iconStyle: {
-    backgroundColor: theme.palette.common.r0,
+    backgroundColor: theme.palette.common.indigo,
     '&:hover': {
-      backgroundColor: theme.palette.common.r0,
+      backgroundColor: theme.palette.common.indigo,
     },
     marginTop: '27px',
     boxShadow: 'None',
@@ -28,7 +28,7 @@ const styles = theme => ({
     paddingRight: '16px',
   },
   underlineStyle: {
-    color: theme.palette.common.r0,
+    color: theme.palette.common.indigo,
     fontSize: '16px',
     lineHeight: '19px',
   },
@@ -37,10 +37,10 @@ const styles = theme => ({
     fontSize: '24px',
     lineHeight: '28px',
     marginBottom: '10px',
-    color: theme.palette.common.r0,
+    color: theme.palette.common.indigo,
   },
   borderStyle: {
-    border: `2px solid ${theme.palette.common.r0}`,
+    border: `2px solid ${theme.palette.common.indigo}`,
     borderRadius: '5px 5px 0px 0px',
     align: 'left',
     width: '45%',

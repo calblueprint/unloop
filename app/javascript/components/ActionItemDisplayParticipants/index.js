@@ -1,30 +1,19 @@
 import React from 'react';
-import { Box, Divider } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import ActionItemParticipant from 'components/ActionItemParticipant';
+import ActionItemParticipant from '../ActionItemParticipant';
 import styles from './styles';
-
-// class ActionItemDisplayParticipants extends React.Component {
-//   constructor(props) {
-//     super(props);
-//   }
-
-//   render() {
 
 function ActionItemDisplayParticipants({ classes, selectedParticipants }) {
   // Julian importing the cards
-
   // let { participantCards } = this.props;
 
   let participantCards;
 
   if (selectedParticipants) {
     participantCards = selectedParticipants.map(p => (
-      <ActionItemParticipant
-        participant={p}
-        backgroundColor={styles.participant}
-      />
+      <ActionItemParticipant participant={p} key={p.id} />
     ));
   }
 
@@ -33,7 +22,7 @@ function ActionItemDisplayParticipants({ classes, selectedParticipants }) {
       <Box className={classes.boundaryBox}>
         <div className={classes.displayScroll}>
           {/* List students out */}
-          <div className="participants" style={{ direction: 'ltr' }}>
+          <div style={{ direction: 'ltr' }}>
             {/* Julian passing in cards */}
             {participantCards}
           </div>

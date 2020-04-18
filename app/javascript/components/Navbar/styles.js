@@ -4,6 +4,7 @@
  * This contains all the styles for the Navbar container.
  */
 
+const white = '#FFFFFF';
 const styles = theme => ({
   navBar: {
     height: '100vh',
@@ -25,6 +26,15 @@ const styles = theme => ({
     height: 'auto',
     objectFit: 'contain',
     overflowX: 'hidden',
+  },
+  navText: {
+    fontFamily: 'Roboto',
+    fontWeight: 500,
+    fontSize: '10px',
+    lineHeight: '16px',
+    letterSpacing: '1.5px',
+    textTransform: 'uppercase',
+    color: white,
   },
 });
 
