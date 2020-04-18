@@ -194,8 +194,12 @@ class ActionItemCreationPage extends React.Component {
   getMainComponents(stepSize) {
     let leftComponent;
     let rightComponent;
+    let leftComponentText;
+    let rightComponentText;
     switch (stepSize) {
       case 0:
+        leftComponentText = "Assignments";
+        rightComponentText = "Add Assignments";
         leftComponent = (
           <ActionItemList
             selectedActionItems={this.state.selectedActionItems}
@@ -220,6 +224,8 @@ class ActionItemCreationPage extends React.Component {
         );
         break;
       case 1:
+        leftComponentText = "Students";
+        rightComponentText= "Add Students";
         leftComponent = (
           <ActionItemDisplayParticipants
             selectedParticipants={this.state.selectedParticipants}
@@ -238,6 +244,8 @@ class ActionItemCreationPage extends React.Component {
         );
         break;
       case 2:
+        leftComponentText = "Review Students";
+        rightComponentText= "Review Assignments";
         leftComponent = (
           <ActionItemDisplayParticipants
             selectedParticipants={this.state.selectedParticipants}
@@ -253,8 +261,10 @@ class ActionItemCreationPage extends React.Component {
       default:
         leftComponent = null;
         rightComponent = null;
+        leftComponentText = null;
+        rightComponentText = null;
     }
-    return { leftComponent, rightComponent };
+    return { leftComponent, rightComponent, leftComponentText, rightComponentText };
   }
 
   getButtons(stepSize) {
@@ -387,7 +397,7 @@ class ActionItemCreationPage extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { leftComponent, rightComponent } = this.getMainComponents(
+    const { leftComponent, leftComponentText, rightComponent, rightComponentText } = this.getMainComponents(
       this.state.step,
     );
     const buttonsGrid = this.getButtonsGrid(this.state.step);
@@ -425,7 +435,7 @@ class ActionItemCreationPage extends React.Component {
             >
               <Grid item>
                 <Typography className={classes.underlineStyle}>
-                  Assignments
+                  {leftComponentText}
                 </Typography>
                 <hr className={classes.borderStyle}></hr>
                 <Divider style={{ marginBottom: '10px' }} />
@@ -433,7 +443,7 @@ class ActionItemCreationPage extends React.Component {
               </Grid>
               <Grid item>
                 <Typography className={classes.underlineStyle}>
-                  Assignments
+                  {rightComponentText}
                 </Typography>
                 <hr className={classes.borderStyle}></hr>
                 <Divider style={{ marginBottom: '10px' }} />

@@ -33,8 +33,6 @@ class Api::AssignmentsController < ApplicationController
                 return
             end
         end
-        puts "GOT TO END OF CREATE"
-        puts created_assignments
         render json: created_assignments, status: :created
     end 
 

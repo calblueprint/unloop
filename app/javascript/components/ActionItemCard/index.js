@@ -72,7 +72,7 @@ function ActionItemCard({
         <Grid item container justify="space-between" alignItems="center">
           <Grid item>
             {dueDate ? (
-              <Typography variant="body2">Due date: {dueDate}</Typography>
+              <Typography variant="body2">Due Date: {dueDate}</Typography>
             ) : null}
           </Grid>
           <Grid

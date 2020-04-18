@@ -31,8 +31,8 @@ class AddFromExistingForm extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    if (this.props.templates.length !== this.state.actionItemTemplates.length) {
+  componentDidUpdate(prevProps) {
+    if (this.props.templates.length !== prevProps.templates.length) {
       this.setState({ actionItemTemplates: this.props.templates });
     }
   }
