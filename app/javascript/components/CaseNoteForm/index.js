@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import validator from 'validator';
 import { apiPost, apiPatch } from 'utils/axios';
 import { convertToRaw } from 'draft-js';
@@ -162,13 +164,15 @@ class CaseNoteForm extends React.Component {
     let ret;
     if (this.state.display === 'plus') {
       ret = (
-        <button
+        <Fab
+          size="small"
+          color="secondary"
+          aria-label="add"
           onClick={this.handleOpen}
           className={this.props.classes.plusButton}
-          type="button"
         >
-          +
-        </button>
+          <AddIcon />
+        </Fab>
       );
     } else if (this.state.type === 'create') {
       ret = (

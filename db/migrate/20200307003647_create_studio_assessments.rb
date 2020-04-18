@@ -22,7 +22,6 @@ class CreateStudioAssessments < ActiveRecord::Migration[6.0]
       t.string :assessment_type
       t.references :staff, null: false, foreign_key: true
       t.references :participant, null: false, foreign_key: true
-
       t.timestamps
     end
   end
