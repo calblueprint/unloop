@@ -10,7 +10,7 @@ const styles = theme => ({
     padding: '20px',
   },
   dialogContentTextStyle: {
-    color: theme.palette.common.black,
+    color: theme.palette.common.darkestBlue,
     marginBottom: '2px',
   },
 });

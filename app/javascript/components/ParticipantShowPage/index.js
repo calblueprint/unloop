@@ -11,7 +11,6 @@ import QuestionnaireModal from 'components/QuestionnaireModal';
 import PaperworkList from 'components/PaperworkList';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import theme from 'utils/theme';
-import Navbar from 'components/Navbar';
 import { Grid, Typography, Avatar } from '@material-ui/core';
 import styles from './styles';
 
@@ -49,20 +48,17 @@ class ParticipantShowPage extends React.Component {
     } = this.props;
 
     return (
-      <ThemeProvider theme={theme}>
         <Grid
           container
           direction="row"
           style={{
-            height: '100vh',
-            width: '100vw',
             margin: '0px',
             padding: '0px',
+            width: '100%'
           }}
           justify="space-between"
         >
-          <Navbar isAdmin={isAdmin} />
-          <Grid item xs={5} className={classes.leftHalf}>
+          <Grid item className={classes.leftHalf}>
             <Grid container direction="column" spacing={3}>
               <Grid
                 item
@@ -108,7 +104,7 @@ class ParticipantShowPage extends React.Component {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={5} className={classes.rightHalf}>
+          <Grid item className={classes.rightHalf}>
             <CaseNoteContainer
               participant={participant}
               caseNotes={caseNotes}
@@ -116,7 +112,6 @@ class ParticipantShowPage extends React.Component {
             />
           </Grid>
         </Grid>
-      </ThemeProvider>
     );
   }
 }

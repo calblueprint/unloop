@@ -8,6 +8,8 @@ import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import validator from 'validator';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import { apiPost, apiPatch, apiDelete } from 'utils/axios';
 import * as Sentry from '@sentry/browser';
 import {
@@ -106,7 +108,7 @@ function PaperworkForm({
             });
             Sentry.captureException(error);
           });
-          // TODO: Change this to flash an error message
+        // TODO: Change this to flash an error message
       } else if (type === 'edit') {
         apiPatch(`/api/paperworks/${paperworkId}`, { paperwork: body })
           .then(response => {
@@ -121,7 +123,7 @@ function PaperworkForm({
             });
             Sentry.captureException(error);
           });
-          // TODO: Change this to flash an error message
+        // TODO: Change this to flash an error message
       }
     }
   };
@@ -155,13 +157,15 @@ function PaperworkForm({
     if (!hide) {
       if (display === 'plus') {
         ret = (
-          <button
-            type="button"
+          <Fab
+            size="small"
+            color="secondary"
+            aria-label="add"
             onClick={() => setOpen(true)}
             className={classes.plusButton}
           >
-            +
-          </button>
+            <AddIcon />
+          </Fab>
         );
       } else if (type === 'create') {
         ret = (
