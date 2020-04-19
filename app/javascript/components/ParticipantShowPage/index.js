@@ -76,7 +76,13 @@ class ParticipantShowPage extends React.Component {
                 </Avatar>
               </Grid>
             </Grid>
-            <Grid item container direction="row" spacing={1}>
+            <Grid
+              item
+              container
+              direction="row"
+              justify="space-evenly"
+              spacing={1}
+            >
               <Grid item>
                 <QuestionnaireModal
                   userType={userType}
@@ -92,13 +98,15 @@ class ParticipantShowPage extends React.Component {
                   participantId={participantId}
                   questionnaire={professionalQuestionnaire}
                 />
-                <PaperworkList
-                  initialPaperworks={paperworks}
-                  participantId={participantId}
-                  formatDate={this.formatDate}
-                  userType={userType}
-                />
               </Grid>
+            </Grid>
+            <Grid item>
+              <PaperworkList
+                initialPaperworks={paperworks}
+                participantId={participantId}
+                formatDate={this.formatDate}
+                userType={userType}
+              />
             </Grid>
             <Grid item style={{ marginTop: '20px' }}>
               <StudioAssessmentList
