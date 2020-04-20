@@ -6,10 +6,14 @@
   <body>
     <h1>Hello, <%= @assignment.assigned_to.full_name %></h1>
     <p>
-      You have been assigned a new action item by <%= @assignment.assigned_by.full_name %>.<br>
+      You have been assigned a new action item by <%= @assignment.assigned_by.full_name %>.
+      A summary of your action item can be found below.<br>
     </p>
+    <h2><%= @action_item.title %></h2>
+    <p>Due Date: <%= @due_date %></p>
+    <p><%= @action_item.description %></p>
     <p>
-      To view your action item, log in using this <%= link_to 'link', @assignment %>.
+      To view your action item on your Unloop portal, log in using this <%= link_to 'link', @assignment %>.
     </p>
     <p>Best,<br>
     Unloop</p>

@@ -16,7 +16,7 @@ class Api::AssignmentsController < ApplicationController
                 prepare_bulk_assignment(assigned_to_ids, action_item).each do |assignment|
                     assignment_sentry_helper(assignment)  
                     if assignment.save
-                        # AssignmentMailer.with(assignment: assignment).new_assignment.deliver_now
+                        AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
                         created_assignments.append(assignment)
                     else 
                         action_item.destroy
