@@ -1,7 +1,6 @@
 class PersonalQuestionnaireSerializer < ActiveModel::Serializer
   attributes :id,
-  :contact_info,
-  :emergency_contact,
+  :emergency_contact_name,
   :doc_status,
   :housing,
   :mental_health,
@@ -14,7 +13,6 @@ class PersonalQuestionnaireSerializer < ActiveModel::Serializer
   :treatment,
   :triggers_and_prevention,
   :personal_needs,
-  :success_tools,
   :personal_goals,
   :participant
 
