@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for QuestionnaireView
+ * Asynchronously loads the component for studioAssessmentQuestion
  *
  */
 

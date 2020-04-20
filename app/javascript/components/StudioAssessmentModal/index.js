@@ -8,8 +8,6 @@ import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Button, Dialog } from '@material-ui/core';
-// import { apiPut, apiPost, apiPatch } from 'utils/axios';
-
 import { StudioAssessmentForm } from 'components/StudioAssessmentForm';
 import styles from './styles';
 

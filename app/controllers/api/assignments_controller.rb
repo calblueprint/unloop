@@ -16,7 +16,7 @@ class Api::AssignmentsController < ApplicationController
                 prepare_bulk_assignment(assigned_to_ids, action_item).each do |assignment|
                     assignment_sentry_helper(assignment)  
                     if assignment.save
-                        AssignmentMailer.with(assignment: assignment).new_assignment.deliver_now
+                        # AssignmentMailer.with(assignment: assignment).new_assignment.deliver_now
                         created_assignments.append(assignment)
                     else 
                         action_item.destroy
@@ -149,7 +149,7 @@ class Api::AssignmentsController < ApplicationController
         Raven.extra_context(assignment: assignment.attributes)
         Raven.extra_context(action_item: assignment.action_item.attributes)
         Raven.extra_context(assigned_by: assignment.assigned_by.user.attributes)
-        Raven.extra_context(assigned_to: assignment.assigned_to.user.attributes)
+        Raven.extra_context(assigned_to: assignment.assigned_to.attributes)
     end
           
     def prepare_bulk_assignment(assigned_to_ids, action_item)

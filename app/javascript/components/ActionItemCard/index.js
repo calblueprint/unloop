@@ -19,10 +19,11 @@ function ActionItemCard({
   // Used by style file
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
-  selectCardFunc,
+  selectActionItemTemplate,
+  removeActionItem,
 }) {
   const renderSelectIcon = () => (
-    <IconButton aria-label="add" onClick={selectCardFunc}>
+    <IconButton aria-label="add" onClick={selectActionItemTemplate}>
       <AddIcon />
     </IconButton>
   );
@@ -53,7 +54,7 @@ function ActionItemCard({
                 color="primary"
                 align="center"
               >
-                {category.toUpperCase()}
+                {category ? category.toUpperCase() : category}
               </Typography>
             </Fab>
           </Grid>
@@ -64,12 +65,14 @@ function ActionItemCard({
               {description}
             </Typography>
           </Grid>
-          <Grid item>{selectCardFunc ? renderSelectIcon() : null}</Grid>
+          <Grid item>
+            {selectActionItemTemplate ? renderSelectIcon() : null}
+          </Grid>
         </Grid>
         <Grid item container justify="space-between" alignItems="center">
           <Grid item>
             {dueDate ? (
-              <Typography variant="body2">Due date: {dueDate}</Typography>
+              <Typography variant="body2">Due Date: {dueDate}</Typography>
             ) : null}
           </Grid>
           <Grid
@@ -79,13 +82,18 @@ function ActionItemCard({
             xs={6}
             justify="space-evenly"
           >
-            <Grid item>
+            {/* Commented out because it doesn't have functionality right now */}
+            {/* <Grid item>
               <Button size="small" className={classes.buttonStyle}>
                 EDIT
               </Button>
-            </Grid>
+            </Grid> */}
             <Grid item>
-              <Button size="small" className={classes.buttonStyle}>
+              <Button
+                size="small"
+                className={classes.buttonStyle}
+                onClick={removeActionItem}
+              >
                 DELETE
               </Button>
             </Grid>
@@ -102,7 +110,8 @@ ActionItemCard.propTypes = {
   description: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   dueDate: PropTypes.string,
-  selectCardFunc: PropTypes.func,
+  selectActionItemTemplate: PropTypes.func,
+  removeActionItem: PropTypes.func,
   lastEntry: PropTypes.bool,
 };
 export default withStyles(styles)(ActionItemCard);

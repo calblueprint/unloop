@@ -6,11 +6,9 @@ class PagesController < ApplicationController
               @participants = Participant.all
               @participants_list = []
               @participants.each do |p|
-              
                 if p.personal_questionnaire.nil?
                     PersonalQuestionnaire.create("participant_id": p.id)
                 end
-
               d = {"name" => p.full_name, 
                     "status" => p.status, 
                     "id" => p.id, 
@@ -42,13 +40,7 @@ class PagesController < ApplicationController
                 @professional_questionnaire = @participant.professional_questionnaire
               end
 
-              if @participant.studio_assessments.nil?
-                studio_assessment = StudioAssessment.create("participant_id": @participant.id)
-                @studio_assessments[studio_assessment.id] = StudioAssessmentSerializer.new(studio_assessment)
-              else
-                @studio_assessments = @participant.studio_assessments
-              end
-              # @studio_assessments = StudioAssessmentSerializer.new(studio_assessment)
+              @studio_assessments = @participant.studio_assessments
 
               authorize Participant
               dashboard_participants_path

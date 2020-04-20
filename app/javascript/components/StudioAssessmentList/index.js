@@ -7,12 +7,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { 
-  Grid, 
-  Paper, 
-  List, 
-  Container 
-} from '@material-ui/core';
+import { Grid, Paper, List, Container } from '@material-ui/core';
 import StudioAssessmentModal from 'components/StudioAssessmentModal';
 import styles from './styles';
 
@@ -34,50 +29,47 @@ function StudioAssessmentList({
   //     setPaperworks(allAssessments);
   //   }
   // };
-  console.log("studioAssessments", studioAssessments);
-  console.log("formatDate", formatDate);
-  console.log("initialStudioAssessments", initialStudioAssessments);
-  console.log("participantId", participantId);
-  console.log("userType", userType);
+  console.log('studioAssessments', studioAssessments);
+  console.log('formatDate', formatDate);
+  console.log('initialStudioAssessments', initialStudioAssessments);
+  console.log('participantId', participantId);
+  console.log('userType', userType);
 
   // let createdDate = studioAssessments['created_at'];
 
   const studioAssessmentEntries = studioAssessments.map(studioAssessment => (
-    <div>
+    <div key={studioAssessment.id}>
       {/* Only admins can edit the different studioAssessments */}
       {userType === 'admin' ? (
-      <StudioAssessmentModal
-        studioAssessment={studioAssessment}
-        userType={userType}
-        participantId={participantId}
-        type="edit"
-      />
+        <StudioAssessmentModal
+          studioAssessment={studioAssessment}
+          userType={userType}
+          participantId={participantId}
+          type="edit"
+        />
       ) : (
-        <div/>
+        <div />
       )}
-      <Container style={{padding: '0px'}}>
-          <Paper style={{marginTop: '10px', borderRadius: '10px'}}>
-            <div className={classes.paddingBox}>
-              <h3>
-                {formatDate(studioAssessment['created_at'])}
-              </h3>
-              {/* Everyone should be able to view */}
-              <StudioAssessmentModal
-                studioAssessment={studioAssessment}
-                userType={userType}
-                participantId={participantId}
-                type="view"
-              />
-            </div>
-          </Paper>
+      <Container style={{ padding: '0px' }}>
+        <Paper style={{ marginTop: '10px', borderRadius: '10px' }}>
+          <div className={classes.paddingBox}>
+            <h3>{formatDate(studioAssessment.created_at)}</h3>
+            {/* Everyone should be able to view */}
+            <StudioAssessmentModal
+              studioAssessment={studioAssessment}
+              userType={userType}
+              participantId={participantId}
+              type="view"
+            />
+          </div>
+        </Paper>
       </Container>
     </div>
   ));
 
   return (
-
     // This should render similarly to Paperwork notes
-    
+
     // 1. Title Bar (without surrounding box, maybe like CaseNotes?)
     // 2. Render new assessment button if the current user is a 'staff'
     // 3. List out all the cards, but only let staff modify the modal. Participants
@@ -96,7 +88,7 @@ function StudioAssessmentList({
         </Grid>
         <Grid item>
           {/* Only admins can see the create button */}
-          {userType === 'admin' ? ( 
+          {userType === 'admin' ? (
             <StudioAssessmentModal
               participantId={participantId}
               studioAssessment={studioAssessments[0]}
@@ -104,7 +96,7 @@ function StudioAssessmentList({
               type="create"
             />
           ) : (
-            <div/>
+            <div />
           )}
         </Grid>
       </Grid>

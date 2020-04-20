@@ -1,4 +1,6 @@
 class ParticipantsController < ApplicationController
+  before_action :set_participant, only: [:show]
+
   def show
     @participant = authorize Participant.find(params[:id])
     @paperworks = @participant.paperworks
@@ -20,16 +22,20 @@ class ParticipantsController < ApplicationController
     end
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
 
-    if @participant.studio_assessments.nil?
-      studio_assessment = StudioAssessment.create("participant_id": @participant.id)
-      @studio_assessments[studio_assessment.id] = StudioAssessmentSerializer.new(studio_assessment)
-    else
-      @studio_assessments = @participant.studio_assessments
-    end
-    # @studio_assessments[studio_assessment.id] = StudioAssessmentSerializer.new(studio_assessment)
+    @studio_assessments = @participant.studio_assessments
   end
 
   def dashboard
     redirect_to root_path
+  end
+
+  private
+
+  def set_participant
+    @participant = authorize Participant.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => exception
+    Raven.extra_context(participant_id: params[:id])
+    Raven.capture_exception(exception)
+    redirect_to participant_path
   end
 end

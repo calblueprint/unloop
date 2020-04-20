@@ -6,8 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { apiPost, apiPatch } from 'utils/axios';
 import { Button } from '@material-ui/core';
 // import { consoleSandbox } from '@sentry/utils';
-import RadioButtonsGroup from './radioButtons';
-import styles from './styles';
+// import RadioButtonsGroup from './radioButtons';
+// import styles from './styles';
 
 const questions = [
   'Understands the Big Picture of the Full Stack',
