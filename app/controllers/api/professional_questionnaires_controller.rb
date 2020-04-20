@@ -56,7 +56,8 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
     def questionnaire_params
       questionnaire_params = params.require(:professional_questionnaire).permit(:participant_id, :course_completion,
         :work_history, :job_search_materials, :professional_goals, 
-        :barriers,:success_strategies)
+        :barriers, :education_history, :begin_skills_assessment_date, :end_skills_assessment_date,
+        :assigned_mentor, :success_strategies)
     end
   
   end
