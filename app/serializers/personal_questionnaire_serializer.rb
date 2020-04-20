@@ -1,6 +1,5 @@
 class PersonalQuestionnaireSerializer < ActiveModel::Serializer
   attributes :id,
-  :emergency_contact_name,
   :doc_status,
   :housing,
   :mental_health,
@@ -14,6 +13,21 @@ class PersonalQuestionnaireSerializer < ActiveModel::Serializer
   :triggers_and_prevention,
   :personal_needs,
   :personal_goals,
+  :birthdate,
+  :phone_number,
+  :pronouns,
+  :race_and_ethnicities,
+  :drivers_license_status,
+  :emergency_contact_name,
+  :emergency_contact_phone_number,
+  :emergency_contact_relationship,
+  :emergency_contact_2_name,
+  :emergency_contact_2_phone_number,
+  :emergency_contact_2_relationship,
+  :financial_obligations,
+  :resources_allocated,
+  :orca_card,
+  :state_assistance,
   :participant
 
   belongs_to :participant, serializer: SimpleParticipantSerializer

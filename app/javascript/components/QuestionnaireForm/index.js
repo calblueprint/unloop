@@ -103,7 +103,11 @@ class QuestionnaireForm extends React.Component {
             .replace('_', ' '),
         );
 
-        return this.createTextForm(f, questionnaire[f], sentenceCase);
+        return (
+          <div key={f}>
+            {this.createTextForm(f, questionnaire[f], sentenceCase)}
+          </div>
+        );
       });
       return <div className={styles.container}>{questionnaires}</div>;
     }
