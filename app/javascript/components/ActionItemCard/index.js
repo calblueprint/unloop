@@ -3,42 +3,37 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Avatar } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
 import MUIRichTextEditor from 'mui-rte';
-import NoteSharpIcon from '@material-ui/icons/NoteSharp';
-import HouseIcon from '@material-ui/icons/House';
-import EcoSharpIcon from '@material-ui/icons/EcoSharp';
-import CreateSharpIcon from '@material-ui/icons/CreateSharp';
-import SentimentSatisfiedSharpIcon from '@material-ui/icons/SentimentSatisfiedSharp';
-import CodeRoundedIcon from '@material-ui/icons/CodeRounded';
+import Fab from '@material-ui/core/Fab';
 import styles from './styles';
 class ActionItemCard extends React.Component {
-  getIconComponent(Icon) {
-    console.log(Icon);
-    switch (Icon) {
-      case 'HouseIcon':
-        console.log('HouseIcon');
-        return <HouseIcon />;
-      case 'EcoSharpIcon':
-        return <EcoSharpIcon />;
-      case 'CreateSharpIcon':
-        return <CreateSharpIcon />;
-      case 'NoteSharpIcon':
-        return <NoteSharpIcon />;
-      case 'SentimentalSharpIcon':
-        return <SentimentSatisfiedSharpIcon />;
-      case 'CodeRoundedIcon':
-        return <CodeRoundedIcon />;
-      default:
-        console.log('None of the Icons matched');
-        return null;
-    }
-  }
+  // getIconComponent(Icon) {
+  //   console.log(Icon);
+  //   switch (Icon) {
+  //     case 'Finances':
+  //       console.log('Finances');
+  //       return <HouseIcon />;
+  //     case 'Project':
+  //       return <EcoSharpIcon />;
+  //     case 'Community':
+  //       return <CreateSharpIcon />;
+  //     case 'Startup':
+  //       return <NoteSharpIcon />;
+  //     case 'Treatment':
+  //       return <SentimentSatisfiedSharpIcon />;
+  //     case 'Health':
+  //       return <CodeRoundedIcon />;
+  //     case 'Education':
+  //       return
+  //     default:
+  //       console.log('None of the Icons matched');
+  //       return null;
+  //   }
+  // }
 
   render() {
-    const { classes } = this.props;
     return (
       <Grid container spacing={3} direction="column" justify="center">
         <Grid
@@ -55,9 +50,21 @@ class ActionItemCard extends React.Component {
             </Typography>
           </Grid>
           <Grid item xs>
-            <Avatar className={classes.yellow}>
-              {this.getIconComponent(this.props.category)}
-            </Avatar>
+            <Fab
+              className={this.props.classes.iconStyle}
+              component="span"
+              variant="extended"
+              size="small"
+              aria-label="category"
+            >
+              <Typography
+                className={this.props.classes.categoryButtonStyle}
+                color="primary"
+                align="center"
+              >
+                {this.props.category.toUpperCase()}
+              </Typography>
+            </Fab>
           </Grid>
         </Grid>
         <Grid item xs>
