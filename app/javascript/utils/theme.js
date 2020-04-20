@@ -20,6 +20,7 @@ export const theme = createMuiTheme({
       r0: '#009FAD',
       r1: '#5870EB',
       r2: '#DF6C8E',
+      studio: '#F2C94C',
     },
     primary: {
       light: '#009FAD',
@@ -36,12 +37,6 @@ export const theme = createMuiTheme({
       r1: '#FFEAE8',
       r2: '#DCF0F2',
       studio: '#FFF7DD',
-    },
-    darkerButton: {
-      r0: '#5870EB',
-      r1: '#009FAD',
-      r2: '#EB6658',
-      studio: '#F2C94C',
     },
   },
 });

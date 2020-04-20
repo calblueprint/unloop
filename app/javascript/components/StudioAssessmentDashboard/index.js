@@ -85,16 +85,16 @@ class StudioAssessmentDashboard extends React.Component {
       <FormControl>
         <InputLabel className={classes.dropDown}>Sort By Category</InputLabel>
         <Select value={select} onChange={this.handleSort} width="100">
-          <MenuItem value="overall">Overall Rankings </MenuItem>
-          <MenuItem value="bigpictureScore">Big Picture </MenuItem>
+          <MenuItem value="overall">Name</MenuItem>
+          <MenuItem value="bigpictureScore">Big Picture</MenuItem>
           <MenuItem value="progfundamentalsScore">
             Programming Fundamentals
           </MenuItem>
-          <MenuItem value="versioncontrolScore">Version Control </MenuItem>
-          <MenuItem value="reactScore">React </MenuItem>
-          <MenuItem value="nodeScore">Node </MenuItem>
-          <MenuItem value="dbScore">Db </MenuItem>
-          <MenuItem value="problemsolvingScore">Problem Solving </MenuItem>
+          <MenuItem value="versioncontrolScore">Version Control</MenuItem>
+          <MenuItem value="reactScore">React</MenuItem>
+          <MenuItem value="nodeScore">Node</MenuItem>
+          <MenuItem value="dbScore">Db</MenuItem>
+          <MenuItem value="problemsolvingScore">Problem Solving</MenuItem>
           <MenuItem value="problemsolvingaltScore">
             Problem Solving Alternate
           </MenuItem>
@@ -118,7 +118,7 @@ class StudioAssessmentDashboard extends React.Component {
         <AppBar position="static" height="80px">
           <Toolbar>
             <Typography className={classes.title} variant="h6" noWrap>
-              Participant Dashboard
+              Studio Assessments Dashboard
             </Typography>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -144,7 +144,11 @@ class StudioAssessmentDashboard extends React.Component {
                   <tr>
                     <th>{this.renderDropDown()}</th>
                     <th>
-                      <button value="bigpictureScore" onClick={this.handleSort}>
+                      <button
+                        value="bigpictureScore"
+                        type="button"
+                        onClick={this.handleSort}
+                      >
                         Big Picture
                       </button>
                     </th>
@@ -152,6 +156,7 @@ class StudioAssessmentDashboard extends React.Component {
                       <button
                         value="progfundamentalsScore"
                         onClick={this.handleSort}
+                        type="button"
                       >
                         Programming Fundamentals
                       </button>
@@ -160,22 +165,35 @@ class StudioAssessmentDashboard extends React.Component {
                       <button
                         value="versioncontrolScore"
                         onClick={this.handleSort}
+                        type="button"
                       >
                         Version Control
                       </button>
                     </th>
                     <th>
-                      <button value="reactScore" onClick={this.handleSort}>
+                      <button
+                        value="reactScore"
+                        onClick={this.handleSort}
+                        type="button"
+                      >
                         React
                       </button>
                     </th>
                     <th>
-                      <button value="nodeScore" onClick={this.handleSort}>
+                      <button
+                        value="nodeScore"
+                        onClick={this.handleSort}
+                        type="button"
+                      >
                         Node
                       </button>
                     </th>
                     <th>
-                      <button value="dbScore" onClick={this.handleSort}>
+                      <button
+                        value="dbScore"
+                        onClick={this.handleSort}
+                        type="button"
+                      >
                         DB
                       </button>
                     </th>
@@ -183,6 +201,7 @@ class StudioAssessmentDashboard extends React.Component {
                       <button
                         value="problemsolvingScore"
                         onClick={this.handleSort}
+                        type="button"
                       >
                         Problem Solving
                       </button>
@@ -191,12 +210,13 @@ class StudioAssessmentDashboard extends React.Component {
                       <button
                         value="problemsolvingaltScore"
                         onClick={this.handleSort}
+                        type="button"
                       >
                         Problem Solving Alternate
                       </button>
                     </th>
                     <th>
-                      <button>Date</button>
+                      <button type="button">Date</button>
                     </th>
                   </tr>
                 </thead>
