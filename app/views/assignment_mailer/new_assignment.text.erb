@@ -7,7 +7,7 @@ You have been assigned a new action item by <%= @assignment.assigned_by.full_nam
 Due Date: <%= @due_date %>
 <%= @action_item.description %>
 
-To view your action item, log in using this link: <%= @url %>
+To view your action item, log in using this <%= link_to 'link', @assignment %>.
 
 Best,
 Unloop Staff
