@@ -68,21 +68,26 @@ class AddFromExistingForm extends React.Component {
         : template,
     );
 
-    filteredTemplates = filteredTemplates.map((template, i) => (
-      <Grid item>
-        <ActionItemCard
-          key={template.id}
-          title={template.title}
-          description={template.description}
-          category={template.category}
-          lastEntry={filteredTemplates.length - 1 === i}
-          selectActionItemTemplate={() =>
-            this.props.selectActionItemTemplate(template)
-          }
-          removeActionItem={() => this.props.deleteTemplate(template)}
-        />
-      </Grid>
-    ));
+    filteredTemplates = filteredTemplates.map((template, i) => {
+      const selected = this.props.selectedActionItems.has(template);
+      return (
+        <Grid item key={template.id}>
+          <ActionItemCard
+            title={template.title}
+            description={template.description}
+            category={template.category}
+            selected={selected}
+            handleIconClick={
+              selected
+                ? () => this.props.removeSelectedActionItem(template)
+                : () => this.props.selectActionItemTemplate(template)
+            }
+            lastEntry={filteredTemplates.length - 1 === i}
+            removeActionItem={() => this.props.deleteTemplate(template)}
+          />
+        </Grid>
+      );
+    });
     const categories = [
       'Finances',
       'Project',
@@ -154,7 +159,6 @@ class AddFromExistingForm extends React.Component {
             <Grid
               item
               container
-              zerominWidth
               direction="column"
               className={classes.listStyle}
             >
@@ -176,7 +180,9 @@ class AddFromExistingForm extends React.Component {
 AddFromExistingForm.propTypes = {
   classes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
+  selectedActionItems: PropTypes.instanceOf(Set).isRequired,
   selectActionItemTemplate: PropTypes.func.isRequired,
+  removeSelectedActionItem: PropTypes.func.isRequired,
   deleteTemplate: PropTypes.func.isRequired,
 };
 
