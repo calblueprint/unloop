@@ -30,7 +30,7 @@ class ActionItemCreationPage extends React.Component {
       actionItemDueDate: '',
       actionItemCategory: null,
       templateActionItems: this.props.templates,
-      // unselectedTemplateActionItems: this.props.templates,
+      submitFailed: false,
       selectedActionItems: [],
       submissionModal: false,
     };
@@ -59,6 +59,14 @@ class ActionItemCreationPage extends React.Component {
   }
 
   handleSubmit() {
+    if (
+      this.state.selectedParticipants.length === 0 ||
+      this.state.selectedActionItems.length === 0
+    ) {
+      this.setState({ submitFailed: true });
+      return;
+    }
+
     const participantIds = this.state.selectedParticipants.map(
       participant => participant.id,
     );
@@ -67,7 +75,7 @@ class ActionItemCreationPage extends React.Component {
       assigned_to_ids: participantIds,
     };
     apiPost('/api/assignments', body)
-      .then(() => this.setState({ submissionModal: true }))
+      .then(() => this.setState({ submissionModal: true, submitFailed: false }))
       .catch(error => {
         Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'ActionItemCreationPage');
@@ -133,7 +141,6 @@ class ActionItemCreationPage extends React.Component {
         description: actionItemDescription,
         category: actionItemCategory,
       };
-      // TODO: Use the response instead of creating an actual actionItem if possible!
       apiPost('/api/assignments/templates', { assignment: template })
         .then(resp => console.log(resp))
         .catch(error => {
@@ -441,6 +448,7 @@ class ActionItemCreationPage extends React.Component {
       rightComponentText,
     } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
+    const errorOccurred = this.state.submitFailed && this.state.step === 2;
 
     return (
       <div>
@@ -491,7 +499,16 @@ class ActionItemCreationPage extends React.Component {
                 alignItems="flex-start"
               >
                 <Grid item>
-                  <Typography className={classes.underlineStyle}>
+                  <Typography
+                    className={classes.underlineStyle}
+                    style={{
+                      color:
+                        errorOccurred &&
+                        this.state.selectedParticipants.length === 0
+                          ? 'red'
+                          : null,
+                    }}
+                  >
                     {leftComponentText}
                   </Typography>
                   <hr className={classes.borderStyle}></hr>
@@ -499,7 +516,16 @@ class ActionItemCreationPage extends React.Component {
                   {leftComponent}
                 </Grid>
                 <Grid item>
-                  <Typography className={classes.underlineStyle}>
+                  <Typography
+                    className={classes.underlineStyle}
+                    style={{
+                      color:
+                        errorOccurred &&
+                        this.state.selectedActionItems.length === 0
+                          ? 'red'
+                          : null,
+                    }}
+                  >
                     {rightComponentText}
                   </Typography>
                   <hr className={classes.borderStyle}></hr>
