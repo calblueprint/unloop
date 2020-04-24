@@ -34,7 +34,6 @@ const styles = () => ({
     textAlign: 'center',
     backgroundColor: theme.palette.common.grey,
     marginLeft: '8%',
-    boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.25)',
     fontSize: 18,
     fontWeight: 300,
   },
