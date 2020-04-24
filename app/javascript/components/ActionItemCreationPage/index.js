@@ -496,6 +496,7 @@ class ActionItemCreationPage extends React.Component {
                 <Grid item>
                   <img
                     src={`/assets/action_item_step_${this.state.step}.svg`}
+                    className={classes.stepperStyle}
                     alt={`Step ${this.state.step + 1} of form`}
                   />
                 </Grid>

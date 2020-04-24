@@ -27,6 +27,9 @@ const styles = theme => ({
     paddingLeft: '16px',
     paddingRight: '16px',
   },
+  stepperStyle: {
+    paddingTop: '10px',
+  },
   underlineStyle: {
     color: theme.palette.common.indigo,
     fontSize: '16px',
