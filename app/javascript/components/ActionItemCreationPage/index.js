@@ -486,7 +486,19 @@ class ActionItemCreationPage extends React.Component {
               xs={11}
               spacing={2}
             >
-              <Grid container item direction="row" justify="flex-start">
+              <Grid
+                container
+                item
+                direction="column"
+                alignItems="flex-start"
+                spacing={1}
+              >
+                <Grid item>
+                  <img
+                    src={`/assets/action_item_step_${this.state.step}.svg`}
+                    alt={`Step ${this.state.step + 1} of form`}
+                  />
+                </Grid>
                 <Grid item>
                   <Typography className={classes.topLeftTextStyle}>
                     Add Assignments to List
