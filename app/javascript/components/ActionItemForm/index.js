@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -35,6 +35,8 @@ function ActionItemForm({
   setAddToTemplates,
   createActionItem,
 }) {
+  const [failedSubmit, setFailedSubmit] = useState(false);
+
   const categoryList = categories.map(category => {
     const isSelectedCategory =
       categorySelected && categorySelected === category;
@@ -75,12 +77,21 @@ function ActionItemForm({
     );
   });
 
+  const allFieldsFilled = title && description && categorySelected;
+
   return (
     <ThemeProvider theme={theme}>
       <Paper elevation={3} className={classes.formStyle}>
         <Grid container spacing={1} direction="column">
-          <Grid item container direction="column" spacing={1}>
-            <Grid item>SEARCH BY CATEGORY</Grid>
+          <Grid item container direction="column" spacing={2}>
+            <Grid
+              item
+              style={{
+                color: failedSubmit && !categorySelected ? 'red' : 'black',
+              }}
+            >
+              SEARCH BY CATEGORY
+            </Grid>
             <Grid item container direction="row" justify="space-evenly">
               {categoryList.slice(0, 4)}
             </Grid>
@@ -96,7 +107,9 @@ function ActionItemForm({
             spacing={3}
           >
             <Grid item>
-              <div>Assignment Title</div>
+              <div style={{ color: failedSubmit && !title ? 'red' : 'black' }}>
+                Assignment Title
+              </div>
               <TextField
                 className={classes.searchBar}
                 onChange={e => setTitle(e)}
@@ -104,10 +117,18 @@ function ActionItemForm({
                 variant="outlined"
                 type="text"
                 margin="dense"
+                required
+                error={failedSubmit && !title}
               />
             </Grid>
             <Grid item>
-              <div>Assignment Description</div>
+              <div
+                style={{
+                  color: failedSubmit && !description ? 'red' : 'black',
+                }}
+              >
+                Assignment Description
+              </div>
               <TextField
                 variant="outlined"
                 className={classes.searchBar}
@@ -116,11 +137,13 @@ function ActionItemForm({
                 type="text"
                 margin="dense"
                 value={description}
+                required
+                error={failedSubmit && !description}
                 rows={2}
               />
             </Grid>
             <Grid item>
-              <div>Due Date</div>
+              <div>Due Date (Optional)</div>
               <TextField
                 type="date"
                 value={dueDate}
@@ -144,7 +167,16 @@ function ActionItemForm({
                 </Typography>
               </Grid>
               <Grid item>
-                <Button onClick={() => createActionItem(addToTemplates)}>
+                <Button
+                  onClick={() => {
+                    if (allFieldsFilled) {
+                      createActionItem(addToTemplates);
+                      setFailedSubmit(false);
+                    } else {
+                      setFailedSubmit(true);
+                    }
+                  }}
+                >
                   <Typography
                     display="inline"
                     size="small"
