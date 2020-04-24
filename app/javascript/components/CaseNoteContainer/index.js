@@ -119,7 +119,6 @@ class CaseNoteContainer extends React.Component {
                   justify="space-between"
                   style={{
                     borderBottom: '5px solid #EB6658',
-                    marginBottom: '25px',
                   }}
                 >
                   <Grid item xs={4}>
