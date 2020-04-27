@@ -184,8 +184,6 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def bulk_assignment_params
-        puts("ASSIGNMENT PARAMS HEREEEEEE")
-        puts(params.permit(assignments: [:due_date]))
         all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category], assigned_to_ids: [])
      end
 
