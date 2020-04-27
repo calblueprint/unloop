@@ -17,12 +17,13 @@ class Api::AssignmentsController < ApplicationController
         end
 
         action_items.each do |action_item|
+            due_date = action_item[:due_date] ? DateTime.parse(action_item[:due_date]) : nil
             action_item = ActionItem.new(action_item.except(:due_date)) 
             template_sentry_helper(action_item)
             action_item[:is_template] = false
             if !assigned_to_ids.empty? && action_item.save
                 created_action_items.append(action_item)
-                prepare_bulk_assignment(assigned_to_ids, action_item).each do |assignment|
+                prepare_bulk_assignment(assigned_to_ids, action_item, due_date).each do |assignment|
                     assignment_sentry_helper(assignment)  
                     if assignment.save
                         # AssignmentMailer.with(assignment: assignment).new_assignment.deliver_now
@@ -161,12 +162,12 @@ class Api::AssignmentsController < ApplicationController
         Raven.extra_context(assigned_to: assignment.assigned_to.attributes)
     end
           
-    def prepare_bulk_assignment(assigned_to_ids, action_item)
+    def prepare_bulk_assignment(assigned_to_ids, action_item, due_date)
         bulk_assignment_params = []
         single_assignment_params = {
                                     action_item_id: action_item.id,
                                     assigned_by_id: current_user.staff.id,
-                                    due_date: action_item[:due_date],
+                                    due_date: due_date,
                                     completed: false,
                                    }
         assigned_to_ids.each do |id|
@@ -183,6 +184,8 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def bulk_assignment_params
+        puts("ASSIGNMENT PARAMS HEREEEEEE")
+        puts(params.permit(assignments: [:due_date]))
         all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category], assigned_to_ids: [])
      end
 

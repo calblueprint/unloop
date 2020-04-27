@@ -70,8 +70,16 @@ class ActionItemCreationPage extends React.Component {
     const participantIds = this.state.selectedParticipants.map(
       participant => participant.id,
     );
+
+    const assignments = this.state.selectedActionItems.map(actionItem => ({
+      title: actionItem.title,
+      description: actionItem.description,
+      due_date: actionItem.dueDate,
+      category: actionItem.category,
+    }));
+
     const body = {
-      assignments: this.state.selectedActionItems,
+      assignments,
       assigned_to_ids: participantIds,
     };
     apiPost('/api/assignments', body)
