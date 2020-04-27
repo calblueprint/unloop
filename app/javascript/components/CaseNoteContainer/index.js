@@ -133,8 +133,8 @@ class CaseNoteContainer extends React.Component {
                 <div
                   style={{
                     height: '80vh',
-                    overflowX: 'hidden',
-                    overflowY: 'auto',
+                    // overflowX: 'hidden',
+                    // overflowY: 'auto',
                   }}
                 >
                   {this.renderCaseNoteCards()}
