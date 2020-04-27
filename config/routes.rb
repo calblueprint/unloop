@@ -12,8 +12,12 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  resources :paperworks, :case_notes, :professional_questionnaires, :personal_questionnaires, only: [:index, :show, :new, :edit]
+  resources :assignments, :paperworks, :case_notes, :studio_assessments, :professional_questionnaires, :personal_questionnaires, only: [:index, :show, :new, :edit]
 
+  get '/assignments', to: 'assignments#index'
+
+  get '/studio_assessments', to: 'studio_assessments#index'
+  
   resources :staffs, only: [] do
     collection do
       get 'dashboard', to: 'staffs#dashboard'
@@ -32,10 +36,28 @@ Rails.application.routes.draw do
       patch 'viewed', to: 'paperworks#viewed', on: :member
     end
     resources :case_notes, only: [:show, :create, :update, :destroy] do
-      patch 'internal', to: 'case_notes#internal', on: :member
+      patch 'not_visible', to: 'case_notes#not_visible', on: :member
     end
+
+    scope '/assignments' do
+      post 'templates', to: 'assignments#create_template'
+      get 'templates', to: 'assignments#get_templates'
+      patch 'templates/:id', to: 'assignments#update_template'
+      get 'templates/:id', to: 'assignments#show_template'
+      delete 'templates/:id', to: 'assignments#destroy_template'
+    end
+
+    resources :studio_assessments, only: [:show, :create, :update, :destroy]
+    resources :assignments, only: [:show, :create, :update, :destroy]
     resources :professional_questionnaires, only: [:show, :create, :update, :destroy]
     resources :personal_questionnaires, only: [:show, :create, :update, :destroy]
+    
+    resources :participants, only: [] do
+      collection do
+        get 'statuses', to: 'participants#statuses'
+      end
+    end
+    
   end
 
   root 'pages#dashboard'

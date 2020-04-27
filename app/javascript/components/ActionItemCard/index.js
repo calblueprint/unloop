@@ -1,119 +1,118 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import { Avatar } from '@material-ui/core';
+import { withStyles, ThemeProvider } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Grid from '@material-ui/core/Grid';
-
-import MUIRichTextEditor from 'mui-rte';
-import NoteSharpIcon from '@material-ui/icons/NoteSharp';
-import HouseIcon from '@material-ui/icons/House';
-import EcoSharpIcon from '@material-ui/icons/EcoSharp';
-import CreateSharpIcon from '@material-ui/icons/CreateSharp';
-import SentimentSatisfiedSharpIcon from '@material-ui/icons/SentimentSatisfiedSharp';
-import CodeRoundedIcon from '@material-ui/icons/CodeRounded';
+import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
+import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
+import theme from 'utils/theme';
 import styles from './styles';
-class ActionItemCard extends React.Component {
-  getIconComponent(Icon) {
-    console.log(Icon);
-    switch (Icon) {
-      case 'HouseIcon':
-        console.log('HouseIcon');
-        return <HouseIcon />;
-      case 'EcoSharpIcon':
-        return <EcoSharpIcon />;
-      case 'CreateSharpIcon':
-        return <CreateSharpIcon />;
-      case 'NoteSharpIcon':
-        return <NoteSharpIcon />;
-      case 'SentimentalSharpIcon':
-        return <SentimentSatisfiedSharpIcon />;
-      case 'CodeRoundedIcon':
-        return <CodeRoundedIcon />;
-      default:
-        console.log('None of the Icons matched');
-        return null;
-    }
-  }
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <Grid container spacing={3} direction="column" justify="center">
-        <Grid
-          item
-          xs
-          container
-          direction="row"
-          justify="flex-start"
-          alignItems="flex-start"
-        >
-          <Grid item xs>
-            <Typography gutterBottom variant="subtitle1">
-              title = {this.props.title}
-            </Typography>
+function ActionItemCard({
+  classes,
+  title,
+  description,
+  dueDate,
+  category,
+  selected,
+  // Used by style file
+  // eslint-disable-next-line no-unused-vars
+  lastEntry = false,
+  handleIconClick,
+  removeActionItem,
+}) {
+  const renderSelectIcon = () => (
+    <IconButton aria-label="add" onClick={handleIconClick}>
+      {selected ? <CheckCircleIcon /> : <AddIcon />}
+    </IconButton>
+  );
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Grid
+        container
+        spacing={1}
+        className={classes.cardStyle}
+        direction="column"
+        justify="space-evenly"
+      >
+        <Grid item container alignItems="center" spacing={2}>
+          <Grid item>
+            <Typography variant="subtitle1"> {title} </Typography>
           </Grid>
-          <Grid item xs>
-            <Avatar className={classes.yellow}>
-              {this.getIconComponent(this.props.category)}
-            </Avatar>
+          <Grid item>
+            <Fab
+              className={classes.iconStyle}
+              component="span"
+              variant="extended"
+              size="small"
+              aria-label="category"
+            >
+              <Typography
+                className={classes.categoryButtonStyle}
+                color="primary"
+                align="center"
+              >
+                {category ? category.toUpperCase() : category}
+              </Typography>
+            </Fab>
           </Grid>
         </Grid>
-        <Grid item xs>
-          <MUIRichTextEditor
-            value={this.props.description}
-            readOnly
-            toolbar={false}
-          />
-        </Grid>
-        <Grid
-          item
-          xs
-          container
-          direction="row"
-          justify="space-evenly"
-          alignItems="flex-start"
-          spacing={2}
-        >
-          <Grid item xs>
-            <Typography variant="body2" style={{ cursor: 'pointer' }}>
-              dueDate = {this.props.dueDate}
+        <Grid item container alignItems="flex-start" spacing={6}>
+          <Grid item xs={9} className={classes.descriptionStyle}>
+            <Typography variant="body1" style={{ fontSize: '14px' }}>
+              {description}
             </Typography>
+          </Grid>
+          <Grid item>{handleIconClick ? renderSelectIcon() : null}</Grid>
+        </Grid>
+        <Grid item container justify="space-between" alignItems="center">
+          <Grid item>
+            {dueDate ? (
+              <Typography variant="body2">Due Date: {dueDate}</Typography>
+            ) : null}
           </Grid>
           <Grid
             item
-            xs
             container
-            direction="row"
+            direction="row-reverse"
+            xs={6}
             justify="space-evenly"
-            spacing={2}
           >
-            <Button size="small" color="primary">
-              DELETE
-            </Button>
-            <Button size="small" color="primary">
-              EDIT
-            </Button>
+            {/* Commented out because it doesn't have functionality right now */}
+            {/* <Grid item>
+              <Button size="small" className={classes.buttonStyle}>
+                EDIT
+              </Button>
+            </Grid> */}
+            <Grid item>
+              <Button
+                size="small"
+                className={classes.buttonStyle}
+                onClick={removeActionItem}
+              >
+                DELETE
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    );
-  }
+    </ThemeProvider>
+  );
 }
+
 ActionItemCard.propTypes = {
-  category: PropTypes.string,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  dueDate: PropTypes.string,
   classes: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  selected: PropTypes.bool.isRequired,
+  dueDate: PropTypes.string,
+  handleIconClick: PropTypes.func,
+  removeActionItem: PropTypes.func,
+  lastEntry: PropTypes.bool,
 };
-
-ActionItemCard.defaultProps = {
-  title: '',
-  description: '',
-  dueDate: '',
-  category: '',
-};
-
 export default withStyles(styles)(ActionItemCard);

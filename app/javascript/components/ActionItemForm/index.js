@@ -1,373 +1,212 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import validator from 'validator';
-import MUIRichTextEditor from 'mui-rte';
-import HouseIcon from '@material-ui/icons/House';
-import EcoSharpIcon from '@material-ui/icons/EcoSharp';
-import CreateSharpIcon from '@material-ui/icons/CreateSharp';
-import NoteSharpIcon from '@material-ui/icons/NoteSharp';
-import SentimentSatisfiedSharpIcon from '@material-ui/icons/SentimentSatisfiedSharp';
-import IconButton from '@material-ui/core/IconButton';
-import Fab from '@material-ui/core/Fab';
-import theme from 'utils/theme';
+import React, { useState } from 'react';
+import { withStyles, ThemeProvider } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import {
-  Avatar,
-  Button,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  Grid,
-} from '@material-ui/core';
-import { withStyles, MuiThemeProvider, ThemeProvider } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import Paper from '@material-ui/core/Paper';
+import theme from 'utils/theme';
+import styles from './styles';
 
-import { convertToRaw } from 'draft-js';
-import { styles, richTextTheme } from './styles';
+const categories = [
+  'Finances',
+  'Project',
+  'Community',
+  'Startup',
+  'Treatment',
+  'Health',
+  'Education',
+];
 
-class ActionItemForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      description: this.props.description,
-      type: this.props.type,
-      title: this.props.title,
-      open: false,
-      dueDate: this.props.dueDate,
-      category: this.props.category,
-      errors: {
-        title: '',
-      },
-    };
-    // this.onChange = editorState => this.setState({ editorState });
-    this.handleClose = this.handleClose.bind(this);
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
-  }
+function ActionItemForm({
+  classes,
+  title,
+  setTitle,
+  description,
+  setDescription,
+  categorySelected,
+  setCategory,
+  dueDate,
+  setDueDate,
+  addToTemplates,
+  setAddToTemplates,
+  createActionItem,
+}) {
+  const [failedSubmit, setFailedSubmit] = useState(false);
 
-  handleOpen() {
-    this.setState({ open: true });
-  }
-
-  handleClose() {
-    this.setState({
-      open: false,
-      title: this.props.title,
-    });
-    if (this.state.type === 'edit') {
-      (this.state.title = this.props.title)(
-        (this.state.description = this.props.description),
-      );
-    }
-  }
-
-  checkErrors = field => () => {
-    const errorMessage = '';
-    if (field === 'title') {
-      const { title } = this.state;
-      if (
-        title === '' ||
-        validator.isEmpty(title, { ignore_whitespace: true })
-      ) {
-        // eslint-disable-next-line
-        let errorMessage = 'Title is required';
-      }
-    }
-    this.setState(prevState => ({
-      errors: { ...prevState.errors, [field]: errorMessage },
-    }));
-  };
-
-  handleChange = name => event => {
-    const { value } = event.target;
-    this.setState({ [name]: value });
-  };
-  handleDescriptionChange = name => state => {
-    const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
-    this.setState({ [name]: value });
-  };
-
-  handleCategoryChange = name => () => {
-    console.log(name);
-    this.setState({ category: name });
-  };
-  handleSubmit() {
-    const { type } = this.state;
-
-    let hasErrors = false;
-    Object.keys(this.state.errors).forEach(field => {
-      this.checkErrors(field)();
-      hasErrors = hasErrors || this.state.errors[field] !== '';
-    });
-
-    if (!hasErrors) {
-      if (type === 'create') {
-        this.props.addCard(
-          this.state.title,
-          this.state.description,
-          this.state.dueDate,
-          this.state.category,
-        );
-      }
-    }
-  }
-
-  button = () => {
-    const ret = (
-      <Button
-        className="primary-button"
-        variant="contained"
-        color="secondary"
-        onClick={this.handleOpen}
-      >
-        NEW ACTIONITEM +
-      </Button>
+  const categoryList = categories.map(category => {
+    const isSelectedCategory =
+      categorySelected && categorySelected === category;
+    return (
+      <Grid item key={category}>
+        <Fab
+          className={classes.iconStyle}
+          style={{
+            backgroundColor: isSelectedCategory
+              ? theme.palette.primary.main
+              : theme.palette.common.lighterBlue,
+          }}
+          component="span"
+          variant="extended"
+          size="small"
+          aria-label="category"
+          onClick={() =>
+            setCategory(
+              categorySelected !== category
+                ? { target: { value: category } }
+                : { target: { value: null } },
+            )
+          }
+        >
+          <Typography
+            className={classes.categoryButtonStyle}
+            style={{
+              color: isSelectedCategory
+                ? theme.palette.common.lighterBlue
+                : theme.palette.primary.main,
+            }}
+            align="center"
+          >
+            {category.toUpperCase()}
+          </Typography>
+        </Fab>
+      </Grid>
     );
-    return ret;
-  };
+  });
 
-  render() {
-    const { classes } = this.props;
+  const allFieldsFilled = title && description && categorySelected;
 
-    const categories = ["Finances", "Project", "Community", "Startup", "Treatment", "Health", "Education"]
-    console.log(classes)
-    const categoryList = categories.map(category => (
-    <Grid item>
-      <Fab
-        className={classes.iconStyle}
-        component="span"
-        variant="extended"
-        size="medium"
-        aria-label="category"
-      >
-        <Typography
-          className={classes.categoryButtonStyle}
-          color="primary"
-          align="center"
-        >
-          {category.toUpperCase()}
-        </Typography>
-      </Fab>
-    </Grid>
-   ));
-    let description =
-      this.state.type === 'create' ? 'description' : 'newDescription';
-    if (this.state.type === 'create') {
-      description = 'description';
-    } else if (this.state.type === 'edit') {
-      description = 'newDescription';
-    }
-    let dialog;
-    if (this.state.type === 'create' || this.state.type === 'edit') {
-      dialog = (
-        <ThemeProvider theme={theme}>
-          <Dialog
-          styles={styles.dialogStyle}
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-          maxWidth="xl"
-          fullWidth
-        >
-          <DialogContent maxwidth="sm">
-            <DialogContentText>Assign Category</DialogContentText>
+  return (
+    <ThemeProvider theme={theme}>
+      <Paper elevation={3} className={classes.formStyle}>
+        <Grid container spacing={1} direction="column">
+          <Grid item container direction="column" spacing={2}>
             <Grid
               item
-              xs
-              container
-              direction="row"
-              justify="flex-start"
-              alignItems="flex-start"
+              style={{
+                color: failedSubmit && !categorySelected ? 'red' : 'black',
+              }}
             >
-              <Grid item container direction="column" spacing={2}>
-                  <Grid item>SEARCH BY CATEGORY</Grid>
-                  <Grid item container direction="row" justify="space-evenly">
-                    {categoryList.slice(0, 4)}
-              </Grid>
-              <Grid container item justify="center" spacing={2}>
-                {categoryList.slice(4)}
-              </Grid>
+              SEARCH BY CATEGORY
             </Grid>
-              {/* <Grid item xs>
-                <IconButton
-                  name="HouseIcon"
-                  onClick={this.handleCategoryChange('HouseIcon')}
-                >
-                  <Avatar className={classes.yellow}>
-                    <HouseIcon />
-                  </Avatar>
-                </IconButton>
-              </Grid>
-              <Grid item xs>
-                <IconButton
-                  name="EcoSharpIcon"
-                  onClick={this.handleCategoryChange('EcoSharpIcon')}
-                >
-                  <Avatar className={classes.yellow}>
-                    <EcoSharpIcon />
-                  </Avatar>
-                </IconButton>
-              </Grid>
-              <Grid item xs>
-                <IconButton
-                  name="CreateSharpIcon"
-                  onClick={this.handleCategoryChange('CreateSharpIcon')}
-                >
-                  <Avatar className={classes.yellow}>
-                    <CreateSharpIcon />
-                  </Avatar>
-                </IconButton>
-              </Grid>
-              <Grid item xs>
-                <IconButton
-                  name="NoteSharpIcon"
-                  onClick={this.handleCategoryChange('NoteSharpIcon')}
-                >
-                  <Avatar className={classes.yellow}>
-                    <NoteSharpIcon />
-                  </Avatar>
-                </IconButton>
-              </Grid>
-              <Grid item xs>
-                <IconButton
-                  name="SentimentSatisfiedSharpIcon"
-                  onClick={this.handleCategoryChange(
-                    'SentimentalSatisfiedSharpIcon',
-                  )}
-                >
-                  <Avatar className={classes.yellow}>
-                    <SentimentSatisfiedSharpIcon />
-                  </Avatar>
-                </IconButton>
-              </Grid>
-              <Grid item xs>
-                <IconButton
-                  name="CodeRoundedIcon"
-                  onClick={this.handleCategoryChange('CodeRoundedIcon')}
-                >
-                  <Avatar className={classes.yellow}>0</Avatar>
-                </IconButton>
-              </Grid> */}
+            <Grid item container direction="row" justify="space-evenly">
+              {categoryList.slice(0, 4)}
             </Grid>
-          </DialogContent>
-          <DialogContent maxwidth="sm">
-            <DialogContentText>Title</DialogContentText>
-            <TextField
-              value={this.state.title}
-              style={styles.dialogContentTextFieldStyle}
-              name="title"
-              onChange={this.handleChange('title')}
-              onBlur={this.checkErrors('title')}
-              variant="outlined"
-              margin="dense"
-              id="title"
-              label="Assignment title"
-              type="text"
-              fullWidth
-              error={this.state.errors.title !== ''}
-              helperText={this.state.errors.title}
-            />
-          </DialogContent>
-          <br />
-
-          <DialogContent maxwidth="sm">
-            <DialogContentText style={styles.dialogContentTextStyle}>
-              Description
-            </DialogContentText>
-            <MuiThemeProvider theme={richTextTheme}>
-              <MUIRichTextEditor
-                name="description"
-                value={
-                  this.state.type === 'create'
-                    ? this.state.description.text
-                    : this.state.description
-                }
-                onChange={this.handleDescriptionChange(description)}
+            <Grid container item justify="center" spacing={2}>
+              {categoryList.slice(4)}
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            container
+            direction="column"
+            alignItems="stretch"
+            spacing={3}
+          >
+            <Grid item>
+              <div style={{ color: failedSubmit && !title ? 'red' : 'black' }}>
+                Assignment Title
+              </div>
+              <TextField
+                className={classes.searchBar}
+                onChange={e => setTitle(e)}
+                value={title}
                 variant="outlined"
-                label="Action Item description"
-                style={styles.MUIRichTextEditorStyle}
-                controls={[
-                  'bold',
-                  'italic',
-                  'underline',
-                  'numberList',
-                  'bulletList',
-                  'link',
-                ]}
+                type="text"
+                margin="dense"
+                required
+                error={failedSubmit && !title}
               />
-            </MuiThemeProvider>
-          </DialogContent>
-          <br />
-          <DialogContent maxwidth="sm">
-            <DialogContentText style={StyleSheet.dialogContentTextFieldStyle}>
-              Due Date
-            </DialogContentText>
-            <TextField
-              value={this.state.dueDate || ''}
-              style={styles.dialogContentTextFieldStyle}
-              name="Due Date"
-              onChange={this.handleChange('dueDate')}
-              onBlur={this.checkErrors('Due Date')}
-              variant="outlined"
-              margin="dense"
-              id="Due Date"
-              // label="date when assignment is due "
-              type="text"
-              fullWidth
-              error={this.state.errors.dueDate !== ''}
-              helperText={this.state.errors.dueDate}
-            />
-          </DialogContent>
-
-          <DialogActions styles={styles.dialogActionsStyle}>
-            <Button
-              onClick={this.handleClose}
-              variant="outlined"
-              color="secondary"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={this.handleSubmit}
-              variant="outlined"
-              color="primary"
-            >
-              Add Assignment
-            </Button>
-          </DialogActions>
-        </Dialog>
-        
-        </ThemeProvider>
-      );
-    }
-    return (
-      <>
-        {this.button()}
-        {dialog}
-      </>
-    );
-  }
+            </Grid>
+            <Grid item>
+              <div
+                style={{
+                  color: failedSubmit && !description ? 'red' : 'black',
+                }}
+              >
+                Assignment Description
+              </div>
+              <TextField
+                variant="outlined"
+                className={classes.searchBar}
+                onChange={e => setDescription(e)}
+                multiline
+                type="text"
+                margin="dense"
+                value={description}
+                required
+                error={failedSubmit && !description}
+                rows={2}
+              />
+            </Grid>
+            <Grid item>
+              <div>Due Date (Optional)</div>
+              <TextField
+                type="date"
+                value={dueDate}
+                className={classes.searchBar}
+                onChange={e => setDueDate(e)}
+              />
+            </Grid>
+            <Grid item container justify="space-between">
+              <Grid item>
+                <Checkbox
+                  color="primary"
+                  className={classes.checkboxStyle}
+                  checked={addToTemplates}
+                  onChange={e => setAddToTemplates(e.target.checked)}
+                />
+                <Typography
+                  display="inline"
+                  className={classes.checkboxTextStyle}
+                >
+                  ADD TO COMMON ASSIGNMENTS
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Button
+                  onClick={() => {
+                    if (allFieldsFilled) {
+                      createActionItem(addToTemplates);
+                      setFailedSubmit(false);
+                    } else {
+                      setFailedSubmit(true);
+                    }
+                  }}
+                >
+                  <Typography
+                    display="inline"
+                    size="small"
+                    className={classes.checkboxTextStyle}
+                  >
+                    ADD ACTION ITEM
+                  </Typography>
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Paper>
+    </ThemeProvider>
+  );
 }
-ActionItemForm.propTypes = {
-  type: PropTypes.oneOf(['create', 'edit']),
-  title: PropTypes.string,
-  description: PropTypes.string,
-  dueDate: PropTypes.string,
-  category: PropTypes.string,
-  addCard: PropTypes.func,
-  classes: PropTypes.object,
-};
 
-ActionItemForm.defaultProps = {
-  title: '',
-  type: 'create',
-  description: '',
-  dueDate: '',
-  category: '',
+ActionItemForm.propTypes = {
+  classes: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+  setTitle: PropTypes.func.isRequired,
+  description: PropTypes.string.isRequired,
+  setDescription: PropTypes.func.isRequired,
+  categorySelected: PropTypes.string,
+  setCategory: PropTypes.func.isRequired,
+  dueDate: PropTypes.string.isRequired,
+  setDueDate: PropTypes.func.isRequired,
+  addToTemplates: PropTypes.bool.isRequired,
+  setAddToTemplates: PropTypes.func.isRequired,
+  createActionItem: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ActionItemForm);

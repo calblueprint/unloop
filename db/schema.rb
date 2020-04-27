@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_07_003647) do
-
+ActiveRecord::Schema.define(version: 2020_04_13_091115) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +20,7 @@ ActiveRecord::Schema.define(version: 2020_03_07_003647) do
     t.boolean "is_template", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "category"
   end
 
   create_table "assignments", force: :cascade do |t|
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2020_03_07_003647) do
 
   create_table "case_notes", force: :cascade do |t|
     t.string "description"
-    t.boolean "internal"
+    t.boolean "visible"
     t.bigint "staff_id", null: false
     t.bigint "participant_id", null: false
     t.string "title"

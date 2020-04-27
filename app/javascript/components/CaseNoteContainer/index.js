@@ -17,6 +17,8 @@ class CaseNoteContainer extends React.Component {
       participant: this.props.participant,
       userType: this.props.userType,
     };
+    this.appendCaseNote = this.appendCaseNote.bind(this);
+    this.updateCaseNote = this.updateCaseNote.bind(this);
   }
 
   formatDate(dateString) {
@@ -34,6 +36,7 @@ class CaseNoteContainer extends React.Component {
           <CaseNoteForm
             type="create"
             participantId={this.state.participant.id}
+            appendCaseNote={this.appendCaseNote}
           />
         </Grid>
       );
@@ -41,22 +44,41 @@ class CaseNoteContainer extends React.Component {
     return null;
   }
 
+  appendCaseNote(caseNote) {
+    this.setState(prevState => ({
+      caseNotes: [caseNote, ...prevState.caseNotes],
+    }));
+  }
+
+  updateCaseNote(updatedCaseNote) {
+    this.setState(prevState => {
+      const updatedCaseNotes = [...prevState.caseNotes];
+      const caseNoteIndex = updatedCaseNotes.findIndex(
+        caseNote => caseNote.id === updatedCaseNote.id,
+      );
+      if (caseNoteIndex !== -1) {
+        updatedCaseNotes[caseNoteIndex] = updatedCaseNote;
+        return { caseNotes: updatedCaseNotes };
+      }
+      return {};
+    });
+  }
+
   renderCaseNoteCards() {
     const { classes } = this.props;
 
     if (this.state.caseNotes.length !== 0) {
       const caseNoteCards = this.state.caseNotes.map(caseNote => (
-        <div key={caseNote.id}>
-          <CaseNoteCard
-            title={caseNote.title}
-            description={caseNote.description}
-            internal={caseNote.internal}
-            id={caseNote.id}
-            participantId={this.state.participant.id}
-            showMenu={this.state.userType === 'staff'}
-            date={this.formatDate(caseNote.created_at)}
-          />
-        </div>
+        <CaseNoteCard
+          key={caseNote.id}
+          title={caseNote.title}
+          description={caseNote.description}
+          visible={caseNote.visible}
+          caseNoteId={caseNote.id}
+          participantId={this.state.participant.id}
+          showMenu={this.state.userType === 'staff'}
+          updateCaseNote={this.updateCaseNote}
+        />
       ));
       return caseNoteCards;
     }

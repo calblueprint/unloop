@@ -1,20 +1,17 @@
-const styles = () => ({
+const styles = theme => ({
   buttonStyle: {
     marginLeft: 'auto',
     marginRight: '0',
   },
-  casenoteDescStyle: {
+  caseNoteDescStyle: {
     marginLeft: '20px',
     paddingTop: '20px',
-  },
-  dialogActionsStyle: {
-    padding: '30px',
   },
   dialogStyle: {
     padding: '20px',
   },
   dialogContentTextStyle: {
-    color: 'black',
+    color: theme.palette.common.darkestBlue,
     marginBottom: '2px',
   },
   modalItems: {
@@ -24,18 +21,18 @@ const styles = () => ({
     width: '750px',
     height: '100%',
     margin: 'auto',
-    backgroundColor: '#28303B',
+    backgroundColor: theme.palette.common.darkBlue,
   },
   backgroundColor: {
-    backgroundColor: '#28303B',
+    backgroundColor: theme.palette.common.darkBlue,
     padding: '50px',
   },
-  casenoteCardModalDescriptionStyle: {
+  caseNoteCardModalDescriptionStyle: {
     height: '380px',
     overflow: 'auto',
   },
   titleStyle: {
-    color: 'white',
+    color: theme.palette.common.white,
     fontSize: '36px',
     marginBottom: '0',
     marginTop: '0',

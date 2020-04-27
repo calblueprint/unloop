@@ -1,118 +1,98 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import CaseNoteForm from 'components/CaseNoteForm';
 import PaperworkForm from 'components/PaperworkForm';
+import { withStyles } from '@material-ui/core/styles';
+
 import {
   faChevronRight,
   faCheck,
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import theme from 'utils/theme';
+import TableCell from '@material-ui/core/TableCell';
 
-const styles = {
-  casenoteText: {
-    width: '110px',
-  },
-};
+import styles from './styles';
 
-class ParticipantCard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.showParticipant = this.showParticipant.bind(this);
-  }
-
-  showParticipant() {
-    const pId = this.props.participant.id;
+function ParticipantCard({ classes, participant }) {
+  const showParticipant = () => {
+    const pId = participant.id;
     window.location.assign(`participants/${String(pId)}`);
-  }
+  };
 
-  render() {
-    const p = this.props.participant;
-    const status = p.status.toUpperCase();
-    const { name } = p;
+  // disabled eslint to make styling consistent
+  // eslint-disable-next-line
+  const [numCaseNotes, setNumCaseNotes] = useState(participant.caseNotesCount);
+  const [numPaperworks, setNumPaperworks] = useState(
+    participant.paperworksCount,
+  );
 
-    const questionnaireStatus = p.questionnaireStatus ? (
-      <FontAwesomeIcon
-        className="icon-large"
-        icon={faCheck}
-        color="green"
-      ></FontAwesomeIcon>
-    ) : (
-      <FontAwesomeIcon
-        className="icon-large"
-        icon={faTimes}
-        color="red"
-      ></FontAwesomeIcon>
-    );
+  const questionnaireStatus = participant.questionnaireStatus ? (
+    <FontAwesomeIcon
+      className={classes.iconLarge}
+      icon={faCheck}
+      color="green"
+    ></FontAwesomeIcon>
+  ) : (
+    <FontAwesomeIcon
+      className={classes.iconLarge}
+      icon={faTimes}
+      color="red"
+    ></FontAwesomeIcon>
+  );
 
-    let statusColor;
-    if (status === 'R0') {
-      statusColor = theme.palette.primary.light;
-    } else if (status === 'R1') {
-      statusColor = '#5870EB';
-    } else {
-      statusColor = '#DF6C8E';
-    }
-    const caseNotes =
-      p.caseNotesCount === 1
-        ? `${p.caseNotesCount} case note`
-        : `${p.caseNotesCount} case notes`;
-    return (
-      <tr>
-        <td
-          className="name"
+  const caseNotes =
+    numCaseNotes === 1
+      ? `${numCaseNotes} case note`
+      : `${numCaseNotes} case notes`;
+
+  return (
+    <>
+      <TableCell
+        style={{ cursor: 'pointer' }}
+        onClick={showParticipant}
+        onKeyDown={showParticipant}
+      >
+        {participant.name}
+      </TableCell>
+      <TableCell align="left">
+        <div className={classes.status}>{participant.status.toUpperCase()}</div>
+      </TableCell>
+      <TableCell align="left" className={classes.newAssignment}>
+        {participant.paperworksCompleted} / {numPaperworks} completed{' '}
+        <PaperworkForm
+          display="plus"
+          type="create"
+          participantId={participant.id}
+          incrementNumPaperworks={() => setNumPaperworks(numPaperworks + 1)}
+        ></PaperworkForm>
+      </TableCell>
+      <TableCell className={classes.newAssignment}>
+        {caseNotes}
+        <CaseNoteForm
+          display="plus"
+          type="create"
+          participantId={participant.id}
+          incrementNumCaseNotes={() => setNumCaseNotes(numCaseNotes + 1)}
+        ></CaseNoteForm>
+      </TableCell>
+      <TableCell>{questionnaireStatus}</TableCell>
+      <TableCell align="center">
+        <FontAwesomeIcon
+          onClick={showParticipant}
+          icon={faChevronRight}
+          color="grey"
           style={{ cursor: 'pointer' }}
-          onClick={this.showParticipant}
-          onKeyDown={this.showParticipant}
-        >
-          {name}
-        </td>
-        <td>
-          <div className="status" style={{ backgroundColor: statusColor }}>
-            {status}
-          </div>
-        </td>
-        <td className="new-assignment">
-          <div>
-            {p.paperworksCompleted} / {p.paperworksCount} completed
-            <PaperworkForm
-              display="plus"
-              type="create"
-              participantId={p.id}
-            ></PaperworkForm>
-          </div>
-        </td>
-        <td className="new-casenote">
-          <div>
-            <div style={styles.casenoteText}>{caseNotes}</div>
-
-            <CaseNoteForm
-              display="plus"
-              type="create"
-              participantId={p.id}
-            ></CaseNoteForm>
-          </div>
-        </td>
-        <td className="form-status">
-          <div>{questionnaireStatus}</div>
-        </td>
-        <td className="arrow">
-          <FontAwesomeIcon
-            onClick={this.showParticipant}
-            icon={faChevronRight}
-            color="grey"
-            style={{ cursor: 'pointer' }}
-            className="icon-large"
-          />
-        </td>
-      </tr>
-    );
-  }
+          className={classes.iconLarge}
+        />
+      </TableCell>
+    </>
+  );
 }
 
 ParticipantCard.propTypes = {
+  classes: PropTypes.object.isRequired,
   participant: PropTypes.object,
 };
 
-export default ParticipantCard;
+export default withStyles(styles)(ParticipantCard);

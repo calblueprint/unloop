@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import validator from 'validator';
 import { apiPost, apiPatch } from 'utils/axios';
 import { convertToRaw } from 'draft-js';
@@ -17,6 +19,7 @@ import {
 } from '@material-ui/core/';
 import { withStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import MUIRichTextEditor from 'mui-rte';
+import * as Sentry from '@sentry/browser';
 import { styles, defaultTheme } from './styles';
 
 class CaseNoteForm extends React.Component {
@@ -26,10 +29,10 @@ class CaseNoteForm extends React.Component {
       title: this.props.title,
       description: this.props.description,
       participant_id: this.props.participantId,
-      internal: this.props.internal,
+      visible: this.props.visible,
       open: false,
       type: this.props.type,
-      id: this.props.id,
+      caseNoteId: this.props.caseNoteId,
       tempDescription: this.props.description,
       errors: {
         title: '',
@@ -38,7 +41,7 @@ class CaseNoteForm extends React.Component {
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
-    this.handleInternalChange = this.handleInternalChange.bind(this);
+    this.handleVisibleChange = this.handleVisibleChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -52,12 +55,12 @@ class CaseNoteForm extends React.Component {
     this.setState({
       open: false,
       title: this.props.title,
-      internal: this.props.internal,
+      visible: this.props.visible,
     });
     if (this.state.type === 'edit') {
       this.state.title = this.props.title;
       this.state.description = this.props.description;
-      this.state.internal = this.props.internal;
+      this.state.visible = this.props.visible;
     }
   }
 
@@ -83,7 +86,7 @@ class CaseNoteForm extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleInternalChange = name => event => {
+  handleVisibleChange = name => event => {
     this.setState({ [name]: event.target.checked });
   };
 
@@ -106,13 +109,27 @@ class CaseNoteForm extends React.Component {
         const body = {
           title: this.state.title,
           description: this.state.description,
-          internal: this.state.internal,
+          visible: this.state.visible,
           participant_id: this.state.participant_id,
         };
 
         apiPost('/api/case_notes', { case_note: body })
-          .then(() => window.location.reload())
-          .catch(error => console.error(error));
+          .then(response => {
+            if (this.props.appendCaseNote) {
+              this.props.appendCaseNote(response.data);
+            } else if (this.props.incrementNumCaseNotes) {
+              this.props.incrementNumCaseNotes();
+            }
+            this.handleClose();
+          })
+          .catch(error => {
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'CaseNoteForm');
+              scope.setExtra('action', 'apiPost');
+              scope.setExtra('case_note', JSON.stringify(body));
+            });
+            Sentry.captureException(error);
+          });
       } else {
         this.setState(prevState => ({
           description: prevState.tempDescription,
@@ -121,13 +138,24 @@ class CaseNoteForm extends React.Component {
         const body = {
           title: this.state.title,
           description: this.state.tempDescription,
-          internal: this.state.internal,
+          visible: this.state.visible,
           participant_id: this.state.participant_id,
         };
-
-        apiPatch(`/api/case_notes/${this.state.id}`, { case_note: body })
-          .then(() => window.location.reload())
-          .catch(error => console.error(error));
+        apiPatch(`/api/case_notes/${this.state.caseNoteId}`, {
+          case_note: body,
+        })
+          .then(response => {
+            this.props.updateCaseNote(response.data);
+            this.setState({ open: false });
+          })
+          .catch(error => {
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'CaseNoteForm');
+              scope.setExtra('action', 'apiPatch');
+              scope.setExtra('case_note', JSON.stringify(body));
+            });
+            Sentry.captureException(error);
+          });
       }
     }
   }
@@ -136,14 +164,20 @@ class CaseNoteForm extends React.Component {
     let ret;
     if (this.state.display === 'plus') {
       ret = (
-        <button onClick={this.handleOpen} className="plus-button" type="button">
-          +
-        </button>
+        <Fab
+          size="small"
+          color="secondary"
+          aria-label="add"
+          onClick={this.handleOpen}
+          className={this.props.classes.plusButton}
+        >
+          <AddIcon />
+        </Fab>
       );
     } else if (this.state.type === 'create') {
       ret = (
         <Button
-          className="primary-button"
+          className={this.props.classes.primaryButton}
           variant="contained"
           color="secondary"
           onClick={this.handleOpen}
@@ -232,10 +266,10 @@ class CaseNoteForm extends React.Component {
             <DialogContentText className={classes.dialogContentTextStyle}>
               Visible to Participant
               <Switch
-                name="internal"
-                checked={this.state.internal}
-                onChange={this.handleInternalChange('internal')}
-                value="internal"
+                name="visible"
+                checked={this.state.visible}
+                onChange={this.handleVisibleChange('visible')}
+                value="visible"
                 color="primary"
                 inputProps={{ 'aria-label': 'primary checkbox' }}
               />
@@ -245,14 +279,14 @@ class CaseNoteForm extends React.Component {
           <DialogActions className={classes.dialogActionsStyle}>
             <Button
               onClick={this.handleClose}
-              variant="outlined"
+              variant="contained"
               color="secondary"
             >
               Cancel
             </Button>
             <Button
               onClick={this.handleSubmit}
-              variant="outlined"
+              variant="contained"
               color="primary"
             >
               {this.state.type === 'create'
@@ -278,17 +312,20 @@ CaseNoteForm.propTypes = {
   type: PropTypes.oneOf(['create', 'edit']),
   title: PropTypes.string,
   description: PropTypes.string,
-  internal: PropTypes.bool,
+  visible: PropTypes.bool,
   display: PropTypes.string,
-  id: PropTypes.number,
+  caseNoteId: PropTypes.number,
   participantId: PropTypes.number.isRequired,
+  incrementNumCaseNotes: PropTypes.func,
+  appendCaseNote: PropTypes.func,
+  updateCaseNote: PropTypes.func,
 };
 
 CaseNoteForm.defaultProps = {
   type: 'create',
   title: '',
   description: '',
-  internal: true,
+  visible: false,
 };
 
 export default withStyles(styles)(CaseNoteForm);

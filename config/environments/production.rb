@@ -61,6 +61,19 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "unloop_production"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = { host: ENV['SMTP_HOST'] || ENV['HEROKU_APP_NAME']+".herokuapp.com", protocol: 'https' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    user_name:     ENV['SMTP_USERNAME'],
+    password:      ENV['SMTP_PASSWORD'],
+    domain:        ENV['SMTP_DOMAIN'],
+    address:       "smtp.gmail.net",
+    port:          587,
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

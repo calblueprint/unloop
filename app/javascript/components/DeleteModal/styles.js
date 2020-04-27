@@ -1,4 +1,4 @@
-const styles = () => ({
+const styles = theme => ({
   dialogActionsStyle: {
     padding: '30px',
   },
@@ -10,15 +10,8 @@ const styles = () => ({
     padding: '20px',
   },
   dialogContentTextStyle: {
-    color: 'black',
+    color: theme.palette.common.darkestBlue,
     marginBottom: '2px',
-  },
-  dialogContentTextFieldStyle: {
-    marginTop: '2px',
-    borderStyle: 'solid 4px grey',
-  },
-  saveDocumentButtonStyle: {
-    borderStyle: 'solid 3px grey',
   },
 });
 

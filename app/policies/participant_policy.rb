@@ -12,4 +12,8 @@ class ParticipantPolicy < ApplicationPolicy
   def dashboard?
     user.participant?
   end
+
+  def statuses?
+    user.staff?
+  end
 end

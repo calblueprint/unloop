@@ -8,7 +8,10 @@ import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import validator from 'validator';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import { apiPost, apiPatch, apiDelete } from 'utils/axios';
+import * as Sentry from '@sentry/browser';
 import {
   Button,
   Dialog,
@@ -19,7 +22,6 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-
 import styles from './styles';
 
 function PaperworkForm({
@@ -29,6 +31,9 @@ function PaperworkForm({
   paperworkTitle,
   paperworkLink,
   paperworkId,
+  appendPaperwork,
+  updatePaperwork,
+  incrementNumPaperworks,
   participantId,
   display,
 }) {
@@ -87,13 +92,37 @@ function PaperworkForm({
     if (!hasErrors) {
       if (type === 'create') {
         apiPost('/api/paperworks', { paperwork: body })
-          .then(() => window.location.reload())
-          .catch(error => console.error(error));
+          .then(response => {
+            if (appendPaperwork) {
+              appendPaperwork(response.data);
+            } else if (incrementNumPaperworks) {
+              incrementNumPaperworks();
+            }
+            setOpen(false);
+          })
+          .catch(error => {
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'PaperworkForm');
+              scope.setExtra('action', 'apiPost');
+              scope.setExtra('paperwork', JSON.stringify(body));
+            });
+            Sentry.captureException(error);
+          });
         // TODO: Change this to flash an error message
       } else if (type === 'edit') {
         apiPatch(`/api/paperworks/${paperworkId}`, { paperwork: body })
-          .then(() => window.location.reload())
-          .catch(error => console.error(error));
+          .then(response => {
+            updatePaperwork(response.data);
+            setOpen(false);
+          })
+          .catch(error => {
+            Sentry.configureScope(function(scope) {
+              scope.setExtra('file', 'PaperworkForm');
+              scope.setExtra('action', 'apiPatch');
+              scope.setExtra('paperwork', JSON.stringify(body));
+            });
+            Sentry.captureException(error);
+          });
         // TODO: Change this to flash an error message
       }
     }
@@ -108,7 +137,14 @@ function PaperworkForm({
           setOpen(false);
           window.location.reload();
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'PaperworkForm');
+            scope.setExtra('action', 'apiDelete');
+            scope.setExtra('paperwork_id', paperworkId);
+          });
+          Sentry.captureException(error);
+        });
     }
   };
 
@@ -121,18 +157,19 @@ function PaperworkForm({
     if (!hide) {
       if (display === 'plus') {
         ret = (
-          <button
-            type="button"
+          <Fab
+            size="small"
+            color="secondary"
+            aria-label="add"
             onClick={() => setOpen(true)}
-            className="plus-button"
+            className={classes.plusButton}
           >
-            +
-          </button>
+            <AddIcon />
+          </Fab>
         );
       } else if (type === 'create') {
         ret = (
           <Button
-            className="assign-paperwork-button"
             variant="contained"
             color="primary"
             onClick={() => setOpen(true)}
@@ -142,11 +179,7 @@ function PaperworkForm({
         );
       } else if (type === 'edit') {
         ret = (
-          <Button
-            className="assign-paperwork-button"
-            color="primary"
-            onClick={() => setOpen(true)}
-          >
+          <Button color="primary" onClick={() => setOpen(true)}>
             edit
           </Button>
         );
@@ -297,6 +330,9 @@ PaperworkForm.propTypes = {
   paperworkTitle: PropTypes.string,
   paperworkLink: PropTypes.string,
   participantId: PropTypes.number.isRequired,
+  appendPaperwork: PropTypes.func,
+  incrementNumPaperworks: PropTypes.func,
+  updatePaperwork: PropTypes.func,
   paperworkId: PropTypes.number,
   display: PropTypes.string,
 };

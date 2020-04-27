@@ -1,5 +1,5 @@
 class Api::CaseNotesController < ApplicationController
-  before_action :set_case_note, only: [:show, :update, :internal, :destroy]
+  before_action :set_case_note, only: [:show, :update, :not_visible, :destroy]
   respond_to :json
 
   def show
@@ -8,9 +8,11 @@ class Api::CaseNotesController < ApplicationController
 
   def create
     @case_note = authorize CaseNote.new(case_notes_params)
+    sentry_helper(@case_note)
     if @case_note.save
       render json: @case_note, status: :created
     else
+      Raven.capture_message("Could not create case note")
       render json: { error: 'Could not create case note' }, status: :unprocessable_entity
     end
   end
@@ -19,6 +21,7 @@ class Api::CaseNotesController < ApplicationController
     if @case_note.update(case_notes_params)
       render json: @case_note, status: :ok
     else
+      Raven.capture_message("Could not update case note")
       render json: { error: 'Could not update case note' }, status: :unprocessable_entity
     end
   end
@@ -27,15 +30,17 @@ class Api::CaseNotesController < ApplicationController
     if @case_note.destroy
       render json: @case_note, status: :ok
     else
+      Raven.capture_message("Failed to delete case note")
       render json: { error: 'Failed to delete case note' }, status: :unprocessable_entity
     end
   end
 
-  def internal
-    if @case_note.update(internal: true)
+  def not_visible
+    if @case_note.update(visible: false)
       render json: @case_note, status: :ok
     else
-      render json: { error: 'Failed to change internal to true' }, status: :unprocessable_entity
+      Raven.capture_message("Failed to change visible to false")
+      render json: { error: 'Failed to change visible to false' }, status: :unprocessable_entity
     end
   end
 
@@ -47,14 +52,23 @@ class Api::CaseNotesController < ApplicationController
 
   def set_case_note
     @case_note = authorize CaseNote.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
+    sentry_helper(@case_note)
+  rescue ActiveRecord::RecordNotFound => exception
+    Raven.extra_context(case_note_id: params[:id])
+    Raven.capture_exception(exception)
     render json: { error: 'Could not find case note' }, status: :not_found
+  end
+
+  def sentry_helper(case_note)
+    Raven.extra_context(case_note: case_note.attributes)
+    Raven.extra_context(staff: case_note.staff.user.attributes)
+    Raven.extra_context(participant: case_note.participant.user.attributes)
   end
 
   def case_notes_params
     case_notes_param = params.require(:case_note).permit(:title, 
                                                        :description, 
-                                                       :internal, 
+                                                       :visible, 
                                                        :participant_id)
     case_notes_param.merge(staff_id: current_user.staff.id)
   end
