@@ -19,7 +19,6 @@ import {
   MuiThemeProvider,
   ThemeProvider,
 } from '@material-ui/core/styles';
-
 import { convertToRaw } from 'draft-js';
 import { styles, richTextTheme } from './styles';
 
@@ -37,7 +36,6 @@ class ActionItemForm extends React.Component {
         title: '',
       },
     };
-    // this.onChange = editorState => this.setState({ editorState });
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -55,7 +53,7 @@ class ActionItemForm extends React.Component {
       title: this.props.title,
     });
     if (this.state.type === 'edit') {
-      (this.state.title = this.props.title)(
+      this.state.title = this.props.title(
         (this.state.description = this.props.description),
       );
     }
@@ -89,7 +87,6 @@ class ActionItemForm extends React.Component {
   };
 
   handleCategoryChange = name => () => {
-    console.log(name);
     this.setState({ category: name });
   };
 
@@ -130,7 +127,6 @@ class ActionItemForm extends React.Component {
 
   render() {
     const { classes } = this.props;
-
     const categories = [
       'Finances',
       'Project',
@@ -198,67 +194,6 @@ class ActionItemForm extends React.Component {
                     {categoryList.slice(4)}
                   </Grid>
                 </Grid>
-
-                {/* <Grid item xs>
-                <IconButton
-                  name="HouseIcon"
-                  onClick={this.handleCategoryChange('HouseIcon')}
-                >
-                  <Avatar className={classes.yellow}>
-                    <HouseIcon />
-                  </Avatar>
-                </IconButton>
-              </Grid>
-              <Grid item xs>
-                <IconButton
-                  name="EcoSharpIcon"
-                  onClick={this.handleCategoryChange('EcoSharpIcon')}
-                >
-                  <Avatar className={classes.yellow}>
-                    <EcoSharpIcon />
-                  </Avatar>
-                </IconButton>
-              </Grid>
-              <Grid item xs>
-                <IconButton
-                  name="CreateSharpIcon"
-                  onClick={this.handleCategoryChange('CreateSharpIcon')}
-                >
-                  <Avatar className={classes.yellow}>
-                    <CreateSharpIcon />
-                  </Avatar>
-                </IconButton>
-              </Grid>
-              <Grid item xs>
-                <IconButton
-                  name="NoteSharpIcon"
-                  onClick={this.handleCategoryChange('NoteSharpIcon')}
-                >
-                  <Avatar className={classes.yellow}>
-                    <NoteSharpIcon />
-                  </Avatar>
-                </IconButton>
-              </Grid>
-              <Grid item xs>
-                <IconButton
-                  name="SentimentSatisfiedSharpIcon"
-                  onClick={this.handleCategoryChange(
-                    'SentimentalSatisfiedSharpIcon',
-                  )}
-                >
-                  <Avatar className={classes.yellow}>
-                    <SentimentSatisfiedSharpIcon />
-                  </Avatar>
-                </IconButton>
-              </Grid>
-              <Grid item xs>
-                <IconButton
-                  name="CodeRoundedIcon"
-                  onClick={this.handleCategoryChange('CodeRoundedIcon')}
-                >
-                  <Avatar className={classes.yellow}>0</Avatar>
-                </IconButton>
-              </Grid> */}
               </Grid>
             </DialogContent>
             <DialogContent maxwidth="sm">
@@ -322,7 +257,6 @@ class ActionItemForm extends React.Component {
                 variant="outlined"
                 margin="dense"
                 id="Due Date"
-                // label="date when assignment is due "
                 type="text"
                 fullWidth
                 error={this.state.errors.dueDate !== ''}
