@@ -74,17 +74,22 @@ class ActionItemCreationPage extends React.Component {
       assignments: this.state.selectedActionItems,
       assigned_to_ids: participantIds,
     };
-    apiPost('/api/assignments', body)
-      .then(() => this.setState({ submissionModal: true, submitFailed: false }))
-      .catch(error => {
-        Sentry.configureScope(function(scope) {
-          scope.setExtra('file', 'ActionItemCreationPage');
-          scope.setExtra('action', 'apiPost (handleSubmit)');
-          scope.setExtra('participantIds', participantIds);
-          scope.setExtra('body', JSON.stringify(body));
+    const createAssignments = async () => {
+      apiPost('/api/assignments', body)
+        .then(() =>
+          this.setState({ submissionModal: true, submitFailed: false }),
+        )
+        .catch(error => {
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'ActionItemCreationPage');
+            scope.setExtra('action', 'apiPost (handleSubmit)');
+            scope.setExtra('participantIds', participantIds);
+            scope.setExtra('body', JSON.stringify(body));
+          });
+          Sentry.captureException(error);
         });
-        Sentry.captureException(error);
-      });
+    };
+    createAssignments();
   }
 
   deleteTemplate(templateActionItem) {
