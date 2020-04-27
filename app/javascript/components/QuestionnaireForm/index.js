@@ -12,6 +12,14 @@ import {
 } from '@material-ui/core/';
 import styles from './styles';
 
+// function getSteps() {
+//   return [
+//     'Personal Information',
+//     'Personal Relationships',
+//     'Health and Wellness',
+//   ];
+// }
+
 class QuestionnaireForm extends React.Component {
   constructor(props) {
     super(props);
