@@ -133,7 +133,7 @@ class Api::AssignmentsController < ApplicationController
     private
     
     def set_template
-        @template = authorize ActionItem.find(params[:id])
+        @template = ActionItem.find(params[:id])
         template_sentry_helper(@template)
     rescue ActiveRecord::RecordNotFound => exception
         Raven.extra_context(action_item_id: params[:id])
