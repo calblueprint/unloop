@@ -7,7 +7,7 @@ import { apiPost, apiPatch } from 'utils/axios';
 import { Button } from '@material-ui/core';
 // import { consoleSandbox } from '@sentry/utils';
 // import RadioButtonsGroup from './radioButtons';
-// import styles from './styles';
+import styles from './styles';
 
 const questions = [
   'Understands the Big Picture of the Full Stack',
@@ -130,10 +130,11 @@ class QuestionView extends React.Component {
             </p>
           </div>
           <div className={this.props.classes.radio}>
-            {this.state.studioAssessment[`${this.props.questionType}_score`] !== null ? (
+            {this.state.studioAssessment[`${this.props.questionType}_score`] !==
+            null ? (
               <div>
                 <h3>
-                  Score:{' '}
+                Score:{' '}
                   {this.state.studioAssessment[
                     `${this.props.questionType}_score`
                   ].toString()}

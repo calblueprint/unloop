@@ -5,6 +5,7 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Question from 'components/StudioAssessmentQuestion';
+import QuestionView from 'components/StudioAssessmentQuestionView';
 
 const useStyles = makeStyles(theme => ({
   root: {

@@ -1,6 +1,6 @@
 /**
  *
- * AssignmentsList
+ * AssignmentList
  *
  */
 
@@ -8,46 +8,26 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Paper, List } from '@material-ui/core';
-import PaperworkEntry from 'components/PaperworkEntry';
-import PaperworkForm from 'components/PaperworkForm';
 import ActionItemForm from 'components/ActionItemForm';
-import {
-  Fab,
-  Typography,
-} from '@material-ui/core';
+import ActionItemCard from 'components/ActionItemCard';
 
 import styles from './styles';
 
-function AssignmentsList({
+function AssignmentList({
   classes,
-  initialPaperworks,
-  participantId,
+  initialAssignments,
   userType,
   formatDate,
 }) {
-  const [paperworks, setPaperworks] = useState(initialPaperworks);
+  const [assignments] = useState(initialAssignments);
 
-  const updatePaperwork = updatedPaperwork => {
-    const allPaperworks = [...paperworks];
-    const paperworkIndex = allPaperworks.findIndex(
-      paperwork => paperwork.id === updatedPaperwork.id,
-    );
-    if (paperworkIndex !== -1) {
-      allPaperworks[paperworkIndex] = updatedPaperwork;
-      setPaperworks(allPaperworks);
-    }
-  };
-
-//   Switch these out with different assignment entries
-  const paperworkEntries = paperworks.map((paperwork, i) => (
-    <PaperworkEntry
-      key={paperwork.id}
-      paperwork={paperwork}
-      participantId={participantId}
-      userType={userType}
-      date={formatDate(paperwork.created_at)}
-      updatePaperwork={updatePaperwork}
-      lastEntry={paperworks.length - 1 === i}
+  const assignmentEntries = assignments.map((assignment) => (
+    <ActionItemCard
+      key={assignment.id}
+      title={assignment.title}
+      description={assignment.description}
+      category={assignment.category}
+      dueDate={formatDate(assignment.created_at)}
     />
   ));
 
@@ -64,18 +44,19 @@ function AssignmentsList({
           <h3 className={classes.headerStyle}>Assignments</h3>
         </Grid>
         <Grid item>
-          {/* Switch logic for rendering the button properly */}
+          {/* Set logic to !== for rendering the button properly */}
           {userType !== 'staff' ? (
+            // Make this a button to pop-up the modal to add a new assignment
             <ActionItemForm />
           ) : (
-            <div/>
+            <div />
           )}
         </Grid>
       </Grid>
-      
+
       {/* Change these to handle rendering assignments instead */}
 
-      {/* <List className={classes.listStyle} dense>
+      <List className={classes.listStyle} dense>
         {assignments.length !== 0 ? (
           assignmentEntries
         ) : (
@@ -95,17 +76,17 @@ function AssignmentsList({
             </div>
           </div>
         )}
-      </List> */}
+      </List>
     </Paper>
   );
 }
 
-AssignmentsList.propTypes = {
+AssignmentList.propTypes = {
   userType: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  initialPaperworks: PropTypes.array.isRequired,
+  initialAssignments: PropTypes.array.isRequired,
   participantId: PropTypes.number.isRequired,
   formatDate: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(AssignmentsList);
+export default withStyles(styles)(AssignmentList);

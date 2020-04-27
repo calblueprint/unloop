@@ -7,13 +7,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import QuestionnaireModal from 'components/QuestionnaireModal';
 import PaperworkList from 'components/PaperworkList';
 import AssignmentList from 'components/AssignmentList';
 import StudioAssessmentList from 'components/StudioAssessmentList';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import { Grid, Typography, Avatar } from '@material-ui/core';
-import ActionItemCard from 'components/ActionItemCard';
 import styles from './styles';
 
 class ParticipantShowPage extends React.Component {
@@ -34,6 +32,19 @@ class ParticipantShowPage extends React.Component {
     return `${month.toString()}/${dt.toString()}/${year.toString()}`;
   };
 
+  sampleActionItem = [
+    {
+      id: 13,
+      title: 'panel',
+      description:
+        'Try to synthesize the XSS panel, maybe it will input the open-source hard drive!',
+      is_template: false,
+      created_at: '2020-04-17 02:07:27',
+      updated_at: '2020-04-17 02:07:27',
+      category: 'Community',
+    },
+  ];
+
   render() {
     const {
       classes,
@@ -51,12 +62,13 @@ class ParticipantShowPage extends React.Component {
       assignments,
     } = this.props;
 
-    console.log("case notes", caseNotes);
-    console.log("paperworks", paperworks);
-    console.log("assignments", assignments);
-    console.log("participantId", participantId);
-    console.log("studio assessments", studioAssessments[0]);
-    
+    // console.log('case notes', caseNotes);
+    // console.log('paperworks', paperworks);
+    // console.log('assignments', assignments);
+    // console.log('participantId', participantId);
+    // console.log('studio assessments', studioAssessments[0]);
+    // console.log('sample action item', this.sampleActionItem);
+
     return (
       <Grid
         container
@@ -66,7 +78,7 @@ class ParticipantShowPage extends React.Component {
           padding: '0px',
           width: '100%',
         }}
-        justify="space-between"
+        // justify="space-between"
       >
         <Grid item className={classes.leftHalf}>
           <Grid container direction="column" spacing={3}>
@@ -93,15 +105,6 @@ class ParticipantShowPage extends React.Component {
                   userType={userType}
                 />
               </Grid>
-              <Grid item style={{ padding: '0px', marginTop: '20px' }}>
-                {/* These are paperwork lists */}
-                <PaperworkList
-                  initialPaperworks={paperworks}
-                  participantId={participantId}
-                  formatDate={this.formatDate}
-                  userType={userType}
-                />
-              </Grid>
             </Grid>
             <Grid item>
               <PaperworkList
@@ -111,67 +114,30 @@ class ParticipantShowPage extends React.Component {
                 userType={userType}
               />
             </Grid>
-            <Grid item style={{ marginTop: '20px' }}>
-              <StudioAssessmentList
-                initialStudioAssessments={studioAssessments}
-                formatDate={this.formatDate}
-                userType={userType}
-                participantId={participantId}
-              />
-            </Grid>
-          </Grid>
-          <Grid item xs={5} className={classes.rightHalf}>
-            <Grid item style={{ padding: '0px', marginTop: '40px' }}>
-              {/* These are assignment lists */}
-              <AssignmentList
-                initialPaperworks={assignments}
-                participantId={participantId}
-                formatDate={this.formatDate}
-                userType={userType}
-              />
-              <ActionItemCard
-                title="hello there"
-                description="hi there again"
-                category="education"
-                dueDate="4/20/20"
-                selectCardFunc={e => {
-                  console.log(e);
-                }}
-                lastEntry
-              />
-            </Grid>
-            <Grid item style={{ padding: '0px', marginTop: '20px' }}>
-              {/* These are studio assessments lists */}
-              <StudioAssessmentList
-                initialStudioAssessments={studioAssessments}
-                formatDate={this.formatDate}
-                userType={userType}
-                participantId={participantId}
-              />
-            </Grid>
           </Grid>
         </Grid>
-        <Grid item className={classes.rightHalf}>
-          <CaseNoteContainer
-            participant={participant}
-            caseNotes={caseNotes}
+        <Grid item xs={5} className={classes.rightHalf}>
+          {/* <Grid item style={{ marginTop: '20px' }}> */}
+          {/* <Grid item xs={5} className={classes.rightHalf}>
+            <Grid item style={{ padding: '0px', marginTop: '40px' }}> */}
+
+          <AssignmentList
             userType={userType}
+            initialAssignments={this.sampleActionItem}
+            participantId={participantId}
+            formatDate={this.formatDate}
+          />
+          <StudioAssessmentList
+            initialStudioAssessments={studioAssessments}
+            formatDate={this.formatDate}
+            userType={userType}
+            participantId={participantId}
           />
         </Grid>
       </Grid>
     );
   }
 }
-
-// ActionItemCard.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   title: PropTypes.string.isRequired,
-//   description: PropTypes.string.isRequired,
-//   category: PropTypes.string.isRequired,
-//   dueDate: PropTypes.string,
-//   selectCardFunc: PropTypes.func,
-//   lastEntry: PropTypes.bool,
-// };
 
 ParticipantShowPage.propTypes = {
   userType: PropTypes.string.isRequired,
