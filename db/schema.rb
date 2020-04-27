@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_17_021537) do
-
+ActiveRecord::Schema.define(version: 2020_04_13_091115) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,6 +70,8 @@ ActiveRecord::Schema.define(version: 2020_04_17_021537) do
   end
 
   create_table "personal_questionnaires", force: :cascade do |t|
+    t.string "contact_info"
+    t.string "emergency_contact"
     t.string "doc_status"
     t.string "housing"
     t.string "mental_health"
@@ -83,25 +84,11 @@ ActiveRecord::Schema.define(version: 2020_04_17_021537) do
     t.string "treatment"
     t.string "triggers_and_prevention"
     t.string "personal_needs"
+    t.string "success_tools"
     t.string "personal_goals"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "participant_id", null: false
-    t.datetime "birthdate"
-    t.string "phone_number"
-    t.string "pronouns"
-    t.string "race_and_ethnicities"
-    t.string "drivers_license_status"
-    t.string "emergency_contact_name"
-    t.string "emergency_contact_phone_number"
-    t.string "emergency_contact_relationship"
-    t.string "emergency_contact_2_name"
-    t.string "emergency_contact_2_phone_number"
-    t.string "emergency_contact_2_relationship"
-    t.string "financial_obligations"
-    t.string "resources_allocated"
-    t.string "orca_card"
-    t.string "state_assistance"
     t.index ["participant_id"], name: "index_personal_questionnaires_on_participant_id"
   end
 
@@ -110,15 +97,13 @@ ActiveRecord::Schema.define(version: 2020_04_17_021537) do
     t.string "work_history"
     t.string "job_search_materials"
     t.string "professional_goals"
+    t.datetime "skills_assessment_date"
     t.string "barriers"
+    t.string "mentorship_interest"
     t.string "success_strategies"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "participant_id", null: false
-    t.string "education_history"
-    t.datetime "begin_skills_assessment_date"
-    t.datetime "end_skills_assessment_date"
-    t.string "assigned_mentor"
     t.index ["participant_id"], name: "index_professional_questionnaires_on_participant_id"
   end
 
