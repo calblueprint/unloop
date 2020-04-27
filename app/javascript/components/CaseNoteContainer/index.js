@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import CaseNoteForm from 'components/CaseNoteForm';
 import CaseNoteCard from 'components/CaseNoteCard';
 import PropTypes from 'prop-types';
-import ActionItemForm from 'components/ActionItemForm';
 import styles from './styles';
 import theme from '../../utils/theme';
 
@@ -109,7 +108,9 @@ class CaseNoteContainer extends React.Component {
     return (
       <>
         <CssBaseline />
-        <Container style={{maxHeight: '60vh', padding: '16px', overflow: 'scroll'}}>
+        <Container
+          style={{ maxHeight: '60vh', padding: '16px', overflow: 'scroll' }}
+        >
           <Grid>
             <Typography
               component="div"
@@ -120,7 +121,7 @@ class CaseNoteContainer extends React.Component {
                   container
                   justify="space-between"
                   style={{
-                    borderBottom: '5px solid ' + theme.palette.common.r0,
+                    borderBottom: `5px solid ${theme.palette.common.r0}`,
                     marginBottom: '25px',
                   }}
                 >

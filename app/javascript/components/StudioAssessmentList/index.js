@@ -43,7 +43,7 @@ function StudioAssessmentList({
         <Paper style={{ marginTop: '10px', borderRadius: '10px' }}>
           <div className={classes.paddingBox}>
             {/* The following line renders the date the studio assessment was created at as the title, but might not be what we want to render here */}
-            <h3>{formatDate(studioAssessment.created_at)}</h3> 
+            <h3>{formatDate(studioAssessment.created_at)}</h3>
             {/* Only admins can edit the different studioAssessments */}
             {userType !== 'admin' ? (
               <StudioAssessmentModal
@@ -89,7 +89,7 @@ function StudioAssessmentList({
         </Grid>
         <Grid item>
           {/* Only admins can see the create button */}
-          {userType === 'admin' ? (
+          {userType !== 'admin' ? (
             <StudioAssessmentModal
               participantId={participantId}
               studioAssessment={studioAssessments[0]}

@@ -7,21 +7,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Paper, List } from '@material-ui/core';
+import { Grid, Paper, List, Button, Dialog } from '@material-ui/core';
 import ActionItemForm from 'components/ActionItemForm';
 import ActionItemCard from 'components/ActionItemCard';
 
 import styles from './styles';
 
-function AssignmentList({
-  classes,
-  initialAssignments,
-  userType,
-  formatDate,
-}) {
+function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
   const [assignments] = useState(initialAssignments);
+  const [open, setOpen] = useState(false);
 
-  const assignmentEntries = assignments.map((assignment) => (
+  const assignmentEntries = assignments.map(assignment => (
     <ActionItemCard
       key={assignment.id}
       title={assignment.title}
@@ -47,7 +43,20 @@ function AssignmentList({
           {/* Set logic to !== for rendering the button properly */}
           {userType !== 'staff' ? (
             // Make this a button to pop-up the modal to add a new assignment
-            <ActionItemForm />
+            <div>
+              <Button color="primary" onClick={() => setOpen(true)}>
+                New Assignment
+              </Button>
+              <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                aria-labelledby="form-dialog-title"
+                maxWidth="sm"
+                classes={{ overflow: 'hidden' }}
+              >
+                <ActionItemForm />
+              </Dialog>
+            </div>
           ) : (
             <div />
           )}
