@@ -48,7 +48,6 @@ class ActionItemCreationPage extends React.Component {
     this.selectActionItemTemplate = this.selectActionItemTemplate.bind(this);
     this.removeSelectedActionItem = this.removeSelectedActionItem.bind(this);
     this.deleteTemplate = this.deleteTemplate.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(name) {
@@ -58,7 +57,7 @@ class ActionItemCreationPage extends React.Component {
     };
   }
 
-  handleSubmit() {
+  handleSubmit = () => {
     if (
       this.state.selectedParticipants.length === 0 ||
       this.state.selectedActionItems.length === 0
@@ -85,7 +84,7 @@ class ActionItemCreationPage extends React.Component {
         });
         Sentry.captureException(error);
       });
-  }
+  };
 
   deleteTemplate(templateActionItem) {
     if (!templateActionItem.is_template || !templateActionItem.id) {
