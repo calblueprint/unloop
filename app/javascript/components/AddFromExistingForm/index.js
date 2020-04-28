@@ -69,7 +69,7 @@ class AddFromExistingForm extends React.Component {
     );
 
     filteredTemplates = filteredTemplates.map((template, i) => {
-      const selected = this.props.selectedActionItems.has(template);
+      const selected = this.props.selectedActionItemIds.has(template.id);
       return (
         <Grid item key={template.id}>
           <ActionItemCard
@@ -180,7 +180,7 @@ class AddFromExistingForm extends React.Component {
 AddFromExistingForm.propTypes = {
   classes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
-  selectedActionItems: PropTypes.instanceOf(Set).isRequired,
+  selectedActionItemIds: PropTypes.instanceOf(Set).isRequired,
   selectActionItemTemplate: PropTypes.func.isRequired,
   removeSelectedActionItem: PropTypes.func.isRequired,
   deleteTemplate: PropTypes.func.isRequired,

@@ -49,6 +49,16 @@ class ActionItemCreationPage extends React.Component {
     this.removeSelectedActionItem = this.removeSelectedActionItem.bind(this);
     this.deleteTemplate = this.deleteTemplate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.checkActionItemsEqual = this.checkActionItemsEqual.bind(this);
+  }
+
+  checkActionItemsEqual(actionItem1, actionItem2) {
+    return (
+      actionItem1.title === actionItem2.title &&
+      actionItem1.description === actionItem2.description &&
+      actionItem1.category === actionItem2.category &&
+      actionItem1.dueDate === actionItem2.dueDate
+    );
   }
 
   handleChange(name) {
@@ -95,7 +105,7 @@ class ActionItemCreationPage extends React.Component {
       .then(() =>
         this.setState(prevState => {
           const remainingTemplates = prevState.templateActionItems.filter(
-            item => item !== templateActionItem,
+            item => !this.checkActionItemsEqual(item, templateActionItem),
           );
           return { templateActionItems: remainingTemplates };
         }),
@@ -113,7 +123,7 @@ class ActionItemCreationPage extends React.Component {
   removeSelectedActionItem(actionItem) {
     this.setState(prevState => {
       const filteredActionItems = prevState.selectedActionItems.filter(
-        item => item !== actionItem,
+        item => !this.checkActionItemsEqual(actionItem, item),
       );
       return { selectedActionItems: filteredActionItems };
     });
@@ -135,23 +145,6 @@ class ActionItemCreationPage extends React.Component {
       return;
     }
 
-    if (saveToTemplates) {
-      const template = {
-        title: actionItemTitle,
-        description: actionItemDescription,
-        category: actionItemCategory,
-      };
-      apiPost('/api/assignments/templates', { assignment: template })
-        .then(resp => console.log(resp))
-        .catch(error => {
-          Sentry.configureScope(function(scope) {
-            scope.setExtra('file', 'ActionItemCreationPage');
-            scope.setExtra('action', 'apiPost (createActionItem)');
-            scope.setExtra('template', JSON.stringify(template));
-          });
-          Sentry.captureException(error);
-        });
-    }
     const actionItem = {
       title: actionItemTitle,
       description: actionItemDescription,
@@ -159,6 +152,25 @@ class ActionItemCreationPage extends React.Component {
       dueDate: actionItemDueDate,
       is_template: saveToTemplates,
     };
+
+    if (saveToTemplates) {
+      apiPost('/api/assignments/templates', { assignment: actionItem })
+        .then(resp => {
+          actionItem.id = resp.data.id;
+          this.setState(prevState => ({
+            templateActionItems: [actionItem, ...prevState.templateActionItems],
+          }));
+        })
+        .catch(error => {
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'ActionItemCreationPage');
+            scope.setExtra('action', 'apiPost (createActionItem)');
+            scope.setExtra('template', JSON.stringify(actionItem));
+          });
+          Sentry.captureException(error);
+        });
+    }
+
     this.setState(prevState => ({
       selectedActionItems: [actionItem, ...prevState.selectedActionItems],
       actionItemTitle: '',
@@ -247,7 +259,9 @@ class ActionItemCreationPage extends React.Component {
         rightComponent = (
           <ActionItemCreationContainer
             templates={this.state.templateActionItems}
-            selectedActionItems={new Set(this.state.selectedActionItems)}
+            selectedActionItemIds={
+              new Set(this.state.selectedActionItems.map(item => item.id))
+            }
             title={this.state.actionItemTitle}
             setTitle={this.handleChange('actionItemTitle')}
             description={this.state.actionItemDescription}
