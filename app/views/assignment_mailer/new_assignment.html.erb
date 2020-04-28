@@ -4,12 +4,16 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Hello, <%= @assignment.assigned_to.full_name %></h1>
+    <p>Hello, <%= @assignment.assigned_to.full_name %></p>
     <p>
-      You have been assigned a new action item by <%= @assignment.assigned_by.full_name %>.<br>
+      You have been assigned a new action item by <%= @assignment.assigned_by.full_name %>.
+      A summary of your action item can be found below.<br>
     </p>
+    <h2>Assignment: <%= @action_item.title %></h2>
+    <p>Due Date: <%= @due_date %></p>
+    <p><%= @action_item.description %></p>
     <p>
-      To view your action item, log in using this <%= link_to 'link', @assignment %>.
+      To view your action item, sign into your Unloop account <%= link_to 'here', @assignment %>.
     </p>
     <p>Best,<br>
     Unloop</p>
