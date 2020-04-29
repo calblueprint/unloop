@@ -168,7 +168,7 @@ class ActionItemForm extends React.Component {
             open={this.state.open}
             onClose={this.handleClose}
             aria-labelledby="form-dialog-title"
-            maxWidth="xl"
+            maxWidth="sm"
             fullWidth
           >
             <DialogContent maxwidth="sm">
