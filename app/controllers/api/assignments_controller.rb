@@ -4,11 +4,20 @@ class Api::AssignmentsController < ApplicationController
     respond_to :json
 
     def create
+        authorize Assignment
+
         created_assignments = []
         created_action_items = []
         assigned_to_ids = bulk_assignment_params.fetch(:assigned_to_ids, [])
-        bulk_assignment_params.fetch(:assignments, []).each do |action_item|
-            action_item = authorize ActionItem.new(action_item.except(:due_date))
+        action_items = bulk_assignment_params.fetch(:assignments, [])
+
+        if action_items.empty? || assigned_to_ids.empty?
+            render json: { error: 'Action items and Participants must be populated'}, status: :unprocessable_entity
+            return
+        end
+
+        action_items.each do |action_item|
+            action_item = ActionItem.new(action_item.except(:due_date)) 
             template_sentry_helper(action_item)
             action_item[:is_template] = false
             if !assigned_to_ids.empty? && action_item.save
@@ -16,7 +25,7 @@ class Api::AssignmentsController < ApplicationController
                 prepare_bulk_assignment(assigned_to_ids, action_item).each do |assignment|
                     assignment_sentry_helper(assignment)  
                     if assignment.save
-                        AssignmentMailer.with(assignment: assignment).new_assignment.deliver_now
+                        AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
                         created_assignments.append(assignment)
                     else 
                         action_item.destroy
@@ -124,7 +133,7 @@ class Api::AssignmentsController < ApplicationController
     private
     
     def set_template
-        @template = ActionItem.find(params[:id])
+        @template = authorize ActionItem.find(params[:id])
         template_sentry_helper(@template)
     rescue ActiveRecord::RecordNotFound => exception
         Raven.extra_context(action_item_id: params[:id])
@@ -149,7 +158,7 @@ class Api::AssignmentsController < ApplicationController
         Raven.extra_context(assignment: assignment.attributes)
         Raven.extra_context(action_item: assignment.action_item.attributes)
         Raven.extra_context(assigned_by: assignment.assigned_by.user.attributes)
-        Raven.extra_context(assigned_to: assignment.assigned_to.user.attributes)
+        Raven.extra_context(assigned_to: assignment.assigned_to.attributes)
     end
           
     def prepare_bulk_assignment(assigned_to_ids, action_item)

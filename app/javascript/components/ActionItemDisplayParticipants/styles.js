@@ -1,6 +1,4 @@
-import theme from '../../utils/theme';
-
-export const styles = () => ({
+export const styles = theme => ({
   participant: {
     marginTop: '12px',
     height: '30px',
@@ -20,23 +18,23 @@ export const styles = () => ({
 
   boundaryBox: {
     borderColor: theme.palette.common.white,
+    backgroundColor: '#FFFFFF',
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
     borderRadius: '10px',
     border: 1,
-    width: '100%',
-    height: '80%',
-    marginTop: '7px',
-    marginBottom: '15px',
-    paddingLeft: '30px',
-    paddingTop: '20px',
+    width: '400px',
+    minHeight: '470px',
+    paddingTop: '30px',
+    paddingLeft: '20px',
     paddingRight: '20px',
+    paddingBottom: '10px',
   },
 
   displayScroll: {
-    marginTop: '35px',
+    minHeight: '220px',
+    height: '65vh',
     overflowY: 'scroll',
     left: 0,
-    height: '65vh',
     top: 0,
     direction: 'rtl',
   },

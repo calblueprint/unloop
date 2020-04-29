@@ -10,7 +10,7 @@ const styles = theme => ({
   },
 
   background: {
-    background: theme.palette.common.black,
+    background: theme.palette.common.darkestBlue,
     margin: -10,
     padding: -10,
   },
@@ -22,7 +22,7 @@ const styles = theme => ({
   },
 
   loginContainer: {
-    background: theme.palette.common.black,
+    background: theme.palette.common.darkestBlue,
     margin: 0,
     display: 'flex',
     alignContent: 'center',

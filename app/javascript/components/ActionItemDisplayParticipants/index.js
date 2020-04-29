@@ -1,10 +1,9 @@
 import React from 'react';
-import { Box, Divider } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import ActionItemParticipant from '../ActionItemParticipant';
 import styles from './styles';
-import theme from '../../utils/theme';
 
 function ActionItemDisplayParticipants({ classes, selectedParticipants }) {
   // Julian importing the cards
@@ -20,13 +19,6 @@ function ActionItemDisplayParticipants({ classes, selectedParticipants }) {
 
   return (
     <div className={classes.displayParticipant}>
-      {/* Students top bar */}
-      <div style={{ color: theme.palette.common.indigo }}>
-        Students
-        <Box className={classes.boxProps} />
-        <Divider />
-      </div>
-
       <Box className={classes.boundaryBox}>
         <div className={classes.displayScroll}>
           {/* List students out */}

@@ -1,4 +1,5 @@
-<%= react_component('ParticipantShowPage', {
+<%= react_component('Main', {
+  content: 'ParticipantShowPage',
   participant: @participant,
   user_type: current_user.user_type,
   is_admin: current_user.admin?,
@@ -8,5 +9,6 @@
   paperworks: @paperworks.all,
   case_notes: @case_notes.all,
   personal_questionnaire: @personal_questionnaire,
-  professional_questionnaire: @professional_questionnaire
+  professional_questionnaire: @professional_questionnaire,
+  studio_assessments: @studio_assessments.all
 }) %>

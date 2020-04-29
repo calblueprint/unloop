@@ -6,11 +6,9 @@ class PagesController < ApplicationController
               @participants = Participant.all
               @participants_list = []
               @participants.each do |p|
-              
                 if p.personal_questionnaire.nil?
                     PersonalQuestionnaire.create("participant_id": p.id)
                 end
-
               d = {"name" => p.full_name, 
                     "status" => p.status, 
                     "id" => p.id, 
@@ -27,7 +25,7 @@ class PagesController < ApplicationController
               @participant = @user.participant
               @paperworks = @user.participant.paperworks
               @case_notes = @user.participant.case_notes.where(visible: true)
-
+              
               if @participant.personal_questionnaire.nil?
                 @personal_questionnaire = PersonalQuestionnaire.create("participant_id": @participant.id)
               else
@@ -39,6 +37,8 @@ class PagesController < ApplicationController
               else
                 @professional_questionnaire = @participant.professional_questionnaire
               end
+
+              @studio_assessments = @participant.studio_assessments
 
               authorize Participant
               dashboard_participants_path

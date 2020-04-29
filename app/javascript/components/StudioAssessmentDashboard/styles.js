@@ -1,11 +1,54 @@
-const backgroundBlue = '#d2dce1';
-const white = '#fff';
+import { fade } from '@material-ui/core/styles';
 
-const styles = () => ({
+const styles = theme => ({
+  title: {
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
   dashboard: {
     height: '100%',
     width: '100%',
     fontStyle: 'normal',
+    backgroundColor: '#ffffff',
 
     '& thead': {
       '& th': {
@@ -34,13 +77,6 @@ const styles = () => ({
       fontFamily: 'Roboto, sans-serif',
       fontStyle: 'normal',
     },
-    html: {
-      margin: 0,
-      maxWidth: 100,
-      cursor: 'default',
-      fontFamily: 'Roboto, sans-serif',
-      fontStyle: 'normal',
-    },
     table: {
       width: '100%',
       borderCollapse: 'collapse',
@@ -58,6 +94,9 @@ const styles = () => ({
         '& tr:hover': {
           backgroundColor: '#f5f5f5',
         },
+        '& td#selected': {
+          backgroundColor: '#00a0ac',
+        },
       },
 
       '& td': {
@@ -72,20 +111,14 @@ const styles = () => ({
   tableContainer: {
     height: '100%',
     minHeight: '100vh',
-    backgroundColor: backgroundBlue,
+    backgroundColor: theme.palette.common.backgroundBlue,
     padding: '20px 42px',
     '& > div': {
-      backgroundColor: white,
+      backgroundColor: theme.palette.common.white,
       boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
-      borderRadius: 20,
+      borderRadius: 18,
       padding: 30,
     },
-  },
-  content: {
-    position: 'absolute',
-    left: '8%',
-    width: 'calc(92%)',
-    display: 'inline-block',
   },
   searchBar: {
     height: 40,
