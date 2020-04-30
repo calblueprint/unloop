@@ -97,9 +97,6 @@ function CaseNoteCard({
             <Grid item xs={8}></Grid>
             <Grid item xs={4}>
               <CaseNoteCardModal description={description} title={title} />
-              {/* <ActionItemModal
-              description ={this.state.description}
-              title = {this.state.title} */}
             </Grid>
           </Grid>
         </Paper>

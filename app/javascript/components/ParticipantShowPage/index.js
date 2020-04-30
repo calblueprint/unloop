@@ -11,9 +11,6 @@ import QuestionnaireModal from 'components/QuestionnaireModal';
 import PaperworkList from 'components/PaperworkList';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import { Grid, Typography, Avatar } from '@material-ui/core';
-import ActionItemCard from 'components/ActionItemCard';
-import ActionItemModal from 'components/ActionItemModal';
-import ActionItemForm from 'components/ActionItemForm';
 import StudioAssessmentList from 'components/StudioAssessmentList';
 import styles from './styles';
 
@@ -103,8 +100,6 @@ class ParticipantShowPage extends React.Component {
                 />
               </Grid>
             </Grid>
-            <ActionItemModal/>
-            <ActionItemCard/>
             <Grid item>
               <PaperworkList
                 initialPaperworks={paperworks}
