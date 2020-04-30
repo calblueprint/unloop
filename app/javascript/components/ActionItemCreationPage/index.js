@@ -71,7 +71,7 @@ class ActionItemCreationPage extends React.Component {
     );
     const body = {
       assignments: this.state.selectedActionItems,
-      assigned_to_ids: participantIds,
+      participant_ids: participantIds,
     };
     apiPost('/api/assignments', body)
       .then(() => this.setState({ submissionModal: true, submitFailed: false }))

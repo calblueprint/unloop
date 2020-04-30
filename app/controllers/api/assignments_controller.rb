@@ -8,10 +8,10 @@ class Api::AssignmentsController < ApplicationController
 
         created_assignments = []
         created_action_items = []
-        assigned_to_ids = bulk_assignment_params.fetch(:assigned_to_ids, [])
+        participant_ids = bulk_assignment_params.fetch(:participant_ids, [])
         action_items = bulk_assignment_params.fetch(:assignments, [])
 
-        if action_items.empty? || assigned_to_ids.empty?
+        if action_items.empty? || participant_ids.empty?
             render json: { error: 'Action items and Participants must be populated'}, status: :unprocessable_entity
             return
         end
