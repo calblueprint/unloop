@@ -19,32 +19,14 @@ class ActionItemForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      description: this.props.description,
-      type: this.props.type,
-      title: this.props.title,
-      open: false,
-      dueDate: this.props.dueDate,
-      category: this.props.category,
+      title: this.props.type === 'create' ? '' : this.props.title,
+      description: this.props.type === 'create' ? '' : this.props.description,
+      categorySelected:
+        this.props.type === 'create' ? '' : this.props.categorySelected,
+      dueDate: this.props.type === 'create' ? '' : this.props.dueDate,
+      addToTemplates: false,
+      failedSubmit: false,
     };
-    this.handleClose = this.handleClose.bind(this);
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleOpen() {
-    this.setState({ open: true });
-  }
-
-  handleClose() {
-    this.setState({
-      open: false,
-      title: this.props.title,
-    });
-    if (this.state.type === 'edit') {
-      this.state.title = this.props.title;
-      this.state.description = this.props.description;
-    }
   }
 
   handleChange = name => event => {
@@ -52,45 +34,42 @@ class ActionItemForm extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleCategoryChange = name => () => {
-    this.setState({ category: name });
-  };
+  handleSubmit = () => {
+    const { participantId, actionItemId } = this.props;
+    const {
+      title,
+      description,
+      categorySelected,
+      dueDate,
+      addToTemplates,
+    } = this.state;
 
-  handleSubmit() {
-    const { type } = this.state;
-    let hasErrors = false;
-    Object.keys(this.state.errors).forEach(field => {
-      this.checkErrors(field)();
-      hasErrors = hasErrors || this.state.errors[field] !== '';
-    });
-    if (!hasErrors) {
-      if (type === 'create') {
-        this.props.addCard(
-          this.state.title,
-          this.state.description,
-          this.state.dueDate,
-          this.state.category,
-        );
-      }
+    if (title && description && categorySelected) {
+      this.props.handleSubmit(
+        title,
+        description,
+        categorySelected,
+        dueDate,
+        addToTemplates,
+        participantId,
+        actionItemId,
+      );
+      this.props.handleClose();
+    } else {
+      this.setState({ failedSubmit: true });
     }
-  }
-
-  button = () => {
-    const ret = (
-      <Button
-        className="primary-button"
-        variant="contained"
-        color="secondary"
-        onClick={this.handleOpen}
-      >
-        NEW ACTIONITEM +
-      </Button>
-    );
-    return ret;
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, open } = this.props;
+    const {
+      failedSubmit,
+      title,
+      description,
+      categorySelected,
+      addToTemplates,
+    } = this.state;
+
     const categories = [
       'Finances',
       'Project',
@@ -100,123 +79,149 @@ class ActionItemForm extends React.Component {
       'Health',
       'Education',
     ];
-    const categoryList = categories.map(category => (
-      <Grid item direction="row" justify="flex-start" alignItems="center">
-        <Fab
-          className={classes.iconStyle}
-          component="span"
-          variant="extended"
-          size="medium"
-          aria-label="category"
+    const categoryList = categories.map(category => {
+      const isSelectedCategory =
+        categorySelected && categorySelected === category;
+      return (
+        <Grid item key={category}>
+          <Fab
+            className={classes.iconStyle}
+            style={{
+              backgroundColor: isSelectedCategory
+                ? theme.palette.primary.main
+                : theme.palette.common.lighterBlue,
+            }}
+            onClick={() => {
+              const newCategoryValue =
+                categorySelected !== category
+                  ? { target: { value: category } }
+                  : { target: { value: null } };
+              this.handleChange('categorySelected')(newCategoryValue);
+            }}
+            component="span"
+            variant="extended"
+            size="medium"
+            aria-label="category"
+          >
+            <Typography
+              className={classes.categoryButtonStyle}
+              style={{
+                color: isSelectedCategory
+                  ? theme.palette.common.lighterBlue
+                  : theme.palette.primary.main,
+              }}
+              align="center"
+            >
+              {category.toUpperCase()}
+            </Typography>
+          </Fab>
+        </Grid>
+      );
+    });
+
+    return (
+      <ThemeProvider theme={theme}>
+        <Dialog
+          classes={{ paper: classes.dialogPaperStyle }}
+          open={open}
+          onClose={this.props.handleClose}
+          aria-labelledby="action-item-modal"
         >
-          <Typography
-            className={classes.categoryButtonStyle}
-            color="primary"
-            align="center"
-          >
-            {category.toUpperCase()}
-          </Typography>
-        </Fab>
-      </Grid>
-    ));
-    let description =
-      this.state.type === 'create' ? 'description' : 'newDescription';
-    if (this.state.type === 'create') {
-      description = 'description';
-    } else if (this.state.type === 'edit') {
-      description = 'newDescription';
-    }
-    let dialog;
-    if (this.state.type === 'create' || this.state.type === 'edit') {
-      dialog = (
-        <ThemeProvider theme={theme}>
-          <Dialog
-            classes={{ paper: classes.dialogPaperStyle }}
-            open={this.state.open}
-            onClose={this.handleClose}
-            aria-labelledby="action-item-modal"
-          >
-            <DialogContent className={classes.dialogContentStyle}>
-              <Grid
-                item
-                container
-                direction="column"
-                justify="center"
-                spacing={1}
-              >
-                <Grid item>
-                  <DialogContentText className={classes.dialogContentTextStyle}>
-                    Assign Category
-                  </DialogContentText>
-                </Grid>
-                <Grid item container direction="row" justify="center">
-                  {categoryList.slice(0, 4)}
-                </Grid>
-                <Grid container item justify="center">
-                  {categoryList.slice(4)}
-                </Grid>
+          <DialogContent className={classes.dialogContentStyle}>
+            <Grid
+              item
+              container
+              direction="column"
+              justify="center"
+              spacing={1}
+            >
+              <Grid item>
+                <DialogContentText
+                  className={classes.dialogContentTextStyle}
+                  style={{
+                    color: failedSubmit && !categorySelected ? 'red' : 'black',
+                  }}
+                >
+                  Assign Category
+                </DialogContentText>
               </Grid>
-            </DialogContent>
-            <DialogContent className={classes.dialogContentStyle}>
-              <DialogContentText className={classes.dialogContentTextStyle}>
-                Title
-              </DialogContentText>
-              <TextField
-                value={this.state.title}
-                className={classes.dialogContentTextFieldStyle}
-                name="title"
-                onChange={this.handleChange('title')}
-                variant="outlined"
-                margin="dense"
-                id="title"
-                label="Assignment title"
-                type="text"
-                fullWidth
-              />
-            </DialogContent>
-            <DialogContent className={classes.dialogContentStyle}>
-              <DialogContentText className={classes.dialogContentTextStyle}>
-                Description
-              </DialogContentText>
-              <TextField
-                value={this.state.description}
-                className={classes.dialogContentTextFieldStyle}
-                name="description"
-                onChange={this.handleChange('description')}
-                variant="outlined"
-                margin="dense"
-                id="description"
-                label="Assignment description"
-                type="text"
-                fullWidth
-                multiline
-                rows={4}
-              />
-            </DialogContent>
-            <DialogContent className={classes.dialogContentStyle}>
-              <DialogContentText className={classes.dialogContentTextStyle}>
-                Due Date
-              </DialogContentText>
-              <TextField
-                value={this.state.dueDate || ''}
-                className={classes.dialogContentTextFieldStyle}
-                name="Due Date"
-                onChange={this.handleChange('dueDate')}
-                variant="outlined"
-                margin="dense"
-                id="Due Date"
-                type="date"
-                fullWidth
-              />
-            </DialogContent>
-            <DialogActions disableSpacing>
-              <Grid container justify="space-between" alignItems="center">
+              <Grid item container direction="row" justify="center">
+                {categoryList.slice(0, 4)}
+              </Grid>
+              <Grid container item justify="center">
+                {categoryList.slice(4)}
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <DialogContent className={classes.dialogContentStyle}>
+            <DialogContentText
+              className={classes.dialogContentTextStyle}
+              style={{ color: failedSubmit && !title ? 'red' : 'black' }}
+            >
+              Title
+            </DialogContentText>
+            <TextField
+              value={this.state.title}
+              className={classes.dialogContentTextFieldStyle}
+              name="title"
+              onChange={this.handleChange('title')}
+              variant="outlined"
+              margin="dense"
+              id="title"
+              label="Assignment title"
+              type="text"
+              fullWidth
+            />
+          </DialogContent>
+          <DialogContent className={classes.dialogContentStyle}>
+            <DialogContentText
+              className={classes.dialogContentTextStyle}
+              style={{ color: failedSubmit && !description ? 'red' : 'black' }}
+            >
+              Description
+            </DialogContentText>
+            <TextField
+              value={this.state.description}
+              className={classes.dialogContentTextFieldStyle}
+              name="description"
+              onChange={this.handleChange('description')}
+              variant="outlined"
+              margin="dense"
+              id="description"
+              label="Assignment description"
+              type="text"
+              fullWidth
+              multiline
+              rows={4}
+            />
+          </DialogContent>
+          <DialogContent className={classes.dialogContentStyle}>
+            <DialogContentText className={classes.dialogContentTextStyle}>
+              Due Date
+            </DialogContentText>
+            <TextField
+              value={this.state.dueDate || ''}
+              className={classes.dialogContentTextFieldStyle}
+              name="Due Date"
+              onChange={this.handleChange('dueDate')}
+              variant="outlined"
+              margin="dense"
+              id="Due Date"
+              type="date"
+              fullWidth
+            />
+          </DialogContent>
+          <DialogActions disableSpacing>
+            <Grid container justify="space-between" alignItems="center">
               <Grid item>
                 <Checkbox
                   color="primary"
                   className={classes.checkboxStyle}
-                  // checked={addToTemplates}
-                  // onChange={e => setAddToTemplates(e.target.checked)}
+                  checked={addToTemplates}
+                  onChange={e => {
+                    const newValue = { target: { value: e.target.checked } };
+                    this.handleChange('addToTemplates')(newValue);
+                  }}
                 />
                 <Typography
                   display="inline"
@@ -225,37 +230,23 @@ class ActionItemForm extends React.Component {
                   ADD TO COMMON ASSIGNMENTS
                 </Typography>
               </Grid>
-                <Grid item>
-                <Button
-                  onClick={() => {
-                    // if (allFieldsFilled) {
-                    //   createActionItem(addToTemplates);
-                    //   setFailedSubmit(false);
-                    // } else {
-                    //   setFailedSubmit(true);
-                    // }
-                  }}
-                >
+              <Grid item>
+                <Button onClick={this.handleSubmit}>
                   <Typography
                     display="inline"
                     size="small"
                     className={classes.checkboxTextStyle}
                   >
-                    ADD ACTION ITEM
+                    {this.props.type === 'CREATE'
+                      ? 'CREATE ACTION ITEM'
+                      : 'EDIT ACTION ITEM'}
                   </Typography>
                 </Button>
-                </Grid>
               </Grid>
-            </DialogActions>
-          </Dialog>
-        </ThemeProvider>
-      );
-    }
-    return (
-      <>
-        {this.button()}
-        {dialog}
-      </>
+            </Grid>
+          </DialogActions>
+        </Dialog>
+      </ThemeProvider>
     );
   }
 }
@@ -265,14 +256,18 @@ ActionItemForm.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   dueDate: PropTypes.string,
-  category: PropTypes.string,
-  addCard: PropTypes.func,
+  categorySelected: PropTypes.string,
+  open: PropTypes.bool.isRequired,
+  participantId: PropTypes.number,
+  actionItemId: PropTypes.number,
+  handleClose: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 ActionItemForm.defaultProps = {
   title: '',
   type: 'create',
   description: '',
   dueDate: '',
-  category: '',
+  categorySelected: '',
 };
 export default withStyles(styles)(ActionItemForm);
