@@ -4,9 +4,9 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <p>Hello, <%= @assignment.assigned_to.full_name %></p>
+    <p>Hello, <%= @assignment.participant.full_name %></p>
     <p>
-      You have been assigned a new action item by <%= @assignment.assigned_by.full_name %>.
+      You have been assigned a new action item by <%= @assignment.staff.full_name %>.
       A summary of your action item can be found below.<br>
     </p>
     <h2>Assignment: <%= @action_item.title %></h2>

@@ -2,6 +2,7 @@ class Staff < ApplicationRecord
   belongs_to :user, dependent: :destroy
   has_many :case_notes
   has_many :paperworks
+  has_many :assignments
   has_many :studio_assessments
   has_many :assignments
 
