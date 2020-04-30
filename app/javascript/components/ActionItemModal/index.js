@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import validator from 'validator';
-import MUIRichTextEditor from 'mui-rte';
 import Fab from '@material-ui/core/Fab';
 import theme from 'utils/theme';
+import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import {
   Button,
@@ -14,13 +13,8 @@ import {
   DialogContentText,
   Grid,
 } from '@material-ui/core';
-import {
-  withStyles,
-  MuiThemeProvider,
-  ThemeProvider,
-} from '@material-ui/core/styles';
-import { convertToRaw } from 'draft-js';
-import { styles, richTextTheme } from './styles';
+import { withStyles, ThemeProvider } from '@material-ui/core/styles';
+import styles from './styles';
 class ActionItemForm extends React.Component {
   constructor(props) {
     super(props);
@@ -31,14 +25,10 @@ class ActionItemForm extends React.Component {
       open: false,
       dueDate: this.props.dueDate,
       category: this.props.category,
-      errors: {
-        title: '',
-      },
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -57,30 +47,8 @@ class ActionItemForm extends React.Component {
     }
   }
 
-  checkErrors = field => () => {
-    const errorMessage = '';
-    if (field === 'title') {
-      const { title } = this.state;
-      if (
-        title === '' ||
-        validator.isEmpty(title, { ignore_whitespace: true })
-      ) {
-        // eslint-disable-next-line
-        let errorMessage = 'Title is required';
-      }
-    }
-    this.setState(prevState => ({
-      errors: { ...prevState.errors, [field]: errorMessage },
-    }));
-  };
-
   handleChange = name => event => {
     const { value } = event.target;
-    this.setState({ [name]: value });
-  };
-
-  handleDescriptionChange = name => state => {
-    const value = JSON.stringify(convertToRaw(state.getCurrentContent()));
     this.setState({ [name]: value });
   };
 
@@ -132,7 +100,6 @@ class ActionItemForm extends React.Component {
       'Health',
       'Education',
     ];
-    console.log(classes);
     const categoryList = categories.map(category => (
       <Grid item direction="row" justify="flex-start" alignItems="center">
         <Fab
@@ -164,115 +131,121 @@ class ActionItemForm extends React.Component {
       dialog = (
         <ThemeProvider theme={theme}>
           <Dialog
-            styles={styles.dialogStyle}
+            classes={{ paper: classes.dialogPaperStyle }}
             open={this.state.open}
             onClose={this.handleClose}
-            aria-labelledby="form-dialog-title"
-            maxWidth="sm"
-            fullWidth
+            aria-labelledby="action-item-modal"
           >
-            <DialogContent maxwidth="sm">
-              <DialogContentText>Assign Category</DialogContentText>
+            <DialogContent className={classes.dialogContentStyle}>
               <Grid
                 item
-                xs
                 container
-                direction="row"
-                justify="flex-start"
-                alignItems="flex-start"
+                direction="column"
+                justify="center"
+                spacing={1}
               >
-                <Grid item container direction="column" spacing={2}>
-                  <Grid item>SEARCH BY CATEGORY</Grid>
-                  <Grid item container direction="row" justify="space-evenly">
-                    {categoryList.slice(0, 4)}
-                  </Grid>
-                  <Grid container item justify="center" spacing={2}>
-                    {categoryList.slice(4)}
-                  </Grid>
+                <Grid item>
+                  <DialogContentText className={classes.dialogContentTextStyle}>
+                    Assign Category
+                  </DialogContentText>
+                </Grid>
+                <Grid item container direction="row" justify="center">
+                  {categoryList.slice(0, 4)}
+                </Grid>
+                <Grid container item justify="center">
+                  {categoryList.slice(4)}
                 </Grid>
               </Grid>
             </DialogContent>
-            <DialogContent maxwidth="sm">
-              <DialogContentText>Title</DialogContentText>
+            <DialogContent className={classes.dialogContentStyle}>
+              <DialogContentText className={classes.dialogContentTextStyle}>
+                Title
+              </DialogContentText>
               <TextField
                 value={this.state.title}
-                style={styles.dialogContentTextFieldStyle}
+                className={classes.dialogContentTextFieldStyle}
                 name="title"
                 onChange={this.handleChange('title')}
-                onBlur={this.checkErrors('title')}
                 variant="outlined"
                 margin="dense"
                 id="title"
                 label="Assignment title"
                 type="text"
                 fullWidth
-                error={this.state.errors.title !== ''}
-                helperText={this.state.errors.title}
               />
             </DialogContent>
-            <br />
-            <DialogContent maxwidth="sm">
-              <DialogContentText style={styles.dialogContentTextStyle}>
+            <DialogContent className={classes.dialogContentStyle}>
+              <DialogContentText className={classes.dialogContentTextStyle}>
                 Description
               </DialogContentText>
-              <MuiThemeProvider theme={richTextTheme}>
-                <MUIRichTextEditor
-                  name="description"
-                  value={
-                    this.state.type === 'create'
-                      ? this.state.description.text
-                      : this.state.description
-                  }
-                  onChange={this.handleDescriptionChange(description)}
-                  variant="outlined"
-                  label="Action Item description"
-                  style={styles.MUIRichTextEditorStyle}
-                  controls={[
-                    'bold',
-                    'italic',
-                    'underline',
-                    'numberList',
-                    'bulletList',
-                    'link',
-                  ]}
-                />
-              </MuiThemeProvider>
+              <TextField
+                value={this.state.description}
+                className={classes.dialogContentTextFieldStyle}
+                name="description"
+                onChange={this.handleChange('description')}
+                variant="outlined"
+                margin="dense"
+                id="description"
+                label="Assignment description"
+                type="text"
+                fullWidth
+                multiline
+                rows={4}
+              />
             </DialogContent>
-            <br />
-            <DialogContent maxwidth="sm">
-              <DialogContentText style={StyleSheet.dialogContentTextFieldStyle}>
+            <DialogContent className={classes.dialogContentStyle}>
+              <DialogContentText className={classes.dialogContentTextStyle}>
                 Due Date
               </DialogContentText>
               <TextField
                 value={this.state.dueDate || ''}
-                style={styles.dialogContentTextFieldStyle}
+                className={classes.dialogContentTextFieldStyle}
                 name="Due Date"
                 onChange={this.handleChange('dueDate')}
-                onBlur={this.checkErrors('Due Date')}
                 variant="outlined"
                 margin="dense"
                 id="Due Date"
-                type="text"
+                type="date"
                 fullWidth
-                error={this.state.errors.dueDate !== ''}
-                helperText={this.state.errors.dueDate}
               />
             </DialogContent>
-            <DialogActions styles={styles.dialogActionsStyle}>
-              <Button
-                onClick={this.handleClose}
-                variant="outlined"
-                color="secondary"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={this.handleSubmit}
-                variant="outlined"
-                color="primary"
-              >
-                Add Assignment
-              </Button>
+            <DialogActions disableSpacing>
+              <Grid container justify="space-between" alignItems="center">
+              <Grid item>
+                <Checkbox
+                  color="primary"
+                  className={classes.checkboxStyle}
+                  // checked={addToTemplates}
+                  // onChange={e => setAddToTemplates(e.target.checked)}
+                />
+                <Typography
+                  display="inline"
+                  className={classes.checkboxTextStyle}
+                >
+                  ADD TO COMMON ASSIGNMENTS
+                </Typography>
+              </Grid>
+                <Grid item>
+                <Button
+                  onClick={() => {
+                    // if (allFieldsFilled) {
+                    //   createActionItem(addToTemplates);
+                    //   setFailedSubmit(false);
+                    // } else {
+                    //   setFailedSubmit(true);
+                    // }
+                  }}
+                >
+                  <Typography
+                    display="inline"
+                    size="small"
+                    className={classes.checkboxTextStyle}
+                  >
+                    ADD ACTION ITEM
+                  </Typography>
+                </Button>
+                </Grid>
+              </Grid>
             </DialogActions>
           </Dialog>
         </ThemeProvider>
@@ -287,13 +260,13 @@ class ActionItemForm extends React.Component {
   }
 }
 ActionItemForm.propTypes = {
+  classes: PropTypes.object.isRequired,
   type: PropTypes.oneOf(['create', 'edit']),
   title: PropTypes.string,
   description: PropTypes.string,
   dueDate: PropTypes.string,
   category: PropTypes.string,
   addCard: PropTypes.func,
-  classes: PropTypes.object,
 };
 ActionItemForm.defaultProps = {
   title: '',

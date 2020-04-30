@@ -1,9 +1,32 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-
 const styles = theme => ({
+  overrides: {
+    MuiDialogContent: {
+      root: {
+        padding: '8px 12px',
+      },
+    },
+    MuiDialogContentText: {
+      root: {
+        marginBottom: '0px',
+      },
+    },
+    MuiDialog: {
+      paperFullWidth: {
+        minWidth: '550px',
+        width: '550px',
+      },
+    },
+  },
   buttonStyle: {
     marginLeft: 'auto',
     marginRight: '0',
+  },
+  dialogContentStyle: {
+    padding: '8px 12px',
+  },
+  dialogPaperStyle: {
+    minWidth: '550px',
+    width: '550px',
   },
   actionItemDescStyle: {
     marginLeft: '20px',
@@ -12,19 +35,14 @@ const styles = theme => ({
   dialogActionsStyle: {
     padding: '30px',
   },
-  dialogStyle: {
-    padding: '20px',
-  },
   dialogContentTextStyle: {
     color: 'black',
     marginBottom: '2px',
   },
-  yellow: {
-    backgroundColor: theme.palette.common.yellow,
-  },
   dialogContentTextFieldStyle: {
     marginTop: '2px',
     borderStyle: 'solid 4px grey',
+    backgroundColor: theme.palette.common.searchBox,
   },
   MUIRichTextEditorStyle: {
     border: '5px solid',
@@ -102,27 +120,4 @@ const styles = theme => ({
   },
 });
 
-const richTextTheme = createMuiTheme();
-Object.assign(richTextTheme, {
-  overrides: {
-    MUIRichTextEditor: {
-      root: {
-        borderLeft: 'solid 1px #C4C4C4',
-        borderRight: 'solid 1px #C4C4C4',
-        borderBottom: 'solid 1px #C4C4C4',
-        borderRadius: '4px',
-        overflow: 'auto',
-      },
-      editorContainer: {
-        padding: '20px',
-        overflow: 'auto',
-        height: '130px',
-      },
-      toolbar: {
-        backgroundColor: '#F4F4F4',
-      },
-    },
-  },
-});
-
-export { styles, richTextTheme };
+export default styles;
