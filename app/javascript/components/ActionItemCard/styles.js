@@ -1,10 +1,4 @@
 const styles = theme => ({
-  test: {
-    display: 'flex',
-  },
-  test1: {
-    display: 'flex',
-  },
   iconStyle: {
     backgroundColor: theme.palette.common.lighterBlue,
     margin: '0px 10px',
