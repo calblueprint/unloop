@@ -76,7 +76,7 @@ export const rubricItems = [
     ],
 
     [
-        '3) Knows the difference between organization of data in document stores and relational DBs. Can successfully write a basic SQL query. Has a notion of ACID principles and how that relates to transactions.',
+        'Knows the difference between organization of data in document stores and relational DBs. Can successfully write a basic SQL query. Has a notion of ACID principles and how that relates to transactions.',
         'Understands organization of data and relations between data entities in databases.',
         'Does not understand how data is organized in a database.',
     ],
