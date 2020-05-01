@@ -12,12 +12,18 @@ export const questionContent = [
     [
       'Describe the roles of Html,Javascript, and CSS in a webpage.',
       'What distinguishes a web application from a static webpage?',
-      'In a full stack web application, what is the client-side code typically responsible for? The server side code?'
+      'In a full stack web application, what is the client-side code typically responsible for? The server side code?',
+      'Name a few ways in which data can be sent to a server from a web browser.',
+      'What frameworks might be used on the client to help manage modifying the DOM?',
+      'What technologies might be used on the server to deliver web pages to the browser?'
     ],
     [
         'Explain the difference between var, let, and const?',
         'What is a closure?',
-        'How are apply, call, and bind methods on the function prototype used? Why would you use them?'
+        'What is a prototype?',
+        'How are apply, call, and bind methods on the function prototype used? Why would you use them?',
+        'In a class method, what does "this" keyword refer to? In a top-level function?',
+        'What is an anonymous function? An arrow function? What is "this" in each?'
     ],
     [
         'What is Git?',
@@ -25,18 +31,21 @@ export const questionContent = [
     ],
     [
         'What is a component?',
+        'Name two ways you might define a component?',
         'Compare component properties versus state? How is each modified?',
         'What do we mean by the lifecycle" of a component? Talk about some lifecycle methods and what they are used for.'
     ],
     [
         'What is a module?',
         'How does a module expose its public interface?',
-        'Are there different kinds of interfaces a module can expose?'
+        'Are there different kinds of interfaces a module can expose?',
+        'When/how is asynchronous code executed? (getting at the event loop)'
     ],
     [
         'Describe the difference between a relational DB and a json store such as Mongo.',
         'Describe the use of keys in both.',
-        'How are relations between tables/collections established in either?'
+        'How are relations between tables/collections established in either?',
+        'Write a SQL query to return the top 5 results from a “People” table, sorted alphabetically by name, selecting “Name”, “Dob”, and “Email” fields.'
     ],
     [
       'Write a function in pseudocode that will format a string.', 
