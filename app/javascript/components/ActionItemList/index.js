@@ -11,13 +11,14 @@ function ActionItemList({
   removeSelectedActionItem,
 }) {
   const selectedCards = selectedActionItems.map((actionItem, i) => (
-    <Grid item>
+    <Grid item key={actionItem.title + actionItem.description}>
       <ActionItemCard
         title={actionItem.title}
         description={actionItem.description}
         dueDate={actionItem.dueDate}
         lastEntry={i === selectedActionItems.length - 1}
         category={actionItem.category}
+        selected
         removeActionItem={() => removeSelectedActionItem(actionItem)}
       />
     </Grid>
