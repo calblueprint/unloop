@@ -13,9 +13,6 @@ import CaseNoteContainer from 'components/CaseNoteContainer';
 import theme from 'utils/theme';
 import Navbar from 'components/Navbar';
 import { Grid, Typography, Avatar } from '@material-ui/core';
-import ActionItemCard from 'components/ActionItemCard';
-import ActionItemModal from 'components/ActionItemModal';
-import ActionItemForm from 'components/ActionItemForm';
 import styles from './styles';
 
 class ParticipantShowPage extends React.Component {
@@ -109,8 +106,6 @@ class ParticipantShowPage extends React.Component {
                 />
               </Grid>
             </Grid>
-            <ActionItemModal/>
-            <ActionItemCard/>
           </Grid>
           <Grid item xs={5} className={classes.rightHalf}>
             <CaseNoteContainer
