@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
@@ -16,15 +17,16 @@ function ActionItemCard({
   description,
   dueDate,
   category,
+  selected,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
-  selectActionItemTemplate,
+  handleIconClick,
   removeActionItem,
 }) {
   const renderSelectIcon = () => (
-    <IconButton aria-label="add" onClick={selectActionItemTemplate}>
-      <AddIcon />
+    <IconButton aria-label="add" onClick={handleIconClick}>
+      {selected ? <CheckCircleIcon /> : <AddIcon />}
     </IconButton>
   );
 
@@ -65,9 +67,7 @@ function ActionItemCard({
               {description}
             </Typography>
           </Grid>
-          <Grid item>
-            {selectActionItemTemplate ? renderSelectIcon() : null}
-          </Grid>
+          <Grid item>{handleIconClick ? renderSelectIcon() : null}</Grid>
         </Grid>
         <Grid item container justify="space-between" alignItems="center">
           <Grid item>
@@ -109,8 +109,9 @@ ActionItemCard.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
+  selected: PropTypes.bool.isRequired,
   dueDate: PropTypes.string,
-  selectActionItemTemplate: PropTypes.func,
+  handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,
   lastEntry: PropTypes.bool,
 };
