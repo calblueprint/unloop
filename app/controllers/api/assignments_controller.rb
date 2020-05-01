@@ -17,12 +17,13 @@ class Api::AssignmentsController < ApplicationController
         end
 
         action_items.each do |action_item|
+            due_date = action_item[:due_date] ? DateTime.parse(action_item[:due_date]) : nil
             action_item = ActionItem.new(action_item.except(:due_date)) 
             template_sentry_helper(action_item)
             action_item[:is_template] = false
             if !participant_ids.empty? && action_item.save
                 created_action_items.append(action_item)
-                prepare_bulk_assignment(participant_ids, action_item).each do |assignment|
+                prepare_bulk_assignment(participant_ids, action_item, due_date).each do |assignment|
                     assignment_sentry_helper(assignment)  
                     if assignment.save
                         AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
@@ -161,12 +162,12 @@ class Api::AssignmentsController < ApplicationController
         Raven.extra_context(participant: assignment.participant.user.attributes)
     end
           
-    def prepare_bulk_assignment(participant_ids, action_item)
+    def prepare_bulk_assignment(participant_ids, action_item, due_date)
         bulk_assignment_params = []
         single_assignment_params = {
                                     action_item_id: action_item.id,
                                     staff_id: current_user.staff.id,
-                                    due_date: action_item[:due_date],
+                                    due_date: due_date,
                                     completed: false,
                                    }
         participant_ids.each do |id|
