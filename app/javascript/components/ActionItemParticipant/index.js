@@ -46,7 +46,7 @@ function ActionItemParticipant({
           <Box
             className={classes.participantBar}
             style={{
-              backgroundColor: theme.palette.darkerButton[participant.status],
+              backgroundColor: theme.palette.common[participant.status],
             }}
           />
           {participant.name}

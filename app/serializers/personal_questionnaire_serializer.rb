@@ -1,6 +1,6 @@
 class PersonalQuestionnaireSerializer < ActiveModel::Serializer
   attributes :id,
-  :doc_status,
+  :DOC_status,
   :housing,
   :mental_health,
   :medical,
@@ -8,7 +8,7 @@ class PersonalQuestionnaireSerializer < ActiveModel::Serializer
   :clothing,
   :significant_relationships,
   :support_systems,
-  :doc_regulations,
+  :DOC_regulations,
   :treatment,
   :triggers_and_prevention,
   :personal_needs,

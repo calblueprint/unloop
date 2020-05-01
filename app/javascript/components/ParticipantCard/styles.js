@@ -30,9 +30,11 @@ const styles = theme => ({
           return theme.palette.common.r1;
         case 'R2':
           return theme.palette.common.r2;
+        case 'Studio':
+          return theme.palette.common.studio;
         default:
           console.error('Participant has no status');
-          return theme.palette.common.black;
+          return theme.palette.common.darkestBlue;
       }
     },
   },

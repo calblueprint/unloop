@@ -57,7 +57,10 @@ function QuestionnaireModal({
         classes={{ paper: classes.dialog }}
       >
         <Grid container direction="row" className={classes.title}>
-          <Typography variant="h4">{qType} INFORMATION</Typography>   
+          <Typography variant="h4" className={classes.titleText}>
+            {qType} INFORMATION
+          </Typography>
+             
         </Grid>
         {content}
       </Dialog>

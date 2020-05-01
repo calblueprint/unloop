@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { withStyles } from '@material-ui/core/styles';
+import styles from './styles';
 
 class StudioAssessmentCard extends React.Component {
   constructor(props) {
@@ -9,19 +10,22 @@ class StudioAssessmentCard extends React.Component {
   }
 
   showParticipant() {
-    const pId = this.props.assessment.participant_id;
+    const pId = this.props.assessment.participantId;
     window.location.assign(`participants/${String(pId)}`);
   }
 
   render() {
-    const assessment = this.props.assessment;
-    const bigPic = assessment.bigpicture_score;
-    const  prog = assessment.progfundamentals_score;
-    const  vc = assessment.versioncontrol_score;
-    const  react = assessment.react_score;
-    const  node = assessment.node_score;
-    const  db = assessment.db_score;
-
+    const { assessment } = this.props;
+    const bigPic = assessment.bigpictureScore;
+    const prog = assessment.progfundamentalsScore;
+    const vc = assessment.versioncontrolScore;
+    const react = assessment.reactScore;
+    const node = assessment.nodeScore;
+    const db = assessment.dbScore;
+    const probSolve = assessment.problemsolvingScore;
+    const probSolveAlt = assessment.problemsolvingaltScore;
+    const { classes } = this.props;
+    const currCategory = this.props.selectedCat;
     return (
       <tr>
         <td
@@ -30,26 +34,53 @@ class StudioAssessmentCard extends React.Component {
           onClick={this.showParticipant}
           onKeyDown={this.showParticipant}
         >
-          {assessment.participant_id}
+          {this.props.assessment.name}
         </td>
-        <td>
-            {bigPic}
+        <td
+          className={
+            currCategory === 'bigpictureScore' ? classes.selected : null
+          }
+        >
+          {bigPic}
         </td>
-        <td>
-            {prog}
+        <td
+          className={
+            currCategory === 'progfundamentalsScore' ? classes.selected : null
+          }
+        >
+          {prog}
         </td>
-        <td>
-            {vc}
+        <td
+          className={
+            currCategory === 'versioncontrolScore' ? classes.selected : null
+          }
+        >
+          {vc}
         </td>
-        <td>
-           {react}
+        <td className={currCategory === 'reactScore' ? classes.selected : null}>
+          {react}
         </td>
-        <td>
-            {node}
+        <td className={currCategory === 'nodeScore' ? classes.selected : null}>
+          {node}
         </td>
-        <td>
-            {db}
+        <td className={currCategory === 'dbScore' ? classes.selected : null}>
+          {db}
         </td>
+        <td
+          className={
+            currCategory === 'problemsolvingScore' ? classes.selected : null
+          }
+        >
+          {probSolve}
+        </td>
+        <td
+          className={
+            currCategory === 'problemsolvingaltScore' ? classes.selected : null
+          }
+        >
+          {probSolveAlt}
+        </td>
+        <td>{this.props.assessment.updatedDate}</td>
       </tr>
     );
   }
@@ -57,6 +88,8 @@ class StudioAssessmentCard extends React.Component {
 
 StudioAssessmentCard.propTypes = {
   assessment: PropTypes.object,
+  classes: PropTypes.object.isRequired,
+  selectedCat: PropTypes.string,
 };
 
-export default StudioAssessmentCard ;
+export default withStyles(styles)(StudioAssessmentCard);

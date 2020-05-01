@@ -1,12 +1,12 @@
 import React from 'react';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
-import { withStyles, ThemeProvider } from '@material-ui/core/styles';
-import theme from 'utils/theme';
-import ParticipantCard from 'components/ParticipantCard';
-import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import EnhancedTable from 'components/EnhancedTable';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 import styles from './styles';
 
 const TrieSearch = require('trie-search');
@@ -30,7 +30,7 @@ class StaffDashboard extends React.Component {
   }
 
   handleChange(e) {
-    const searchVal = e.target.value;
+    const searchVal = e.target.value.trim();
     if (searchVal === '') {
       this.setState({
         participants: this.props.participants,
@@ -45,49 +45,73 @@ class StaffDashboard extends React.Component {
 
   render() {
     const { classes } = this.props;
-    let participantsList = this.state.participants.map(p => (
-      <ParticipantCard key={p.id} participant={p}></ParticipantCard>
-    ));
-
-    if (this.state.participants.length === 0) {
-      participantsList = <p>There are no participants to show.</p>;
-    }
+    const headCells = [
+      {
+        id: 'name',
+        disablePadding: false,
+        label: 'Participant',
+        sortable: true,
+      },
+      {
+        id: 'status',
+        numeric: true,
+        disablePadding: false,
+        label: 'Status',
+        sortable: true,
+      },
+      {
+        id: 'paperworksCompleted',
+        disablePadding: false,
+        label: 'Paperwork',
+        sortable: true,
+      },
+      {
+        id: 'caseNotesCount',
+        disablePadding: false,
+        label: 'Casenotes',
+        sortable: true,
+      },
+      {
+        id: 'form_status',
+        disablePadding: false,
+        label: 'Form Status',
+        sortable: false,
+      },
+      {
+        id: 'next_arrow',
+        label: ' ',
+        sortable: false,
+      },
+    ];
 
     return (
-      <ThemeProvider theme={theme}>
-        <div className={classes.dashboard}>
-          <Navbar isAdmin={this.props.isAdmin} />
-          <div className={classes.content}>
-            <h1>Participant Dashboard</h1>
-            <div className={classes.tableContainer}>
-              <div>
-                <div className={classes.searchBar}>
-                  <InputBase
-                    placeholder="filter participants"
-                    onChange={this.handleChange}
-                  />
-                  <IconButton type="submit" aria-label="search">
-                    <SearchIcon />
-                  </IconButton>
-                </div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>PARTICIPANT</th>
-                      <th>STATUS</th>
-                      <th>PAPERWORK</th>
-                      <th>CASE NOTES</th>
-                      <th>FORM STATUS</th>
-                      <th> </th>
-                    </tr>
-                  </thead>
-                  <tbody>{participantsList}</tbody>
-                </table>
+      <div>
+        <AppBar position="static" height="80px">
+          <Toolbar>
+            <Typography className={classes.title} variant="h6" noWrap>
+              Participant Dashboard
+            </Typography>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
               </div>
+              <InputBase
+                placeholder="Search a name..."
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={this.handleChange}
+              />
             </div>
-          </div>
-        </div>
-      </ThemeProvider>
+          </Toolbar>
+        </AppBar>
+        <EnhancedTable
+          headCells={headCells}
+          rows={this.state.participants}
+        ></EnhancedTable>
+      </div>
     );
   }
 }
@@ -95,7 +119,6 @@ class StaffDashboard extends React.Component {
 StaffDashboard.propTypes = {
   classes: PropTypes.object.isRequired,
   participants: PropTypes.array,
-  isAdmin: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(StaffDashboard);

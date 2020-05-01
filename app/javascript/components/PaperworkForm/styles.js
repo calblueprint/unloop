@@ -18,7 +18,7 @@ const styles = theme => ({
     borderBottom: `5px solid ${theme.palette.secondary.main}`,
   },
   fieldTitle: {
-    color: theme.palette.common.black,
+    color: theme.palette.common.darkestBlue,
     marginBottom: 5,
   },
   textField: {
@@ -35,7 +35,6 @@ const styles = theme => ({
     textAlign: 'center',
     backgroundColor: theme.palette.common.grey,
     marginLeft: '8%',
-    boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.25)',
     fontSize: 18,
     fontWeight: 300,
     minHeight: 32,

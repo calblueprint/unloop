@@ -6,12 +6,15 @@
 
 const styles = theme => ({
   dialog: {
-    borderRadius: 20,
+    borderRadius: theme.shape.borderRadius,
   },
   title: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     padding: '56px 114px 56px 56px',
+  },
+  titleText: {
+    fontSize: '24px',
   },
 });
 
