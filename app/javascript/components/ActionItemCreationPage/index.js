@@ -78,7 +78,7 @@ class ActionItemCreationPage extends React.Component {
     }));
 
     const body = {
-      assignments: this.state.selectedActionItems,
+      assignments,
       participant_ids: participantIds,
     };
     apiPost('/api/assignments', body)
