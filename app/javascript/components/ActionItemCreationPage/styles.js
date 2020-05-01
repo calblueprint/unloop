@@ -4,6 +4,9 @@ const styles = theme => ({
       margin: '0px',
     },
   },
+  snackbarStyle: {
+    backgroundColor: 'red',
+  },
   mainBackgroundStyle: {
     backgroundColor: theme.palette.common.lightestGrey,
     padding: '2%',
