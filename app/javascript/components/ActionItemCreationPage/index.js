@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
+import Snackbar from '@material-ui/core/Snackbar';
 import ActionItemCreationContainer from 'components/ActionItemCreationContainer';
 import ActionItemSearchParticipants from 'components/ActionItemSearchParticipants';
 import ActionItemList from 'components/ActionItemList';
@@ -451,6 +452,14 @@ class ActionItemCreationPage extends React.Component {
 
     return (
       <div>
+        <Snackbar
+          open={this.state.submitFailed}
+          autoHideDuration={3000}
+          message={"You didn't fill out everything dummy"}
+          onClose={() => {
+            this.handleChange('submitFailed')({ target: { value: false } });
+          }}
+        />
         <Dialog open={this.state.submissionModal}>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
@@ -470,7 +479,7 @@ class ActionItemCreationPage extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <Grid container style={{ height: '100vh', width: '100vw' }}>
+        <Grid container style={{ height: '100%', width: '100%' }}>
           <Grid item container xs={11} justify="center">
             <Grid
               container
