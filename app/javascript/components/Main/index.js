@@ -100,9 +100,7 @@ function Main(props) {
         return <ParticipantShowPage {...contentProps}></ParticipantShowPage>;
       case 'StudioAssessmentDashboard':
         return (
-          <StudioAssessmentDashboard
-            {...contentProps}
-          ></StudioAssessmentDashboard>
+          <StudioAssessmentDashboard {...contentProps}></StudioAssessmentDashboard>
         );
       case 'ActionItemCreationPage':
         return (

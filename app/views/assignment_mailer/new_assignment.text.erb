@@ -1,7 +1,7 @@
-Hello, <%= @assignment.assigned_to.full_name %>,
+Hello, <%= @assignment.participant.full_name %>,
 ===============================================
 
-You have been assigned a new action item by <%= @assignment.assigned_by.full_name %>. A summary of your action item can be found below.
+You have been assigned a new action item by <%= @assignment.staff.full_name %>. A summary of your action item can be found below.
 
 Assignment: <%= @action_item.title %>
 Due Date: <%= @due_date %>

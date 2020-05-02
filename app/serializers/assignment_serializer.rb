@@ -1,8 +1,8 @@
 class AssignmentSerializer < ActiveModel::Serializer
-  attributes :id, :completed, :due_date, :assigned_to, :assigned_by, :action_item
+  attributes :id, :completed, :due_date, :participant_id, :staff_id, :action_item
 
-  belongs_to :assigned_to, serializer: SimpleUserSerializer
-  belongs_to :assigned_by, serializer: SimpleStaffSerializer
+  belongs_to :participant, serializer: SimpleParticipantSerializer
+  belongs_to :staff, serializer: SimpleStaffSerializer
   belongs_to :action_item, serializer: ActionItemSerializer
 
 end
