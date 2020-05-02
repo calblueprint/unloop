@@ -113,6 +113,7 @@ class AddFromExistingForm extends React.Component {
             description={template.description}
             category={template.category}
             selected={selected}
+            renderClose={false}
             handleIconClick={
               selected
                 ? () => this.props.removeSelectedActionItem(template)
