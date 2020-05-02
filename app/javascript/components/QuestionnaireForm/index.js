@@ -36,23 +36,47 @@ class QuestionnaireForm extends React.Component {
   }
 
   handleSubmit() {
-    const qType = `${this.props.type}_questionnaire`;
-    const formData = new FormData();
+    if (this.props.type === 'professional'){
+      const qType = `${this.props.type}_questionnaire`;
+      const formData = new FormData();
+
+      Object.keys(this.state.questionnaire).forEach(f => {
+        formData.append(`${qType}[${f}]`, this.state.questionnaire[f]);
+      });
+      formData.append(`${qType}[resume]`, this.state.file);
+      formData.append(`${qType}[participant_id]`, this.props.participantId);
+
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+
+      const { id } = this.props.questionnaire;
+      const request = `/api/${qType}s/${id}`;
+
+      apiPut(request, formData)
+        .then(() => window.location.reload())
+        .catch(error => {
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'QuestionnaireForm');
+            scope.setExtra('action', 'apiPut');
+            scope.setExtra('QuestionnaireForm', body);
+            scope.setExtra('qType', qType);
+          });
+          Sentry.captureException(error);
+        });
+    } else {
+      const qType = `${this.props.type}_questionnaire`;
+    const body = {};
 
     Object.keys(this.state.questionnaire).forEach(f => {
-      formData.append(`${qType}[${f}]`, this.state.questionnaire[f]);
+      body[f] = this.state.questionnaire[f];
     });
-    formData.append(`${qType}[resume]`, this.state.file);
-    formData.append(`${qType}[participant_id]`, this.props.participantId);
-
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
+    body.participant_id = this.props.participantId;
 
     const { id } = this.props.questionnaire;
     const request = `/api/${qType}s/${id}`;
 
-    apiPut(request, formData)
+    apiPut(request, { [qType]: body })
       .then(() => window.location.reload())
       .catch(error => {
         Sentry.configureScope(function(scope) {
@@ -63,6 +87,7 @@ class QuestionnaireForm extends React.Component {
         });
         Sentry.captureException(error);
       });
+    }
   }
 
   handleTextFormChange(e) {
@@ -117,7 +142,9 @@ class QuestionnaireForm extends React.Component {
           </div>
         );
       });
+      if (this.props.type === 'professional') {
       questionnaires.push(this.getOldFileUpload());
+      }
       return <div className={styles.container}>{questionnaires}</div>;
     }
   }
