@@ -62,12 +62,12 @@ class ParticipantShowPage extends React.Component {
       assignments,
     } = this.props;
 
-    // console.log('case notes', caseNotes);
-    // console.log('paperworks', paperworks);
-    // console.log('assignments', assignments);
-    // console.log('participantId', participantId);
-    // console.log('studio assessments', studioAssessments[0]);
-    // console.log('sample action item', this.sampleActionItem);
+    console.log('case notes', caseNotes);
+    console.log('paperworks', paperworks);
+    console.log('assignments', assignments);
+    console.log('participantId', participantId);
+    console.log('studio assessments', studioAssessments[0]);
+    console.log('sample action item', this.sampleActionItem);
 
     return (
       <Grid
@@ -124,7 +124,7 @@ class ParticipantShowPage extends React.Component {
 
           <AssignmentList
             userType={userType}
-            initialAssignments={this.sampleActionItem}
+            initialAssignments={assignments}
             participantId={participantId}
             formatDate={this.formatDate}
           />
