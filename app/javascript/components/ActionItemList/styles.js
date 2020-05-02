@@ -9,7 +9,8 @@ const styles = theme => ({
     height: '475px',
     display: 'block',
     overflowY: 'scroll',
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.common.lightestGrey,
+    boxShadow: 'none',
   },
 });
 

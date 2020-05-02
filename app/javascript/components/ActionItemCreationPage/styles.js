@@ -4,13 +4,14 @@ const styles = theme => ({
     width: '100%',
     minWidth: '1000px',
     margin: '0px',
-    padding: '20px',
     backgroundColor: theme.palette.common.white,
+    overflow: 'none',
   },
   mainBackgroundStyle: {
     backgroundColor: theme.palette.common.lightestGrey,
     padding: '2%',
     minWidth: '950px',
+    borderRadius: theme.shape.borderRadius,
   },
   iconStyle: {
     backgroundColor: theme.palette.common.indigo,

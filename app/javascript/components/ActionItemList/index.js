@@ -12,18 +12,17 @@ function ActionItemList({
   removeSelectedActionItem,
 }) {
   const selectedCards = selectedActionItems.map((actionItem, i) => (
-    <Grid item key={actionItem.title + actionItem.description}>
-      <ActionItemCard
-        title={actionItem.title}
-        description={actionItem.description}
-        dueDate={actionItem.dueDate}
-        lastEntry={i === selectedActionItems.length - 1}
-        category={actionItem.category}
-        renderClose
-        selected
-        removeActionItem={() => removeSelectedActionItem(actionItem)}
-      />
-    </Grid>
+    <ActionItemCard
+      key={actionItem.title + actionItem.description}
+      title={actionItem.title}
+      description={actionItem.description}
+      dueDate={actionItem.dueDate}
+      lastEntry={i === selectedActionItems.length - 1}
+      category={actionItem.category}
+      renderClose
+      selected
+      removeActionItem={() => removeSelectedActionItem(actionItem)}
+    />
   ));
 
   return (
