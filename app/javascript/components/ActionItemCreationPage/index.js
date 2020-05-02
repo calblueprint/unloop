@@ -42,7 +42,7 @@ class ActionItemCreationPage extends React.Component {
     this.nextStep = this.nextStep.bind(this);
     this.prevStep = this.prevStep.bind(this);
     this.getMainComponents = this.getMainComponents.bind(this);
-    this.getButtonsGrid = this.getButtons.bind(this);
+    this.getButtons = this.getButtons.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.createActionItem = this.createActionItem.bind(this);
     this.selectActionItemTemplate = this.selectActionItemTemplate.bind(this);
@@ -454,7 +454,7 @@ class ActionItemCreationPage extends React.Component {
       rightComponent,
       rightComponentText,
     } = this.getMainComponents(this.state.step);
-    const buttonsGrid = this.getButtonsGrid(this.state.step);
+    const buttonsGrid = this.getButtons(this.state.step);
     const errorOccurred = this.state.submitFailed && this.state.step === 2;
 
     return (
@@ -478,71 +478,66 @@ class ActionItemCreationPage extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <Grid container className={classes.pageStyle}>
-          <Grid item container xs={11} justify="center">
-            <Grid
-              container
-              item
-              direction="column"
-              alignItems="center"
-              justify="center"
-              xs={11}
-              spacing={2}
-            >
-              <Grid container item direction="row" justify="flex-start">
-                <Grid item>
-                  <Typography className={classes.topLeftTextStyle}>
-                    Add Assignments to List
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid
-                container
-                item
-                xs={8}
-                spacing={1}
-                className={classes.mainBackgroundStyle}
-                justify="space-evenly"
-                alignItems="flex-start"
-              >
-                <Grid item>
-                  <Typography
-                    className={classes.underlineStyle}
-                    style={{
-                      color:
-                        errorOccurred &&
-                        this.state.selectedParticipants.length === 0
-                          ? 'red'
-                          : null,
-                    }}
-                  >
-                    {leftComponentText}
-                  </Typography>
-                  <hr className={classes.borderStyle}></hr>
-                  <Divider style={{ marginBottom: '10px' }} />
-                  {leftComponent}
-                </Grid>
-                <Grid item>
-                  <Typography
-                    className={classes.underlineStyle}
-                    style={{
-                      color:
-                        errorOccurred &&
-                        this.state.selectedActionItems.length === 0
-                          ? 'red'
-                          : null,
-                    }}
-                  >
-                    {rightComponentText}
-                  </Typography>
-                  <hr className={classes.borderStyle}></hr>
-                  <Divider style={{ marginBottom: '10px' }} />
-                  {rightComponent}
-                </Grid>
-              </Grid>
-              {buttonsGrid}
+        <Grid
+          container
+          item
+          className={classes.pageStyle}
+          direction="column"
+          alignItems="center"
+          justify="center"
+          spacing={3}
+        >
+          <Grid container item direction="row">
+            <Grid item>
+              <Typography className={classes.topLeftTextStyle}>
+                Add Assignments to List
+              </Typography>
             </Grid>
           </Grid>
+          <Grid
+            container
+            item
+            xs={8}
+            spacing={1}
+            className={classes.mainBackgroundStyle}
+            justify="space-evenly"
+            alignItems="flex-start"
+          >
+            <Grid item>
+              <Typography
+                className={classes.underlineStyle}
+                style={{
+                  color:
+                    errorOccurred &&
+                    this.state.selectedParticipants.length === 0
+                      ? 'red'
+                      : null,
+                }}
+              >
+                {leftComponentText}
+              </Typography>
+              <hr className={classes.borderStyle}></hr>
+              <Divider style={{ marginBottom: '10px' }} />
+              {leftComponent}
+            </Grid>
+            <Grid item>
+              <Typography
+                className={classes.underlineStyle}
+                style={{
+                  color:
+                    errorOccurred && this.state.selectedActionItems.length === 0
+                      ? 'red'
+                      : null,
+                }}
+              >
+                {rightComponentText}
+              </Typography>
+              <hr className={classes.borderStyle}></hr>
+              <Divider style={{ marginBottom: '10px' }} />
+              {rightComponent}
+            </Grid>
+          </Grid>
+          {buttonsGrid}
         </Grid>
       </div>
     );
