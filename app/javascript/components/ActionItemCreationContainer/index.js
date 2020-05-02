@@ -17,7 +17,7 @@ const Setting = {
 function ActionItemCreationContainer({
   classes,
   templates,
-  selectedActionItems,
+  selectedActionItemIds,
   title,
   setTitle,
   description,
@@ -101,7 +101,7 @@ function ActionItemCreationContainer({
           ) : (
             <AddFromExistingForm
               templates={templates}
-              selectedActionItems={selectedActionItems}
+              selectedActionItemIds={selectedActionItemIds}
               selectActionItemTemplate={selectActionItemTemplate}
               removeSelectedActionItem={removeSelectedActionItem}
               deleteTemplate={deleteTemplate}
@@ -116,7 +116,7 @@ function ActionItemCreationContainer({
 ActionItemCreationContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
-  selectedActionItems: PropTypes.instanceOf(Set).isRequired,
+  selectedActionItemIds: PropTypes.instanceOf(Set).isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   dueDate: PropTypes.string.isRequired,

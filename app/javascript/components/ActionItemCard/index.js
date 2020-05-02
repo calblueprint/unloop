@@ -3,6 +3,7 @@ import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
@@ -19,6 +20,7 @@ function ActionItemCard({
   dueDate,
   category,
   selected,
+  renderClose,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
@@ -31,6 +33,22 @@ function ActionItemCard({
     </IconButton>
   );
 
+  const renderCloseIcon = () => (
+    <IconButton aria-label="close" onClick={removeActionItem}>
+      <CloseIcon style={{ fontSize: 'medium' }} />
+    </IconButton>
+  );
+
+  const renderDeleteButton = () => (
+    <Button
+      size="small"
+      className={classes.buttonStyle}
+      onClick={removeActionItem}
+    >
+      DELETE
+    </Button>
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <Grid
@@ -40,33 +58,36 @@ function ActionItemCard({
         direction="column"
         justify="space-evenly"
       >
-        <Grid item container alignItems="center" spacing={2}>
-          <Grid item>
-            <Typography variant="subtitle1"> {title} </Typography>
-          </Grid>
-          <Grid item>
-            <Box className={classes.iconStyle}>
-            {/* <Fab
-              className={classes.iconStyle}
-              component="span"
-              variant="extended"
-              size="small"
-              aria-label="category"
-              disableRipple={true}
-              disabled={true}
-            > */}
-              <Typography
-                className={classes.categoryButtonStyle}
-                color="primary"
-                // align="center"
-              >
-                {category ? category.toUpperCase() : category}
+        <Grid
+          item
+          container
+          alignItems="center"
+          justify="space-between"
+          wrap="nowrap"
+          spacing={2}
+        >
+          <Grid item container alignItems="center" wrap="nowrap">
+            <Grid item className={classes.titleStyle}>
+              <Typography variant="subtitle1" noWrap>
+                {' '}
+                {title}{' '}
               </Typography>
-            {/* </Fab> */}
-            </Box>
+            </Grid>
+            <Grid item>
+              <div className={classes.iconStyle}>
+                <Typography
+                  className={classes.categoryButtonStyle}
+                  color="primary"
+                  align="center"
+                >
+                  {category ? category.toUpperCase() : category}
+                </Typography>
+              </div>
+            </Grid>
           </Grid>
+          <Grid item>{renderClose ? renderCloseIcon() : null}</Grid>
         </Grid>
-        <Grid item container alignItems="flex-start" spacing={6}>
+        <Grid item container alignItems="center" spacing={6}>
           <Grid item xs={9} className={classes.descriptionStyle}>
             <Typography variant="body1" style={{ fontSize: '14px' }}>
               {description}
@@ -97,15 +118,7 @@ function ActionItemCard({
                 EDIT
               </Button>
             </Grid>
-            <Grid item>
-              <Button
-                size="small"
-                className={classes.buttonStyle}
-                onClick={removeActionItem}
-              >
-                DELETE
-              </Button>
-            </Grid>
+            <Grid item>{renderClose ? null : renderDeleteButton()}</Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -119,6 +132,7 @@ ActionItemCard.propTypes = {
   description: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
+  renderClose: PropTypes.bool.isRequired,
   dueDate: PropTypes.string,
   handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,

@@ -64,10 +64,13 @@ function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
 
     // Make new ActionItemTemplate
     if (addToTemplates) {
+
       const template = {
         title,
         description,
-        categorySelected,
+        category: categorySelected,
+        dueDate,
+        is_template: addToTemplates,
       };
       apiPost('/api/assignments/templates', { assignment: template })
         .then(resp => console.log(resp))
@@ -85,15 +88,17 @@ function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
       assignments: [{
         title,
         description,
-        categorySelected,
-        dueDate,
-        is_template: addToTemplates,      
+        category: categorySelected,
+        due_date: dueDate,      
       }],
-      assignment_to_ids: [participantId],
+      participant_ids: [1],
     }
-
+    console.log(actionItemBody);
     apiPost('/api/assignments', actionItemBody)
-      .then(() => setOpen(false))
+      .then((e) => {
+        setOpen(false);
+        console.log(e);
+      })
       .catch(error => {
         Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'AssignmentList');
@@ -118,8 +123,7 @@ function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
           <h3 className={classes.headerStyle}>Assignments</h3>
         </Grid>
         <Grid item>
-          {/* Set logic to !== for rendering the button properly */}
-          {userType !== 'staff' ? (
+          {userType === 'staff' ? (
             // Make this a button to pop-up the modal to add a new assignment
             <div>
               <Button color="primary" onClick={() => setOpen(true)}>

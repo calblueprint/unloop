@@ -2,6 +2,7 @@ class ParticipantsController < ApplicationController
   before_action :set_participant, only: [:show]
 
   def show
+    # Run this method when we're a staff
     @participant = authorize Participant.find(params[:id])
     @paperworks = @participant.paperworks
     @case_notes = @participant.case_notes
@@ -23,9 +24,13 @@ class ParticipantsController < ApplicationController
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
 
     @studio_assessments = @participant.studio_assessments
+
+    # @dummy = 0 # for loop over assignments
+    
   end
 
   def dashboard
+    # Run this method when we're a participant
     redirect_to root_path
   end
 

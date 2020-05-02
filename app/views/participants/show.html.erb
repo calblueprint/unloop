@@ -1,3 +1,5 @@
+# This is viewed when you're a staff viewing a participant's page
+
 <%= react_component('Main', {
   content: 'ParticipantShowPage',
   participant: @participant,
@@ -14,4 +16,5 @@
   # just pass the studio assessments forward.
   assignments: @assignments.all,
   studio_assessments: @studio_assessments.all,
+  # dummy: @dummy,
 }) %>

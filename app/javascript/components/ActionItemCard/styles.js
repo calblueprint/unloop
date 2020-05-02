@@ -1,4 +1,8 @@
 const styles = theme => ({
+  titleStyle: {
+    maxWidth: '200px',
+    textOverflow: 'ellipsis',
+  },
   iconStyle: {
     backgroundColor: theme.palette.common.lighterBlue,
     margin: '0px 10px',
