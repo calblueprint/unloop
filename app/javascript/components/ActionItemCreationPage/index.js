@@ -48,7 +48,6 @@ class ActionItemCreationPage extends React.Component {
     this.selectActionItemTemplate = this.selectActionItemTemplate.bind(this);
     this.removeSelectedActionItem = this.removeSelectedActionItem.bind(this);
     this.deleteTemplate = this.deleteTemplate.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(name) {
@@ -58,7 +57,7 @@ class ActionItemCreationPage extends React.Component {
     };
   }
 
-  handleSubmit() {
+  handleSubmit = () => {
     if (
       this.state.selectedParticipants.length === 0 ||
       this.state.selectedActionItems.length === 0
@@ -70,9 +69,17 @@ class ActionItemCreationPage extends React.Component {
     const participantIds = this.state.selectedParticipants.map(
       participant => participant.id,
     );
+
+    const assignments = this.state.selectedActionItems.map(actionItem => ({
+      title: actionItem.title,
+      description: actionItem.description,
+      due_date: actionItem.dueDate,
+      category: actionItem.category,
+    }));
+
     const body = {
-      assignments: this.state.selectedActionItems,
-      assigned_to_ids: participantIds,
+      assignments,
+      participant_ids: participantIds,
     };
     apiPost('/api/assignments', body)
       .then(() => this.setState({ submissionModal: true, submitFailed: false }))
@@ -85,7 +92,7 @@ class ActionItemCreationPage extends React.Component {
         });
         Sentry.captureException(error);
       });
-  }
+  };
 
   deleteTemplate(templateActionItem) {
     if (!templateActionItem.is_template || !templateActionItem.id) {

@@ -13,7 +13,7 @@ class AssignmentsController < ApplicationController
 
         d = {"name" => p.full_name, 
               "status" => p.status, 
-              "id" => p.user.id}
+              "id" => p.id}
           @participants_list.push(d)
         end
         skip_policy_scope

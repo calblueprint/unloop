@@ -11,11 +11,11 @@
   </p>
   <p>
     Assigned to: <br>
-	  <%= form.collection_select :assigned_to_id, @all_users, :id, :first_name, prompt: true %>
+	  <%= form.collection_select :participant_id, @all_users, :id, :first_name, prompt: true %>
   </p>
    <p>
     Assigned by: <br>
-	  <%= form.collection_select :assigned_by_id, @staffs, :id, :first_name, prompt: true %>
+	  <%= form.collection_select :staff_id, @staffs, :id, :first_name, prompt: true %>
   </p>
   <p>
     <%= form.label :completed %><br>
