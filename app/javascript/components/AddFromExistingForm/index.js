@@ -166,7 +166,7 @@ class AddFromExistingForm extends React.Component {
                 filteredTemplates
               ) : (
                 <Grid item className={classes.noActionItemsDisplay}>
-                  <Typography variant="h5"> No templates! </Typography>
+                  <Typography variant="h5"> No assessments found </Typography>
                 </Grid>
               )}
             </Grid>
