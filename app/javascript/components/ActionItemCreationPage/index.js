@@ -49,6 +49,7 @@ class ActionItemCreationPage extends React.Component {
     this.selectActionItemTemplate = this.selectActionItemTemplate.bind(this);
     this.removeSelectedActionItem = this.removeSelectedActionItem.bind(this);
     this.deleteTemplate = this.deleteTemplate.bind(this);
+    this.handleFile = this.handleFile.bind(this);
   }
 
   handleChange(name) {
@@ -56,6 +57,10 @@ class ActionItemCreationPage extends React.Component {
       const { value } = event.target;
       this.setState({ [name]: value });
     };
+  }
+
+  handleFile(event){
+    this.setState({ file: event.target.files[0]});
   }
 
   handleSubmit = () => {
@@ -260,7 +265,7 @@ class ActionItemCreationPage extends React.Component {
             removeSelectedActionItem={this.removeSelectedActionItem}
             selectActionItemTemplate={this.selectActionItemTemplate}
             deleteTemplate={this.deleteTemplate}
-            setFile={this.handleChange('file')}
+            setFile={this.handleFile}
           />
         );
         break;

@@ -37,19 +37,22 @@ class QuestionnaireForm extends React.Component {
 
   handleSubmit() {
     const qType = `${this.props.type}_questionnaire`;
-    const body = {};
-    const file = this.state.file;
+    const formData = new FormData();
+
     Object.keys(this.state.questionnaire).forEach(f => {
-      body[f] = this.state.questionnaire[f];
+      formData.append(`${qType}[${f}]`, this.state.questionnaire[f]);
     });
-    if(file !== null){
-      body.resume = file;
+    formData.append(`${qType}[resume]`, this.state.file);
+    formData.append(`${qType}[participant_id]`, this.props.participantId);
+
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
     }
-    body.participant_id = this.props.participantId;
+
     const { id } = this.props.questionnaire;
     const request = `/api/${qType}s/${id}`;
 
-    apiPut(request, { [qType]: body })
+    apiPut(request, formData)
       .then(() => window.location.reload())
       .catch(error => {
         Sentry.configureScope(function(scope) {
@@ -171,7 +174,6 @@ class QuestionnaireForm extends React.Component {
     return(
     <input
         type="file"
-        
         onChange = {(event) => {
           console.log(event.target.files[0]);
           console.log(event.target.files);
