@@ -387,7 +387,7 @@ class ActionItemCreationPage extends React.Component {
           <ActionItemList
             selectedActionItems={this.state.selectedActionItems}
             removeSelectedActionItem={this.removeSelectedActionItem}
-            handleOpenViewMoreModal={this.handleOpenViewMoreModal}
+            handleOpenModal={this.handleOpenModal}
           />
         );
         break;
