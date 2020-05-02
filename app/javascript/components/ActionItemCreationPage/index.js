@@ -457,7 +457,10 @@ class ActionItemCreationPage extends React.Component {
           open={submissionError}
           autoHideDuration={3000}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          onClose={() => {
+          onClose={(event, reason) => {
+            if (reason === 'clickaway') {
+              return;
+            }
             this.handleChange('submitFailed')({ target: { value: false } });
           }}
         >
@@ -485,7 +488,7 @@ class ActionItemCreationPage extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <Grid container style={{ height: '100%', width: '100%' }}>
+        <Grid container style={{ height: '100vh', width: '100vw' }}>
           <Grid item container xs={11} justify="center">
             <Grid
               container
