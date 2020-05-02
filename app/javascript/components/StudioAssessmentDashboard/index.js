@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StudioAssessmentCard from 'components/StudioAssessmentCard';
 import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -12,7 +11,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import styles from './styles';
-import EnhancedTable from 'components/StudioAssessmentsEnhancedTable';
+import EnhancedTable from 'components/EnhancedTable';
 
 const TrieSearch = require('trie-search');
 
@@ -24,7 +23,6 @@ class StudioAssessmentDashboard extends React.Component {
       selectedCat: 'overall',
     };
     this.handleSearch = this.handleSearch.bind(this);
-    // this.handleSort = this.handleSort.bind(this);
   }
 
   componentDidMount() {
@@ -41,46 +39,18 @@ class StudioAssessmentDashboard extends React.Component {
   handleSearch(e) {
     const searchVal = e.target.value.trim();
 
-    const category = this.state.selectedCat;
     let assessments = [];
     if (searchVal === '') {
       assessments = this.props.assessments;
     } else {
       assessments = this.state.trie.get(searchVal);
     }
-    assessments.sort((a, b) => this.getComparator(a, b, category));
 
     this.setState({
       assessments,
     });
   }
 
-
-
-  renderDropDown() {
-    const { classes } = this.props;
-    const select = this.state.selectedCat;
-    return (
-      <FormControl>
-        <InputLabel className={classes.dropDown}>Sort By Category</InputLabel>
-        <Select value={select} onChange={this.handleSort} width="100">
-          <MenuItem value="overall">Name</MenuItem>
-          <MenuItem value="bigpictureScore">Big Picture</MenuItem>
-          <MenuItem value="progfundamentalsScore">
-            Programming Fundamentals
-          </MenuItem>
-          <MenuItem value="versioncontrolScore">Version Control</MenuItem>
-          <MenuItem value="reactScore">React</MenuItem>
-          <MenuItem value="nodeScore">Node</MenuItem>
-          <MenuItem value="dbScore">Db</MenuItem>
-          <MenuItem value="problemsolvingScore">Problem Solving</MenuItem>
-          <MenuItem value="problemsolvingaltScore">
-            Problem Solving Alternate
-          </MenuItem>
-        </Select>
-      </FormControl>
-    );
-  }
 
   render() {
     const { classes } = this.props;
@@ -170,6 +140,7 @@ class StudioAssessmentDashboard extends React.Component {
         <EnhancedTable
           headCells={headCells}
           rows={this.state.assessments}
+          type="studio"
         ></EnhancedTable>
       </div>
     );
