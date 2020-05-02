@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 import ActionItemCreationContainer from 'components/ActionItemCreationContainer';
 import ActionItemSearchParticipants from 'components/ActionItemSearchParticipants';
 import ActionItemList from 'components/ActionItemList';
@@ -470,10 +472,26 @@ class ActionItemCreationPage extends React.Component {
       rightComponentText,
     } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
-    const errorOccurred = this.state.submitFailed && this.state.step === 2;
+    const submissionError = this.state.submitFailed && this.state.step === 2;
 
     return (
       <div>
+        <Snackbar
+          open={submissionError}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          onClose={(event, reason) => {
+            if (reason === 'clickaway') {
+              return;
+            }
+            this.handleChange('submitFailed')({ target: { value: false } });
+          }}
+        >
+          <SnackbarContent
+            classes={{ root: classes.snackbarStyle }}
+            message="There must be at least 1 assignment and 1 student"
+          />
+        </Snackbar>
         <Dialog open={this.state.submissionModal}>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
@@ -521,16 +539,7 @@ class ActionItemCreationPage extends React.Component {
                 alignItems="flex-start"
               >
                 <Grid item>
-                  <Typography
-                    className={classes.underlineStyle}
-                    style={{
-                      color:
-                        errorOccurred &&
-                        this.state.selectedParticipants.length === 0
-                          ? 'red'
-                          : null,
-                    }}
-                  >
+                  <Typography className={classes.underlineStyle}>
                     {leftComponentText}
                   </Typography>
                   <hr className={classes.borderStyle}></hr>
@@ -538,16 +547,7 @@ class ActionItemCreationPage extends React.Component {
                   {leftComponent}
                 </Grid>
                 <Grid item>
-                  <Typography
-                    className={classes.underlineStyle}
-                    style={{
-                      color:
-                        errorOccurred &&
-                        this.state.selectedActionItems.length === 0
-                          ? 'red'
-                          : null,
-                    }}
-                  >
+                  <Typography className={classes.underlineStyle}>
                     {rightComponentText}
                   </Typography>
                   <hr className={classes.borderStyle}></hr>
