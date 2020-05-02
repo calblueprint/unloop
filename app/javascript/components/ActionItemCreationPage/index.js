@@ -256,10 +256,12 @@ class ActionItemCreationPage extends React.Component {
     let rightComponent;
     let leftComponentText;
     let rightComponentText;
+    let headerText;
     switch (stepSize) {
       case 0:
         leftComponentText = 'Assignments';
         rightComponentText = 'Add Assignments';
+        headerText = 'Add Assignments to List';
         leftComponent = (
           <ActionItemList
             selectedActionItems={this.state.selectedActionItems}
@@ -290,6 +292,8 @@ class ActionItemCreationPage extends React.Component {
       case 1:
         leftComponentText = 'Students';
         rightComponentText = 'Add Students';
+        headerText = 'Add Students to Assignments';
+
         leftComponent = (
           <ActionItemDisplayParticipants
             selectedParticipants={this.state.selectedParticipants}
@@ -310,6 +314,8 @@ class ActionItemCreationPage extends React.Component {
       case 2:
         leftComponentText = 'Review Students';
         rightComponentText = 'Review Assignments';
+        headerText = 'Review and Assign';
+
         leftComponent = (
           <ActionItemDisplayParticipants
             selectedParticipants={this.state.selectedParticipants}
@@ -327,12 +333,14 @@ class ActionItemCreationPage extends React.Component {
         rightComponent = null;
         leftComponentText = null;
         rightComponentText = null;
+        headerText = null;
     }
     return {
       leftComponent,
       rightComponent,
       leftComponentText,
       rightComponentText,
+      headerText,
     };
   }
 
@@ -470,6 +478,7 @@ class ActionItemCreationPage extends React.Component {
       leftComponentText,
       rightComponent,
       rightComponentText,
+      headerText,
     } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
     const submissionError = this.state.submitFailed && this.state.step === 2;
@@ -525,7 +534,7 @@ class ActionItemCreationPage extends React.Component {
               <Grid container item direction="row" justify="flex-start">
                 <Grid item>
                   <Typography className={classes.topLeftTextStyle}>
-                    Add Assignments to List
+                    {headerText}
                   </Typography>
                 </Grid>
               </Grid>
