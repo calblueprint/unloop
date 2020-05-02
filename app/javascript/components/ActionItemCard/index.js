@@ -49,6 +49,27 @@ function ActionItemCard({
     </Button>
   );
 
+  const renderEditButton = () => (
+    <Button
+      size="small"
+      className={classes.buttonStyle}
+      onClick={() => handleOpenModal('edit')}
+    >
+      EDIT
+    </Button>
+  );
+
+  const renderViewMoreButton = () => (
+    <Button
+      size="small"
+      color="primary"
+      className={classes.buttonStyle}
+      onClick={() => handleOpenModal('viewmore')}
+    >
+      VIEW MORE
+    </Button>
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <Grid
@@ -111,26 +132,12 @@ function ActionItemCard({
             container
             xs={6}
             justify="space-evenly"
-            alignItems="center"
+            alignItems="flex-start"
           >
             <Grid item>
-              <Button
-                className="contained"
-                color="primary"
-                onClick={() =>
-                  handleOpenModal(
-                    title,
-                    description,
-                    category,
-                    dueDate,
-                    'viewmore',
-                  )
-                }
-              >
-                VIEW MORE
-              </Button>
+              {renderClose ? renderEditButton() : renderDeleteButton()}
             </Grid>
-            <Grid item>{renderClose ? null : renderDeleteButton()}</Grid>
+            <Grid item>{renderViewMoreButton()}</Grid>
           </Grid>
         </Grid>
       </Grid>
