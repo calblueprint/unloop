@@ -5,7 +5,6 @@ import {
   InputBase,
   Fab,
   Box,
-  Divider,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -112,7 +111,7 @@ class ActionItemSearchParticipants extends React.Component {
   statusButtons() {
     return Object.keys(this.state.statuses).map(status => {
       const importedStyles = styles().statusButton;
-      const dark = theme.palette.darkerButton[status];
+      const dark = theme.palette.common[status];
       const light = theme.palette.lighterButton[status];
       if (this.state.selectedStatus !== status) {
         importedStyles.backgroundColor = dark;

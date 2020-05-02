@@ -111,7 +111,6 @@ class StaffDashboard extends React.Component {
           headCells={headCells}
           rows={this.state.participants}
         ></EnhancedTable>
-        );
       </div>
     );
   }
