@@ -38,7 +38,12 @@ function StudioAssessmentModal({
           ? 'New Studio Assessment'
           : type === 'edit'
             ? 'Edit Studio Assessment'
+<<<<<<< HEAD
             : 'View Studio Assessment'}
+=======
+            : 'View Studio Assessment'
+        }
+>>>>>>> bd69b3236fab54c0279b6564a2d0ec5c03317160
       </Button>
       <Dialog
         open={open}
