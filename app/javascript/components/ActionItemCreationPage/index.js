@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import ActionItemCreationContainer from 'components/ActionItemCreationContainer';
 import ActionItemSearchParticipants from 'components/ActionItemSearchParticipants';
 import ActionItemList from 'components/ActionItemList';
+import ViewMoreModal from 'components/ViewMoreModal';
 import ActionItemDisplayParticipants from 'components/ActionItemDisplayParticipants';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -33,6 +34,12 @@ class ActionItemCreationPage extends React.Component {
       submitFailed: false,
       selectedActionItems: [],
       submissionModal: false,
+      // State given to the view more and edit modals when invoked
+      modalTitle: '',
+      modalDescription: '',
+      modalCategory: '',
+      modalDueDate: '',
+      viewMoreModalOpen: false,
     };
 
     this.addUserToState = this.addUserToState.bind(this);
@@ -50,6 +57,8 @@ class ActionItemCreationPage extends React.Component {
     this.deleteTemplate = this.deleteTemplate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.checkActionItemsEqual = this.checkActionItemsEqual.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleOpenModal = this.handleOpenModal.bind(this);
   }
 
   checkActionItemsEqual(actionItem1, actionItem2) {
@@ -59,6 +68,29 @@ class ActionItemCreationPage extends React.Component {
       actionItem1.category === actionItem2.category &&
       actionItem1.dueDate === actionItem2.dueDate
     );
+  }
+
+  // Used to close both the edit and view more modals
+  handleCloseModal() {
+    this.setState({
+      modalTitle: '',
+      modalDescription: '',
+      modalCategory: '',
+      modalDueDate: '',
+      viewMoreModalOpen: false,
+    });
+  }
+
+  handleOpenModal(title, description, category, dueDate, modalType) {
+    const modalOpen =
+      modalType === 'edit' ? 'editModalOpen' : 'viewMoreModalOpen';
+    this.setState({
+      modalTitle: title,
+      modalDescription: description,
+      modalCategory: category,
+      modalDueDate: dueDate,
+      [modalOpen]: true,
+    });
   }
 
   handleChange(name) {
@@ -262,6 +294,7 @@ class ActionItemCreationPage extends React.Component {
           <ActionItemList
             selectedActionItems={this.state.selectedActionItems}
             removeSelectedActionItem={this.removeSelectedActionItem}
+            handleOpenModal={this.handleOpenModal}
           />
         );
         rightComponent = (
@@ -282,6 +315,7 @@ class ActionItemCreationPage extends React.Component {
             removeSelectedActionItem={this.removeSelectedActionItem}
             selectActionItemTemplate={this.selectActionItemTemplate}
             deleteTemplate={this.deleteTemplate}
+            handleOpenModal={this.handleOpenModal}
           />
         );
         break;
@@ -317,6 +351,7 @@ class ActionItemCreationPage extends React.Component {
           <ActionItemList
             selectedActionItems={this.state.selectedActionItems}
             removeSelectedActionItem={this.removeSelectedActionItem}
+            handleOpenViewMoreModal={this.handleOpenViewMoreModal}
           />
         );
         break;
@@ -474,6 +509,14 @@ class ActionItemCreationPage extends React.Component {
 
     return (
       <div>
+        <ViewMoreModal
+          open={this.state.viewMoreModalOpen}
+          handleClose={this.handleCloseModal}
+          title={this.state.modalTitle}
+          description={this.state.modalDescription}
+          category={this.state.modalCategory}
+          dueDate={this.state.modalDueDate}
+        />
         <Dialog open={this.state.submissionModal}>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">

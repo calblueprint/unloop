@@ -20,6 +20,7 @@ function ActionItemCard({
   category,
   selected,
   renderClose,
+  handleOpenModal,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
@@ -52,7 +53,6 @@ function ActionItemCard({
     <ThemeProvider theme={theme}>
       <Grid
         container
-        spacing={1}
         className={classes.cardStyle}
         direction="column"
         justify="space-evenly"
@@ -109,16 +109,27 @@ function ActionItemCard({
           <Grid
             item
             container
-            direction="row-reverse"
             xs={6}
             justify="space-evenly"
+            alignItems="center"
           >
-            {/* Commented out because it doesn't have functionality right now */}
-            {/* <Grid item>
-              <Button size="small" className={classes.buttonStyle}>
-                EDIT
+            <Grid item>
+              <Button
+                className="contained"
+                color="primary"
+                onClick={() =>
+                  handleOpenModal(
+                    title,
+                    description,
+                    category,
+                    dueDate,
+                    'viewmore',
+                  )
+                }
+              >
+                VIEW MORE
               </Button>
-            </Grid> */}
+            </Grid>
             <Grid item>{renderClose ? null : renderDeleteButton()}</Grid>
           </Grid>
         </Grid>
@@ -134,6 +145,7 @@ ActionItemCard.propTypes = {
   category: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   renderClose: PropTypes.bool.isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
   dueDate: PropTypes.string,
   handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,

@@ -119,6 +119,7 @@ class AddFromExistingForm extends React.Component {
                 ? () => this.props.removeSelectedActionItem(template)
                 : () => this.handleOpenDateModal(template)
             }
+            handleOpenModal={this.props.handleOpenModal}
             lastEntry={filteredTemplates.length - 1 === i}
             removeActionItem={() => this.props.deleteTemplate(template)}
           />
@@ -242,6 +243,7 @@ AddFromExistingForm.propTypes = {
   selectedActionItemIds: PropTypes.instanceOf(Set).isRequired,
   selectActionItemTemplate: PropTypes.func.isRequired,
   removeSelectedActionItem: PropTypes.func.isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
   deleteTemplate: PropTypes.func.isRequired,
 };
 
