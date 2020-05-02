@@ -34,6 +34,7 @@ function ActionItemForm({
   addToTemplates,
   setAddToTemplates,
   createActionItem,
+  setFile,
 }) {
   const [failedSubmit, setFailedSubmit] = useState(false);
 
@@ -165,6 +166,10 @@ function ActionItemForm({
                 >
                   ADD TO COMMON ASSIGNMENTS
                 </Typography>
+                <input
+        type="file"
+        onChange={e => setFile(e)}
+        />
               </Grid>
               <Grid item>
                 <Button

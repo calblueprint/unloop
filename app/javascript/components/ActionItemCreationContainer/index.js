@@ -30,6 +30,7 @@ function ActionItemCreationContainer({
   removeSelectedActionItem,
   createActionItem,
   deleteTemplate,
+  setFile,
 }) {
   const [creationSetting, setCreationSetting] = useState(Setting.SCRATCH);
   const [addToTemplates, setAddToTemplates] = useState(false);
@@ -97,6 +98,7 @@ function ActionItemCreationContainer({
               addToTemplates={addToTemplates}
               setAddToTemplates={setAddToTemplates}
               createActionItem={createActionItem}
+              setFile ={setFile}
             />
           ) : (
             <AddFromExistingForm

@@ -19,8 +19,20 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
     end
   
     def update
+      # if the attachment exists .attached?
+      # @questionnaire.resume.purge
+      # @questionnaire.resume.attach(resume)
       authorize @questionnaire, policy_class: QuestionnairePolicy
-      if @questionnaire.update(questionnaire_params)
+      byebug
+      if @questionnaire.resume.attached?
+        @questionnaire.resume.purge
+      end
+      if !@questionnaire.resume.attach(questionnaire_params.fetch(:resume))
+        Raven.capture_message("Could not update resume to professional questionnaire")
+        render json: { error: 'Could not update resume to professional questionnaire' }, status: :unprocessable_entity
+      end
+      
+      if @questionnaire.update!(questionnaire_params.except(:resume))
         render json: @questionnaire, status: :ok
       else
         Raven.capture_message("Could not update professional questionnaire")
@@ -54,10 +66,10 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
   
     # may not work
     def questionnaire_params
-      questionnaire_params = params.require(:professional_questionnaire).permit(:participant_id, :course_completion,
+      questionnaire_params = params.require(:professional_questionnaire).permit!(:participant_id, :course_completion,
         :work_history, :job_search_materials, :professional_goals, 
         :barriers, :education_history, :begin_skills_assessment_date, :end_skills_assessment_date,
-        :assigned_mentor, :success_strategies)
+        :assigned_mentor, :success_strategies, :resume)
     end
   
   end

@@ -11,11 +11,14 @@ import {
   TextField,
 } from '@material-ui/core/';
 import styles from './styles';
+import ActiveStorageProvider from 'react-activestorage-provider'
 
 class QuestionnaireForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      file: null,
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -35,12 +38,14 @@ class QuestionnaireForm extends React.Component {
   handleSubmit() {
     const qType = `${this.props.type}_questionnaire`;
     const body = {};
-
+    const file = this.state.file;
     Object.keys(this.state.questionnaire).forEach(f => {
       body[f] = this.state.questionnaire[f];
     });
+    if(file !== null){
+      body.resume = file;
+    }
     body.participant_id = this.props.participantId;
-
     const { id } = this.props.questionnaire;
     const request = `/api/${qType}s/${id}`;
 
@@ -109,23 +114,71 @@ class QuestionnaireForm extends React.Component {
           </div>
         );
       });
-      questionnaires.push(this.getFileUpload());
+      questionnaires.push(this.getOldFileUpload());
       return <div className={styles.container}>{questionnaires}</div>;
     }
   }
 
   getFileUpload(){
-    return(<Button
-      variant="contained"
-      component="label"
-      onPress={(event) => console.log(event.target.value)}
-      >
-        Upload Resume
+    const { id } = this.props.questionnaire;
+    const paths = `/api/professional_questionnaire/${id}`;
+    return(
+    <ActiveStorageProvider
+    endpoint={{
+      path: paths,
+      model: 'professional_questionnaire',
+      attribute: 'resume',
+      method: 'create',
+    }}
+    onSubmit={questionnaire => this.setState({ file: questionnaire.resume})}
+    render={({ handleUpload, uploads, ready }) => (
+      <div>
+        <input
+          type="file"
+          disabled={!ready}
+          onChange={e => handleUpload(e.currentTarget.files)}
+        />
+
+        {uploads.map(upload => {
+          switch (upload.state) {
+            case 'waiting':
+              return <p key={upload.id}>Waiting to upload {upload.file.name}</p>
+            case 'uploading':
+              return (
+                <p key={upload.id}>
+                  Uploading {upload.file.name}: {upload.progress}%
+                </p>
+              )
+            case 'error':
+              return (
+                <p key={upload.id}>
+                  Error uploading {upload.file.name}: {upload.error}
+                </p>
+              )
+            case 'finished':
+              return (
+                <p key={upload.id}>Finished uploading {upload.file.name}</p>
+              )
+          }
+        })}
+      </div>
+      )}
+    />
+    );
+  }
+
+  getOldFileUpload(){
+    return(
     <input
         type="file"
-        style={{ display: "none" }}
+        
+        onChange = {(event) => {
+          console.log(event.target.files[0]);
+          console.log(event.target.files);
+          this.setState( {file: event.target.files[0]})
+          }}
         />
-  </Button>);
+  );
   }
 
   render() {

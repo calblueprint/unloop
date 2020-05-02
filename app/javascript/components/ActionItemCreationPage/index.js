@@ -33,6 +33,7 @@ class ActionItemCreationPage extends React.Component {
       submitFailed: false,
       selectedActionItems: [],
       submissionModal: false,
+      file: null,
     };
 
     this.addUserToState = this.addUserToState.bind(this);
@@ -259,6 +260,7 @@ class ActionItemCreationPage extends React.Component {
             removeSelectedActionItem={this.removeSelectedActionItem}
             selectActionItemTemplate={this.selectActionItemTemplate}
             deleteTemplate={this.deleteTemplate}
+            setFile={this.handleChange('file')}
           />
         );
         break;
