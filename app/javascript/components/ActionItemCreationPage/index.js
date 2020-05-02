@@ -29,7 +29,8 @@ class ActionItemCreationPage extends React.Component {
       actionItemDescription: '',
       actionItemDueDate: '',
       actionItemCategory: null,
-      unselectedTemplateActionItems: this.props.templates,
+      templateActionItems: this.props.templates,
+      submitFailed: false,
       selectedActionItems: [],
       submissionModal: false,
     };
@@ -47,7 +48,6 @@ class ActionItemCreationPage extends React.Component {
     this.selectActionItemTemplate = this.selectActionItemTemplate.bind(this);
     this.removeSelectedActionItem = this.removeSelectedActionItem.bind(this);
     this.deleteTemplate = this.deleteTemplate.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(name) {
@@ -57,16 +57,32 @@ class ActionItemCreationPage extends React.Component {
     };
   }
 
-  handleSubmit() {
+  handleSubmit = () => {
+    if (
+      this.state.selectedParticipants.length === 0 ||
+      this.state.selectedActionItems.length === 0
+    ) {
+      this.setState({ submitFailed: true });
+      return;
+    }
+
     const participantIds = this.state.selectedParticipants.map(
       participant => participant.id,
     );
+
+    const assignments = this.state.selectedActionItems.map(actionItem => ({
+      title: actionItem.title,
+      description: actionItem.description,
+      due_date: actionItem.dueDate,
+      category: actionItem.category,
+    }));
+
     const body = {
-      assignments: this.state.selectedActionItems,
-      assigned_to_ids: participantIds,
+      assignments,
+      participant_ids: participantIds,
     };
     apiPost('/api/assignments', body)
-      .then(() => this.setState({ submissionModal: true }))
+      .then(() => this.setState({ submissionModal: true, submitFailed: false }))
       .catch(error => {
         Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'ActionItemCreationPage');
@@ -76,7 +92,7 @@ class ActionItemCreationPage extends React.Component {
         });
         Sentry.captureException(error);
       });
-  }
+  };
 
   deleteTemplate(templateActionItem) {
     if (!templateActionItem.is_template || !templateActionItem.id) {
@@ -85,10 +101,10 @@ class ActionItemCreationPage extends React.Component {
     apiDelete(`/api/assignments/templates/${templateActionItem.id}`)
       .then(() =>
         this.setState(prevState => {
-          const remainingTemplates = prevState.unselectedTemplateActionItems.filter(
+          const remainingTemplates = prevState.templateActionItems.filter(
             item => item !== templateActionItem,
           );
-          return { unselectedTemplateActionItems: remainingTemplates };
+          return { templateActionItems: remainingTemplates };
         }),
       )
       .catch(error => {
@@ -102,15 +118,6 @@ class ActionItemCreationPage extends React.Component {
   }
 
   removeSelectedActionItem(actionItem) {
-    if (actionItem.is_template) {
-      this.setState(prevState => ({
-        unselectedTemplateActionItems: [
-          actionItem,
-          ...prevState.unselectedTemplateActionItems,
-        ],
-      }));
-    }
-
     this.setState(prevState => {
       const filteredActionItems = prevState.selectedActionItems.filter(
         item => item !== actionItem,
@@ -141,7 +148,6 @@ class ActionItemCreationPage extends React.Component {
         description: actionItemDescription,
         category: actionItemCategory,
       };
-      // TODO: Use the response instead of creating an actual actionItem if possible!
       apiPost('/api/assignments/templates', { assignment: template })
         .then(resp => console.log(resp))
         .catch(error => {
@@ -170,15 +176,9 @@ class ActionItemCreationPage extends React.Component {
   }
 
   selectActionItemTemplate(actionItem) {
-    this.setState(prevState => {
-      const unselectedTemplates = prevState.unselectedTemplateActionItems.filter(
-        item => item !== actionItem,
-      );
-      return {
-        selectedActionItems: [actionItem, ...prevState.selectedActionItems],
-        unselectedTemplateActionItems: unselectedTemplates,
-      };
-    });
+    this.setState(prevState => ({
+      selectedActionItems: [actionItem, ...prevState.selectedActionItems],
+    }));
   }
 
   nextStep() {
@@ -253,7 +253,8 @@ class ActionItemCreationPage extends React.Component {
         );
         rightComponent = (
           <ActionItemCreationContainer
-            templates={this.state.unselectedTemplateActionItems}
+            templates={this.state.templateActionItems}
+            selectedActionItems={new Set(this.state.selectedActionItems)}
             title={this.state.actionItemTitle}
             setTitle={this.handleChange('actionItemTitle')}
             description={this.state.actionItemDescription}
@@ -263,6 +264,7 @@ class ActionItemCreationPage extends React.Component {
             dueDate={this.state.actionItemDueDate}
             setDueDate={this.handleChange('actionItemDueDate')}
             createActionItem={this.createActionItem}
+            removeSelectedActionItem={this.removeSelectedActionItem}
             selectActionItemTemplate={this.selectActionItemTemplate}
             deleteTemplate={this.deleteTemplate}
           />
@@ -453,6 +455,7 @@ class ActionItemCreationPage extends React.Component {
       rightComponentText,
     } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
+    const errorOccurred = this.state.submitFailed && this.state.step === 2;
 
     return (
       <div>
@@ -503,7 +506,16 @@ class ActionItemCreationPage extends React.Component {
                 alignItems="flex-start"
               >
                 <Grid item>
-                  <Typography className={classes.underlineStyle}>
+                  <Typography
+                    className={classes.underlineStyle}
+                    style={{
+                      color:
+                        errorOccurred &&
+                        this.state.selectedParticipants.length === 0
+                          ? 'red'
+                          : null,
+                    }}
+                  >
                     {leftComponentText}
                   </Typography>
                   <hr className={classes.borderStyle}></hr>
@@ -511,7 +523,16 @@ class ActionItemCreationPage extends React.Component {
                   {leftComponent}
                 </Grid>
                 <Grid item>
-                  <Typography className={classes.underlineStyle}>
+                  <Typography
+                    className={classes.underlineStyle}
+                    style={{
+                      color:
+                        errorOccurred &&
+                        this.state.selectedActionItems.length === 0
+                          ? 'red'
+                          : null,
+                    }}
+                  >
                     {rightComponentText}
                   </Typography>
                   <hr className={classes.borderStyle}></hr>
