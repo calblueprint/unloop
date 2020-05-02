@@ -478,7 +478,7 @@ class ActionItemCreationPage extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <Grid container style={{ height: '100vh', width: '100vw' }}>
+        <Grid container className={classes.pageStyle}>
           <Grid item container xs={11} justify="center">
             <Grid
               container

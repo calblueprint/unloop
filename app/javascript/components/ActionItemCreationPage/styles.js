@@ -1,8 +1,10 @@
 const styles = theme => ({
-  '@global': {
-    body: {
-      margin: '0px',
-    },
+  pageStyle: {
+    minHeight: '100vh',
+    minWidth: '100%',
+    margin: '0px',
+    padding: '20px',
+    backgroundColor: theme.palette.common.white,
   },
   mainBackgroundStyle: {
     backgroundColor: theme.palette.common.lightestGrey,
