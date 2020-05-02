@@ -242,6 +242,7 @@ class QuestionnaireForm extends React.Component {
           <DialogContentText>{contentText}</DialogContentText>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
+              disableToolbar
               variant="inline"
               label="Select date"
               value={this.state.questionnaire["birthdate"]}
