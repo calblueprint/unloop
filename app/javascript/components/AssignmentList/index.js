@@ -15,21 +15,30 @@ import { apiPost, apiDelete } from 'utils/axios';
 import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
-function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
-  const [assignments] = useState(initialAssignments);
+function AssignmentList({ classes, initialAssignments, participantId, userType, formatDate }) {
+  const [assignments, setAssignments] = useState(initialAssignments);
   const [open, setOpen] = useState(false);
 
-  const assignmentEntries = assignments.map(assignment => (
-    <ActionItemCard
-      key={assignment.id}
-      title={assignment.title}
-      description={assignment.description}
-      category={assignment.category}
-      dueDate={formatDate(assignment.created_at)}
-      selected={false} // Dummy prop for this specific usage of ActionItemCard
-    />
-  ));
+  const appendAssignment = (assignment) => {
+    setAssignments([assignment, ...assignments]);
+  }
 
+  const assignmentEntries = assignments.map(assignment => {
+    console.log(assignment);
+    return (
+      <ActionItemCard
+        key={assignment.id}
+        title={assignment.title}
+        description={assignment.description}
+        category={assignment.category}
+        dueDate={formatDate(assignment.dueDate)}
+        selected={false} // Dummy prop for this specific usage of ActionItemCard
+        renderClose={false}
+      />
+    )
+  });
+  
+  // Generalize this function for deleting any action items
   const deleteTemplate = (templateActionItem) => {
     if (!templateActionItem.is_template || !templateActionItem.id) {
       return;
@@ -51,7 +60,12 @@ function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
         });
         Sentry.captureException(error);
       });
-    };
+  };
+
+  // Make the function for editing any assignments here
+  const editAssignment = (assignment) => {
+    // TODO
+  }
 
   const handleSubmit = (
     title,
@@ -72,8 +86,9 @@ function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
         dueDate,
         is_template: addToTemplates,
       };
+
       apiPost('/api/assignments/templates', { assignment: template })
-        .then(resp => console.log(resp))
+        .then(response => console.log(response))
         .catch(error => {
           Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'AssignmentList');
@@ -84,20 +99,20 @@ function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
     }
 
     // Add ActionItem to ActionItems
-    const actionItemBody = {
+    const body = {
       assignments: [{
         title,
         description,
         category: categorySelected,
         due_date: dueDate,      
       }],
-      participant_ids: [1],
+      participant_ids: [participantId],
     }
-    console.log(actionItemBody);
-    apiPost('/api/assignments', actionItemBody)
-      .then((e) => {
+
+    apiPost('/api/assignments', body)
+      .then((response) => {
         setOpen(false);
-        console.log(e);
+        appendAssignment(response.data); // Limited testing for this functionality since MailCatcher fails for me
       })
       .catch(error => {
         Sentry.configureScope(function(scope) {
@@ -133,6 +148,7 @@ function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
                 open={open}
                 handleClose={() => setOpen(false)}
                 handleSubmit={handleSubmit} // this.handleSubmit
+                participantId={participantId}
               />
             </div>
           ) : (

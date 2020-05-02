@@ -59,8 +59,8 @@ class ParticipantShowPage extends React.Component {
       studioAssessments,
       userType,
       isAdmin,
-      assignments,
-      dummy
+      assignments, // Do we even need these anymore?
+      assignmentList,
     } = this.props;
 
     console.log('case notes', caseNotes);
@@ -69,7 +69,7 @@ class ParticipantShowPage extends React.Component {
     console.log('participantId', participantId);
     console.log('studio assessments', studioAssessments[0]);
     console.log('sample action item', this.sampleActionItem);
-    console.log("dummy", dummy);
+    console.log("assignmentList", assignmentList);
 
     return (
       <Grid
@@ -126,7 +126,7 @@ class ParticipantShowPage extends React.Component {
 
           <AssignmentList
             userType={userType}
-            initialAssignments={this.sampleActionItem}
+            initialAssignments={assignmentList}
             participantId={participantId}
             formatDate={this.formatDate}
           />
@@ -153,10 +153,9 @@ ParticipantShowPage.propTypes = {
   participantId: PropTypes.number.isRequired,
   personalQuestionnaire: PropTypes.object.isRequired,
   professionalQuestionnaire: PropTypes.object.isRequired,
-  // Need the following for the assignments and studioAssessments
   assignments: PropTypes.array.isRequired,
   studioAssessments: PropTypes.array.isRequired,
-  dummy: PropTypes.object.isRequired,
+  assignmentList: PropTypes.array,
 };
 
 export default withStyles(styles)(ParticipantShowPage);

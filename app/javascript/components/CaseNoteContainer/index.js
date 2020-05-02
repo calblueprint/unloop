@@ -32,7 +32,7 @@ class CaseNoteContainer extends React.Component {
   }
 
   renderCaseNoteCreationIfStaff() {
-    if (this.state.userType !== 'staff') {
+    if (this.state.userType === 'staff') {
       return (
         <Grid item style={{ paddingBottom: '20px' }}>
           <CaseNoteForm
