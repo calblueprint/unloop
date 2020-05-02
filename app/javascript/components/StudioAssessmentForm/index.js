@@ -70,21 +70,6 @@ export const StudioAssessmentForm = ({
           ))}
         </Stepper>
       </div>
-<<<<<<< HEAD
-      <Question
-        formData={formData}
-        setFormData={setFormData}
-        nextStep={nextStep}
-        prevStep={prevStep}
-        questionType={questionType[step - 1]}
-        questionID={step - 1}
-        studioAssessment={studioAssessment}
-        participantId={participantId}
-        userType={userType}
-        onClose={onClose}
-        type={type}
-      />
-=======
         <Question
           formData={formData}
           setFormData={setFormData}
@@ -98,7 +83,6 @@ export const StudioAssessmentForm = ({
           onClose={onClose}
           type={type}
         />
->>>>>>> bd69b3236fab54c0279b6564a2d0ec5c03317160
     </div>
   );
 };

@@ -36,10 +36,7 @@
     "@fortawesome/react-fontawesome": "^0.1.7",
     "@material-ui/core": "^4.9.10",
     "@material-ui/icons": "^4.5.1",
-<<<<<<< HEAD
     "@material-ui/pickers": "^3.2.10",
-=======
->>>>>>> bd69b3236fab54c0279b6564a2d0ec5c03317160
     "@material-ui/styles": "^4.9.10",
     "@rails/actioncable": "^6.0.0-alpha",
     "@rails/activestorage": "^6.0.0-alpha",
