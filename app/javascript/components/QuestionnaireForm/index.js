@@ -115,6 +115,7 @@ class QuestionnaireForm extends React.Component {
         <DialogContent>{this.createTextForms()}</DialogContent>
         <div className={this.props.classes.buttonContainer}>
           <DialogActions className={this.props.classes.DialogActions}>
+            
             <Button
               onClick={this.props.handleClose}
               variant="outlined"

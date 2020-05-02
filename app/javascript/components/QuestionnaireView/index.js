@@ -32,6 +32,8 @@ function QuestionnaireView({ classes, questionnaire }) {
 
   return (
     <DialogContent>
+      <label for="myfile">Select a file:</label>
+      <input type="file" id="myfile" name="myfile"></input>
       <Grid container direction="column">
         {Object.entries(questionnaire).map(field =>
           renderField(field[0], field[1]),
