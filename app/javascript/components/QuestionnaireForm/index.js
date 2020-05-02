@@ -239,30 +239,16 @@ class QuestionnaireForm extends React.Component {
     if (fieldName === 'birthdate') {
       return (
         <div className={this.props.classes.questionnaireEntry}>
+          <DialogContentText>{contentText}</DialogContentText>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               variant="inline"
-              ampm={false}
               label="Select date"
               value={this.state.questionnaire["birthdate"]}
               onChange={e => this.handleDateChange(e, fieldName)}
               format="MM/dd/yyyy"
             />
           </MuiPickersUtilsProvider>
-          
-          {/* <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="MM/dd/yyyy"
-          margin="normal"
-          id={fieldName}
-          label="Select date"
-          value={this.state.questionnaire["birthdate"]}
-          onChange={e => this.handleTextFormChange(e)}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-          /> */}
         </div>
       );
     }
