@@ -9,6 +9,11 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Select,
+  MenuItem,
 } from '@material-ui/core/';
 import styles from './styles';
 
@@ -76,25 +81,97 @@ class QuestionnaireForm extends React.Component {
     }));
   }
 
+  handleRadioChange(e, fieldName, newValue) {
+    this.setState(s => ({
+      questionnaire: {
+        ...s.questionnaire,
+        [fieldName]: newValue,
+      },
+    }));
+  }
+
+  handleSelectChange(e, fieldName) {
+    const { value } = e.target;
+    console.log(value);
+    this.setState(s => ({
+      questionnaire: {
+        ...s.questionnaire,
+        [fieldName]: value,
+      },
+    }));
+  }
+
   createTextForm(fieldName, fieldValue, contentText) {
     // content text is prompt/title for the text box
     // field name is the name of the field that will be filled in the database
-    return (
-      <div className={this.props.classes.questionnaireEntry}>
+    if (fieldName === "DOC_status") {
+      return (
+        <div className={this.props.classes.questionnaireEntry}>
         <DialogContentText>{contentText}</DialogContentText>
-        <TextField
-          className={`${this.props.classes.dialogContentTextField} ${this.props.classes.questionnaireTextField}`}
-          onChange={e => this.handleTextFormChange(e)}
-          variant="outlined"
+        <RadioGroup
           id={fieldName}
-          multiline
-          type="text"
-          margin="dense"
-          defaultValue={fieldValue}
-          maxRows={20}
-        />
+        >
+          <FormControlLabel value="WR" control={<Radio />} label="WR" onChange={e => this.handleRadioChange(e, fieldName, "WR")} checked={this.state.questionnaire["DOC_status"] === "WR"}/>
+          <FormControlLabel value="GRE" control={<Radio />} label="GRE" onChange={e => this.handleRadioChange(e, fieldName, "GRE")} checked={this.state.questionnaire["DOC_status"] === "GRE"} />
+          <FormControlLabel value="Community placement" control={<Radio />} label="Community Placement" onChange={e => this.handleRadioChange(e, fieldName, "Community Placement")} checked={this.state.questionnaire["DOC_status"] === "Community Placement"}/>
+          <FormControlLabel value="Released with placement" control={<Radio />} label="Released with placement" onChange={e => this.handleRadioChange(e, fieldName, "Released with placement")} checked={this.state.questionnaire["DOC_status"] === "Released with placement"}/>
+          <FormControlLabel value="Released without placement" control={<Radio />} label="Released without placement" onChange={e => this.handleRadioChange(e, fieldName, "Released without placement")} checked={this.state.questionnaire["DOC_status"] === "Released without placement"} />
+        </RadioGroup>
       </div>
-    );
+      );
+    } 
+    else if (fieldName === "race_and_ethnicities") {
+      return (
+        <div className={this.props.classes.questionnaireEntry}>
+          <DialogContentText>{contentText}</DialogContentText>
+          <Select
+          id={fieldName}
+          value={this.state.questionnaire["race_and_ethnicities"]}
+          onChange={e => this.handleSelectChange(e, fieldName)}
+          >
+            <MenuItem value={"American Indian or Alaska Native"}>American Indian or Alaska Native</MenuItem>
+            <MenuItem value={"Asian"}>Asian</MenuItem>
+            <MenuItem value={"Black or African American"}>Black or African American</MenuItem>
+            <MenuItem value={"Hispanic or Latino or Spanish Origin"}>Hispanic or Latino or Spanish Origin</MenuItem>
+            <MenuItem value={"Native Hawaiian or Other Pacific Islander"}>Native Hawaiian or Other Pacific Islander</MenuItem>
+            <MenuItem value={"Two or More Races"}>Two or More Races</MenuItem>
+            <MenuItem value={"White"}>White</MenuItem>
+            <MenuItem value={"Prefer Not to Say"}>Prefer Not to Say</MenuItem>
+          </Select>
+        </div>
+      );
+    }
+    else if (fieldName === "course_completion") {
+      return (
+        <div className={this.props.classes.questionnaireEntry}>
+        <DialogContentText>{contentText}</DialogContentText>
+        <RadioGroup
+          id={fieldName}
+        >
+          <FormControlLabel value="completed" control={<Radio />} label="completed" onChange={e => this.handleRadioChange(e, fieldName, "completed")} checked={this.state.questionnaire["course_completion"] === "completed"}/>
+          <FormControlLabel value="incomplete" control={<Radio />} label="incomplete" onChange={e => this.handleRadioChange(e, fieldName, "incomplete")} checked={this.state.questionnaire["course_completion"] === "incomplete"} />
+        </RadioGroup>
+      </div>
+      );
+    }
+    else {
+      return (
+        <div className={this.props.classes.questionnaireEntry}>
+          <DialogContentText>{contentText}</DialogContentText>
+          <TextField
+            className={`${this.props.classes.dialogContentTextField} ${this.props.classes.questionnaireTextField}`}
+            onChange={e => this.handleTextFormChange(e)}
+            variant="outlined"
+            id={fieldName}
+            multiline
+            type="text"
+            margin="dense"
+            defaultValue={fieldValue}
+            maxRows={20}
+          />
+        </div>
+      );
+    }
   }
 
   // eslint-disable-next-line consistent-return
