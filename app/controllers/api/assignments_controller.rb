@@ -17,7 +17,11 @@ class Api::AssignmentsController < ApplicationController
         end
 
         action_items.each do |action_item|
-            due_date = action_item[:due_date] ? DateTime.parse(action_item[:due_date]) : nil
+            begin
+                due_date = DateTime.parse(action_item[:due_date])
+            rescue ArgumentError
+                due_date = nil
+            end
             action_item = ActionItem.new(action_item.except(:due_date)) 
             template_sentry_helper(action_item)
             action_item[:is_template] = false

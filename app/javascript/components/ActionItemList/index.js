@@ -19,6 +19,7 @@ function ActionItemList({
         dueDate={actionItem.dueDate}
         lastEntry={i === selectedActionItems.length - 1}
         category={actionItem.category}
+        renderClose
         selected
         removeActionItem={() => removeSelectedActionItem(actionItem)}
       />
