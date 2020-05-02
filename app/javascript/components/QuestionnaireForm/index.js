@@ -92,9 +92,9 @@ class QuestionnaireForm extends React.Component {
   // eslint-disable-next-line consistent-return
   createTextForms() {
     if (this.state.questionnaire) {
-      const { questionnaire } = this.state;
+      let { questionnaire } = this.state;
 
-      const questionnaires = Object.keys(questionnaire).map(f => {
+      let questionnaires = Object.keys(questionnaire).map(f => {
         let sentenceCase = f.charAt(0).toUpperCase() + f.substring(1);
         sentenceCase = sentenceCase.replace(/([-_][a-z])/gi, $1 =>
           $1
@@ -105,8 +105,23 @@ class QuestionnaireForm extends React.Component {
 
         return this.createTextForm(f, questionnaire[f], sentenceCase);
       });
+      questionnaires.push(this.getFileUpload());
       return <div className={styles.container}>{questionnaires}</div>;
     }
+  }
+
+  getFileUpload(){
+    return(<Button
+      variant="contained"
+      component="label"
+      onPress={(event) => console.log(event.target.value)}
+      >
+        Upload Resume
+    <input
+        type="file"
+        style={{ display: "none" }}
+        />
+  </Button>);
   }
 
   render() {
