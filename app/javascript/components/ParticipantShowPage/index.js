@@ -97,20 +97,21 @@ class ParticipantShowPage extends React.Component {
                   {status.toUpperCase()}
                 </Avatar>
               </Grid>
-              <Grid item style={{ padding: '0px', marginTop: '20px' }}>
-                {/* These are caseNotes */}
-                <CaseNoteContainer
-                  participant={participant}
-                  caseNotes={caseNotes}
-                  userType={userType}
-                />
-              </Grid>
             </Grid>
             <Grid item>
+              {/* These are paperworks */}
               <PaperworkList
                 initialPaperworks={paperworks}
                 participantId={participantId}
                 formatDate={this.formatDate}
+                userType={userType}
+              />
+            </Grid>
+            <Grid item style={{ padding: '0px', marginTop: '20px' }}>
+              {/* These are casenotes */}
+              <CaseNoteContainer
+                participant={participant}
+                caseNotes={caseNotes}
                 userType={userType}
               />
             </Grid>

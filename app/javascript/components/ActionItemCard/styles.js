@@ -3,13 +3,19 @@ const styles = theme => ({
     backgroundColor: theme.palette.common.lighterBlue,
     margin: '0px 10px',
     boxShadow: 'None',
+    width: '80px', // Not too flexible for really long categories, but is good enough for up to 10-letter words
+    height: '30px',
+    borderRadius: '17px',
+    textAlign: 'center',
+    paddingTop: '7.5px', // This was really annoying to middle-align the text
   },
   categoryButtonStyle: {
     fontSize: '10px',
     width: '60px',
     textAlign: 'center',
-    paddingLeft: '8px',
-    paddingRight: '8px',
+    // paddingLeft: '8px',
+    // paddingRight: '8px',
+    margin: 'auto',
   },
   cardStyle: {
     width: '95%',

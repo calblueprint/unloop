@@ -47,6 +47,11 @@ Rails.application.routes.draw do
       delete 'templates/:id', to: 'assignments#destroy_template'
     end
 
+    # # Need to add more routing for editing and deleting assignments?
+    # scope '/assignments' do
+    #   # Create
+    #   post ':id'
+
     resources :studio_assessments, only: [:show, :create, :update, :destroy]
     resources :assignments, only: [:show, :create, :update, :destroy]
     resources :professional_questionnaires, only: [:show, :create, :update, :destroy]

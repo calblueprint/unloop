@@ -73,6 +73,7 @@ class Question extends React.Component {
     body.participant_id = this.props.participantId;
 
     if (this.props.type === 'create') {
+      console.log("we are trying to create");
       apiPost('/api/studio_assessments', { studio_assessment: body })
         .then(() => window.location.reload())
         .catch(error => {

@@ -6,6 +6,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CaseNoteForm from 'components/CaseNoteForm';
 import CaseNoteCard from 'components/CaseNoteCard';
+import { Paper } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import theme from '../../utils/theme';
@@ -31,7 +32,7 @@ class CaseNoteContainer extends React.Component {
   }
 
   renderCaseNoteCreationIfStaff() {
-    if (this.state.userType === 'staff') {
+    if (this.state.userType !== 'staff') {
       return (
         <Grid item style={{ paddingBottom: '20px' }}>
           <CaseNoteForm
@@ -109,12 +110,12 @@ class CaseNoteContainer extends React.Component {
       <>
         <CssBaseline />
         <Container
-          style={{ maxHeight: '60vh', padding: '16px', overflow: 'scroll' }}
+          style={{ maxHeight: '60vh', padding: '16px'}}
         >
           <Grid>
             <Typography
               component="div"
-              style={{ height: '100vh', maxHeight: '700px' }}
+              style={{ height: '80%', maxHeight: '700px' }}
             >
               <div className={classes.root} style={{ paddingTop: '20px' }}>
                 <Grid
@@ -132,9 +133,10 @@ class CaseNoteContainer extends React.Component {
                 </Grid>
                 <div
                   style={{
-                    height: '80vh',
-                    // overflowX: 'hidden',
-                    // overflowY: 'auto',
+                    height: '40vh',
+                    overflowX: 'hidden',
+                    overflowY: 'scroll',
+                    // overflow: 'scroll',
                   }}
                 >
                   {this.renderCaseNoteCards()}

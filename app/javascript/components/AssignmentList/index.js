@@ -8,9 +8,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Paper, List, Button, Dialog } from '@material-ui/core';
-import ActionItemForm from 'components/ActionItemForm';
+// import ActionItemForm from 'components/ActionItemForm';
 import ActionItemCard from 'components/ActionItemCard';
-
+import ActionItemForm from 'components/ActionItemModal';
+import { apiPost, apiDelete } from 'utils/axios';
+import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
 function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
@@ -24,8 +26,84 @@ function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
       description={assignment.description}
       category={assignment.category}
       dueDate={formatDate(assignment.created_at)}
+      selected={false} // Dummy prop for this specific usage of ActionItemCard
     />
   ));
+
+  const deleteTemplate = (templateActionItem) => {
+    if (!templateActionItem.is_template || !templateActionItem.id) {
+      return;
+    }
+    apiDelete(`/api/assignments/templates/${templateActionItem.id}`)
+      .then(() =>
+        this.setState(prevState => {
+          const remainingTemplates = prevState.templateActionItems.filter(
+            item => item !== templateActionItem,
+          );
+          return { templateActionItems: remainingTemplates };
+        }),
+      )
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'ActionItemCreationPage');
+          scope.setExtra('action', 'apiDelete');
+          scope.setExtra('templateActionItemId', templateActionItem.id);
+        });
+        Sentry.captureException(error);
+      });
+    };
+
+  const handleSubmit = (
+    title,
+    description,
+    categorySelected,
+    dueDate,
+    addToTemplates,
+    participantId,
+  ) => {
+
+    // Make new ActionItemTemplate
+    if (addToTemplates) {
+      const template = {
+        title,
+        description,
+        categorySelected,
+      };
+      apiPost('/api/assignments/templates', { assignment: template })
+        .then(resp => console.log(resp))
+        .catch(error => {
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'AssignmentList');
+            scope.setExtra('action', 'apiPost (createActionItem)');
+            scope.setExtra('template', JSON.stringify(template));
+          })
+        })
+    }
+
+    // Add ActionItem to ActionItems
+    const actionItemBody = {
+      assignments: [{
+        title,
+        description,
+        categorySelected,
+        dueDate,
+        is_template: addToTemplates,      
+      }],
+      assignment_to_ids: [participantId],
+    }
+
+    apiPost('/api/assignments', actionItemBody)
+      .then(() => setOpen(false))
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'AssignmentList');
+          scope.setExtra('action', 'apiPost (handleSubmit)');
+          scope.setExtra('participantId', participantId);
+          scope.setExtra('body', JSON.stringify(actionItemBody));
+        });
+        Sentry.captureException(error);
+      });
+  }
 
   return (
     <Paper elevation={3} className={classes.containerStyle}>
@@ -47,15 +125,11 @@ function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
               <Button color="primary" onClick={() => setOpen(true)}>
                 New Assignment
               </Button>
-              <Dialog
+              <ActionItemForm
                 open={open}
-                onClose={() => setOpen(false)}
-                aria-labelledby="form-dialog-title"
-                maxWidth="sm"
-                classes={{ overflow: 'hidden' }}
-              >
-                <ActionItemForm />
-              </Dialog>
+                handleClose={() => setOpen(false)}
+                handleSubmit={handleSubmit} // this.handleSubmit
+              />
             </div>
           ) : (
             <div />
@@ -73,7 +147,7 @@ function AssignmentList({ classes, initialAssignments, userType, formatDate }) {
             <img
               src="/assets/noPaperworks.svg"
               className={classes.noPaperworksImg}
-              alt="no Case Notes"
+              alt="no Assignments"
             />
             <div className={classes.noPaperworksTxt}>
               <h3>No assignments yet</h3>

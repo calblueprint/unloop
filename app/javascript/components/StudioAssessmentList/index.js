@@ -92,7 +92,7 @@ function StudioAssessmentList({
           {userType !== 'admin' ? (
             <StudioAssessmentModal
               participantId={participantId}
-              studioAssessment={studioAssessments[0]}
+              // studioAssessment={studioAssessments[0]}
               userType={userType}
               type="create"
             />
