@@ -36,6 +36,7 @@ class ParticipantsController < ApplicationController
         "created_at" => a.created_at,
         "updated_at" => a.updated_at,
         "due_date" => a.due_date,
+        "action_item_id" => a.action_item_id,
       }
       @assignment_list.push(complete_assignment)
     end

@@ -19,7 +19,7 @@ import {
 } from '@material-ui/core';
 import ActionItemCard from 'components/ActionItemCard';
 import ActionItemForm from 'components/ActionItemModal';
-import { apiPost, apiDelete } from 'utils/axios';
+import { apiPost, apiDelete, apiPatch } from 'utils/axios';
 import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
@@ -33,8 +33,10 @@ class AssignmentList extends React.Component {
       formatDate: this.props.formatDate,
       deleteModalOpen: false,
       newModalOpen: false,
-      assignmentToDelete: null,
-      assignmentToEdit: null,
+      editModalOpen: false,
+      // assignmentToDelete: null,
+      // assignmentToEdit: null,
+      modalAssignment: null,
     };
     this.appendStateAssignment = this.appendStateAssignment.bind(this);
     this.editStateAssignment = this.editStateAssignment.bind(this);
@@ -42,50 +44,67 @@ class AssignmentList extends React.Component {
     this.handleNewAssignment = this.handleNewAssignment.bind(this);
     this.handleEditAssignment = this.handleEditAssignment.bind(this);
     this.handleDeleteAssignment = this.handleDeleteAssignment.bind(this);
-    this.handleOpenNewModal = this.handleOpenNewModal.bind(this);
-    this.handleOpenEditModal = this.handleOpenEditModal.bind(this);
-    this.handleOpenDeleteModal = this.handleOpenDeleteModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
-
-// function AssignmentList({ classes, initialAssignments, participantId, userType, formatDate }) {
-//   const [assignments, setAssignments] = useState(initialAssignments);
-//   const [open, setOpen] = useState(false);
-//   const [openDeleteModal, setDeleteModal] = useState(false);
-
-  handleOpenNewModal(state) {
-    this.setState(prevState => ({
-      newModalOpen: state
-    }));
+  handleOpenModal(type, assignment) {
+    if (!assignment) {
+      assignment = null;
+    }
+    let modalOpen;
+    switch (type) {
+      case 'new':
+        modalOpen = 'newModalOpen';
+        break;
+      case 'edit':
+        modalOpen = 'editModalOpen';
+        break;
+      case 'delete':
+        modalOpen = 'deleteModalOpen';
+        break;
+    }
+    this.setState({
+      modalAssignment: assignment,
+      [modalOpen]: true,
+    })
   }
 
-  handleOpenEditModal(state) {
-    this.setState(prevState => ({
-      editModalOpen: state
-    }))
+  handleCloseModal() {
+    this.setState({
+      modalAssignment: null,
+      newModalOpen: false,
+      editModalOpen: false,
+      deleteModalOpen: false
+    })
   }
-
-  handleOpenDeleteModal(state) {
-    this.setState(prevState => ({
-      deleteModalOpen: state
-    }));
-  } 
 
   appendStateAssignment(assignment) {
+    console.log("trying to append");
     this.setState(prevState => ({
       assignments: [assignment, ...prevState.assignments],
     }));
   }
 
-  // Make the function for editing any assignments here
-  editStateAssignment(updatedAssignment) {
+  editStateAssignment(assignmentResponse) {
+    let actionItem = assignmentResponse.action_item;
+    let correctAssignment = {
+      actionItemId: actionItem.id,
+      category: actionItem.category,
+      description: actionItem.description,
+      title: actionItem.title,
+      dueDate: assignmentResponse.due_date,
+      id: assignmentResponse.id,
+      isTemplate: false, // Not sure about this one
+      // createdAt: Not sure how to find this one
+      // updatedAt: Not sure how to find this one
+    }
     this.setState(prevState => {
       const toUpdate = [...prevState.assignments];
       const foundIndex = toUpdate.findIndex(
-        assignment => assignment.id === updatedAssignment.id
+        assignment => assignment.id === correctAssignment.id
       );
       if (foundIndex !== -1) {
-        toUpdate[foundIndex] = updatedAssignment;
+        toUpdate[foundIndex] = correctAssignment;
         return { assignments: toUpdate};
       }
       return {};
@@ -99,24 +118,20 @@ class AssignmentList extends React.Component {
     });
   }
 
-  // New Assignment modal taken from ActionItemModal
-
   editModal() {
-    if (this.state.assignmentToEdit) {
-      console.log("trying to edit this one", this.state.assignmentToEdit);
-      console.log("new title", this.state.assignmentToEdit.title);
+    if (this.state.modalAssignment) {
       return (
         <ActionItemForm
           type={'edit'}
-          title={this.state.assignmentToEdit.title}
-          description={this.state.assignmentToEdit.description}
-          dueDate={this.state.assignmentToEdit.dueDate}
-          categorySelected={this.state.assignmentToEdit.category}
+          title={this.state.modalAssignment.title}
+          description={this.state.modalAssignment.description}
+          dueDate={this.state.modalAssignment.dueDate}
+          categorySelected={this.state.modalAssignment.category}
           open={this.state.editModalOpen}
-          handleClose={() => this.handleOpenEditModal(false)}
+          handleClose={() => this.handleCloseModal()}
           handleSubmit={this.handleEditAssignment}
           participantId={this.state.participantId}
-          // actionItemId={this.state.assignmentToEdit.actionItemId} This doesn't exist yet for some reason
+          actionItemId={this.state.modalAssignment.actionItemId}
         />
       )
     }
@@ -126,7 +141,7 @@ class AssignmentList extends React.Component {
     return (
       <Dialog
         open={this.state.deleteModalOpen}
-        onClose={() => this.handleOpenDeleteModal(false)}
+        onClose={() => this.handleCloseModal()}
         aria-labelledby="form-dialog-title"
         maxWidth="sm"
         fullWidth
@@ -140,6 +155,13 @@ class AssignmentList extends React.Component {
             onClick={() => this.handleDeleteAssignment()}
           >
             Delete
+          </Button>
+          <Button
+            onClick={() => this.handleCloseModal()}
+            variant="contained"
+            color="secondary"
+          >
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
@@ -167,7 +189,10 @@ class AssignmentList extends React.Component {
       };
 
       apiPost('/api/assignments/templates', { assignment: template })
-        .then(response => console.log(response))
+        .then((response) => {
+          this.handleCloseModal();
+          this.appendStateAssignment(response.data);
+        })
         .catch(error => {
           Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'AssignmentList');
@@ -175,25 +200,23 @@ class AssignmentList extends React.Component {
             scope.setExtra('template', JSON.stringify(template));
           })
         })
-    }
 
-    // Add ActionItem to ActionItems
-    const body = {
-      assignments: [{
-        title,
-        description,
-        category: categorySelected,
-        due_date: dueDate,      
-      }],
-      participant_ids: [participantId],
-    }
+    } else {
 
-    const production = false;
-    if (production) {
+      // Add ActionItem to ActionItems
+      const body = {
+        assignments: [{
+          title,
+          description,
+          category: categorySelected,
+          due_date: dueDate,      
+        }],
+        participant_ids: [participantId],
+      }
 
       apiPost('/api/assignments', body)
         .then((response) => {
-          this.handleOpenNewModal(false);
+          this.handleCloseModal();
           this.appendStateAssignment(response.data); // Limited testing for this functionality since MailCatcher fails for me
         })
         .catch(error => {
@@ -205,12 +228,24 @@ class AssignmentList extends React.Component {
           });
           Sentry.captureException(error);
         });
+        // THIS IS ACTIONITEMCREATIONPAGE PAYLOAD FORMAT
 
-    } else {
-
-      this.handleOpenNewModal(false);
-      this.appendStateAssignment(body.assignments[0]);
-
+          // const participantIds = this.state.selectedParticipants.map(
+          //   participant => participant.id,
+          // );
+      
+          // const assignments = this.state.selectedActionItems.map(actionItem => ({
+          //   title: actionItem.title,
+          //   description: actionItem.description,
+          //   due_date: actionItem.dueDate,
+          //   category: actionItem.category,
+          // }));
+      
+          // const body = {
+          //   assignments,
+          //   participant_ids: participantIds,
+          // };
+          // apiPost('/api/assignments', body)
     }
   }
 
@@ -222,99 +257,51 @@ class AssignmentList extends React.Component {
     addToTemplates,
     participantId,
   ) {
-    console.log("trying to edit here!");
+
+    // Edit ActionItem and send PATCH request
+    const body = {
+      assignment: {
+        title,
+        description,
+        category: categorySelected,
+        due_date: dueDate,      
+      },
+      participant_ids: [participantId],
+    }
+
+    apiPatch(`/api/assignments/${this.state.modalAssignment.id}`, body)
+      .then((response) => {
+        this.handleCloseModal();
+        this.editStateAssignment(response.data);
+      })
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'AssignmentList');
+          scope.setExtra('action', 'apiPatch (handleEditAssignment)');
+          scope.setExtra('assignmentId', this.state.modalAssignment.id);
+        });
+        Sentry.captureException(error);
+      });
   }
-
-    // const editActionItem = (actionItem) => {
-
-  // }
-
-  // For editing caseNotes
-
-  // this.setState(prevState => ({
-  //   description: prevState.tempDescription,
-  // }));
-
-  // const body = {
-  //   title: this.state.title,
-  //   description: this.state.tempDescription,
-  //   visible: this.state.visible,
-  //   participant_id: this.state.participant_id,
-  // };
-  // apiPatch(`/api/case_notes/${this.state.caseNoteId}`, {
-  //   case_note: body,
-  // })
-  //   .then(response => {
-  //     this.props.updateCaseNote(response.data);
-  //     this.setState({ open: false });
-  //   })
-  //   .catch(error => {
-  //     Sentry.configureScope(function(scope) {
-  //       scope.setExtra('file', 'CaseNoteForm');
-  //       scope.setExtra('action', 'apiPatch');
-  //       scope.setExtra('case_note', JSON.stringify(body));
-  //     });
-  //     Sentry.captureException(error);
-  //   });
 
   handleDeleteAssignment() {
-    if (!this.state.assignmentToDelete) {
-      console.log("Trying to delete an assignment without selecting one! This error should not be possible.");
-    } else {
-      const assignment = this.state.assignmentToDelete;
+    const assignment = this.state.modalAssignment;
 
-      const production = false;
-      if (production) { // For testing purposes
-      
-        // Make API request to delete assignment and remove assignment from state
-        apiDelete(`api/assignments/${assignment.id}`)
-          .then(() => {
-            this.handleOpenDeleteModal(false);
-            this.deleteStateAssignment(assignment);
-          })
-          .catch(error => {
-            Sentry.configureScope(function(scope) {
-              scope.setExtra('file', 'AssignmentList');
-              scope.setExtra('action', 'apiDelete');
-              scope.setExtra('assignmentId', assignment.id);
-            });
-            Sentry.captureException(error);
-          });
-
-      } else {
-        this.handleOpenDeleteModal(false);
+    // Make API request to delete assignment and remove assignment from state
+    apiDelete(`/api/assignments/${assignment.id}`)
+      .then(() => {
+        this.handleCloseModal();
         this.deleteStateAssignment(assignment);
-        this.setState(prevState => {
-          const remainingAssignments = prevState.assignments.filter(item => item.id !== assignment.id);
-          return { assignments: remainingAssignments };
+      })
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'AssignmentList');
+          scope.setExtra('action', 'apiDelete (handleDeleteAssignment)');
+          scope.setExtra('assignmentId', assignment.id);
         });
-
-      }
-    }
+        Sentry.captureException(error);
+      });
   }
-
-  // ActionItemForm.propTypes = {
-  //   classes: PropTypes.object.isRequired,
-  //   type: PropTypes.oneOf(['create', 'edit']),
-  //   title: PropTypes.string,
-  //   description: PropTypes.string,
-  //   dueDate: PropTypes.string,
-  //   categorySelected: PropTypes.string,
-  //   open: PropTypes.bool.isRequired,
-  //   participantId: PropTypes.number,
-  //   actionItemId: PropTypes.number,
-  //   handleClose: PropTypes.func.isRequired,
-  //   handleSubmit: PropTypes.func.isRequired,
-  // };
-  // ActionItemForm.defaultProps = {
-  //   title: '',
-  //   type: 'create',
-  //   description: '',
-  //   dueDate: '',
-  //   categorySelected: '',
-  // };
-
-
 
   assignmentEntries() {
     if (this.state.assignments.length !== 0) {
@@ -328,18 +315,10 @@ class AssignmentList extends React.Component {
           selected={false} // Dummy prop for this specific usage of ActionItemCard
           renderClose={false}
           editActionItem={() => {
-            this.handleOpenEditModal(true);
-            console.log("trying to edit", assignment);
-            this.setState({
-              assignmentToEdit: assignment
-            })
-            console.log(this.state.assignmentToEdit);
+            this.handleOpenModal("edit", assignment);
           }}
           removeActionItem={() => {
-            this.handleOpenDeleteModal(true);
-            this.setState({
-              assignmentToDelete: assignment
-            })
+            this.handleOpenModal("delete", assignment);
           }}
         />
       ));
@@ -352,6 +331,7 @@ class AssignmentList extends React.Component {
     return (
       <Paper elevation={3} className={classes.containerStyle}>
         {this.editModal()}
+        {this.deleteModal()}
         <Grid
           container
           direction="row"
@@ -364,14 +344,13 @@ class AssignmentList extends React.Component {
           </Grid>
           <Grid item>
             {this.state.userType === 'staff' ? (
-              // Make this a button to pop-up the modal to add a new assignment
               <div>
-                <Button color="primary" onClick={() => this.handleOpenNewModal(true)}>
+                <Button color="primary" onClick={() => this.handleOpenModal("new")}>
                   New Assignment
                 </Button>
                 <ActionItemForm
                   open={this.state.newModalOpen}
-                  handleClose={() => this.handleOpenNewModal(false)}
+                  handleClose={() => this.handleCloseModal()}
                   handleSubmit={this.handleNewAssignment}
                   participantId={this.state.participantId}
                 />
@@ -381,8 +360,6 @@ class AssignmentList extends React.Component {
             )}
           </Grid>
         </Grid>
-
-        {/* Change these to handle rendering assignments instead */}
 
         <List className={classes.listStyle} dense>
           {this.state.assignments.length !== 0 ? (

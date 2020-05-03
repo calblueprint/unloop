@@ -181,7 +181,7 @@ class ActionItemForm extends React.Component {
               Description
             </DialogContentText>
             <TextField
-              value={this.state.description}
+              value={this.state.description} 
               className={classes.dialogContentTextFieldStyle}
               name="description"
               onChange={this.handleChange('description')}

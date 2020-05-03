@@ -63,14 +63,6 @@ class ParticipantShowPage extends React.Component {
       assignmentList,
     } = this.props;
 
-    console.log('case notes', caseNotes);
-    console.log('paperworks', paperworks);
-    console.log('assignments', assignments);
-    console.log('participantId', participantId);
-    console.log('studio assessments', studioAssessments[0]);
-    console.log('sample action item', this.sampleActionItem);
-    console.log("assignmentList", assignmentList);
-
     return (
       <Grid
         container

@@ -39,9 +39,6 @@ Rails.application.routes.draw do
       patch 'not_visible', to: 'case_notes#not_visible', on: :member
     end
 
-    # resources :assignments, only: [:show, :create, :update, :destroy] do
-      
-
     scope '/assignments' do
       post 'templates', to: 'assignments#create_template'
       get 'templates', to: 'assignments#get_templates'
@@ -49,11 +46,6 @@ Rails.application.routes.draw do
       get 'templates/:id', to: 'assignments#show_template'
       delete 'templates/:id', to: 'assignments#destroy_template'
     end
-
-    # # Need to add more routing for editing and deleting assignments?
-    # scope '/assignments' do
-    #   # Create
-    #   post ':id'
 
     resources :studio_assessments, only: [:show, :create, :update, :destroy]
     resources :assignments, only: [:show, :create, :update, :destroy]
