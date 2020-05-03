@@ -71,7 +71,6 @@ class ActionItemCreationPage extends React.Component {
       this.setState({ submitFailed: true });
       return;
     }
-
     const participantIds = this.state.selectedParticipants.map(
       participant => participant.id,
     );
@@ -79,8 +78,9 @@ class ActionItemCreationPage extends React.Component {
       assignments: this.state.selectedActionItems,
       assigned_to_ids: participantIds,
     };
+    console.log(body);
     apiPost('/api/assignments', body)
-      .then(() => this.setState({ submissionModal: true, submitFailed: false }))
+      .then((res) => console.log(res))
       .catch(error => {
         Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'ActionItemCreationPage');
@@ -130,6 +130,7 @@ class ActionItemCreationPage extends React.Component {
       actionItemDescription,
       actionItemCategory,
       actionItemDueDate,
+      file,
     } = this.state;
 
     if (
@@ -157,19 +158,29 @@ class ActionItemCreationPage extends React.Component {
           Sentry.captureException(error);
         });
     }
-    const actionItem = {
-      title: actionItemTitle,
-      description: actionItemDescription,
-      category: actionItemCategory,
-      dueDate: actionItemDueDate,
-      is_template: saveToTemplates,
-    };
+    const actionItem = new FormData();
+    // const actionItem = {
+    //   title: actionItemTitle,
+    //   description: actionItemDescription,
+    //   category: actionItemCategory,
+    //   dueDate: actionItemDueDate,
+    //   is_template: saveToTemplates,
+    //   file: file,
+    // };
+    actionItem.append('title', actionItemTitle);
+    actionItem.append('description', actionItemDescription);
+    actionItem.append('category', actionItemCategory);
+    actionItem.append('dueDate', actionItemDueDate);
+    actionItem.append('is_template', saveToTemplates);
+    actionItem.append('file', file);
+    console.log(actionItem);
     this.setState(prevState => ({
-      selectedActionItems: [actionItem, ...prevState.selectedActionItems],
+      selectedActionItems: [actionItem],
       actionItemTitle: '',
       actionItemDescription: '',
       actionItemDueDate: '',
       actionItemCategory: null,
+      file: null,
     }));
   }
 

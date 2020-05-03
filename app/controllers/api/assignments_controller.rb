@@ -15,19 +15,25 @@ class Api::AssignmentsController < ApplicationController
             render json: { error: 'Action items and Participants must be populated'}, status: :unprocessable_entity
             return
         end
-
+        puts action_items.length
         action_items.each do |action_item|
             action_item = ActionItem.new(action_item.except(:due_date)) 
+            puts action_item.title
+            puts action_item.file
             template_sentry_helper(action_item)
             action_item[:is_template] = false
             if !assigned_to_ids.empty? && action_item.save
+                puts "in the if" 
                 created_action_items.append(action_item)
                 prepare_bulk_assignment(assigned_to_ids, action_item).each do |assignment|
+                    puts "bulk assigning"
                     assignment_sentry_helper(assignment)  
                     if assignment.save
+                        puts "if save"
                         AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
                         created_assignments.append(assignment)
                     else 
+                        puts "will get festyored"
                         action_item.destroy
                         created_action_items.each {|item| item.destroy}
                         Raven.capture_message("Could not create action item")
@@ -36,6 +42,7 @@ class Api::AssignmentsController < ApplicationController
                     end
                 end
             else
+                puts "not in first if"
                 created_action_items.each {|item| item.destroy}
                 Raven.capture_message("Could not create action item")
                 render json: { error: 'Could not create action item' }, status: :unprocessable_entity
@@ -179,14 +186,16 @@ class Api::AssignmentsController < ApplicationController
     def action_item_params
         action_item_param = params.require(:assignment).permit(:title,
                                                                :description,
-                                                               :category)
+                                                               :category, :file)
     end
 
     def bulk_assignment_params
+        puts params
         all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category], assigned_to_ids: [])
      end
 
     def assignment_params
+        puts params
         assignment_param = params.require(:assignment).permit(:action_item_id,
                                                                :due_date,
                                                                :completed)
