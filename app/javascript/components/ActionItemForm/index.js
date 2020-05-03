@@ -171,6 +171,7 @@ function ActionItemForm({
                   onClick={() => {
                     if (allFieldsFilled) {
                       createActionItem(addToTemplates);
+                      setAddToTemplates(false);
                       setFailedSubmit(false);
                     } else {
                       setFailedSubmit(true);
