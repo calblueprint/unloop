@@ -23,7 +23,7 @@ export const styles = theme => ({
     borderRadius: '10px',
     border: 1,
     width: '400px',
-    minHeight: '470px',
+    height: '460px',
     paddingTop: '30px',
     paddingLeft: '20px',
     paddingRight: '20px',

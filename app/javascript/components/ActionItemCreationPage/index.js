@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 import ActionItemCreationContainer from 'components/ActionItemCreationContainer';
 import ActionItemSearchParticipants from 'components/ActionItemSearchParticipants';
 import ActionItemList from 'components/ActionItemList';
@@ -254,10 +256,12 @@ class ActionItemCreationPage extends React.Component {
     let rightComponent;
     let leftComponentText;
     let rightComponentText;
+    let headerText;
     switch (stepSize) {
       case 0:
         leftComponentText = 'Assignments';
         rightComponentText = 'Add Assignments';
+        headerText = 'Add Assignments to List';
         leftComponent = (
           <ActionItemList
             selectedActionItems={this.state.selectedActionItems}
@@ -288,6 +292,8 @@ class ActionItemCreationPage extends React.Component {
       case 1:
         leftComponentText = 'Students';
         rightComponentText = 'Add Students';
+        headerText = 'Add Students to Assignments';
+
         leftComponent = (
           <ActionItemDisplayParticipants
             selectedParticipants={this.state.selectedParticipants}
@@ -308,6 +314,8 @@ class ActionItemCreationPage extends React.Component {
       case 2:
         leftComponentText = 'Review Students';
         rightComponentText = 'Review Assignments';
+        headerText = 'Review and Assign';
+
         leftComponent = (
           <ActionItemDisplayParticipants
             selectedParticipants={this.state.selectedParticipants}
@@ -325,12 +333,14 @@ class ActionItemCreationPage extends React.Component {
         rightComponent = null;
         leftComponentText = null;
         rightComponentText = null;
+        headerText = null;
     }
     return {
       leftComponent,
       rightComponent,
       leftComponentText,
       rightComponentText,
+      headerText,
     };
   }
 
@@ -468,12 +478,29 @@ class ActionItemCreationPage extends React.Component {
       leftComponentText,
       rightComponent,
       rightComponentText,
+      headerText,
     } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
-    const errorOccurred = this.state.submitFailed && this.state.step === 2;
+    const submissionError = this.state.submitFailed && this.state.step === 2;
 
     return (
       <div>
+        <Snackbar
+          open={submissionError}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          onClose={(event, reason) => {
+            if (reason === 'clickaway') {
+              return;
+            }
+            this.handleChange('submitFailed')({ target: { value: false } });
+          }}
+        >
+          <SnackbarContent
+            classes={{ root: classes.snackbarStyle }}
+            message="There must be at least 1 assignment and 1 student"
+          />
+        </Snackbar>
         <Dialog open={this.state.submissionModal}>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
@@ -504,10 +531,23 @@ class ActionItemCreationPage extends React.Component {
               xs={11}
               spacing={2}
             >
-              <Grid container item direction="row" justify="flex-start">
+              <Grid
+                container
+                item
+                direction="column"
+                alignItems="flex-start"
+                spacing={1}
+              >
+                <Grid item>
+                  <img
+                    src={`/assets/action_item_step_${this.state.step}.svg`}
+                    className={classes.stepperStyle}
+                    alt={`Step ${this.state.step + 1} of form`}
+                  />
+                </Grid>
                 <Grid item>
                   <Typography className={classes.topLeftTextStyle}>
-                    Add Assignments to List
+                    {headerText}
                   </Typography>
                 </Grid>
               </Grid>
@@ -521,16 +561,7 @@ class ActionItemCreationPage extends React.Component {
                 alignItems="flex-start"
               >
                 <Grid item>
-                  <Typography
-                    className={classes.underlineStyle}
-                    style={{
-                      color:
-                        errorOccurred &&
-                        this.state.selectedParticipants.length === 0
-                          ? 'red'
-                          : null,
-                    }}
-                  >
+                  <Typography className={classes.underlineStyle}>
                     {leftComponentText}
                   </Typography>
                   <hr className={classes.borderStyle}></hr>
@@ -538,16 +569,7 @@ class ActionItemCreationPage extends React.Component {
                   {leftComponent}
                 </Grid>
                 <Grid item>
-                  <Typography
-                    className={classes.underlineStyle}
-                    style={{
-                      color:
-                        errorOccurred &&
-                        this.state.selectedActionItems.length === 0
-                          ? 'red'
-                          : null,
-                    }}
-                  >
+                  <Typography className={classes.underlineStyle}>
                     {rightComponentText}
                   </Typography>
                   <hr className={classes.borderStyle}></hr>
