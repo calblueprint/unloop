@@ -14,6 +14,7 @@ import {
   FormControlLabel,
   Select,
   MenuItem,
+  InputLabel,
 } from '@material-ui/core/';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -121,8 +122,10 @@ class QuestionnaireForm extends React.Component {
     if (fieldName === 'DOC_status') {
       return (
         <div className={this.props.classes.questionnaireEntry}>
-          <DialogContentText>{contentText}</DialogContentText>
-          <RadioGroup id={fieldName}>
+          <DialogContentText className={this.props.classes.questionnaireLabel}>
+            {contentText}
+          </DialogContentText>
+          <RadioGroup id={fieldName} className={this.props.classes.radioGroup}>
             <FormControlLabel
               value="WR"
               control={<Radio />}
@@ -183,12 +186,18 @@ class QuestionnaireForm extends React.Component {
     if (fieldName === 'race_and_ethnicities') {
       return (
         <div className={this.props.classes.questionnaireEntry}>
-          <DialogContentText>{contentText}</DialogContentText>
+          <DialogContentText className={this.props.classes.questionnaireLabel}>
+            {contentText}
+          </DialogContentText>
           <Select
             id={fieldName}
             value={this.state.questionnaire.race_and_ethnicities}
             onChange={e => this.handleSelectChange(e, fieldName)}
+            className={this.props.classes.selectMenu}
           >
+            <InputLabel className={this.props.classes.selectLabelText}>
+              Select Race/Ethnicity
+            </InputLabel>
             <MenuItem value="American Indian or Alaska Native">
               American Indian or Alaska Native
             </MenuItem>
@@ -212,8 +221,10 @@ class QuestionnaireForm extends React.Component {
     if (fieldName === 'course_completion') {
       return (
         <div className={this.props.classes.questionnaireEntry}>
-          <DialogContentText>{contentText}</DialogContentText>
-          <RadioGroup id={fieldName}>
+          <DialogContentText className={this.props.classes.questionnaireLabel}>
+            {contentText}
+          </DialogContentText>
+          <RadioGroup id={fieldName} className={this.props.classes.radioGroup}>
             <FormControlLabel
               value="completed"
               control={<Radio />}
@@ -239,13 +250,15 @@ class QuestionnaireForm extends React.Component {
     if (fieldName === 'birthdate') {
       return (
         <div className={this.props.classes.questionnaireEntry}>
-          <DialogContentText>{contentText}</DialogContentText>
+          <DialogContentText className={this.props.classes.questionnaireLabel}>
+            {contentText}
+          </DialogContentText>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableToolbar
               variant="inline"
               label="Select date"
-              value={this.state.questionnaire["birthdate"]}
+              value={this.state.questionnaire.birthdate}
               onChange={e => this.handleDateChange(e, fieldName)}
               format="MM/dd/yyyy"
             />
@@ -253,10 +266,11 @@ class QuestionnaireForm extends React.Component {
         </div>
       );
     }
-
     return (
       <div className={this.props.classes.questionnaireEntry}>
-        <DialogContentText>{contentText}</DialogContentText>
+        <DialogContentText className={this.props.classes.questionnaireLabel}>
+          {contentText}
+        </DialogContentText>
         <TextField
           className={`${this.props.classes.dialogContentTextField} ${this.props.classes.questionnaireTextField}`}
           onChange={e => this.handleTextFormChange(e)}
@@ -285,6 +299,13 @@ class QuestionnaireForm extends React.Component {
             .replace('-', ' ')
             .replace('_', ' '),
         );
+        if (f === 'emergency_contact_2_name') {
+          sentenceCase = 'Second Emergency Contact (optional)';
+        } else if (f === 'emergency_contact_2_phone_number') {
+          sentenceCase = 'Second Emergency Contact Phone Number (optional)';
+        } else if (f === 'emergency_contact_2_relationship') {
+          sentenceCase = 'Second Emergency Contact Relationship (optional)';
+        }
 
         return (
           <div key={f}>

@@ -15,7 +15,8 @@ function QuestionnaireModal({
   userType,
 }) {
   const [open, setOpen] = useState(false);
-  const qType = questionnaireType.toUpperCase();
+  const qType =
+    questionnaireType.charAt(0).toUpperCase() + questionnaireType.slice(1);
 
   let content;
   if (userType === 'staff') {
@@ -51,10 +52,9 @@ function QuestionnaireModal({
         classes={{ paper: classes.dialog }}
       >
         <Grid container direction="row" className={classes.title}>
-          <Typography variant="h4" className={classes.titleText}>
-            {qType} INFORMATION
+          <Typography variant="h6" className={classes.titleText}>
+            {qType} Information
           </Typography>
-             
         </Grid>
         {content}
       </Dialog>
