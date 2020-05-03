@@ -162,13 +162,13 @@ class ActionItemCreationPage extends React.Component {
       return;
     }
 
-    const actionItem = {
-      title: actionItemTitle,
-      description: actionItemDescription,
-      category: actionItemCategory,
-      dueDate: actionItemDueDate,
-      is_template: saveToTemplates,
-    };
+    // const actionItem = {
+    //   title: actionItemTitle,
+    //   description: actionItemDescription,
+    //   category: actionItemCategory,
+    //   dueDate: actionItemDueDate,
+    //   is_template: saveToTemplates,
+    // };
 
     if (saveToTemplates) {
       apiPost('/api/assignments/templates', { assignment: actionItem })
@@ -187,7 +187,6 @@ class ActionItemCreationPage extends React.Component {
           Sentry.captureException(error);
         });
     }
-<<<<<<< HEAD
     const actionItem = new FormData();
     // const actionItem = {
     //   title: actionItemTitle,
@@ -204,9 +203,6 @@ class ActionItemCreationPage extends React.Component {
     actionItem.append('is_template', saveToTemplates);
     actionItem.append('file', file);
     console.log(actionItem);
-=======
-
->>>>>>> 2ddecb4a0dba0a10652f67a5a915d259bb520e2b
     this.setState(prevState => ({
       selectedActionItems: [actionItem],
       actionItemTitle: '',

@@ -195,12 +195,7 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def bulk_assignment_params
-<<<<<<< HEAD
-        puts params
-        all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category], assigned_to_ids: [])
-=======
         all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category], participant_ids: [])
->>>>>>> 2ddecb4a0dba0a10652f67a5a915d259bb520e2b
      end
 
     def assignment_params
