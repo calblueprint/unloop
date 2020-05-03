@@ -1,9 +1,9 @@
 const styles = theme => ({
   iconLarge: {
-    width: 35,
-    height: 35,
-    minWidth: 35,
-    minHeight: 35,
+    width: 30,
+    height: 30,
+    minWidth: 30,
+    minHeight: 30,
   },
   name: {
     maxWidth: 80,
@@ -15,13 +15,14 @@ const styles = theme => ({
     backgroundColor: theme.palette.common.r1,
   },
   status: {
-    width: 52,
-    height: 52,
-    borderRadius: '100%',
+    width: 80,
+    height: 25,
+    borderRadius: 14,
     textAlign: 'center',
     verticalAlign: 'middle',
-    lineHeight: '52px',
+    lineHeight: '25px',
     color: theme.palette.common.white,
+    fontSize: '12px',
     backgroundColor: ({ participant }) => {
       switch (participant.status.toUpperCase()) {
         case 'R0':
