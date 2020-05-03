@@ -7,6 +7,9 @@ const styles = theme => ({
     backgroundColor: theme.palette.common.white,
     overflow: 'none',
   },
+  snackbarStyle: {
+    backgroundColor: 'red',
+  },
   mainBackgroundStyle: {
     backgroundColor: theme.palette.common.lightestGrey,
     padding: '2%',

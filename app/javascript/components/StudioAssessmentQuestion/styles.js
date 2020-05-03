@@ -17,7 +17,7 @@ const styles = theme => ({
   questions: {
     backgroundColor: theme.palette.common.lightBlue,
     padding: '20px',
-    borderRadius: '10px',
+    borderRadius: theme.shape.borderRadius,
   },
   header: {
     borderBottom: `5px solid ${theme.palette.primary.main}`,
@@ -33,7 +33,7 @@ const styles = theme => ({
   radio: {
     marginTop: '20px',
     padding: '20px',
-    borderRadius: '10px',
+    borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.common.lightBlue,
   },
   comments: {
