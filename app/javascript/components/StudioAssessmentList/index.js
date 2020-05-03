@@ -29,11 +29,11 @@ function StudioAssessmentList({
   //     setPaperworks(allAssessments);
   //   }
   // };
-  console.log('studioAssessments', studioAssessments);
-  console.log('formatDate', formatDate);
-  console.log('initialStudioAssessments', initialStudioAssessments);
-  console.log('participantId', participantId);
-  console.log('userType', userType);
+  // console.log('studioAssessments', studioAssessments);
+  // console.log('formatDate', formatDate);
+  // console.log('initialStudioAssessments', initialStudioAssessments);
+  // console.log('participantId', participantId);
+  // console.log('userType', userType);
 
   // let createdDate = studioAssessments['created_at'];
 

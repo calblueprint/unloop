@@ -26,6 +26,7 @@ function ActionItemCard({
   lastEntry = false,
   handleIconClick,
   removeActionItem,
+  editActionItem,
 }) {
   const renderSelectIcon = () => (
     <IconButton aria-label="add" onClick={handleIconClick}>
@@ -39,15 +40,23 @@ function ActionItemCard({
     </IconButton>
   );
 
-  const renderDeleteButton = () => (
-    <Button
-      size="small"
-      className={classes.buttonStyle}
-      onClick={removeActionItem}
-    >
-      DELETE
-    </Button>
-  );
+  const renderButton = (type) => {
+    let clickFunc;
+    if (type === "EDIT") {
+      clickFunc = editActionItem;
+    } else if (type === "DELETE") {
+      clickFunc = removeActionItem;
+    }
+    return (
+      <Button
+        size="small"
+        className={classes.buttonStyle}
+        onClick={clickFunc}
+      >
+        {type}
+      </Button>
+    );
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -108,17 +117,8 @@ function ActionItemCard({
             xs={6}
             justify="space-evenly"
           >
-            {/* Commented out because it doesn't have functionality right now */}
-            <Grid item>
-              <Button 
-                size="small" 
-                className={classes.buttonStyle}
-                // onClick={editActionItem}
-              >
-                EDIT
-              </Button>
-            </Grid>
-            <Grid item>{renderClose ? null : renderDeleteButton()}</Grid>
+            <Grid item>{renderButton("EDIT")}</Grid>
+            <Grid item>{renderClose ? null : renderButton("DELETE")}</Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -136,6 +136,7 @@ ActionItemCard.propTypes = {
   dueDate: PropTypes.string,
   handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,
+  editActionItem: PropTypes.func,
   lastEntry: PropTypes.bool,
 };
 export default withStyles(styles)(ActionItemCard);

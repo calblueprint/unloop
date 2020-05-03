@@ -39,6 +39,9 @@ Rails.application.routes.draw do
       patch 'not_visible', to: 'case_notes#not_visible', on: :member
     end
 
+    # resources :assignments, only: [:show, :create, :update, :destroy] do
+      
+
     scope '/assignments' do
       post 'templates', to: 'assignments#create_template'
       get 'templates', to: 'assignments#get_templates'
