@@ -44,7 +44,7 @@ class ActionItemCreationPage extends React.Component {
     this.nextStep = this.nextStep.bind(this);
     this.prevStep = this.prevStep.bind(this);
     this.getMainComponents = this.getMainComponents.bind(this);
-    this.getButtons = this.getButtons.bind(this);
+    this.getButtonsGrid = this.getButtons.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.createActionItem = this.createActionItem.bind(this);
     this.selectActionItemTemplate = this.selectActionItemTemplate.bind(this);
@@ -520,6 +520,7 @@ class ActionItemCreationPage extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <Grid container style={{ height: '100vh', width: '100vw' }}>
           <Grid item container xs={11} justify="center">
             <Grid
               container
@@ -564,8 +565,8 @@ class ActionItemCreationPage extends React.Component {
                 </Grid>
               </Grid>
               {buttonsGrid}
+            </Grid>
           </Grid>
-          {buttonsGrid}
         </Grid>
       </div>
     );
