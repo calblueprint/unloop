@@ -348,12 +348,17 @@ class AssignmentList extends React.Component {
                 <Button color="primary" onClick={() => this.handleOpenModal("new")}>
                   New Assignment
                 </Button>
-                <ActionItemForm
-                  open={this.state.newModalOpen}
-                  handleClose={() => this.handleCloseModal()}
-                  handleSubmit={this.handleNewAssignment}
-                  participantId={this.state.participantId}
-                />
+                {this.state.newModalOpen ? (
+                  <ActionItemForm
+                    type={'create'}
+                    open={this.state.newModalOpen}
+                    handleClose={() => this.handleCloseModal()}
+                    handleSubmit={this.handleNewAssignment}
+                    participantId={this.state.participantId}
+                  />
+                ) : (
+                  null
+                )}
               </div>
             ) : (
               <div />
