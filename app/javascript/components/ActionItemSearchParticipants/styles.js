@@ -51,8 +51,7 @@ export const styles = () => ({
   searchScroll: {
     overflowY: 'scroll',
     left: 0,
-    minHeight: '220px',
-    height: '30vh',
+    height: '210px',
     top: 0,
   },
 

@@ -33,7 +33,7 @@ function ActionItemCard({
   );
 
   const renderCloseIcon = () => (
-    <IconButton aria-label="close" onClick={removeActionItem}>
+    <IconButton aria-label="close" onClick={removeActionItem} size="small">
       <CloseIcon style={{ fontSize: 'medium' }} />
     </IconButton>
   );
@@ -52,7 +52,7 @@ function ActionItemCard({
     <ThemeProvider theme={theme}>
       <Grid
         container
-        spacing={1}
+        spacing={2}
         className={classes.cardStyle}
         direction="column"
         justify="space-evenly"
@@ -65,14 +65,13 @@ function ActionItemCard({
           wrap="nowrap"
           spacing={2}
         >
-          <Grid item container alignItems="center" wrap="nowrap">
+          <Grid item xs={2} container alignItems="center" wrap="nowrap">
             <Grid item className={classes.titleStyle}>
               <Typography variant="subtitle1" noWrap>
-                {' '}
-                {title}{' '}
+                {title}
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item xs={3}>
               <Fab
                 className={classes.iconStyle}
                 component="span"
@@ -90,7 +89,9 @@ function ActionItemCard({
               </Fab>
             </Grid>
           </Grid>
-          <Grid item>{renderClose ? renderCloseIcon() : null}</Grid>
+          <Grid item xs={1}>
+            {renderClose ? renderCloseIcon() : null}
+          </Grid>
         </Grid>
         <Grid item container alignItems="center" spacing={6}>
           <Grid item xs={9} className={classes.descriptionStyle}>
