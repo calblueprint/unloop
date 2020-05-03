@@ -7,7 +7,7 @@
 const styles = theme => ({
   containerStyle: {
     padding: '18px 28px',
-    borderRadius: 10,
+    borderRadius: theme.shape.borderRadius,
     marginLeft: 0,
     marginRight: 0,
   },
