@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 import ActionItemCreationContainer from 'components/ActionItemCreationContainer';
 import ActionItemSearchParticipants from 'components/ActionItemSearchParticipants';
 import ActionItemList from 'components/ActionItemList';
@@ -50,6 +52,17 @@ class ActionItemCreationPage extends React.Component {
     this.removeSelectedActionItem = this.removeSelectedActionItem.bind(this);
     this.deleteTemplate = this.deleteTemplate.bind(this);
     this.handleFile = this.handleFile.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.checkActionItemsEqual = this.checkActionItemsEqual.bind(this);
+  }
+
+  checkActionItemsEqual(actionItem1, actionItem2) {
+    return (
+      actionItem1.title === actionItem2.title &&
+      actionItem1.description === actionItem2.description &&
+      actionItem1.category === actionItem2.category &&
+      actionItem1.dueDate === actionItem2.dueDate
+    );
   }
 
   handleChange(name) {
@@ -74,9 +87,17 @@ class ActionItemCreationPage extends React.Component {
     const participantIds = this.state.selectedParticipants.map(
       participant => participant.id,
     );
+
+    const assignments = this.state.selectedActionItems.map(actionItem => ({
+      title: actionItem.title,
+      description: actionItem.description,
+      due_date: actionItem.dueDate,
+      category: actionItem.category,
+    }));
+
     const body = {
-      assignments: this.state.selectedActionItems,
-      assigned_to_ids: participantIds,
+      assignments,
+      participant_ids: participantIds,
     };
     console.log(body);
     apiPost('/api/assignments', body)
@@ -100,7 +121,7 @@ class ActionItemCreationPage extends React.Component {
       .then(() =>
         this.setState(prevState => {
           const remainingTemplates = prevState.templateActionItems.filter(
-            item => item !== templateActionItem,
+            item => !this.checkActionItemsEqual(item, templateActionItem),
           );
           return { templateActionItems: remainingTemplates };
         }),
@@ -118,7 +139,7 @@ class ActionItemCreationPage extends React.Component {
   removeSelectedActionItem(actionItem) {
     this.setState(prevState => {
       const filteredActionItems = prevState.selectedActionItems.filter(
-        item => item !== actionItem,
+        item => !this.checkActionItemsEqual(actionItem, item),
       );
       return { selectedActionItems: filteredActionItems };
     });
@@ -141,23 +162,32 @@ class ActionItemCreationPage extends React.Component {
       return;
     }
 
+    const actionItem = {
+      title: actionItemTitle,
+      description: actionItemDescription,
+      category: actionItemCategory,
+      dueDate: actionItemDueDate,
+      is_template: saveToTemplates,
+    };
+
     if (saveToTemplates) {
-      const template = {
-        title: actionItemTitle,
-        description: actionItemDescription,
-        category: actionItemCategory,
-      };
-      apiPost('/api/assignments/templates', { assignment: template })
-        .then(resp => console.log(resp))
+      apiPost('/api/assignments/templates', { assignment: actionItem })
+        .then(resp => {
+          actionItem.id = resp.data.id;
+          this.setState(prevState => ({
+            templateActionItems: [actionItem, ...prevState.templateActionItems],
+          }));
+        })
         .catch(error => {
           Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'ActionItemCreationPage');
             scope.setExtra('action', 'apiPost (createActionItem)');
-            scope.setExtra('template', JSON.stringify(template));
+            scope.setExtra('template', JSON.stringify(actionItem));
           });
           Sentry.captureException(error);
         });
     }
+<<<<<<< HEAD
     const actionItem = new FormData();
     // const actionItem = {
     //   title: actionItemTitle,
@@ -174,6 +204,9 @@ class ActionItemCreationPage extends React.Component {
     actionItem.append('is_template', saveToTemplates);
     actionItem.append('file', file);
     console.log(actionItem);
+=======
+
+>>>>>>> 2ddecb4a0dba0a10652f67a5a915d259bb520e2b
     this.setState(prevState => ({
       selectedActionItems: [actionItem],
       actionItemTitle: '',
@@ -263,7 +296,9 @@ class ActionItemCreationPage extends React.Component {
         rightComponent = (
           <ActionItemCreationContainer
             templates={this.state.templateActionItems}
-            selectedActionItems={new Set(this.state.selectedActionItems)}
+            selectedActionItemIds={
+              new Set(this.state.selectedActionItems.map(item => item.id))
+            }
             title={this.state.actionItemTitle}
             setTitle={this.handleChange('actionItemTitle')}
             description={this.state.actionItemDescription}
@@ -465,10 +500,26 @@ class ActionItemCreationPage extends React.Component {
       rightComponentText,
     } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
-    const errorOccurred = this.state.submitFailed && this.state.step === 2;
+    const submissionError = this.state.submitFailed && this.state.step === 2;
 
     return (
       <div>
+        <Snackbar
+          open={submissionError}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          onClose={(event, reason) => {
+            if (reason === 'clickaway') {
+              return;
+            }
+            this.handleChange('submitFailed')({ target: { value: false } });
+          }}
+        >
+          <SnackbarContent
+            classes={{ root: classes.snackbarStyle }}
+            message="There must be at least 1 assignment and 1 student"
+          />
+        </Snackbar>
         <Dialog open={this.state.submissionModal}>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
@@ -516,16 +567,7 @@ class ActionItemCreationPage extends React.Component {
                 alignItems="flex-start"
               >
                 <Grid item>
-                  <Typography
-                    className={classes.underlineStyle}
-                    style={{
-                      color:
-                        errorOccurred &&
-                        this.state.selectedParticipants.length === 0
-                          ? 'red'
-                          : null,
-                    }}
-                  >
+                  <Typography className={classes.underlineStyle}>
                     {leftComponentText}
                   </Typography>
                   <hr className={classes.borderStyle}></hr>
@@ -533,16 +575,7 @@ class ActionItemCreationPage extends React.Component {
                   {leftComponent}
                 </Grid>
                 <Grid item>
-                  <Typography
-                    className={classes.underlineStyle}
-                    style={{
-                      color:
-                        errorOccurred &&
-                        this.state.selectedActionItems.length === 0
-                          ? 'red'
-                          : null,
-                    }}
-                  >
+                  <Typography className={classes.underlineStyle}>
                     {rightComponentText}
                   </Typography>
                   <hr className={classes.borderStyle}></hr>

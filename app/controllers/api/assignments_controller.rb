@@ -8,15 +8,20 @@ class Api::AssignmentsController < ApplicationController
 
         created_assignments = []
         created_action_items = []
-        assigned_to_ids = bulk_assignment_params.fetch(:assigned_to_ids, [])
+        participant_ids = bulk_assignment_params.fetch(:participant_ids, [])
         action_items = bulk_assignment_params.fetch(:assignments, [])
 
-        if action_items.empty? || assigned_to_ids.empty?
+        if action_items.empty? || participant_ids.empty?
             render json: { error: 'Action items and Participants must be populated'}, status: :unprocessable_entity
             return
         end
         puts action_items.length
         action_items.each do |action_item|
+            begin
+                due_date = DateTime.parse(action_item[:due_date])
+            rescue ArgumentError
+                due_date = nil
+            end
             action_item = ActionItem.new(action_item.except(:due_date)) 
             puts action_item.title
             puts action_item.file
@@ -140,7 +145,7 @@ class Api::AssignmentsController < ApplicationController
     private
     
     def set_template
-        @template = authorize ActionItem.find(params[:id])
+        @template = ActionItem.find(params[:id])
         template_sentry_helper(@template)
     rescue ActiveRecord::RecordNotFound => exception
         Raven.extra_context(action_item_id: params[:id])
@@ -164,20 +169,20 @@ class Api::AssignmentsController < ApplicationController
     def assignment_sentry_helper(assignment)
         Raven.extra_context(assignment: assignment.attributes)
         Raven.extra_context(action_item: assignment.action_item.attributes)
-        Raven.extra_context(assigned_by: assignment.assigned_by.user.attributes)
-        Raven.extra_context(assigned_to: assignment.assigned_to.attributes)
+        Raven.extra_context(staff: assignment.staff.user.attributes)
+        Raven.extra_context(participant: assignment.participant.user.attributes)
     end
           
-    def prepare_bulk_assignment(assigned_to_ids, action_item)
+    def prepare_bulk_assignment(participant_ids, action_item, due_date)
         bulk_assignment_params = []
         single_assignment_params = {
                                     action_item_id: action_item.id,
-                                    assigned_by_id: current_user.staff.id,
-                                    due_date: action_item[:due_date],
+                                    staff_id: current_user.staff.id,
+                                    due_date: due_date,
                                     completed: false,
                                    }
-        assigned_to_ids.each do |id|
-            assignment = Assignment.new(single_assignment_params.merge(assigned_to_id: id))
+        participant_ids.each do |id|
+            assignment = Assignment.new(single_assignment_params.merge(participant_id: id))
             bulk_assignment_params.append(assignment)
         end
         return bulk_assignment_params
@@ -190,8 +195,12 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def bulk_assignment_params
+<<<<<<< HEAD
         puts params
         all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category], assigned_to_ids: [])
+=======
+        all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category], participant_ids: [])
+>>>>>>> 2ddecb4a0dba0a10652f67a5a915d259bb520e2b
      end
 
     def assignment_params
@@ -199,7 +208,7 @@ class Api::AssignmentsController < ApplicationController
         assignment_param = params.require(:assignment).permit(:action_item_id,
                                                                :due_date,
                                                                :completed)
-        assignment_param.merge(assigned_by_id: current_user.staff.id)
+        assignment_param.merge(staff_id: current_user.staff.id)
     end
 
 end

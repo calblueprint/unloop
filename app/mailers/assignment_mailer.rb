@@ -9,6 +9,6 @@ class AssignmentMailer < ActionMailer::Base
         else
             @due_date = @assignment.due_date
         end
-        mail(to: @assignment.assigned_to.email, subject: '[Unloop] New Action Item Assigned')
+        mail(to: @assignment.participant.email, subject: '[Unloop] New Action Item Assigned')
     end
 end
