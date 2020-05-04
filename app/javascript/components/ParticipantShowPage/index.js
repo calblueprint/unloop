@@ -92,6 +92,30 @@ class ParticipantShowPage extends React.Component {
                 </Avatar>
               </Grid>
             </Grid>
+            <Grid
+              item
+              container
+              direction="row"
+              justify="flex-start"
+              spacing={1}
+            >
+              <Grid item>
+                <QuestionnaireModal
+                  userType={userType}
+                  questionnaireType="personal"
+                  participantId={participantId}
+                  questionnaire={personalQuestionnaire}
+                />
+              </Grid>
+              <Grid item>
+                <QuestionnaireModal
+                  userType={userType}
+                  questionnaireType="professional"
+                  participantId={participantId}
+                  questionnaire={professionalQuestionnaire}
+                />
+              </Grid>
+            </Grid>
             <Grid item>
               {/* These are paperworks */}
               <PaperworkList

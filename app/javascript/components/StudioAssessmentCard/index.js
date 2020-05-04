@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
+import TableCell from '@material-ui/core/TableCell';
+
 
 class StudioAssessmentCard extends React.Component {
   constructor(props) {
@@ -27,61 +29,60 @@ class StudioAssessmentCard extends React.Component {
     const { classes } = this.props;
     const currCategory = this.props.selectedCat;
     return (
-      <tr>
-        <td
+      <>
+        <TableCell
           className="name"
           style={{ cursor: 'pointer' }}
           onClick={this.showParticipant}
           onKeyDown={this.showParticipant}
         >
           {this.props.assessment.name}
-        </td>
-        <td
+        </TableCell>
+        <TableCell
           className={
             currCategory === 'bigpictureScore' ? classes.selected : null
           }
         >
           {bigPic}
-        </td>
-        <td
+        </TableCell>
+        <TableCell
           className={
             currCategory === 'progfundamentalsScore' ? classes.selected : null
           }
         >
           {prog}
-        </td>
-        <td
+        </TableCell>
+        <TableCell
           className={
             currCategory === 'versioncontrolScore' ? classes.selected : null
           }
         >
           {vc}
-        </td>
-        <td className={currCategory === 'reactScore' ? classes.selected : null}>
+        </TableCell>
+        <TableCell className={currCategory === 'reactScore' ? classes.selected : null}>
           {react}
-        </td>
-        <td className={currCategory === 'nodeScore' ? classes.selected : null}>
-          {node}
-        </td>
-        <td className={currCategory === 'dbScore' ? classes.selected : null}>
+        </TableCell>
+        <TableCell className={currCategory === 'dbScore' ? classes.selected : null}>
           {db}
-        </td>
-        <td
+        </TableCell>
+        <TableCell className={currCategory === 'nodeScore' ? classes.selected : null}>
+          {node}
+        </TableCell>
+        <TableCell
           className={
             currCategory === 'problemsolvingScore' ? classes.selected : null
           }
         >
           {probSolve}
-        </td>
-        <td
+        </TableCell>
+        <TableCell
           className={
             currCategory === 'problemsolvingaltScore' ? classes.selected : null
           }
         >
           {probSolveAlt}
-        </td>
-        <td>{this.props.assessment.updatedDate}</td>
-      </tr>
+        </TableCell>
+      </>
     );
   }
 }

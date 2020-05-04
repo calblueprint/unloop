@@ -78,29 +78,27 @@ function CaseNoteCard({
   );
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={11}>
-        <Paper className={classes.caseNoteCardStyle}>
-          <Grid container spacing={2}>
-            <Grid item xs={10}>
-              <h3 className={classes.casenoteCardTitleStyle}>{title}</h3>
-            </Grid>
-            <Grid item xs={2}>
-              {showMenu ? renderMenuItems() : null}
-            </Grid>
+    <Grid item>
+      <Paper className={classes.caseNoteCardStyle}>
+        <Grid container spacing={2}>
+          <Grid item xs={10}>
+            <h3 className={classes.casenoteCardTitleStyle}>{title}</h3>
           </Grid>
-          <div className={classes.caseNoteDescStyle}>
-            <MUIRichTextEditor value={description} readOnly toolbar={false} />
-          </div>
+          <Grid item xs={2}>
+            {showMenu ? renderMenuItems() : null}
+          </Grid>
+        </Grid>
+        <div className={classes.caseNoteDescStyle}>
+          <MUIRichTextEditor value={description} readOnly toolbar={false} />
+        </div>
 
-          <Grid container spacing={2} className={classes.buttonStyle}>
-            <Grid item xs={8}></Grid>
-            <Grid item xs={4}>
-              <CaseNoteCardModal description={description} title={title} />
-            </Grid>
+        <Grid container spacing={2} className={classes.buttonStyle}>
+          <Grid item xs={8}></Grid>
+          <Grid item xs={4}>
+            <CaseNoteCardModal description={description} title={title} />
           </Grid>
-        </Paper>
-      </Grid>
+        </Grid>
+      </Paper>
     </Grid>
   );
 }
