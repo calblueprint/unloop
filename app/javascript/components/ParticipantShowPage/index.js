@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PaperworkList from 'components/PaperworkList';
 import AssignmentList from 'components/AssignmentList';
 import StudioAssessmentList from 'components/StudioAssessmentList';
+import QuestionnaireModal from 'components/QuestionnaireModal';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import { Grid, Typography, Avatar } from '@material-ui/core';
 import styles from './styles';

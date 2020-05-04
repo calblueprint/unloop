@@ -11,7 +11,6 @@ import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import theme from 'utils/theme';
 import styles from './styles';
-import Box from '@material-ui/core/Box';
 
 function ActionItemCard({
   classes,
@@ -21,12 +20,12 @@ function ActionItemCard({
   category,
   selected,
   renderClose,
+  handleOpenModal,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
   handleIconClick,
   removeActionItem,
-  editActionItem,
 }) {
   const renderSelectIcon = () => (
     <IconButton aria-label="add" onClick={handleIconClick}>
@@ -35,34 +34,46 @@ function ActionItemCard({
   );
 
   const renderCloseIcon = () => (
-    <IconButton aria-label="close" onClick={removeActionItem} size="small">
+    <IconButton aria-label="close" onClick={removeActionItem}>
       <CloseIcon style={{ fontSize: 'medium' }} />
     </IconButton>
   );
 
-  const renderButton = (type) => {
-    let clickFunc;
-    if (type === "EDIT") {
-      clickFunc = editActionItem;
-    } else if (type === "DELETE") {
-      clickFunc = removeActionItem;
-    }
-    return (
-      <Button
-        size="small"
-        className={classes.buttonStyle}
-        onClick={clickFunc}
-      >
-        {type}
-      </Button>
-    );
-  }
+  const renderDeleteButton = () => (
+    <Button
+      size="small"
+      className={classes.buttonStyle}
+      onClick={removeActionItem}
+    >
+      DELETE
+    </Button>
+  );
+
+  const renderEditButton = () => (
+    <Button
+      size="small"
+      className={classes.buttonStyle}
+      onClick={() => handleOpenModal('edit')}
+    >
+      EDIT
+    </Button>
+  );
+
+  const renderViewMoreButton = () => (
+    <Button
+      size="small"
+      color="primary"
+      className={classes.buttonStyle}
+      onClick={() => handleOpenModal('viewmore')}
+    >
+      VIEW MORE
+    </Button>
+  );
 
   return (
     <ThemeProvider theme={theme}>
       <Grid
         container
-        spacing={2}
         className={classes.cardStyle}
         direction="column"
         justify="space-evenly"
@@ -75,13 +86,14 @@ function ActionItemCard({
           wrap="nowrap"
           spacing={2}
         >
-          <Grid item xs={2} container alignItems="center" wrap="nowrap">
+          <Grid item container alignItems="center" wrap="nowrap">
             <Grid item className={classes.titleStyle}>
               <Typography variant="subtitle1" noWrap>
-                {title}
+                {' '}
+                {title}{' '}
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item>
               <Fab
                 className={classes.iconStyle}
                 component="span"
@@ -96,12 +108,10 @@ function ActionItemCard({
                 >
                   {category ? category.toUpperCase() : category}
                 </Typography>
-              </div>
+              </Fab>
             </Grid>
           </Grid>
-          <Grid item xs={1}>
-            {renderClose ? renderCloseIcon() : null}
-          </Grid>
+          <Grid item>{renderClose ? renderCloseIcon() : null}</Grid>
         </Grid>
         <Grid item container alignItems="center" spacing={6}>
           <Grid item xs={9} className={classes.descriptionStyle}>
@@ -120,12 +130,14 @@ function ActionItemCard({
           <Grid
             item
             container
-            direction="row-reverse"
             xs={6}
             justify="space-evenly"
+            alignItems="flex-start"
           >
-            <Grid item>{renderButton("EDIT")}</Grid>
-            <Grid item>{renderClose ? null : renderButton("DELETE")}</Grid>
+            <Grid item>
+              {renderClose ? renderEditButton() : renderDeleteButton()}
+            </Grid>
+            <Grid item>{renderViewMoreButton()}</Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -140,10 +152,10 @@ ActionItemCard.propTypes = {
   category: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   renderClose: PropTypes.bool.isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
   dueDate: PropTypes.string,
   handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,
-  editActionItem: PropTypes.func,
   lastEntry: PropTypes.bool,
 };
 export default withStyles(styles)(ActionItemCard);
