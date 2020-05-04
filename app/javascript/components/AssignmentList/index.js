@@ -27,9 +27,6 @@ class AssignmentList extends React.Component {
     super(props);
     this.state = {
       assignments: this.props.initialAssignments,
-      participantId: this.props.participantId,
-      userType: this.props.userType,
-      formatDate: this.props.formatDate,
       deleteModalOpen: false,
       createModalOpen: false,
       editModalOpen: false,
@@ -40,9 +37,8 @@ class AssignmentList extends React.Component {
     this.deleteStateAssignment = this.deleteStateAssignment.bind(this);
     this.handleDeleteAssignment = this.handleDeleteAssignment.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.handleCreateAndEditAssignment = this.handleCreateAndEditAssignment.bind(
-      this,
-    );
+    this.handleEditAssignment = this.handleEditAssignment.bind(this);
+    this.handleCreateAssignment = this.handleCreateAssignment.bind(this);
   }
 
   handleOpenModal(assignment) {
@@ -123,8 +119,8 @@ class AssignmentList extends React.Component {
           categorySelected={this.state.modalAssignment.category}
           open={this.state.editModalOpen}
           handleClose={() => this.handleCloseModal()}
-          handleSubmit={this.handleCreateAndEditAssignment('edit')}
-          participantId={this.state.participantId}
+          handleSubmit={this.handleEditAssignment}
+          participantId={this.props.participantId}
           actionItemId={this.state.modalAssignment.actionItemId}
         />
       );
@@ -165,88 +161,112 @@ class AssignmentList extends React.Component {
     );
   }
 
-  handleCreateAndEditAssignment(type) {
-    return (
-      title,
-      description,
-      categorySelected,
-      dueDate,
-      addToTemplates,
-      participantId,
-    ) => {
-      // For whether or not the actionItem is a template
-      let endPoint;
-      let payload;
-      if (addToTemplates) {
-        endPoint = '/api/assignments/templates/';
-        payload = {
-          assignment: {
-            title,
-            description,
-            category: categorySelected,
-            dueDate,
-            is_template: addToTemplates,
-          },
-        };
-      } else {
-        endPoint = '/api/assignments/';
-        const body = {
-          title,
-          description,
-          category: categorySelected,
-          due_date: dueDate,
-        };
+  handleCreateAssignment(
+    title,
+    description,
+    categorySelected,
+    dueDate,
+    addToTemplates,
+    participantId,
+  ) {
+    // two api calls need to happen if making a template action item
+    const templateBody = {
+      assignment: {
+        title,
+        description,
+        category: categorySelected,
+        is_template: true,
+      },
+    };
 
-        // Slight modification between payloads
-        if (type === 'create') {
-          payload = {
-            assignments: [body],
-          };
-        } else if (type === 'edit') {
-          payload = {
-            assignment: body,
-          };
-        }
-        payload.participant_ids = [participantId];
-      }
+    const assignments = [
+      {
+        title,
+        description,
+        due_date: dueDate,
+        category: categorySelected,
+      },
+    ];
 
-      // For making a new assignment or editing an existing one
-      let apiReqType;
-      if (type === 'create') {
-        apiReqType = apiPost;
-      } else if (type === 'edit') {
-        apiReqType = apiPatch;
-        endPoint = endPoint.concat(this.state.modalAssignment.id); // Adding ID to edit request
-      }
+    const body = {
+      assignments,
+      participant_ids: [participantId],
+    };
 
-      // Making the API request
-      apiReqType(endPoint, payload)
-        .then(response => {
+    if (addToTemplates) {
+      Promise.all([
+        apiPost('/api/assignments/templates/', templateBody),
+        apiPost('/api/assignments', body),
+      ])
+        .then(responses => {
+          const response = responses[1];
+          console.log(response.data);
           this.handleCloseModal();
-          if (type === 'create') {
-            this.appendStateAssignment(response.data);
-          } else if (type === 'edit') {
-            this.editStateAssignment(response.data);
-          }
+          this.appendStateAssignment(response.data[0].action_item);
         })
         .catch(error => {
           Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'AssignmentList');
-            let apiType;
-            if (type === 'create') {
-              apiType = 'apiPost';
-            } else if (type === 'edit') {
-              apiType = 'apiPatch';
-            }
-            scope.setExtra(
-              'action',
-              apiType.concat(' (handleCreateAndEditAssignment)'),
-            );
-            scope.setExtra('payload', JSON.stringify(payload));
+            const apiType = 'apiPost';
+            scope.setExtra('action', apiType.concat(' (handleCreateTemplate)'));
+            scope.setExtra('body', JSON.stringify(body));
+            scope.setExtra('templateBody', JSON.stringify(templateBody));
           });
           Sentry.captureException(error);
         });
+    } else {
+      apiPost('/api/assignments', body)
+        .then(response => {
+          this.handleCloseModal();
+          this.appendStateAssignment(response.data[0].action_item);
+        })
+        .catch(error => {
+          Sentry.configureScope(function(scope) {
+            scope.setExtra('file', 'AssignmentList');
+            scope.setExtra('action', 'apiPost (handleCreateAssignment)');
+            scope.setExtra('participantId', participantId);
+            scope.setExtra('body', JSON.stringify(body));
+          });
+          Sentry.captureException(error);
+        });
+    }
+  }
+
+  handleEditAssignment(
+    title,
+    description,
+    categorySelected,
+    dueDate,
+    addToTemplates,
+    participantId,
+  ) {
+    const assignment = {
+      title,
+      description,
+      due_date: dueDate,
+      category: categorySelected,
     };
+
+    const body = {
+      assignment,
+      participant_ids: [participantId],
+    };
+
+    const endpoint = '/api/assignments/'.concat(this.state.modalAssignment.id);
+    apiPatch(endpoint, body)
+      .then(response => {
+        this.handleCloseModal();
+        this.editStateAssignment(response.data);
+      })
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'AssignmentList');
+          scope.setExtra('action', 'apiPatch (handleEditAssignment)');
+          scope.setExtra('participantId', participantId);
+          scope.setExtra('body', JSON.stringify(body));
+        });
+        Sentry.captureException(error);
+      });
   }
 
   handleDeleteAssignment() {
@@ -279,7 +299,8 @@ class AssignmentList extends React.Component {
           selected={false} // Dummy prop for not rendering check or add icons
           renderClose={false} // Don't render close icon in dashboard assignment list
           handleOpenModal={this.handleOpenModal(assignment)}
-          dueDate={this.state.formatDate(assignment.dueDate)}
+          dueDate={assignment.dueDate}
+          formatDate={this.props.formatDate}
           removeActionItem={() => {
             this.handleOpenModal(assignment)('delete');
           }}
@@ -308,7 +329,7 @@ class AssignmentList extends React.Component {
             <h3 className={classes.headerStyle}>Assignments</h3>
           </Grid>
           <Grid item>
-            {this.state.userType === 'staff' ? (
+            {this.props.userType === 'staff' ? (
               <div>
                 <Button
                   color="primary"
@@ -321,8 +342,8 @@ class AssignmentList extends React.Component {
                     type="create"
                     open={this.state.createModalOpen}
                     handleClose={() => this.handleCloseModal()}
-                    handleSubmit={this.handleCreateAndEditAssignment('create')}
-                    participantId={this.state.participantId}
+                    handleSubmit={this.handleCreateAssignment}
+                    participantId={this.props.participantId}
                   />
                 ) : null}
               </div>
@@ -344,7 +365,7 @@ class AssignmentList extends React.Component {
               />
               <div className={classes.noPaperworksTxt}>
                 <h3>No assignments yet</h3>
-                {this.state.userType === 'staff' ? (
+                {this.props.userType === 'staff' ? (
                   <p>Click on ASSIGN ASSIGNMENT + to assign one.</p>
                 ) : (
                   <div />

@@ -16,6 +16,7 @@ function ActionItemCard({
   title,
   description,
   dueDate,
+  formatDate,
   category,
   selected,
   renderClose,
@@ -70,6 +71,13 @@ function ActionItemCard({
     </Button>
   );
 
+  const formattedDueDate = () => {
+    if (formatDate) {
+      return formatDate(dueDate);
+    }
+    return dueDate;
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Grid
@@ -118,7 +126,9 @@ function ActionItemCard({
         <Grid item container justify="space-between" alignItems="center">
           <Grid item>
             {dueDate ? (
-              <Typography variant="body2">Due Date: {dueDate}</Typography>
+              <Typography variant="body2">
+                Due Date: {formattedDueDate()}
+              </Typography>
             ) : null}
           </Grid>
           <Grid
@@ -155,5 +165,6 @@ ActionItemCard.propTypes = {
   removeActionItem: PropTypes.func,
   lastEntry: PropTypes.bool,
   renderEditOverMore: PropTypes.bool,
+  formatDate: PropTypes.func,
 };
 export default withStyles(styles)(ActionItemCard);
