@@ -55,7 +55,6 @@ export const styles = () => ({
     height: '30px',
     display: 'flex',
     alignItems: 'center',
-    // alignContent: 'space-between',
     justifyContent: 'space-between',
     width: '100%',
   },

@@ -37,7 +37,7 @@ function ParticipantCard({ classes, participant }) {
     <FontAwesomeIcon
       className={classes.iconLarge}
       icon={faTimes}
-      color="red"
+      color="#29313C"
     ></FontAwesomeIcon>
   );
 
@@ -55,7 +55,7 @@ function ParticipantCard({ classes, participant }) {
       >
         {participant.name}
       </TableCell>
-      <TableCell align="left">
+      <TableCell align="center">
         <div className={classes.status}>{participant.status.toUpperCase()}</div>
       </TableCell>
       <TableCell align="left" className={classes.newAssignment}>
