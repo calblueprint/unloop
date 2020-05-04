@@ -92,17 +92,16 @@ function CaseNoteCard({
           <MUIRichTextEditor value={description} readOnly toolbar={false} />
         </div>
 
-          <Grid container spacing={2} className={classes.buttonStyle}>
-            <Grid item xs={8}></Grid>
-            <Grid item xs={4}>
-              <Button
-                className="contained"
-                color="primary"
-                onClick={() => handleOpenViewMore(title, description)}
-              >
-                VIEW MORE
-              </Button>
-            </Grid>
+        <Grid container spacing={2} className={classes.buttonStyle}>
+          <Grid item xs={8}></Grid>
+          <Grid item xs={4}>
+            <Button
+              className="contained"
+              color="primary"
+              onClick={() => handleOpenViewMore(title, description)}
+            >
+              VIEW MORE
+            </Button>
           </Grid>
         </Grid>
       </Paper>
