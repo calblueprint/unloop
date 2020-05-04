@@ -4,7 +4,7 @@ class StudioAssessmentsController < ApplicationController
   # GET /studio_assessments
   # GET /studio_assessments.json
   def index
-    @studio_assessments = StudioAssessment.all
+    @studio_assessments = authorize StudioAssessment.all
     @studio_list = []
     @studio_assessments.each do |s|
       curr = {
@@ -23,7 +23,7 @@ class StudioAssessmentsController < ApplicationController
       }
       @studio_list.push(curr)
     end 
-    skip_policy_scope
+    
   end
 
   # GET /studio_assessments/1
