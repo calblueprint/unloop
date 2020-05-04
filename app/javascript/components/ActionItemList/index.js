@@ -10,6 +10,7 @@ function ActionItemList({
   classes,
   selectedActionItems,
   removeSelectedActionItem,
+  handleOpenModal,
 }) {
   const selectedCards = selectedActionItems.map((actionItem, i) => (
     <ActionItemCard
@@ -19,6 +20,7 @@ function ActionItemList({
       dueDate={actionItem.dueDate}
       lastEntry={i === selectedActionItems.length - 1}
       category={actionItem.category}
+      handleOpenModal={handleOpenModal(actionItem)}
       renderClose
       selected
       removeActionItem={() => removeSelectedActionItem(actionItem)}
@@ -43,6 +45,7 @@ function ActionItemList({
 ActionItemList.propTypes = {
   classes: PropTypes.object.isRequired,
   selectedActionItems: PropTypes.array.isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
   removeSelectedActionItem: PropTypes.func,
 };
 

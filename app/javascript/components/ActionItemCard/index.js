@@ -20,6 +20,7 @@ function ActionItemCard({
   category,
   selected,
   renderClose,
+  handleOpenModal,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
   lastEntry = false,
@@ -45,6 +46,27 @@ function ActionItemCard({
       onClick={removeActionItem}
     >
       DELETE
+    </Button>
+  );
+
+  const renderEditButton = () => (
+    <Button
+      size="small"
+      className={classes.buttonStyle}
+      onClick={() => handleOpenModal('edit')}
+    >
+      EDIT
+    </Button>
+  );
+
+  const renderViewMoreButton = () => (
+    <Button
+      size="small"
+      color="primary"
+      className={classes.buttonStyle}
+      onClick={() => handleOpenModal('viewmore')}
+    >
+      VIEW MORE
     </Button>
   );
 
@@ -110,17 +132,14 @@ function ActionItemCard({
           <Grid
             item
             container
-            direction="row-reverse"
             xs={6}
             justify="space-evenly"
+            alignItems="flex-start"
           >
-            {/* Commented out because it doesn't have functionality right now */}
-            {/* <Grid item>
-              <Button size="small" className={classes.buttonStyle}>
-                EDIT
-              </Button>
-            </Grid> */}
-            <Grid item>{renderClose ? null : renderDeleteButton()}</Grid>
+            <Grid item>
+              {renderClose ? renderEditButton() : renderDeleteButton()}
+            </Grid>
+            <Grid item>{renderViewMoreButton()}</Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -135,6 +154,7 @@ ActionItemCard.propTypes = {
   category: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   renderClose: PropTypes.bool.isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
   dueDate: PropTypes.string,
   handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,

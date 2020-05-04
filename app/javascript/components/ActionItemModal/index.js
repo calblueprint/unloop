@@ -35,7 +35,7 @@ class ActionItemForm extends React.Component {
   };
 
   handleSubmit = () => {
-    const { participantId, actionItemId } = this.props;
+    const { participantId, actionItemId, actionItem } = this.props;
     const {
       title,
       description,
@@ -53,6 +53,7 @@ class ActionItemForm extends React.Component {
         addToTemplates,
         participantId,
         actionItemId,
+        actionItem,
       );
       this.props.handleClose();
     } else {
@@ -260,6 +261,7 @@ ActionItemForm.propTypes = {
   open: PropTypes.bool.isRequired,
   participantId: PropTypes.number,
   actionItemId: PropTypes.number,
+  actionItem: PropTypes.object,
   handleClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
