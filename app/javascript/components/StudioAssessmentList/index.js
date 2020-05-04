@@ -19,17 +19,7 @@ function StudioAssessmentList({
   userType,
 }) {
   const [studioAssessments] = useState(initialStudioAssessments);
-  // const updateStudioAssessment = updatedAssessments => {
-  //   const allAssessments = [...studioAssessments];
-  //   const assessmentIndex = allAssessments.findIndex(
-  //     assessment => assessment.id === updatedAssessments.id,
-  //   );
-  //   if (assessmentIndex !== -1) {
-  //     allAssessments[assessmentIndex] = updatedAssessments;
-  //     setPaperworks(allAssessments);
-  //   }
-  // };
-
+  
   const studioAssessmentEntries = studioAssessments.map(studioAssessment => (
     <div key={studioAssessment.id}>
       <Container style={{ padding: '0px' }}>
@@ -38,7 +28,7 @@ function StudioAssessmentList({
             {/* The following line renders the date the studio assessment was created at as the title, but might not be what we want to render here */}
             <h3>{formatDate(studioAssessment.created_at)}</h3>
             {/* Only admins can edit the different studioAssessments */}
-            {userType !== 'admin' ? (
+            {userType !== 'participant' ? (
               <StudioAssessmentModal
                 studioAssessment={studioAssessment}
                 userType={userType}
@@ -81,11 +71,10 @@ function StudioAssessmentList({
           <h3 className={classes.headerStyle}>Studio Assessments</h3>
         </Grid>
         <Grid item>
-          {/* Only admins can see the create button */}
-          {userType !== 'admin' ? (
+          {/* Only admins and staff can see the create button */}
+          {userType !== 'participant' ? (
             <StudioAssessmentModal
               participantId={participantId}
-              // studioAssessment={studioAssessments[0]}
               userType={userType}
               type="create"
             />
@@ -100,7 +89,7 @@ function StudioAssessmentList({
           studioAssessmentEntries
         ) : (
           <div>
-            <h2>no studio assessments assigned</h2>
+            <h2>No Studio Assessments</h2>
           </div>
         )}
       </List>

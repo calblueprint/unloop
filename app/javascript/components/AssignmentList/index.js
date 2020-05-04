@@ -289,7 +289,7 @@ class AssignmentList extends React.Component {
   }
 
   assignmentEntries() {
-    if (this.state.assignments.length !== 0) {
+    if (this.state.assignments) {
       const assignmentCards = this.state.assignments.map(assignment => (
         <ActionItemCard
           key={assignment.id}
@@ -354,7 +354,7 @@ class AssignmentList extends React.Component {
         </Grid>
 
         <List className={classes.listStyle} dense>
-          {this.state.assignments.length !== 0 ? (
+          {this.state.assignments ? (
             this.assignmentEntries()
           ) : (
             <div>
