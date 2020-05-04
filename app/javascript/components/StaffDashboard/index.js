@@ -72,6 +72,12 @@ class StaffDashboard extends React.Component {
         sortable: true,
       },
       {
+        id: 'assignmentsCompleted',
+        disablePadding: false,
+        label: 'Assignments',
+        sortable: true,
+      },
+      {
         id: 'form_status',
         disablePadding: false,
         label: 'Form Status',
