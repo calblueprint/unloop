@@ -12,6 +12,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     padding: '20px 145px 20px 25px',
+    marginBottom: '30px',
   },
   titleText: {
     fontSize: '24px',

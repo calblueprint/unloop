@@ -1,0 +1,47 @@
+diff a/app/javascript/components/QuestionnaireForm/index.js b/app/javascript/components/QuestionnaireForm/index.js	(rejected hunks)
+@@ -125 +125,3 @@ class QuestionnaireForm extends React.Component {
+-          <DialogContentText className={this.props.classes.questionnaireLabel}>{contentText}</DialogContentText>
++          <DialogContentText className={this.props.classes.questionnaireLabel}>
++            {contentText}
++          </DialogContentText>
+@@ -187 +189,3 @@ class QuestionnaireForm extends React.Component {
+-          <DialogContentText className={this.props.classes.questionnaireLabel}>{contentText}</DialogContentText>
++          <DialogContentText className={this.props.classes.questionnaireLabel}>
++            {contentText}
++          </DialogContentText>
+@@ -194 +198,3 @@ class QuestionnaireForm extends React.Component {
+-             <InputLabel className={this.props.classes.selectLabelText}>Select Race/Ethnicity</InputLabel>
++            <InputLabel className={this.props.classes.selectLabelText}>
++              Select Race/Ethnicity
++            </InputLabel>
+@@ -218 +224,3 @@ class QuestionnaireForm extends React.Component {
+-          <DialogContentText className={this.props.classes.questionnaireLabel}>{contentText}</DialogContentText>
++          <DialogContentText className={this.props.classes.questionnaireLabel}>
++            {contentText}
++          </DialogContentText>
+@@ -245 +253,3 @@ class QuestionnaireForm extends React.Component {
+-          <DialogContentText className={this.props.classes.questionnaireLabel}>{contentText}</DialogContentText>
++          <DialogContentText className={this.props.classes.questionnaireLabel}>
++            {contentText}
++          </DialogContentText>
+@@ -251 +261 @@ class QuestionnaireForm extends React.Component {
+-              value={this.state.questionnaire["birthdate"]}
++              value={this.state.questionnaire.birthdate}
+@@ -261 +271,3 @@ class QuestionnaireForm extends React.Component {
+-        <DialogContentText className={this.props.classes.questionnaireLabel}>{contentText}</DialogContentText>
++        <DialogContentText className={this.props.classes.questionnaireLabel}>
++          {contentText}
++        </DialogContentText>
+@@ -291,7 +303,5 @@ class QuestionnaireForm extends React.Component {
+-          sentenceCase = 'Second Emergency Contact (optional)'
+-        }
+-        else if (f === 'emergency_contact_2_phone_number') {
+-          sentenceCase = 'Second Emergency Contact Phone Number (optional)'
+-        }
+-        else if (f === 'emergency_contact_2_relationship') {
+-          sentenceCase = 'Second Emergency Contact Relationship (optional)'
++          sentenceCase = 'Second Emergency Contact (optional)';
++        } else if (f === 'emergency_contact_2_phone_number') {
++          sentenceCase = 'Second Emergency Contact Phone Number (optional)';
++        } else if (f === 'emergency_contact_2_relationship') {
++          sentenceCase = 'Second Emergency Contact Relationship (optional)';
