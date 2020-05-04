@@ -182,7 +182,7 @@ class ActionItemForm extends React.Component {
               Description
             </DialogContentText>
             <TextField
-              value={this.state.description} 
+              value={this.state.description}
               className={classes.dialogContentTextFieldStyle}
               name="description"
               onChange={this.handleChange('description')}
@@ -238,7 +238,7 @@ class ActionItemForm extends React.Component {
                     size="small"
                     className={classes.checkboxTextStyle}
                   >
-                    {this.props.type === 'CREATE'
+                    {this.props.type === 'create'
                       ? 'CREATE ACTION ITEM'
                       : 'EDIT ACTION ITEM'}
                   </Typography>

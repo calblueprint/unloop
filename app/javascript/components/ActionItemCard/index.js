@@ -7,7 +7,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import theme from 'utils/theme';
 import styles from './styles';
@@ -26,6 +25,7 @@ function ActionItemCard({
   lastEntry = false,
   handleIconClick,
   removeActionItem,
+  renderEditOverMore,
 }) {
   const renderSelectIcon = () => (
     <IconButton aria-label="add" onClick={handleIconClick}>
@@ -94,13 +94,7 @@ function ActionItemCard({
               </Typography>
             </Grid>
             <Grid item>
-              <Fab
-                className={classes.iconStyle}
-                component="span"
-                variant="extended"
-                size="small"
-                aria-label="category"
-              >
+              <div className={classes.iconStyle}>
                 <Typography
                   className={classes.categoryButtonStyle}
                   color="primary"
@@ -108,7 +102,7 @@ function ActionItemCard({
                 >
                   {category ? category.toUpperCase() : category}
                 </Typography>
-              </Fab>
+              </div>
             </Grid>
           </Grid>
           <Grid item>{renderClose ? renderCloseIcon() : null}</Grid>
@@ -137,7 +131,10 @@ function ActionItemCard({
             <Grid item>
               {renderClose ? renderEditButton() : renderDeleteButton()}
             </Grid>
-            <Grid item>{renderViewMoreButton()}</Grid>
+            {/* Make sure renderClose + renderEditOverMore are not both true, or else you get two edit buttons. */}
+            <Grid item>
+              {renderEditOverMore ? renderEditButton() : renderViewMoreButton()}
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -157,5 +154,6 @@ ActionItemCard.propTypes = {
   handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,
   lastEntry: PropTypes.bool,
+  renderEditOverMore: PropTypes.bool,
 };
 export default withStyles(styles)(ActionItemCard);
