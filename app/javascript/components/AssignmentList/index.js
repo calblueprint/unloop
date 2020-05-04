@@ -80,6 +80,8 @@ class AssignmentList extends React.Component {
 
   appendStateAssignment(assignment) {
     console.log("trying to append");
+    console.log(this.state.assignments);
+    console.log(assignment);
     this.setState(prevState => ({
       assignments: [assignment, ...prevState.assignments],
     }));
@@ -191,7 +193,7 @@ class AssignmentList extends React.Component {
       apiPost('/api/assignments/templates', { assignment: template })
         .then((response) => {
           this.handleCloseModal();
-          this.appendStateAssignment(response.data);
+          // this.appendStateAssignment(response.data);
         })
         .catch(error => {
           Sentry.configureScope(function(scope) {
@@ -201,51 +203,51 @@ class AssignmentList extends React.Component {
           })
         })
 
-    } else {
+    // } else {
 
-      // Add ActionItem to ActionItems
-      const body = {
-        assignments: [{
-          title,
-          description,
-          category: categorySelected,
-          due_date: dueDate,      
-        }],
-        participant_ids: [participantId],
-      }
+    // Add ActionItem to ActionItems
+    const body = {
+      assignments: [{
+        title,
+        description,
+        category: categorySelected,
+        due_date: dueDate,      
+      }],
+      participant_ids: [participantId],
+    }
 
-      apiPost('/api/assignments', body)
-        .then((response) => {
-          this.handleCloseModal();
-          this.appendStateAssignment(response.data); // Limited testing for this functionality since MailCatcher fails for me
-        })
-        .catch(error => {
-          Sentry.configureScope(function(scope) {
-            scope.setExtra('file', 'AssignmentList');
-            scope.setExtra('action', 'apiPost (handleNewAssignment)');
-            scope.setExtra('participantId', participantId);
-            scope.setExtra('body', JSON.stringify(actionItemBody));
-          });
-          Sentry.captureException(error);
+    apiPost('/api/assignments', body)
+      .then((response) => {
+        this.handleCloseModal();
+        this.appendStateAssignment(response.data); // Limited testing for this functionality since MailCatcher fails for me
+      })
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'AssignmentList');
+          scope.setExtra('action', 'apiPost (handleNewAssignment)');
+          scope.setExtra('participantId', participantId);
+          scope.setExtra('body', JSON.stringify(actionItemBody));
         });
-        // THIS IS ACTIONITEMCREATIONPAGE PAYLOAD FORMAT
+        Sentry.captureException(error);
+      });
+      // THIS IS ACTIONITEMCREATIONPAGE PAYLOAD FORMAT
 
-          // const participantIds = this.state.selectedParticipants.map(
-          //   participant => participant.id,
-          // );
-      
-          // const assignments = this.state.selectedActionItems.map(actionItem => ({
-          //   title: actionItem.title,
-          //   description: actionItem.description,
-          //   due_date: actionItem.dueDate,
-          //   category: actionItem.category,
-          // }));
-      
-          // const body = {
-          //   assignments,
-          //   participant_ids: participantIds,
-          // };
-          // apiPost('/api/assignments', body)
+        // const participantIds = this.state.selectedParticipants.map(
+        //   participant => participant.id,
+        // );
+    
+        // const assignments = this.state.selectedActionItems.map(actionItem => ({
+        //   title: actionItem.title,
+        //   description: actionItem.description,
+        //   due_date: actionItem.dueDate,
+        //   category: actionItem.category,
+        // }));
+    
+        // const body = {
+        //   assignments,
+        //   participant_ids: participantIds,
+        // };
+        // apiPost('/api/assignments', body)
     }
   }
 
