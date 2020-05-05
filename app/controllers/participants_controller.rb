@@ -35,7 +35,7 @@ class ParticipantsController < ApplicationController
         "is_template" => action_item.is_template,
         "created_at" => a.created_at,
         "updated_at" => a.updated_at,
-        "due_date" => a.due_date,
+        "due_date" => a.due_date&.strftime("%Y-%m-%d"),
         "action_item_id" => a.action_item_id,
       }
       @assignment_list.push(complete_assignment)

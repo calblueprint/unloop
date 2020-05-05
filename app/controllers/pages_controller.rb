@@ -25,8 +25,25 @@ class PagesController < ApplicationController
               @participant = @user.participant
               @paperworks = @user.participant.paperworks
               @case_notes = @user.participant.case_notes#.where(visible: true), changing for testing purposes
-              @assignments = @user.participant.assignments
-              # @action_items = ActionItem.where(id: @assignments[0].action_item_id)
+              @assignments = @participant.assignments
+
+              @assignment_list = []
+              @assignments.each do |a|
+                action_item = ActionItem.where(id: a.action_item_id).first
+                complete_assignment = {
+                  "id" => a.id,
+                  "title" => action_item.title, 
+                  "description" => action_item.description,
+                  "category" => action_item.category,
+                  "is_template" => action_item.is_template,
+                  "created_at" => a.created_at,
+                  "updated_at" => a.updated_at,
+                  "due_date" => a.due_date&.strftime("%Y-%m-%d"),
+                  "action_item_id" => a.action_item_id,
+                }
+                @assignment_list.push(complete_assignment)
+              end
+
               @studio_assessments = @user.participant.studio_assessments            
 
               if @participant.personal_questionnaire.nil?

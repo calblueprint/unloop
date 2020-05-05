@@ -29,7 +29,7 @@ class ParticipantShowPage extends React.Component {
     const dateObj = new Date(dateString);
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
-    const dt = dateObj.getDate();
+    const dt = dateObj.getDate() + 1;
     return `${month.toString()}/${dt.toString()}/${year.toString()}`;
   };
 
@@ -59,8 +59,6 @@ class ParticipantShowPage extends React.Component {
       professionalQuestionnaire,
       studioAssessments,
       userType,
-      isAdmin,
-      assignments, // Do we even need these anymore?
       assignmentList,
     } = this.props;
 

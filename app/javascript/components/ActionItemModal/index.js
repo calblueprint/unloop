@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import styles from './styles';
-class ActionItemForm extends React.Component {
+class ActionItemModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -83,6 +83,7 @@ class ActionItemForm extends React.Component {
     const categoryList = categories.map(category => {
       const isSelectedCategory =
         categorySelected && categorySelected === category;
+
       return (
         <Grid item key={category}>
           <Fab
@@ -119,6 +120,23 @@ class ActionItemForm extends React.Component {
         </Grid>
       );
     });
+
+    const addToTemplatesCheckbox = (
+      <Grid item>
+        <Checkbox
+          color="primary"
+          className={classes.checkboxStyle}
+          checked={addToTemplates}
+          onChange={e => {
+            const newValue = { target: { value: e.target.checked } };
+            this.handleChange('addToTemplates')(newValue);
+          }}
+        />
+        <Typography display="inline" className={classes.checkboxTextStyle}>
+          ADD TO COMMON ASSIGNMENTS
+        </Typography>
+      </Grid>
+    );
 
     return (
       <ThemeProvider theme={theme}>
@@ -214,23 +232,7 @@ class ActionItemForm extends React.Component {
           </DialogContent>
           <DialogActions disableSpacing>
             <Grid container justify="space-between" alignItems="center">
-              <Grid item>
-                <Checkbox
-                  color="primary"
-                  className={classes.checkboxStyle}
-                  checked={addToTemplates}
-                  onChange={e => {
-                    const newValue = { target: { value: e.target.checked } };
-                    this.handleChange('addToTemplates')(newValue);
-                  }}
-                />
-                <Typography
-                  display="inline"
-                  className={classes.checkboxTextStyle}
-                >
-                  ADD TO COMMON ASSIGNMENTS
-                </Typography>
-              </Grid>
+              {this.props.showAddToTemplates ? addToTemplatesCheckbox : null}
               <Grid item>
                 <Button onClick={this.handleSubmit}>
                   <Typography
@@ -251,7 +253,7 @@ class ActionItemForm extends React.Component {
     );
   }
 }
-ActionItemForm.propTypes = {
+ActionItemModal.propTypes = {
   classes: PropTypes.object.isRequired,
   type: PropTypes.oneOf(['create', 'edit']),
   title: PropTypes.string,
@@ -264,12 +266,15 @@ ActionItemForm.propTypes = {
   actionItem: PropTypes.object,
   handleClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  showAddToTemplates: PropTypes.bool,
 };
-ActionItemForm.defaultProps = {
+
+ActionItemModal.defaultProps = {
   title: '',
   type: 'create',
   description: '',
   dueDate: '',
   categorySelected: '',
+  showAddToTemplates: true,
 };
-export default withStyles(styles)(ActionItemForm);
+export default withStyles(styles)(ActionItemModal);

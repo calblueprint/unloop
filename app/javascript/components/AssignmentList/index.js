@@ -17,7 +17,7 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 import ActionItemCard from 'components/ActionItemCard';
-import ActionItemForm from 'components/ActionItemModal';
+import ActionItemModal from 'components/ActionItemModal';
 import { apiPost, apiDelete, apiPatch } from 'utils/axios';
 import * as Sentry from '@sentry/browser';
 import styles from './styles';
@@ -82,9 +82,7 @@ class AssignmentList extends React.Component {
       title: actionItem.title,
       dueDate: assignmentResponse.due_date,
       id: assignmentResponse.id,
-      isTemplate: false, // Not sure about this one
-      // createdAt: Not sure how to find this one
-      // updatedAt: Not sure how to find this one
+      isTemplate: false,
     };
     this.setState(prevState => {
       const toUpdate = [...prevState.assignments];
@@ -111,7 +109,7 @@ class AssignmentList extends React.Component {
   editModal() {
     if (this.state.modalAssignment) {
       return (
-        <ActionItemForm
+        <ActionItemModal
           type="edit"
           title={this.state.modalAssignment.title}
           description={this.state.modalAssignment.description}
@@ -122,6 +120,7 @@ class AssignmentList extends React.Component {
           handleSubmit={this.handleEditAssignment}
           participantId={this.props.participantId}
           actionItemId={this.state.modalAssignment.actionItemId}
+          showAddToTemplates={false}
         />
       );
     }
@@ -169,16 +168,6 @@ class AssignmentList extends React.Component {
     addToTemplates,
     participantId,
   ) {
-    // two api calls need to happen if making a template action item
-    const templateBody = {
-      assignment: {
-        title,
-        description,
-        category: categorySelected,
-        is_template: true,
-      },
-    };
-
     const assignments = [
       {
         title,
@@ -193,43 +182,21 @@ class AssignmentList extends React.Component {
       participant_ids: [participantId],
     };
 
-    if (addToTemplates) {
-      Promise.all([
-        apiPost('/api/assignments/templates/', templateBody),
-        apiPost('/api/assignments', body),
-      ])
-        .then(responses => {
-          const response = responses[1];
-          console.log(response.data);
-          this.handleCloseModal();
-          this.appendStateAssignment(response.data[0].action_item);
-        })
-        .catch(error => {
-          Sentry.configureScope(function(scope) {
-            scope.setExtra('file', 'AssignmentList');
-            const apiType = 'apiPost';
-            scope.setExtra('action', apiType.concat(' (handleCreateTemplate)'));
-            scope.setExtra('body', JSON.stringify(body));
-            scope.setExtra('templateBody', JSON.stringify(templateBody));
-          });
-          Sentry.captureException(error);
+    apiPost('/api/assignments', body)
+      .then(response => {
+        this.handleCloseModal();
+        console.log(response.data[0].action_item);
+        this.appendStateAssignment(response.data[0].action_item);
+      })
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'AssignmentList');
+          scope.setExtra('action', 'apiPost (handleCreateAssignment)');
+          scope.setExtra('participantId', participantId);
+          scope.setExtra('body', JSON.stringify(body));
         });
-    } else {
-      apiPost('/api/assignments', body)
-        .then(response => {
-          this.handleCloseModal();
-          this.appendStateAssignment(response.data[0].action_item);
-        })
-        .catch(error => {
-          Sentry.configureScope(function(scope) {
-            scope.setExtra('file', 'AssignmentList');
-            scope.setExtra('action', 'apiPost (handleCreateAssignment)');
-            scope.setExtra('participantId', participantId);
-            scope.setExtra('body', JSON.stringify(body));
-          });
-          Sentry.captureException(error);
-        });
-    }
+        Sentry.captureException(error);
+      });
   }
 
   handleEditAssignment(
@@ -338,12 +305,13 @@ class AssignmentList extends React.Component {
                   New Assignment
                 </Button>
                 {this.state.createModalOpen ? (
-                  <ActionItemForm
+                  <ActionItemModal
                     type="create"
                     open={this.state.createModalOpen}
                     handleClose={() => this.handleCloseModal()}
                     handleSubmit={this.handleCreateAssignment}
                     participantId={this.props.participantId}
+                    showAddToTemplates={false}
                   />
                 ) : null}
               </div>

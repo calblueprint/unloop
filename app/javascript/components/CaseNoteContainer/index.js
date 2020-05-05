@@ -40,7 +40,7 @@ class CaseNoteContainer extends React.Component {
     const dateObj = new Date(dateString);
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
-    const dt = dateObj.getDate();
+    const dt = dateObj.getDate() + 1;
     return `${month.toString()}/${dt.toString()}/${year.toString()}`;
   }
 
