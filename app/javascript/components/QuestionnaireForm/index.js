@@ -104,6 +104,23 @@ class QuestionnaireForm extends React.Component {
   createTextForm(fieldName, fieldValue, contentText) {
     // content text is prompt/title for the text box
     // field name is the name of the field that will be filled in the database
+    console.log(fieldValue);
+    console.log(fieldValue === null);
+    if (fieldValue === null || fieldValue === "null") {
+      return (<div className={this.props.classes.questionnaireEntry}>
+        <DialogContentText>{contentText}</DialogContentText>
+        <TextField
+          className={`${this.props.classes.dialogContentTextField} ${this.props.classes.questionnaireTextField}`}
+          onChange={e => this.handleTextFormChange(e)}
+          variant="outlined"
+          id={fieldName}
+          multiline
+          type="text"
+          margin="dense"
+          maxRows={20}
+        />
+      </div>);
+    }
     return (
       <div className={this.props.classes.questionnaireEntry}>
         <DialogContentText>{contentText}</DialogContentText>

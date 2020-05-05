@@ -1,6 +1,6 @@
 class ActionItem < ApplicationRecord
     has_many :assignments, dependent: :destroy
-    has_one_attached :file
+    has_one_attached  :file
     validates :title, :description, :category, presence: true
     validates :is_template, inclusion: [true, false]
 

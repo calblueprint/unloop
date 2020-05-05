@@ -22,7 +22,13 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
   
     def update
       authorize @questionnaire, policy_class: QuestionnairePolicy
-
+      puts "I am updating a pro ques"
+      puts "this is the params"
+      puts questionnaire_params
+      puts "this is the questionare"
+      puts @questionnaire
+      puts questionnaire_params.fetch(:resume).present?
+      puts questionnaire_params.fetch(:resume)
       if !questionnaire_params.nil? && questionnaire_params.fetch(:resume).present?
         if @questionnaire.resume.attached?
           @questionnaire.resume.purge
