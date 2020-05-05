@@ -41,6 +41,7 @@ class QuestionnaireForm extends React.Component {
         const formData = new FormData();
 
         Object.keys(this.state.questionnaire).forEach(f => {
+          console.log(this.state.questionnaire[f]);
           formData.append(`${qType}[${f}]`, this.state.questionnaire[f]);
         });
         formData.append(`${qType}[resume]`, this.state.file);
@@ -160,61 +161,13 @@ class QuestionnaireForm extends React.Component {
         );
       });
       if (this.props.type === 'professional') {
-      questionnaires.push(this.getOldFileUpload());
+      questionnaires.push(this.getFileUpload());
       }
       return <div className={styles.container}>{questionnaires}</div>;
     }
   }
 
   getFileUpload(){
-    const { id } = this.props.questionnaire;
-    const paths = `/api/professional_questionnaire/${id}`;
-    return(
-    <ActiveStorageProvider
-    endpoint={{
-      path: paths,
-      model: 'professional_questionnaire',
-      attribute: 'resume',
-      method: 'create',
-    }}
-    onSubmit={questionnaire => this.setState({ file: questionnaire.resume})}
-    render={({ handleUpload, uploads, ready }) => (
-      <div>
-        <input
-          type="file"
-          disabled={!ready}
-          onChange={e => handleUpload(e.currentTarget.files)}
-        />
-
-        {uploads.map(upload => {
-          switch (upload.state) {
-            case 'waiting':
-              return <p key={upload.id}>Waiting to upload {upload.file.name}</p>
-            case 'uploading':
-              return (
-                <p key={upload.id}>
-                  Uploading {upload.file.name}: {upload.progress}%
-                </p>
-              )
-            case 'error':
-              return (
-                <p key={upload.id}>
-                  Error uploading {upload.file.name}: {upload.error}
-                </p>
-              )
-            case 'finished':
-              return (
-                <p key={upload.id}>Finished uploading {upload.file.name}</p>
-              )
-          }
-        })}
-      </div>
-      )}
-    />
-    );
-  }
-
-  getOldFileUpload(){
     return(
     <input
         type="file"

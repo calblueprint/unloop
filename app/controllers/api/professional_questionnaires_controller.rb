@@ -29,7 +29,8 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
       puts @questionnaire
       puts questionnaire_params.fetch(:resume).present?
       puts questionnaire_params.fetch(:resume)
-      if !questionnaire_params.nil? && questionnaire_params.fetch(:resume).present?
+      puts questionnaire_params.fetch(:resume).eql?("null")
+      if !questionnaire_params.nil? && questionnaire_params.fetch(:resume).present? && !(questionnaire_params.fetch(:resume).eql?("null"))
         if @questionnaire.resume.attached?
           @questionnaire.resume.purge
         end
