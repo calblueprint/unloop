@@ -5,7 +5,7 @@ class Api::AssignmentsController < ApplicationController
 
     def create
         authorize Assignment
-
+        puts "fuck u kyel"
         created_assignments = []
         created_action_items = []
         participant_ids = bulk_assignment_params.fetch(:participant_ids, [])
@@ -27,10 +27,10 @@ class Api::AssignmentsController < ApplicationController
             puts action_item.file
             template_sentry_helper(action_item)
             action_item[:is_template] = false
-            if !assigned_to_ids.empty? && action_item.save
+            if !participant_ids.empty? && action_item.save
                 puts "in the if" 
                 created_action_items.append(action_item)
-                prepare_bulk_assignment(assigned_to_ids, action_item).each do |assignment|
+                prepare_bulk_assignment(participant_ids, action_item, due_date).each do |assignment|
                     puts "bulk assigning"
                     assignment_sentry_helper(assignment)  
                     if assignment.save
@@ -189,6 +189,7 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def action_item_params
+        puts "i am in action items params"
         action_item_param = params.require(:assignment).permit(:title,
                                                                :description,
                                                                :category, :file)
@@ -199,6 +200,7 @@ class Api::AssignmentsController < ApplicationController
      end
 
     def assignment_params
+        puts "i am in assignments params"
         puts params
         assignment_param = params.require(:assignment).permit(:action_item_id,
                                                                :due_date,

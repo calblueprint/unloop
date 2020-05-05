@@ -162,13 +162,13 @@ class ActionItemCreationPage extends React.Component {
       return;
     }
 
-    // const actionItem = {
-    //   title: actionItemTitle,
-    //   description: actionItemDescription,
-    //   category: actionItemCategory,
-    //   dueDate: actionItemDueDate,
-    //   is_template: saveToTemplates,
-    // };
+    const actionItem = {
+      title: actionItemTitle,
+      description: actionItemDescription,
+      category: actionItemCategory,
+      dueDate: actionItemDueDate,
+      is_template: saveToTemplates,
+    };
 
     if (saveToTemplates) {
       apiPost('/api/assignments/templates', { assignment: actionItem })
@@ -187,7 +187,7 @@ class ActionItemCreationPage extends React.Component {
           Sentry.captureException(error);
         });
     }
-    const actionItem = new FormData();
+    // const actionItem = new FormData();
     // const actionItem = {
     //   title: actionItemTitle,
     //   description: actionItemDescription,
@@ -196,12 +196,12 @@ class ActionItemCreationPage extends React.Component {
     //   is_template: saveToTemplates,
     //   file: file,
     // };
-    actionItem.append('title', actionItemTitle);
-    actionItem.append('description', actionItemDescription);
-    actionItem.append('category', actionItemCategory);
-    actionItem.append('dueDate', actionItemDueDate);
-    actionItem.append('is_template', saveToTemplates);
-    actionItem.append('file', file);
+    // actionItem.append('title', actionItemTitle);
+    // actionItem.append('description', actionItemDescription);
+    // actionItem.append('category', actionItemCategory);
+    // actionItem.append('dueDate', actionItemDueDate);
+    // actionItem.append('is_template', saveToTemplates);
+    // actionItem.append('file', file);
     console.log(actionItem);
     this.setState(prevState => ({
       selectedActionItems: [actionItem],
