@@ -120,7 +120,8 @@ class AddFromExistingForm extends React.Component {
                 : () => this.handleOpenDateModal(template)
             }
             handleOpenModal={this.props.handleOpenModal(template)}
-            lastEntry={filteredTemplates.length - 1 === i}
+            // Border bottom styling should be added to all cards except the last
+            addBorderBottom={filteredTemplates.length - 1 !== i}
             removeActionItem={() => this.props.deleteTemplate(template)}
           />
         </Grid>
