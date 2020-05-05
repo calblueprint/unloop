@@ -41,7 +41,6 @@ class QuestionnaireForm extends React.Component {
         const formData = new FormData();
 
         Object.keys(this.state.questionnaire).forEach(f => {
-          console.log(this.state.questionnaire[f]);
           formData.append(`${qType}[${f}]`, this.state.questionnaire[f]);
         });
         formData.append(`${qType}[resume]`, this.state.file);

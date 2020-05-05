@@ -8,8 +8,6 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
   
     def create
       @questionnaire = ProfessionalQuestionnaire.new(questionnaire_params)
-      puts @questionnaire.resume
-      puts @questionnaire.education_history
       authorize @questionnaire, policy_class: QuestionnairePolicy
       sentry_helper(@questionnaire)
       if @questionnaire.save
@@ -22,14 +20,6 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
   
     def update
       authorize @questionnaire, policy_class: QuestionnairePolicy
-      puts "I am updating a pro ques"
-      puts "this is the params"
-      puts questionnaire_params
-      puts "this is the questionare"
-      puts @questionnaire
-      puts questionnaire_params.fetch(:resume).present?
-      puts questionnaire_params.fetch(:resume)
-      puts questionnaire_params.fetch(:resume).eql?("null")
       if !questionnaire_params.nil? && questionnaire_params.fetch(:resume).present? && !(questionnaire_params.fetch(:resume).eql?("null"))
         if @questionnaire.resume.attached?
           @questionnaire.resume.purge
@@ -43,9 +33,6 @@ class Api::ProfessionalQuestionnairesController < ApplicationController
         Raven.capture_message("Could not update professional questionnaire")
         render json: { error: 'Could not update professional questionnaire' }, status: :unprocessable_entity
       end
-      puts "WHERE THE FUCK AM I"
-      puts @questionnaire.resume
-      puts @questionnaire.education_history
     end
   
     def destroy
