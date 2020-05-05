@@ -5,12 +5,13 @@ class Api::AssignmentsController < ApplicationController
 
     def create
         authorize Assignment
-        puts "fuck u kyel"
+        puts "I AM IN CREATE"
+        puts bulk_assignment_params
         created_assignments = []
         created_action_items = []
         participant_ids = bulk_assignment_params.fetch(:participant_ids, [])
         action_items = bulk_assignment_params.fetch(:assignments, [])
-
+        puts action_items
         if action_items.empty? || participant_ids.empty?
             render json: { error: 'Action items and Participants must be populated'}, status: :unprocessable_entity
             return
@@ -28,13 +29,13 @@ class Api::AssignmentsController < ApplicationController
             template_sentry_helper(action_item)
             action_item[:is_template] = false
             if !participant_ids.empty? && action_item.save
-                puts "in the if" 
+                puts "I AM IN FIRST IF" 
                 created_action_items.append(action_item)
                 prepare_bulk_assignment(participant_ids, action_item, due_date).each do |assignment|
-                    puts "bulk assigning"
+                    puts "I AM BULK ASSIGNING"
                     assignment_sentry_helper(assignment)  
                     if assignment.save
-                        puts "if save"
+                        puts "I AM SAVING"
                         AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
                         created_assignments.append(assignment)
                     else 
@@ -174,6 +175,7 @@ class Api::AssignmentsController < ApplicationController
     end
           
     def prepare_bulk_assignment(participant_ids, action_item, due_date)
+        puts "I AM PREPING BULK ASSIGNING"
         bulk_assignment_params = []
         single_assignment_params = {
                                     action_item_id: action_item.id,
@@ -196,7 +198,7 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def bulk_assignment_params
-        all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category], participant_ids: [])
+        all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category, :file], participant_ids: [])
      end
 
     def assignment_params

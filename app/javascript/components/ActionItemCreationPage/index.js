@@ -88,19 +88,39 @@ class ActionItemCreationPage extends React.Component {
       participant => participant.id,
     );
 
+    
     const assignments = this.state.selectedActionItems.map(actionItem => ({
       title: actionItem.title,
       description: actionItem.description,
       due_date: actionItem.dueDate,
       category: actionItem.category,
     }));
+   
+    // let assignments = [];
+    // for (let i  = 0; i < this.state.selectedActionItems.length; i++ ){
+    //     let curr = this.state.selectedActionItems[i];
+    //     const actionItem = new FormData();
+    //     actionItem.append('title', curr['title']);
+    //     actionItem.append('description', curr['description']);
+    //     actionItem.append('category', curr['category']);
+    //     actionItem.append('dueDate', curr['dueDate']);
+    //     actionItem.append('is_template', curr['is_template']);
+    //     actionItem.append('file', curr['file']);
+    //     assignments.push(actionItem);
+    // }
 
     const body = {
       assignments,
       participant_ids: participantIds,
     };
+    const formData = new FormData();
+    formData.append('assignments', assignments);
+    formData.append('participant_ids', participantIds);
+    console.log("this is the body")
     console.log(body);
-    apiPost('/api/assignments', body)
+    console.log("this is form data");
+    console.log(formData);
+    apiPost('/api/assignments', formData)
       .then((res) => console.log(res))
       .catch(error => {
         Sentry.configureScope(function(scope) {
@@ -168,6 +188,7 @@ class ActionItemCreationPage extends React.Component {
       category: actionItemCategory,
       dueDate: actionItemDueDate,
       is_template: saveToTemplates,
+      file: file
     };
 
     if (saveToTemplates) {
@@ -187,7 +208,6 @@ class ActionItemCreationPage extends React.Component {
           Sentry.captureException(error);
         });
     }
-    // const actionItem = new FormData();
     // const actionItem = {
     //   title: actionItemTitle,
     //   description: actionItemDescription,
@@ -196,6 +216,7 @@ class ActionItemCreationPage extends React.Component {
     //   is_template: saveToTemplates,
     //   file: file,
     // };
+    // const actionItem = new FormData();
     // actionItem.append('title', actionItemTitle);
     // actionItem.append('description', actionItemDescription);
     // actionItem.append('category', actionItemCategory);

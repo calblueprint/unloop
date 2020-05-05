@@ -104,8 +104,6 @@ class QuestionnaireForm extends React.Component {
   createTextForm(fieldName, fieldValue, contentText) {
     // content text is prompt/title for the text box
     // field name is the name of the field that will be filled in the database
-    console.log(fieldValue);
-    console.log(fieldValue === null);
     if (fieldValue === null || fieldValue === "null") {
       return (<div className={this.props.classes.questionnaireEntry}>
         <DialogContentText>{contentText}</DialogContentText>
@@ -168,14 +166,17 @@ class QuestionnaireForm extends React.Component {
 
   getFileUpload(){
     return(
-    <input
-        type="file"
-        onChange = {(event) => {
-          console.log(event.target.files[0]);
-          console.log(event.target.files);
-          this.setState( {file: event.target.files[0]})
-          }}
-        />
+      <div>
+        <DialogContentText>Upload Resume</DialogContentText>
+        <input
+            type="file"
+            onChange = {(event) => {
+              console.log(event.target.files[0]);
+              console.log(event.target.files);
+              this.setState( {file: event.target.files[0]})
+              }}
+            />
+        </div>
   );
   }
 
