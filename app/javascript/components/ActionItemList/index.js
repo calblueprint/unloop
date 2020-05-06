@@ -18,7 +18,6 @@ function ActionItemList({
       title={actionItem.title}
       description={actionItem.description}
       dueDate={actionItem.dueDate}
-      lastEntry={i === selectedActionItems.length - 1}
       category={actionItem.category}
       handleOpenModal={handleOpenModal(actionItem)}
       renderClose

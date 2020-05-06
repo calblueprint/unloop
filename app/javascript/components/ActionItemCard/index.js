@@ -23,7 +23,7 @@ function ActionItemCard({
   handleOpenModal,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
-  lastEntry = false,
+  addBorderBottom,
   handleIconClick,
   removeActionItem,
 }) {
@@ -74,7 +74,6 @@ function ActionItemCard({
     <ThemeProvider theme={theme}>
       <Grid
         container
-        spacing={2}
         className={classes.cardStyle}
         direction="column"
         justify="space-evenly"
@@ -158,6 +157,6 @@ ActionItemCard.propTypes = {
   dueDate: PropTypes.string,
   handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,
-  lastEntry: PropTypes.bool,
+  addBorderBottom: PropTypes.bool,
 };
 export default withStyles(styles)(ActionItemCard);
