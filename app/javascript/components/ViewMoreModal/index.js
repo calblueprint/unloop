@@ -53,7 +53,7 @@ function ViewMoreModal({
     if (dueDate) {
       return (
         <Grid item>
-          <h4 className={classes.dateTextStyle}>{date}</h4>
+          <h4 className={classes.dateTextStyle}>Due Date: {date}</h4>
         </Grid>
       );
     }
