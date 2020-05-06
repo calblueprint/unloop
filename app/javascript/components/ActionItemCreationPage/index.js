@@ -552,7 +552,6 @@ class ActionItemCreationPage extends React.Component {
       headerText,
     } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
-    const submissionError = this.state.submitFailed && this.state.step === 2;
 
     return (
       <div>
@@ -580,7 +579,7 @@ class ActionItemCreationPage extends React.Component {
           />
         ) : null}
         <Snackbar
-          open={submissionError}
+          open={this.state.submitFailed}
           autoHideDuration={3000}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           onClose={(event, reason) => {
