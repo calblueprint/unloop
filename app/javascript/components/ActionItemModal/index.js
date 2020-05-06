@@ -219,7 +219,7 @@ class ActionItemModal extends React.Component {
               Due Date
             </DialogContentText>
             <TextField
-              value={this.state.dueDate || ''}
+              value={this.state.dueDate.split('T')[0] || ''} // Formatting the date correctly (remove timestamp)
               className={classes.dialogContentTextFieldStyle}
               name="Due Date"
               onChange={this.handleChange('dueDate')}

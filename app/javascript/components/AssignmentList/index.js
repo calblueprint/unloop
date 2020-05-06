@@ -185,8 +185,9 @@ class AssignmentList extends React.Component {
     apiPost('/api/assignments', body)
       .then(response => {
         this.handleCloseModal();
-        console.log(response.data[0].action_item);
-        this.appendStateAssignment(response.data[0].action_item);
+        const newAssignment = response.data[0].action_item;
+        newAssignment.dueDate = response.data[0].due_date;
+        this.appendStateAssignment(newAssignment);
       })
       .catch(error => {
         Sentry.configureScope(function(scope) {
