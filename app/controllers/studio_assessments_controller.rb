@@ -4,6 +4,7 @@ class StudioAssessmentsController < ApplicationController
   # GET /studio_assessments
   # GET /studio_assessments.json
   def index
+    skip_policy_scope
     @studio_assessments = authorize StudioAssessment.all
     @studio_list = []
     @studio_assessments.each do |s|
