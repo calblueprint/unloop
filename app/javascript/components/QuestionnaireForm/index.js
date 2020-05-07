@@ -24,14 +24,6 @@ import {
 } from '@material-ui/pickers';
 import styles from './styles';
 
-// function getSteps() {
-//   return [
-//     'Personal Information',
-//     'Personal Relationships',
-//     'Health and Wellness',
-//   ];
-// }
-
 class QuestionnaireForm extends React.Component {
   constructor(props) {
     super(props);
@@ -47,6 +39,7 @@ class QuestionnaireForm extends React.Component {
         questionnaire[k] = this.props.questionnaire[k];
       }
     });
+    questionnaire.validPhone = true;
     this.setState({
       questionnaire,
     });
@@ -93,7 +86,7 @@ class QuestionnaireForm extends React.Component {
     const { value } = e.target;
     const regex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
     const isValid = regex.test(value);
-    if (isValid) {
+    if (isValid || value === '') {
       this.setState(s => ({
         questionnaire: {
           ...s.questionnaire,
