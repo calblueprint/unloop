@@ -31,6 +31,9 @@ const styles = () => ({
     minWidth: 200,
     marginTop: '8px',
   },
+  selectLabelText: {
+    marginLeft: '2px',
+  },
 });
 
 export default styles;

@@ -220,7 +220,9 @@ class QuestionnaireForm extends React.Component {
             {contentText}
           </DialogContentText>
           <FormControl>
-            <InputLabel>Select Race/Ethnicity</InputLabel>
+            <InputLabel className={this.props.classes.selectLabelText}>
+              Select Race/Ethnicity
+            </InputLabel>
             <Select
               id={fieldName}
               value={this.state.questionnaire.race_and_ethnicities}
