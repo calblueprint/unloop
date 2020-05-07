@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
 import Paper from '@material-ui/core/Paper';
+import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
 import theme from 'utils/theme';
 import styles from './styles';
 
@@ -37,42 +37,22 @@ function ActionItemForm({
 }) {
   const [failedSubmit, setFailedSubmit] = useState(false);
 
+  const handleCategoryChange = category => {
+    // setCategory expects this form
+    const newCategory = categorySelected !== category ? category : null;
+    setCategory({ target: { value: newCategory } });
+  };
+
   const categoryList = categories.map(category => {
     const isSelectedCategory =
       categorySelected && categorySelected === category;
     return (
       <Grid item key={category}>
-        <Fab
-          className={classes.iconStyle}
-          style={{
-            backgroundColor: isSelectedCategory
-              ? theme.palette.primary.main
-              : theme.palette.common.lighterBlue,
-          }}
-          component="span"
-          variant="extended"
-          size="small"
-          aria-label="category"
-          onClick={() =>
-            setCategory(
-              categorySelected !== category
-                ? { target: { value: category } }
-                : { target: { value: null } },
-            )
-          }
-        >
-          <Typography
-            className={classes.categoryButtonStyle}
-            style={{
-              color: isSelectedCategory
-                ? theme.palette.common.lighterBlue
-                : theme.palette.primary.main,
-            }}
-            align="center"
-          >
-            {category.toUpperCase()}
-          </Typography>
-        </Fab>
+        <ActionItemCategoryTag
+          category={category}
+          selected={isSelectedCategory}
+          handleClick={handleCategoryChange}
+        />
       </Grid>
     );
   });

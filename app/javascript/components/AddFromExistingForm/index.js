@@ -4,7 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,6 +12,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Paper from '@material-ui/core/Paper';
 import ActionItemCard from 'components/ActionItemCard';
 import theme from 'utils/theme';
+import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
 import styles from './styles';
 
 const TrieSearch = require('trie-search');
@@ -141,31 +141,11 @@ class AddFromExistingForm extends React.Component {
         this.state.categorySelected && this.state.categorySelected === category;
       return (
         <Grid item key={category}>
-          <Fab
-            className={classes.iconStyle}
-            style={{
-              backgroundColor: isSelectedCategory
-                ? theme.palette.primary.main
-                : theme.palette.common.lighterBlue,
-            }}
-            component="span"
-            variant="extended"
-            size="small"
-            aria-label="category"
-            onClick={() => this.selectCategory(category)}
-          >
-            <Typography
-              className={classes.categoryButtonStyle}
-              style={{
-                color: isSelectedCategory
-                  ? theme.palette.common.lighterBlue
-                  : theme.palette.primary.main,
-              }}
-              align="center"
-            >
-              {category.toUpperCase()}
-            </Typography>
-          </Fab>
+          <ActionItemCategoryTag
+            category={category}
+            selected={isSelectedCategory}
+            handleClick={this.selectCategory}
+          />
         </Grid>
       );
     });
