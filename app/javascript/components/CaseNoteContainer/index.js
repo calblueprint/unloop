@@ -6,6 +6,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CaseNoteForm from 'components/CaseNoteForm';
 import CaseNoteCard from 'components/CaseNoteCard';
+import ViewMoreModal from 'components/ViewMoreModal';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
@@ -16,9 +17,22 @@ class CaseNoteContainer extends React.Component {
       caseNotes: this.props.caseNotes,
       participant: this.props.participant,
       userType: this.props.userType,
+      title: '',
+      description: '',
+      modalOpen: false,
     };
     this.appendCaseNote = this.appendCaseNote.bind(this);
     this.updateCaseNote = this.updateCaseNote.bind(this);
+    this.handleCloseViewMoreModal = this.handleCloseViewMoreModal.bind(this);
+    this.handleOpenViewMoreModal = this.handleOpenViewMoreModal.bind(this);
+  }
+
+  handleCloseViewMoreModal() {
+    this.setState({ modalOpen: false, title: '', description: '' });
+  }
+
+  handleOpenViewMoreModal(title, description) {
+    this.setState({ title, description, modalOpen: true });
   }
 
   formatDate(dateString) {
@@ -78,6 +92,7 @@ class CaseNoteContainer extends React.Component {
           participantId={this.state.participant.id}
           showMenu={this.state.userType === 'staff'}
           updateCaseNote={this.updateCaseNote}
+          handleOpenViewMore={this.handleOpenViewMoreModal}
         />
       ));
       return caseNoteCards;
@@ -107,6 +122,13 @@ class CaseNoteContainer extends React.Component {
     return (
       <>
         <CssBaseline />
+        <ViewMoreModal
+          title={this.state.title}
+          description={this.state.description}
+          open={this.state.modalOpen}
+          handleClose={this.handleCloseViewMoreModal}
+          isCaseNote
+        />
         <Container maxWidth="sm">
           <Grid>
             <Typography
@@ -119,7 +141,6 @@ class CaseNoteContainer extends React.Component {
                   justify="space-between"
                   style={{
                     borderBottom: '5px solid #EB6658',
-                    marginBottom: '25px',
                   }}
                 >
                   <Grid item xs={4}>

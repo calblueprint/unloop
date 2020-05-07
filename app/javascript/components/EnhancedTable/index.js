@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import ParticipantCard from 'components/ParticipantCard';
+import StudioAssessmentCard from 'components/StudioAssessmentCard';
 import styles from './styles';
 
 function descendingComparator(a, b, orderBy) {
@@ -94,14 +95,17 @@ function EnhancedTable(props) {
   const [orderBy, setOrderBy] = React.useState('name');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [selectedCat, setSelectedCat] = React.useState('name');
 
   const { rows } = props;
   const { headCells } = props;
+  const { type } = props;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
+    setSelectedCat(property);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -138,10 +142,18 @@ function EnhancedTable(props) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(row => (
                   <TableRow hover tabIndex={-1} key={row.id}>
-                    <ParticipantCard
-                      key={row.id}
-                      participant={row}
-                    ></ParticipantCard>
+                    {type !== 'studio' ? (
+                      <ParticipantCard
+                        key={row.id}
+                        participant={row}
+                      ></ParticipantCard>
+                    ) : (
+                      <StudioAssessmentCard
+                        key={row.id}
+                        assessment={row}
+                        selectedCat={selectedCat}
+                      ></StudioAssessmentCard>
+                    )}
                   </TableRow>
                 ))}
               {emptyRows > 0 && (
@@ -170,6 +182,7 @@ EnhancedTable.propTypes = {
   rows: PropTypes.array.isRequired,
   headCells: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
+  type: PropTypes.string,
 };
 
 export default withStyles(styles)(EnhancedTable);

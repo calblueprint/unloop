@@ -17,7 +17,7 @@ const Setting = {
 function ActionItemCreationContainer({
   classes,
   templates,
-  selectedActionItems,
+  selectedActionItemIds,
   title,
   setTitle,
   description,
@@ -30,6 +30,7 @@ function ActionItemCreationContainer({
   removeSelectedActionItem,
   createActionItem,
   deleteTemplate,
+  handleOpenModal,
 }) {
   const [creationSetting, setCreationSetting] = useState(Setting.SCRATCH);
   const [addToTemplates, setAddToTemplates] = useState(false);
@@ -101,10 +102,11 @@ function ActionItemCreationContainer({
           ) : (
             <AddFromExistingForm
               templates={templates}
-              selectedActionItems={selectedActionItems}
+              selectedActionItemIds={selectedActionItemIds}
               selectActionItemTemplate={selectActionItemTemplate}
               removeSelectedActionItem={removeSelectedActionItem}
               deleteTemplate={deleteTemplate}
+              handleOpenModal={handleOpenModal}
             />
           )}
         </Grid>
@@ -116,7 +118,7 @@ function ActionItemCreationContainer({
 ActionItemCreationContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   templates: PropTypes.array.isRequired,
-  selectedActionItems: PropTypes.instanceOf(Set).isRequired,
+  selectedActionItemIds: PropTypes.instanceOf(Set).isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   dueDate: PropTypes.string.isRequired,
@@ -129,6 +131,7 @@ ActionItemCreationContainer.propTypes = {
   setDueDate: PropTypes.func.isRequired,
   setCategory: PropTypes.func.isRequired,
   deleteTemplate: PropTypes.func.isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ActionItemCreationContainer);
