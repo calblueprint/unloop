@@ -30,16 +30,12 @@ class StudioAssessmentsController < ApplicationController
   # GET /studio_assessments/1
   # GET /studio_assessments/1.json
   def show
+    authorize @studio_assessment
   end
 
   # GET /studio_assessments/new
   def new
     @studio_assessment = authorize StudioAssessment.new
-    @participants = Participant.all
-  end
-
-  # GET /studio_assessments/1/edit
-  def edit
     @participants = Participant.all
   end
 

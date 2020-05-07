@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :studio_assessments
   # Routes for Google authentication
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   get 'auth/:provider/callback', to: 'sessions#googleAuth'
@@ -12,11 +11,7 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  resources :assignments, :paperworks, :case_notes, :studio_assessments, :professional_questionnaires, :personal_questionnaires, only: [:index, :show, :new, :edit]
-
-  get '/assignments', to: 'assignments#index'
-
-  get '/studio_assessments', to: 'studio_assessments#index'
+  resources :assignments, :studio_assessments, only: :index
   
   resources :staffs, only: [] do
     collection do

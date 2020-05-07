@@ -2,8 +2,7 @@ class ProfessionalQuestionnairesController < ApplicationController
   before_action :set_professional_questionnaire, only: [:show, :edit]
 
   def index
-    skip_policy_scope
-    @questionnaires = ProfessionalQuestionnaire.all
+    @questionnaires = authorize ProfessionalQuestionnaire.all
     @questionnaireFields = ProfessionalQuestionnaire.column_names
     @user = current_user
   end
