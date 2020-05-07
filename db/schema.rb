@@ -29,12 +29,12 @@ ActiveRecord::Schema.define(version: 2020_05_02_232032) do
     t.bigint "action_item_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "assigned_by_id"
-    t.bigint "assigned_to_id"
     t.datetime "due_date"
+    t.bigint "staff_id", null: false
+    t.bigint "participant_id", null: false
     t.index ["action_item_id"], name: "index_assignments_on_action_item_id"
-    t.index ["assigned_by_id"], name: "index_assignments_on_assigned_by_id"
-    t.index ["assigned_to_id"], name: "index_assignments_on_assigned_to_id"
+    t.index ["participant_id"], name: "index_assignments_on_participant_id"
+    t.index ["staff_id"], name: "index_assignments_on_staff_id"
   end
 
   create_table "case_notes", force: :cascade do |t|
@@ -71,6 +71,19 @@ ActiveRecord::Schema.define(version: 2020_05_02_232032) do
   end
 
   create_table "personal_questionnaires", force: :cascade do |t|
+    t.string "DOC_status"
+    t.string "housing"
+    t.string "mental_health"
+    t.string "medical"
+    t.string "transportation"
+    t.string "clothing"
+    t.string "significant_relationships"
+    t.string "support_systems"
+    t.string "DOC_regulations"
+    t.string "treatment"
+    t.string "triggers_and_prevention"
+    t.string "personal_needs"
+    t.string "personal_goals"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "participant_id", null: false
@@ -85,40 +98,27 @@ ActiveRecord::Schema.define(version: 2020_05_02_232032) do
     t.string "emergency_contact_2_name"
     t.string "emergency_contact_2_phone_number"
     t.string "emergency_contact_2_relationship"
-    t.string "significant_relationships"
-    t.string "support_systems"
-    t.string "mental_health"
-    t.string "DOC_status"
-    t.string "DOC_regulations"
-    t.string "housing"
-    t.string "medical"
-    t.string "treatment"
-    t.string "triggers_and_prevention"
-    t.string "personal_needs"
-    t.string "transportation"
-    t.string "clothing"
     t.string "financial_obligations"
     t.string "resources_allocated"
     t.string "orca_card"
     t.string "state_assistance"
-    t.string "personal_goals"
     t.index ["participant_id"], name: "index_personal_questionnaires_on_participant_id"
   end
 
   create_table "professional_questionnaires", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "participant_id", null: false
     t.string "course_completion"
-    t.string "education_history"
     t.string "work_history"
     t.string "job_search_materials"
     t.string "professional_goals"
+    t.string "barriers"
+    t.string "success_strategies"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "participant_id", null: false
+    t.string "education_history"
     t.datetime "begin_skills_assessment_date"
     t.datetime "end_skills_assessment_date"
-    t.string "barriers"
     t.string "assigned_mentor"
-    t.string "success_strategies"
     t.index ["participant_id"], name: "index_professional_questionnaires_on_participant_id"
   end
 
@@ -176,6 +176,8 @@ ActiveRecord::Schema.define(version: 2020_05_02_232032) do
   end
 
   add_foreign_key "assignments", "action_items"
+  add_foreign_key "assignments", "participants"
+  add_foreign_key "assignments", "staffs"
   add_foreign_key "case_notes", "participants"
   add_foreign_key "case_notes", "staffs"
   add_foreign_key "paperworks", "participants"

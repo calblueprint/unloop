@@ -65,6 +65,7 @@
     "history": "^4.10.1",
     "jest-cli": "^24.9.0",
     "jest-dom": "^4.0.0",
+    "libphonenumber-js": "^1.7.51",
     "lint-staged": "^9.4.2",
     "moment": "^2.25.1",
     "mui-rte": "^1.8.0",

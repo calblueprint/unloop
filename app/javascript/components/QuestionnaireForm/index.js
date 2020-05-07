@@ -87,6 +87,35 @@ class QuestionnaireForm extends React.Component {
     }));
   }
 
+  handlePhoneChange(e) {
+    const { id } = e.target;
+    const { value } = e.target;
+    const regex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
+    const isValid = regex.test(value);
+    if (isValid) {
+      this.setState(s => ({
+        questionnaire: {
+          ...s.questionnaire,
+          validPhone: true,
+        },
+      }));
+    } else {
+      this.setState(s => ({
+        questionnaire: {
+          ...s.questionnaire,
+          validPhone: false,
+        },
+      }));
+    }
+
+    this.setState(s => ({
+      questionnaire: {
+        ...s.questionnaire,
+        [id]: value,
+      },
+    }));
+  }
+
   handleRadioChange(e, fieldName, newValue) {
     this.setState(s => ({
       questionnaire: {
@@ -263,6 +292,32 @@ class QuestionnaireForm extends React.Component {
               format="MM/dd/yyyy"
             />
           </MuiPickersUtilsProvider>
+        </div>
+      );
+    }
+    if (fieldName === 'phone_number') {
+      return (
+        <div className={this.props.classes.questionnaireEntry}>
+          <DialogContentText className={this.props.classes.questionnaireLabel}>
+            {contentText}
+          </DialogContentText>
+          <TextField
+            className={`${this.props.classes.dialogContentTextField} ${this.props.classes.questionnaireTextField}`}
+            onChange={e => this.handlePhoneChange(e)}
+            error={!this.state.questionnaire.validPhone}
+            helperText={
+              !this.state.questionnaire.validPhone
+                ? 'Please enter a valid phone number.'
+                : ''
+            }
+            variant="outlined"
+            id={fieldName}
+            multiline
+            type="text"
+            margin="dense"
+            defaultValue={fieldValue}
+            maxRows={20}
+          />
         </div>
       );
     }
