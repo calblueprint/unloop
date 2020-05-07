@@ -9,17 +9,8 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
 import theme from 'utils/theme';
+import { categories } from 'utils/utils';
 import styles from './styles';
-
-const categories = [
-  'Finances',
-  'Project',
-  'Community',
-  'Startup',
-  'Treatment',
-  'Health',
-  'Education',
-];
 
 function ActionItemForm({
   classes,
@@ -38,7 +29,7 @@ function ActionItemForm({
   const [failedSubmit, setFailedSubmit] = useState(false);
 
   const handleCategoryChange = category => {
-    // setCategory expects this form
+    // setCategory uses ActionItemCreationPage's handleChange which expects this form
     const newCategory = categorySelected !== category ? category : null;
     setCategory({ target: { value: newCategory } });
   };
