@@ -47,7 +47,7 @@ function Main(props) {
       disableFocusRipple
       disableTouchRipple
       className={classes.navBarItem}
-      onClick={() => window.location.href = '/admin'}
+      onClick={() => (window.location.href = '/admin')}
     >
       <ExitToAppIcon />
       <div className={classes.navText}> Admin View </div>
@@ -63,7 +63,6 @@ function Main(props) {
       case 'Assessments':
         return <BarChartIcon />;
       default:
-        return
     }
   };
 
@@ -111,7 +110,6 @@ function Main(props) {
           <ActionItemCreationPage {...contentProps}></ActionItemCreationPage>
         );
       default:
-        return
     }
   };
 

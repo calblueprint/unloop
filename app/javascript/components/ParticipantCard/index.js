@@ -77,7 +77,8 @@ function ParticipantCard({ classes, participant }) {
         ></CaseNoteForm>
       </TableCell>
       <TableCell>
-      {participant.assignmentsCompleted} / {participant.assignmentsCount} completed
+        {participant.assignmentsCompleted} / {participant.assignmentsCount}{' '}
+        completed
       </TableCell>
       <TableCell>{questionnaireStatus}</TableCell>
       <TableCell align="center">

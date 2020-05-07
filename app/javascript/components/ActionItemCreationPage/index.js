@@ -587,8 +587,8 @@ class ActionItemCreationPage extends React.Component {
                 ? this.reloadPage
                 : this.handleSubmit
             }
-          />)
-          : null}
+          />
+        ) : null}
 
         <Snackbar
           open={this.state.submitFailed}

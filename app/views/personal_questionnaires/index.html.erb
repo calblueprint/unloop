@@ -11,8 +11,6 @@
   <% @questionnaires.each do |q| %>
     <tr>
       <td><%= q.medical %></td>
-      <td><%= q.contact_info %></td>
-      <td><%= q.emergency_contact %></td>
       <td><%= q.participant.first_name %></td>
       <td><%= link_to 'Show', personal_questionnaire_path(q) %></td>
       <td><%= link_to 'Edit', edit_personal_questionnaire_path(q) %></td>

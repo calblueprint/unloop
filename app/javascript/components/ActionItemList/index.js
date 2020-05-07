@@ -12,7 +12,7 @@ function ActionItemList({
   removeSelectedActionItem,
   handleOpenModal,
 }) {
-  const selectedCards = selectedActionItems.map((actionItem, i) => (
+  const selectedCards = selectedActionItems.map(actionItem => (
     <ActionItemCard
       key={actionItem.title + actionItem.description}
       title={actionItem.title}
