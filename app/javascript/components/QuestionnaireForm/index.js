@@ -15,6 +15,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  FormControl,
 } from '@material-ui/core/';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -218,32 +219,32 @@ class QuestionnaireForm extends React.Component {
           <DialogContentText className={this.props.classes.questionnaireLabel}>
             {contentText}
           </DialogContentText>
-          <Select
-            id={fieldName}
-            value={this.state.questionnaire.race_and_ethnicities}
-            onChange={e => this.handleSelectChange(e, fieldName)}
-            className={this.props.classes.selectMenu}
-          >
-            <InputLabel className={this.props.classes.selectLabelText}>
-              Select Race/Ethnicity
-            </InputLabel>
-            <MenuItem value="American Indian or Alaska Native">
-              American Indian or Alaska Native
-            </MenuItem>
-            <MenuItem value="Asian">Asian</MenuItem>
-            <MenuItem value="Black or African American">
-              Black or African American
-            </MenuItem>
-            <MenuItem value="Hispanic or Latino or Spanish Origin">
-              Hispanic or Latino or Spanish Origin
-            </MenuItem>
-            <MenuItem value="Native Hawaiian or Other Pacific Islander">
-              Native Hawaiian or Other Pacific Islander
-            </MenuItem>
-            <MenuItem value="Two or More Races">Two or More Races</MenuItem>
-            <MenuItem value="White">White</MenuItem>
-            <MenuItem value="Prefer Not to Say">Prefer Not to Say</MenuItem>
-          </Select>
+          <FormControl>
+            <InputLabel>Select Race/Ethnicity</InputLabel>
+            <Select
+              id={fieldName}
+              value={this.state.questionnaire.race_and_ethnicities}
+              onChange={e => this.handleSelectChange(e, fieldName)}
+              className={this.props.classes.selectMenu}
+            >
+              <MenuItem value="American Indian or Alaska Native">
+                American Indian or Alaska Native
+              </MenuItem>
+              <MenuItem value="Asian">Asian</MenuItem>
+              <MenuItem value="Black or African American">
+                Black or African American
+              </MenuItem>
+              <MenuItem value="Hispanic or Latino or Spanish Origin">
+                Hispanic or Latino or Spanish Origin
+              </MenuItem>
+              <MenuItem value="Native Hawaiian or Other Pacific Islander">
+                Native Hawaiian or Other Pacific Islander
+              </MenuItem>
+              <MenuItem value="Two or More Races">Two or More Races</MenuItem>
+              <MenuItem value="White">White</MenuItem>
+              <MenuItem value="Prefer Not to Say">Prefer Not to Say</MenuItem>
+            </Select>
+          </FormControl>
         </div>
       );
     }
