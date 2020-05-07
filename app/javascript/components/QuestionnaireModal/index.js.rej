@@ -1,7 +1,0 @@
-diff a/app/javascript/components/QuestionnaireModal/index.js b/app/javascript/components/QuestionnaireModal/index.js	(rejected hunks)
-@@ -18 +18,2 @@ function QuestionnaireModal({
--  const qType = questionnaireType.charAt(0).toUpperCase() + questionnaireType.slice(1);
-+  const qType =
-+    questionnaireType.charAt(0).toUpperCase() + questionnaireType.slice(1);
-@@ -57 +57,0 @@ function QuestionnaireModal({
--             
