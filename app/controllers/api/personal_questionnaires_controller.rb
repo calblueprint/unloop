@@ -55,7 +55,7 @@ class Api::PersonalQuestionnairesController < ApplicationController
   
     def questionnaire_params
       questionnaire_params = params.require(:personal_questionnaire).permit(:participant_id, 
-        :doc_status,
+        :DOC_status,
         :housing,
         :mental_health,
         :medical,
@@ -63,7 +63,7 @@ class Api::PersonalQuestionnairesController < ApplicationController
         :clothing,
         :significant_relationships,
         :support_systems,
-        :doc_regulations,
+        :DOC_regulations,
         :treatment,
         :triggers_and_prevention,
         :personal_needs,

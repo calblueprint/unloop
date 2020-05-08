@@ -9,13 +9,11 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import ActionItemCreationContainer from 'components/ActionItemCreationContainer';
 import ActionItemSearchParticipants from 'components/ActionItemSearchParticipants';
+import LoadModal from 'components/LoadModal';
 import ActionItemList from 'components/ActionItemList';
+import ViewMoreModal from 'components/ViewMoreModal';
+import ActionItemModal from 'components/ActionItemModal';
 import ActionItemDisplayParticipants from 'components/ActionItemDisplayParticipants';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Button from '@material-ui/core/Button';
 import { apiPost, apiDelete } from 'utils/axios';
 import * as Sentry from '@sentry/browser';
 import styles from './styles';
@@ -36,6 +34,11 @@ class ActionItemCreationPage extends React.Component {
       selectedActionItems: [],
       submissionModal: false,
       file: null,
+      submissionStatus: null,
+      // State given to the view more and edit modals when invoked
+      modalActionItem: null,
+      viewMoreModalOpen: false,
+      editModalOpen: false,
     };
 
     this.addUserToState = this.addUserToState.bind(this);
@@ -54,6 +57,14 @@ class ActionItemCreationPage extends React.Component {
     this.handleFile = this.handleFile.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.checkActionItemsEqual = this.checkActionItemsEqual.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleOpenModal = this.handleOpenModal.bind(this);
+    this.editActionItem = this.editActionItem.bind(this);
+    this.reloadPage = this.reloadPage.bind(this);
+  }
+
+  reloadPage() {
+    window.location.href = '/assignments';
   }
 
   checkActionItemsEqual(actionItem1, actionItem2) {
@@ -63,6 +74,54 @@ class ActionItemCreationPage extends React.Component {
       actionItem1.category === actionItem2.category &&
       actionItem1.dueDate === actionItem2.dueDate
     );
+  }
+
+  // Used to close both the edit and view more modals
+  handleCloseModal() {
+    this.setState({
+      modalActionItem: null,
+      viewMoreModalOpen: false,
+      editModalOpen: false,
+    });
+  }
+
+  // Used to open both the edit and view more modals
+  handleOpenModal(actionItem) {
+    return modalType => {
+      const modalOpen =
+        modalType === 'edit' ? 'editModalOpen' : 'viewMoreModalOpen';
+      this.setState({
+        modalActionItem: actionItem,
+        [modalOpen]: true,
+      });
+    };
+  }
+
+  editActionItem(
+    title,
+    description,
+    categorySelected,
+    dueDate,
+    addToTemplates,
+    participantId,
+    actionItemId,
+    actionItem,
+  ) {
+    this.setState(prevState => {
+      const newSelectedActionItems = prevState.selectedActionItems.map(item => {
+        const itemCopy = { ...item };
+        if (this.checkActionItemsEqual(actionItem, item)) {
+          // id needs to be null so eheckmark doesn't appear
+          itemCopy.id = null;
+          itemCopy.title = title;
+          itemCopy.description = description;
+          itemCopy.category = categorySelected;
+          itemCopy.dueDate = dueDate;
+        }
+        return itemCopy;
+      });
+      return { selectedActionItems: newSelectedActionItems };
+    });
   }
 
   handleChange(name) {
@@ -128,7 +187,13 @@ class ActionItemCreationPage extends React.Component {
     console.log(assignments[0]);
     apiPost('/api/assignments', formData)
       .then((res) => console.log(res))
+    this.setState({ submissionStatus: 'loading' });
+    apiPost('/api/assignments', body)
+      .then(() =>
+        this.setState({ submissionStatus: 'complete', submitFailed: false }),
+      )
       .catch(error => {
+        this.setState({ submissionStatus: 'error' });
         Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'ActionItemCreationPage');
           scope.setExtra('action', 'apiPost (handleSubmit)');
@@ -165,7 +230,11 @@ class ActionItemCreationPage extends React.Component {
   removeSelectedActionItem(actionItem) {
     this.setState(prevState => {
       const filteredActionItems = prevState.selectedActionItems.filter(
-        item => !this.checkActionItemsEqual(actionItem, item),
+        item =>
+          !(
+            this.checkActionItemsEqual(actionItem, item) &&
+            actionItem.id === item.id
+          ),
       );
       return { selectedActionItems: filteredActionItems };
     });
@@ -242,7 +311,10 @@ class ActionItemCreationPage extends React.Component {
 
   selectActionItemTemplate(actionItem) {
     this.setState(prevState => ({
-      selectedActionItems: [actionItem, ...prevState.selectedActionItems],
+      selectedActionItems: [
+        { ...actionItem },
+        ...prevState.selectedActionItems,
+      ],
     }));
   }
 
@@ -306,14 +378,17 @@ class ActionItemCreationPage extends React.Component {
     let rightComponent;
     let leftComponentText;
     let rightComponentText;
+    let headerText;
     switch (stepSize) {
       case 0:
         leftComponentText = 'Assignments';
         rightComponentText = 'Add Assignments';
+        headerText = 'Add Assignments to List';
         leftComponent = (
           <ActionItemList
             selectedActionItems={this.state.selectedActionItems}
             removeSelectedActionItem={this.removeSelectedActionItem}
+            handleOpenModal={this.handleOpenModal}
           />
         );
         rightComponent = (
@@ -335,12 +410,15 @@ class ActionItemCreationPage extends React.Component {
             selectActionItemTemplate={this.selectActionItemTemplate}
             deleteTemplate={this.deleteTemplate}
             setFile={this.handleFile}
+            handleOpenModal={this.handleOpenModal}
           />
         );
         break;
       case 1:
         leftComponentText = 'Students';
         rightComponentText = 'Add Students';
+        headerText = 'Add Students to Assignments';
+
         leftComponent = (
           <ActionItemDisplayParticipants
             selectedParticipants={this.state.selectedParticipants}
@@ -361,6 +439,8 @@ class ActionItemCreationPage extends React.Component {
       case 2:
         leftComponentText = 'Review Students';
         rightComponentText = 'Review Assignments';
+        headerText = 'Review and Assign';
+
         leftComponent = (
           <ActionItemDisplayParticipants
             selectedParticipants={this.state.selectedParticipants}
@@ -370,6 +450,7 @@ class ActionItemCreationPage extends React.Component {
           <ActionItemList
             selectedActionItems={this.state.selectedActionItems}
             removeSelectedActionItem={this.removeSelectedActionItem}
+            handleOpenModal={this.handleOpenModal}
           />
         );
         break;
@@ -378,12 +459,14 @@ class ActionItemCreationPage extends React.Component {
         rightComponent = null;
         leftComponentText = null;
         rightComponentText = null;
+        headerText = null;
     }
     return {
       leftComponent,
       rightComponent,
       leftComponentText,
       rightComponentText,
+      headerText,
     };
   }
 
@@ -521,14 +604,48 @@ class ActionItemCreationPage extends React.Component {
       leftComponentText,
       rightComponent,
       rightComponentText,
+      headerText,
     } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
-    const submissionError = this.state.submitFailed && this.state.step === 2;
 
     return (
       <div>
+        {this.state.viewMoreModalOpen ? (
+          <ViewMoreModal
+            open={this.state.viewMoreModalOpen}
+            handleClose={this.handleCloseModal}
+            title={this.state.modalActionItem.title}
+            description={this.state.modalActionItem.description}
+            category={this.state.modalActionItem.category}
+            dueDate={this.state.modalActionItem.dueDate}
+          />
+        ) : null}
+        {this.state.editModalOpen ? (
+          <ActionItemModal
+            open={this.state.editModalOpen}
+            handleClose={this.handleCloseModal}
+            handleSubmit={this.editActionItem}
+            actionItem={this.state.modalActionItem}
+            title={this.state.modalActionItem.title}
+            description={this.state.modalActionItem.description}
+            categorySelected={this.state.modalActionItem.category}
+            dueDate={this.state.modalActionItem.dueDate}
+            type="edit"
+          />
+        ) : null}
+        {this.state.submissionStatus ? (
+          <LoadModal
+            status={this.state.submissionStatus}
+            handleClick={
+              this.state.submissionStatus === 'complete'
+                ? this.reloadPage
+                : this.handleSubmit
+            }
+          />
+        ) : null}
+
         <Snackbar
-          open={submissionError}
+          open={this.state.submitFailed}
           autoHideDuration={3000}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           onClose={(event, reason) => {
@@ -543,25 +660,6 @@ class ActionItemCreationPage extends React.Component {
             message="There must be at least 1 assignment and 1 student"
           />
         </Snackbar>
-        <Dialog open={this.state.submissionModal}>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Bulk assignment successfully submitted. Press the button to
-              refresh.
-            </DialogContentText>
-          </DialogContent>
-
-          <DialogActions>
-            <Button
-              onClick={() => {
-                window.location.href = '/assignments';
-              }}
-              color="primary"
-            >
-              REFRESH
-            </Button>
-          </DialogActions>
-        </Dialog>
         <Grid container style={{ height: '100vh', width: '100vw' }}>
           <Grid item container xs={11} justify="center">
             <Grid
@@ -573,10 +671,23 @@ class ActionItemCreationPage extends React.Component {
               xs={11}
               spacing={2}
             >
-              <Grid container item direction="row" justify="flex-start">
+              <Grid
+                container
+                item
+                direction="column"
+                alignItems="flex-start"
+                spacing={1}
+              >
+                <Grid item>
+                  <img
+                    src={`/assets/action_item_step_${this.state.step}.svg`}
+                    className={classes.stepperStyle}
+                    alt={`Step ${this.state.step + 1} of form`}
+                  />
+                </Grid>
                 <Grid item>
                   <Typography className={classes.topLeftTextStyle}>
-                    Add Assignments to List
+                    {headerText}
                   </Typography>
                 </Grid>
               </Grid>

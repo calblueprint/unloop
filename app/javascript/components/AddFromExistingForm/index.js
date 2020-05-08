@@ -119,7 +119,9 @@ class AddFromExistingForm extends React.Component {
                 ? () => this.props.removeSelectedActionItem(template)
                 : () => this.handleOpenDateModal(template)
             }
-            lastEntry={filteredTemplates.length - 1 === i}
+            handleOpenModal={this.props.handleOpenModal(template)}
+            // Border bottom styling should be added to all cards except the last
+            addBorderBottom={filteredTemplates.length - 1 !== i}
             removeActionItem={() => this.props.deleteTemplate(template)}
           />
         </Grid>
@@ -225,7 +227,7 @@ class AddFromExistingForm extends React.Component {
                 filteredTemplates
               ) : (
                 <Grid item className={classes.noActionItemsDisplay}>
-                  <Typography variant="h5"> No templates! </Typography>
+                  <Typography variant="h5"> No assessments found </Typography>
                 </Grid>
               )}
             </Grid>
@@ -242,6 +244,7 @@ AddFromExistingForm.propTypes = {
   selectedActionItemIds: PropTypes.instanceOf(Set).isRequired,
   selectActionItemTemplate: PropTypes.func.isRequired,
   removeSelectedActionItem: PropTypes.func.isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
   deleteTemplate: PropTypes.func.isRequired,
 };
 

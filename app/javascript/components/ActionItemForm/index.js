@@ -84,19 +84,19 @@ function ActionItemForm({
     <ThemeProvider theme={theme}>
       <Paper elevation={3} className={classes.formStyle}>
         <Grid container spacing={1} direction="column">
-          <Grid item container direction="column" spacing={2}>
+          <Grid item container direction="column" justify="center" spacing={1}>
             <Grid
               item
               style={{
                 color: failedSubmit && !categorySelected ? 'red' : 'black',
               }}
             >
-              SEARCH BY CATEGORY
+              CHOOSE CATEGORY
             </Grid>
-            <Grid item container direction="row" justify="space-evenly">
+            <Grid item container justify="center" spacing={1}>
               {categoryList.slice(0, 4)}
             </Grid>
-            <Grid container item justify="center" spacing={2}>
+            <Grid container item justify="center" spacing={1}>
               {categoryList.slice(4)}
             </Grid>
           </Grid>
@@ -176,6 +176,7 @@ function ActionItemForm({
                   onClick={() => {
                     if (allFieldsFilled) {
                       createActionItem(addToTemplates);
+                      setAddToTemplates(false);
                       setFailedSubmit(false);
                     } else {
                       setFailedSubmit(true);

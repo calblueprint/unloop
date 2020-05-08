@@ -1,8 +1,11 @@
 const styles = theme => ({
-  '@global': {
-    body: {
-      margin: '0px',
-    },
+  pageStyle: {
+    minHeight: '100vh',
+    width: '100%',
+    minWidth: '1000px',
+    margin: '0px',
+    backgroundColor: theme.palette.common.white,
+    overflow: 'none',
   },
   snackbarStyle: {
     backgroundColor: 'red',
@@ -11,6 +14,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.common.lightestGrey,
     padding: '2%',
     minWidth: '950px',
+    borderRadius: theme.shape.borderRadius,
   },
   iconStyle: {
     backgroundColor: theme.palette.common.indigo,
@@ -29,6 +33,9 @@ const styles = theme => ({
     color: theme.palette.common.white,
     paddingLeft: '16px',
     paddingRight: '16px',
+  },
+  stepperStyle: {
+    paddingTop: '10px',
   },
   underlineStyle: {
     color: theme.palette.common.indigo,

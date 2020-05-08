@@ -80,7 +80,7 @@ class ParticipantShowPage extends React.Component {
               item
               container
               direction="row"
-              justify="space-evenly"
+              justify="flex-start"
               spacing={1}
             >
               <Grid item>

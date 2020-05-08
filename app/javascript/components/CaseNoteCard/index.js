@@ -8,11 +8,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import { Menu, IconButton, Grid, Paper } from '@material-ui/core/';
+import { Menu, IconButton, Grid, Paper, Button } from '@material-ui/core/';
 import MUIRichTextEditor from 'mui-rte';
 import CaseNoteForm from 'components/CaseNoteForm';
 import DeleteModal from 'components/DeleteModal';
-import CaseNoteCardModal from 'components/CaseNoteCardModal';
 import styles from './styles';
 
 function CaseNoteCard({
@@ -24,6 +23,7 @@ function CaseNoteCard({
   participantId,
   showMenu,
   updateCaseNote,
+  handleOpenViewMore,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleMenuClick = event => {
@@ -78,29 +78,33 @@ function CaseNoteCard({
   );
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={11}>
-        <Paper className={classes.caseNoteCardStyle}>
-          <Grid container spacing={2}>
-            <Grid item xs={10}>
-              <h3 className={classes.casenoteCardTitleStyle}>{title}</h3>
-            </Grid>
-            <Grid item xs={2}>
-              {showMenu ? renderMenuItems() : null}
-            </Grid>
+    <Grid item>
+      <Paper className={classes.caseNoteCardStyle}>
+        <Grid container spacing={2}>
+          <Grid item xs={10}>
+            <h3 className={classes.casenoteCardTitleStyle}>{title}</h3>
           </Grid>
-          <div className={classes.caseNoteDescStyle}>
-            <MUIRichTextEditor value={description} readOnly toolbar={false} />
-          </div>
+          <Grid item xs={2}>
+            {showMenu ? renderMenuItems() : null}
+          </Grid>
+        </Grid>
+        <div className={classes.caseNoteDescStyle}>
+          <MUIRichTextEditor value={description} readOnly toolbar={false} />
+        </div>
 
-          <Grid container spacing={2} className={classes.buttonStyle}>
-            <Grid item xs={8}></Grid>
-            <Grid item xs={4}>
-              <CaseNoteCardModal description={description} title={title} />
-            </Grid>
+        <Grid container spacing={2} className={classes.buttonStyle}>
+          <Grid item xs={8}></Grid>
+          <Grid item xs={4}>
+            <Button
+              className="contained"
+              color="primary"
+              onClick={() => handleOpenViewMore(title, description)}
+            >
+              VIEW MORE
+            </Button>
           </Grid>
-        </Paper>
-      </Grid>
+        </Grid>
+      </Paper>
     </Grid>
   );
 }
@@ -114,6 +118,7 @@ CaseNoteCard.propTypes = {
   participantId: PropTypes.number,
   showMenu: PropTypes.bool,
   updateCaseNote: PropTypes.func,
+  handleOpenViewMore: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(CaseNoteCard);

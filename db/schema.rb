@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_24_023300) do
+ActiveRecord::Schema.define(version: 2020_05_02_232032) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 2020_04_24_023300) do
   end
 
   create_table "personal_questionnaires", force: :cascade do |t|
-    t.string "doc_status"
+    t.string "DOC_status"
     t.string "housing"
     t.string "mental_health"
     t.string "medical"
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 2020_04_24_023300) do
     t.string "clothing"
     t.string "significant_relationships"
     t.string "support_systems"
-    t.string "doc_regulations"
+    t.string "DOC_regulations"
     t.string "treatment"
     t.string "triggers_and_prevention"
     t.string "personal_needs"

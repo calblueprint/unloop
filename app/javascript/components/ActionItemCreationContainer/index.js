@@ -31,6 +31,7 @@ function ActionItemCreationContainer({
   createActionItem,
   deleteTemplate,
   setFile,
+  handleOpenModal,
 }) {
   const [creationSetting, setCreationSetting] = useState(Setting.SCRATCH);
   const [addToTemplates, setAddToTemplates] = useState(false);
@@ -107,6 +108,7 @@ function ActionItemCreationContainer({
               selectActionItemTemplate={selectActionItemTemplate}
               removeSelectedActionItem={removeSelectedActionItem}
               deleteTemplate={deleteTemplate}
+              handleOpenModal={handleOpenModal}
             />
           )}
         </Grid>
@@ -131,6 +133,7 @@ ActionItemCreationContainer.propTypes = {
   setDueDate: PropTypes.func.isRequired,
   setCategory: PropTypes.func.isRequired,
   deleteTemplate: PropTypes.func.isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ActionItemCreationContainer);

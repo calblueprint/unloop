@@ -4,8 +4,7 @@ const styles = theme => ({
     marginRight: '0',
   },
   caseNoteDescStyle: {
-    marginLeft: '20px',
-    paddingTop: '20px',
+    margin: '20px',
   },
   dialogStyle: {
     padding: '20px',
@@ -36,6 +35,24 @@ const styles = theme => ({
     fontSize: '36px',
     marginBottom: '0',
     marginTop: '0',
+  },
+  dateTextStyle: {
+    color: theme.palette.common.white,
+    fontSize: '24px',
+    marginBottom: '0',
+    marginTop: '0',
+  },
+  iconStyle: {
+    boxShadow: 'None',
+    backgroundColor: theme.palette.common.lighterBlue,
+  },
+  categoryButtonStyle: {
+    fontSize: '10px',
+    textAlign: 'center',
+    width: 60,
+    paddingLeft: '8px',
+    paddingRight: '8px',
+    color: theme.palette.primary.main,
   },
 });
 

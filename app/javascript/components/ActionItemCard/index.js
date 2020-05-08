@@ -20,9 +20,10 @@ function ActionItemCard({
   category,
   selected,
   renderClose,
+  handleOpenModal,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
-  lastEntry = false,
+  addBorderBottom,
   handleIconClick,
   removeActionItem,
 }) {
@@ -33,7 +34,7 @@ function ActionItemCard({
   );
 
   const renderCloseIcon = () => (
-    <IconButton aria-label="close" onClick={removeActionItem}>
+    <IconButton aria-label="close" onClick={removeActionItem} size="small">
       <CloseIcon style={{ fontSize: 'medium' }} />
     </IconButton>
   );
@@ -48,11 +49,31 @@ function ActionItemCard({
     </Button>
   );
 
+  const renderEditButton = () => (
+    <Button
+      size="small"
+      className={classes.buttonStyle}
+      onClick={() => handleOpenModal('edit')}
+    >
+      EDIT
+    </Button>
+  );
+
+  const renderViewMoreButton = () => (
+    <Button
+      size="small"
+      color="primary"
+      className={classes.buttonStyle}
+      onClick={() => handleOpenModal('viewmore')}
+    >
+      VIEW MORE
+    </Button>
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <Grid
         container
-        spacing={1}
         className={classes.cardStyle}
         direction="column"
         justify="space-evenly"
@@ -65,14 +86,13 @@ function ActionItemCard({
           wrap="nowrap"
           spacing={2}
         >
-          <Grid item container alignItems="center" wrap="nowrap">
+          <Grid item xs={2} container alignItems="center" wrap="nowrap">
             <Grid item className={classes.titleStyle}>
               <Typography variant="subtitle1" noWrap>
-                {' '}
-                {title}{' '}
+                {title}
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item xs={3}>
               <Fab
                 className={classes.iconStyle}
                 component="span"
@@ -90,7 +110,9 @@ function ActionItemCard({
               </Fab>
             </Grid>
           </Grid>
-          <Grid item>{renderClose ? renderCloseIcon() : null}</Grid>
+          <Grid item xs={1}>
+            {renderClose ? renderCloseIcon() : null}
+          </Grid>
         </Grid>
         <Grid item container alignItems="center" spacing={6}>
           <Grid item xs={9} className={classes.descriptionStyle}>
@@ -109,17 +131,14 @@ function ActionItemCard({
           <Grid
             item
             container
-            direction="row-reverse"
             xs={6}
             justify="space-evenly"
+            alignItems="flex-start"
           >
-            {/* Commented out because it doesn't have functionality right now */}
-            {/* <Grid item>
-              <Button size="small" className={classes.buttonStyle}>
-                EDIT
-              </Button>
-            </Grid> */}
-            <Grid item>{renderClose ? null : renderDeleteButton()}</Grid>
+            <Grid item>
+              {renderClose ? renderEditButton() : renderDeleteButton()}
+            </Grid>
+            <Grid item>{renderViewMoreButton()}</Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -134,9 +153,10 @@ ActionItemCard.propTypes = {
   category: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   renderClose: PropTypes.bool.isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
   dueDate: PropTypes.string,
   handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,
-  lastEntry: PropTypes.bool,
+  addBorderBottom: PropTypes.bool,
 };
 export default withStyles(styles)(ActionItemCard);

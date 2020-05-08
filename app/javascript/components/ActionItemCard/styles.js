@@ -12,17 +12,17 @@ const styles = theme => ({
     fontSize: '10px',
     width: '60px',
     textAlign: 'center',
-    paddingLeft: '8px',
-    paddingRight: '8px',
   },
   cardStyle: {
-    width: '95%',
+    width: '100%',
     height: '140px',
-    padding: '0px',
-    margin: '0px 15px',
-    boxShadow: '0px 0px 0px 0px',
-    borderBottom: ({ lastEntry }) =>
-      lastEntry ? '0px' : `.75px solid ${theme.palette.common.lightGrey}`,
+    padding: '8px',
+    margin: '10px 0px',
+    boxShadow: 'none',
+    backgroundColor: theme.palette.common.white,
+    borderRadius: theme.shape.borderRadius,
+    borderBottom: ({ addBorderBottom }) =>
+      addBorderBottom ? `.75px solid ${theme.palette.common.lightGrey}` : '0px',
   },
   descriptionStyle: {
     textOverflow: 'ellipsis',

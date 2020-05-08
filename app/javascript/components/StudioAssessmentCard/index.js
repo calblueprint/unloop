@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import styles from './styles';
 import TableCell from '@material-ui/core/TableCell';
-
+import styles from './styles';
 
 class StudioAssessmentCard extends React.Component {
   constructor(props) {
@@ -59,13 +58,19 @@ class StudioAssessmentCard extends React.Component {
         >
           {vc}
         </TableCell>
-        <TableCell className={currCategory === 'reactScore' ? classes.selected : null}>
+        <TableCell
+          className={currCategory === 'reactScore' ? classes.selected : null}
+        >
           {react}
         </TableCell>
-        <TableCell className={currCategory === 'dbScore' ? classes.selected : null}>
+        <TableCell
+          className={currCategory === 'dbScore' ? classes.selected : null}
+        >
           {db}
         </TableCell>
-        <TableCell className={currCategory === 'nodeScore' ? classes.selected : null}>
+        <TableCell
+          className={currCategory === 'nodeScore' ? classes.selected : null}
+        >
           {node}
         </TableCell>
         <TableCell
