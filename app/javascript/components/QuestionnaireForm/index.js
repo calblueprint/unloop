@@ -46,9 +46,9 @@ class QuestionnaireForm extends React.Component {
         formData.append(`${qType}[resume]`, this.state.file);
         formData.append(`${qType}[participant_id]`, this.props.participantId);
 
-        for (var pair of formData.entries()) {
-          console.log(pair[0] + ', ' + pair[1]);
-        }
+        // for (var pair of formData.entries()) {
+        //   console.log(pair[0] + ', ' + pair[1]);
+        // }
         
         const { id } = this.props.questionnaire;
         const request = `/api/${qType}s/${id}`;

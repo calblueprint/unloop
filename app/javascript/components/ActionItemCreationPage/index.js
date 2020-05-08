@@ -94,6 +94,7 @@ class ActionItemCreationPage extends React.Component {
       description: actionItem.description,
       due_date: actionItem.dueDate,
       category: actionItem.category,
+      file: actionItem.file
     }));
    
     // let assignments = [];
@@ -114,12 +115,17 @@ class ActionItemCreationPage extends React.Component {
       participant_ids: participantIds,
     };
     const formData = new FormData();
-    formData.append('assignments', assignments);
+    formData.append('assignments', JSON.stringify(assignments));
     formData.append('participant_ids', participantIds);
     console.log("this is the body")
     console.log(body);
     console.log("this is form data");
     console.log(formData);
+     for (var pair of formData.entries()) {
+          console.log(pair[0] + ', ' + pair[1]);
+        }
+    console.log(assignments);
+    console.log(assignments[0]);
     apiPost('/api/assignments', formData)
       .then((res) => console.log(res))
       .catch(error => {

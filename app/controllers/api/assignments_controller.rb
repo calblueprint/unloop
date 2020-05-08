@@ -1,3 +1,4 @@
+require 'json'
 class Api::AssignmentsController < ApplicationController
     before_action :set_assignment, only: [:show, :update, :destroy]
     before_action :set_template, only: [:show_template, :update_template, :destroy_template]
@@ -198,8 +199,13 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def bulk_assignment_params
+        puts params
+        # puts JSON.parse(params['assignments'])
+        # params['assignments'] = JSON.parse(params['assignments']).to_s.delete_suffix(']')
         all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category, :file], participant_ids: [])
      end
+    
+    
 
     def assignment_params
         puts "i am in assignments params"
