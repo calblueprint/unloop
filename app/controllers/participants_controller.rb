@@ -2,9 +2,11 @@ class ParticipantsController < ApplicationController
   before_action :set_participant, only: [:show]
 
   def show
+    # TODO CHECK IF CORRECT
     @participant = authorize Participant.find(params[:id])
-    @paperworks = @participant.paperworks
-    @case_notes = @participant.case_notes
+    @paperworks = authorize @participant.paperworks
+    @case_notes = authorize @participant.case_notes
+    @studio_assessments = authorize @participant.studio_assessments
 
     if @participant.personal_questionnaire.nil?
       personal_q = PersonalQuestionnaire.create("participant_id": @participant.id)
@@ -21,7 +23,6 @@ class ParticipantsController < ApplicationController
     end
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
 
-    @studio_assessments = @participant.studio_assessments
   end
 
   def dashboard
