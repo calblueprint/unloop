@@ -4,7 +4,7 @@ class PagesController < ApplicationController
 
     path = case @user.user_type
             when 'staff'
-              @participants = authorize Participant.all
+              @participants = Participant.all
               @participants_list = []
               @participants.each do |p|
                 if p.personal_questionnaire.nil?
