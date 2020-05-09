@@ -6,7 +6,6 @@ import 'draftail/dist/draftail.css';
 import { withStyles } from '@material-ui/core/styles';
 import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
 import { Dialog, Grid, Paper, Input } from '@material-ui/core/';
-import { categories } from 'utils/utils';
 import styles from './styles';
 
 function ViewMoreModal({
@@ -87,7 +86,7 @@ ViewMoreModal.propTypes = {
   classes: PropTypes.object.isRequired,
   description: PropTypes.string,
   title: PropTypes.string,
-  category: PropTypes.oneOf(categories),
+  category: PropTypes.string.isRequired,
   dueDate: PropTypes.string,
   open: PropTypes.bool.isRequired,
   isCaseNote: PropTypes.bool,

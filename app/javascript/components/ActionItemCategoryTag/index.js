@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import Fab from '@material-ui/core/Fab';
-import { categories } from 'utils/utils';
 import theme from 'utils/theme';
 import styles from './styles';
 
@@ -43,7 +42,7 @@ function ActionItemCategoryTag({
 
 ActionItemCategoryTag.propTypes = {
   classes: PropTypes.object.isRequired,
-  category: PropTypes.oneOf(categories).isRequired,
+  category: PropTypes.string.isRequired,
   selected: PropTypes.bool,
   handleClick: PropTypes.func,
 };

@@ -9,7 +9,6 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
 import theme from 'utils/theme';
-import { categories } from 'utils/utils';
 import styles from './styles';
 
 function ActionItemForm({
@@ -25,6 +24,7 @@ function ActionItemForm({
   addToTemplates,
   setAddToTemplates,
   createActionItem,
+  categories,
 }) {
   const [failedSubmit, setFailedSubmit] = useState(false);
 
@@ -179,6 +179,7 @@ ActionItemForm.propTypes = {
   addToTemplates: PropTypes.bool.isRequired,
   setAddToTemplates: PropTypes.func.isRequired,
   createActionItem: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(ActionItemForm);

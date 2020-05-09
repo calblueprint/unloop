@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import { categories } from 'utils/utils';
 import theme from 'utils/theme';
 import styles from './styles';
 
@@ -144,7 +143,7 @@ ActionItemCard.propTypes = {
   classes: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  category: PropTypes.oneOf(categories).isRequired,
+  category: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   renderClose: PropTypes.bool.isRequired,
   handleOpenModal: PropTypes.func.isRequired,

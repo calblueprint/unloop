@@ -13,7 +13,6 @@ import Paper from '@material-ui/core/Paper';
 import ActionItemCard from 'components/ActionItemCard';
 import theme from 'utils/theme';
 import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
-import { categories } from 'utils/utils';
 import styles from './styles';
 
 const TrieSearch = require('trie-search');
@@ -128,7 +127,7 @@ class AddFromExistingForm extends React.Component {
         </Grid>
       );
     });
-    const categoryList = categories.map(category => {
+    const categoryList = this.props.categories.map(category => {
       const isSelectedCategory =
         this.state.categorySelected && this.state.categorySelected === category;
       return (
@@ -218,6 +217,7 @@ AddFromExistingForm.propTypes = {
   removeSelectedActionItem: PropTypes.func.isRequired,
   handleOpenModal: PropTypes.func.isRequired,
   deleteTemplate: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(AddFromExistingForm);
