@@ -156,23 +156,21 @@ class ActionItemCreationPage extends React.Component {
       file: actionItem.file
     }));
    
-    // let assignments = [];
-    // for (let i  = 0; i < this.state.selectedActionItems.length; i++ ){
-    //     let curr = this.state.selectedActionItems[i];
-    //     const actionItem = new FormData();
-    //     actionItem.append('title', curr['title']);
-    //     actionItem.append('description', curr['description']);
-    //     actionItem.append('category', curr['category']);
-    //     actionItem.append('dueDate', curr['dueDate']);
-    //     actionItem.append('is_template', curr['is_template']);
-    //     actionItem.append('file', curr['file']);
-    //     assignments.push(actionItem);
-    // }
+  const firstActionItem = this.state.selectedActionItems[0]
+  const singleAssignment = {
+    title: firstActionItem.title,
+    description: firstActionItem.description,
+    due_date: firstActionItem.dueDate,
+    category: firstActionItem.category,
+    file: firstActionItem.file,
+    participant_id: this.state.selectedParticipants[0].id
+  }
 
     const body = {
       assignments,
       participant_ids: participantIds,
     };
+
     const formData = new FormData();
     formData.append('assignments', JSON.stringify(assignments));
     formData.append('participant_ids', participantIds);
@@ -180,15 +178,11 @@ class ActionItemCreationPage extends React.Component {
     console.log(body);
     console.log("this is form data");
     console.log(formData);
-     for (var pair of formData.entries()) {
-          console.log(pair[0] + ', ' + pair[1]);
-        }
-    console.log(assignments);
-    console.log(assignments[0]);
-    apiPost('/api/assignments', formData)
+
+    apiPost('/api/assignments', singleAssignment)
       .then((res) => console.log(res))
     this.setState({ submissionStatus: 'loading' });
-    apiPost('/api/assignments', body)
+    apiPost('/api/assignments', singleAssignment)
       .then(() =>
         this.setState({ submissionStatus: 'complete', submitFailed: false }),
       )

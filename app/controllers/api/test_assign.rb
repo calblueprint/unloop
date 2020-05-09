@@ -1,3 +1,4 @@
+require 'json'
 class Api::AssignmentsController < ApplicationController
     before_action :set_assignment, only: [:show, :update, :destroy]
     before_action :set_template, only: [:show_template, :update_template, :destroy_template]
@@ -5,58 +6,56 @@ class Api::AssignmentsController < ApplicationController
 
     def create
         authorize Assignment
-        puts "Create has started"
-        puts "take a look at the single assignmet params"
-        puts single_assignment_params
-        curr_participant = single_assignment_params.fetch(:participant_id)
-        if  curr_participant.nil?
-            render json: { error: 'Participant must be populated'}, status: :unprocessable_entity
+        puts "I AM IN CREATE"
+        puts bulk_assignment_params
+        created_assignments = []
+        created_action_items = []
+        participant_ids = bulk_assignment_params.fetch(:participant_ids, [])
+        action_items = bulk_assignment_params.fetch(:assignments, [])
+        puts action_items
+        if action_items.empty? || participant_ids.empty?
+            render json: { error: 'Action items and Participants must be populated'}, status: :unprocessable_entity
             return
         end
-        begin
-            due_date = DateTime.parse(single_assignment_params.fetch(:due_date))
-        rescue ArgumentError
-            due_date = nil
-        end
-        puts "I will create the the action item now"
-        action_item_params = {
-            title:  single_assignment_params.fetch(:title),
-            description: single_assignment_params.fetch(:description),
-            due_date: due_date,
-            category: single_assignment_params.fetch(:category),
-            file: single_assignment_params.fetch(:file),
-        }
-        action_item = ActionItem.new(action_item_params.except(:due_date)) 
-        puts action_item
-        template_sentry_helper(action_item)
-        action_item[:is_template] = false
-        puts 'this should not be a template'
-        puts action_item.is_template
-        puts 'this is the id'
-        puts action_item.id
-        puts 'this is the action item category'
-        if !curr_participant.nil? && action_item.save
-            assignment = prepare_single_assignment(curr_participant, action_item, due_date)
-            puts assignment.nil?
-            puts assignment.participant_id
-            # assignment_sentry_helper(assignment) 
-            puts assignment.save
-            if assignment.save
-                puts "I AM SAVING"
-                AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
-            else 
-                puts "will get festyored"
-                action_item.destroy
+        puts action_items.length
+        action_items.each do |action_item|
+            begin
+                due_date = DateTime.parse(action_item[:due_date])
+            rescue ArgumentError
+                due_date = nil
+            end
+            action_item = ActionItem.new(action_item.except(:due_date)) 
+            puts action_item.title
+            puts action_item.file
+            template_sentry_helper(action_item)
+            action_item[:is_template] = false
+            if !participant_ids.empty? && action_item.save
+                puts "I AM IN FIRST IF" 
+                created_action_items.append(action_item)
+                prepare_bulk_assignment(participant_ids, action_item, due_date).each do |assignment|
+                    puts "I AM BULK ASSIGNING"
+                    assignment_sentry_helper(assignment)  
+                    puts assignment.save
+                    if assignment.save
+                        puts "I AM SAVING"
+                        AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
+                        created_assignments.append(assignment)
+                    else 
+                        puts "will get festyored"
+                        action_item.destroy
+                        created_action_items.each {|item| item.destroy}
+                        Raven.capture_message("Could not create action item")
+                        render json: { error: 'Could not create action item' }, status: :unprocessable_entity
+                        return
+                    end
+                end
+            else
+                puts "not in first if"
                 created_action_items.each {|item| item.destroy}
                 Raven.capture_message("Could not create action item")
                 render json: { error: 'Could not create action item' }, status: :unprocessable_entity
                 return
             end
-        else
-            action_item.destroy
-            Raven.capture_message("Could not create action item")
-            render json: { error: 'Could not create action item' }, status: :unprocessable_entity
-            return
         end
         render json: created_assignments, status: :created
     end 
@@ -178,7 +177,9 @@ class Api::AssignmentsController < ApplicationController
     end
           
     def prepare_bulk_assignment(participant_ids, action_item, due_date)
+        puts "I AM PREPING BULK ASSIGNING"
         bulk_assignment_params = []
+        puts action_item.id
         single_assignment_params = {
                                     action_item_id: action_item.id,
                                     staff_id: current_user.staff.id,
@@ -192,30 +193,24 @@ class Api::AssignmentsController < ApplicationController
         return bulk_assignment_params
     end
 
-    def prepare_single_assignment(participant_id, action_item, due_date)
-        puts 'i am processing single assignment'
-        single_assignment = {
-            action_item_id: action_item.id,
-            staff_id: current_user.staff.id,
-            due_date: due_date,
-            completed: false,
-           }
-        assignment = Assignment.new(single_assignment.merge(participant_id: participant_id))
-        return assignment
-        end
-
     def action_item_params
+        puts "i am in action items params"
         action_item_param = params.require(:assignment).permit(:title,
                                                                :description,
                                                                :category, :file)
     end
 
-    def single_assignment_params
-        puts "I am processing the the single assignment parameters"
-        one_assignment_params = params.permit(:title, :description, :due_date, :category, :file, :participant_id)
-    end
+    def bulk_assignment_params
+        puts "i am in bulk assign"
+        puts params
+        all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category, :file], participant_ids: [])
+     end
     
+    
+
     def assignment_params
+        puts "i am in assignments params"
+        puts params
         assignment_param = params.require(:assignment).permit(:action_item_id,
                                                                :due_date,
                                                                :completed)
