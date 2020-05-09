@@ -357,6 +357,7 @@ class ActionItemCreationPage extends React.Component {
             selectActionItemTemplate={this.selectActionItemTemplate}
             deleteTemplate={this.deleteTemplate}
             handleOpenModal={this.handleOpenModal}
+            categories={this.props.categories}
           />
         );
         break;
@@ -677,6 +678,7 @@ ActionItemCreationPage.propTypes = {
   templates: PropTypes.array.isRequired,
   statuses: PropTypes.object.isRequired,
   participants: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(ActionItemCreationPage);

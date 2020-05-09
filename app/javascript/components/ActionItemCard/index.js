@@ -6,8 +6,8 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
 import PropTypes from 'prop-types';
-import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import theme from 'utils/theme';
 import styles from './styles';
@@ -86,28 +86,21 @@ function ActionItemCard({
           wrap="nowrap"
           spacing={2}
         >
-          <Grid item xs={2} container alignItems="center" wrap="nowrap">
+          <Grid
+            item
+            xs={2}
+            spacing={2}
+            container
+            alignItems="center"
+            wrap="nowrap"
+          >
             <Grid item className={classes.titleStyle}>
               <Typography variant="subtitle1" noWrap>
                 {title}
               </Typography>
             </Grid>
             <Grid item xs={3}>
-              <Fab
-                className={classes.iconStyle}
-                component="span"
-                variant="extended"
-                size="small"
-                aria-label="category"
-              >
-                <Typography
-                  className={classes.categoryButtonStyle}
-                  color="primary"
-                  align="center"
-                >
-                  {category ? category.toUpperCase() : category}
-                </Typography>
-              </Fab>
+              <ActionItemCategoryTag category={category} selected={false} />
             </Grid>
           </Grid>
           <Grid item xs={1}>
