@@ -109,7 +109,7 @@ class AddFromExistingForm extends React.Component {
             ? document.activeElement.blur()
             : null
         }
-        onEntered={() => this.buttonRef.current.focus()}
+        onEnter={() => this.buttonRef.current.focus()}
       >
         <DialogTitle> Choose a due date (optional) </DialogTitle>
         <DialogContent>
