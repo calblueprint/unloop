@@ -34,6 +34,8 @@ class AddFromExistingForm extends React.Component {
       this,
     );
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.renderChooseDateModal = this.renderChooseDateModal.bind(this);
+    this.buttonRef = React.createRef();
   }
 
   componentDidMount() {
@@ -95,6 +97,41 @@ class AddFromExistingForm extends React.Component {
     }));
   }
 
+  renderChooseDateModal() {
+    return (
+      <Dialog
+        open={this.state.selectedActionItem !== null}
+        onClose={this.handleCloseDateModal}
+        onExited={() =>
+          // Avoid blurring document.body on IE9 since it blurs the entire window
+          document.activeElement !== document.body
+            ? document.activeElement.blur()
+            : null
+        }
+        onEnter={() => this.buttonRef.current.focus()}
+      >
+        <DialogTitle> Choose a due date (optional) </DialogTitle>
+        <DialogContent>
+          <TextField
+            type="date"
+            value={this.state.selectedActionItemDate}
+            fullWidth
+            onChange={e => this.handleDateChange(e)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={this.handleSubmitSelectedTemplateActionItem}
+            ref={this.buttonRef}
+            color="primary"
+          >
+            Create Assignment
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -143,28 +180,7 @@ class AddFromExistingForm extends React.Component {
 
     return (
       <ThemeProvider theme={theme}>
-        <Dialog
-          open={this.state.selectedActionItem !== null}
-          onClose={this.handleCloseDateModal}
-        >
-          <DialogTitle> Choose a due date (optional) </DialogTitle>
-          <DialogContent>
-            <TextField
-              type="date"
-              value={this.state.selectedActionItemDate}
-              fullWidth
-              onChange={e => this.handleDateChange(e)}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={this.handleSubmitSelectedTemplateActionItem}
-              color="primary"
-            >
-              Create Assignment
-            </Button>
-          </DialogActions>
-        </Dialog>
+        {this.renderChooseDateModal()}
         <Paper elevation={3} className={classes.formStyle}>
           <Grid container spacing={1} direction="column">
             <Grid item container direction="column" spacing={1}>
