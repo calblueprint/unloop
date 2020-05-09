@@ -36,7 +36,6 @@ class AddFromExistingForm extends React.Component {
     this.handleDateChange = this.handleDateChange.bind(this);
     this.renderChooseDateModal = this.renderChooseDateModal.bind(this);
     this.buttonRef = React.createRef();
-    this.notButtonRef = React.createRef();
   }
 
   componentDidMount() {
