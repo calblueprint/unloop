@@ -108,7 +108,7 @@ class ActionItemCreationPage extends React.Component {
       const newSelectedActionItems = prevState.selectedActionItems.map(item => {
         const itemCopy = { ...item };
         if (this.checkActionItemsEqual(actionItem, item)) {
-          // id needs to be null so eheckmark doesn't appear
+          // id needs to be null so checkmark doesn't appear
           itemCopy.id = null;
           itemCopy.title = title;
           itemCopy.description = description;
@@ -579,17 +579,16 @@ class ActionItemCreationPage extends React.Component {
             type="edit"
           />
         ) : null}
-        {this.state.submissionStatus ? (
-          <LoadModal
-            status={this.state.submissionStatus}
-            handleClick={
-              this.state.submissionStatus === 'complete'
-                ? this.reloadPage
-                : this.handleSubmit
-            }
-          />
-        ) : null}
 
+        <LoadModal
+          open={this.state.submissionStatus !== null}
+          status={this.state.submissionStatus}
+          handleClick={
+            this.state.submissionStatus === 'complete'
+              ? this.reloadPage
+              : this.handleSubmit
+          }
+        />
         <Snackbar
           open={this.state.submitFailed}
           autoHideDuration={3000}
