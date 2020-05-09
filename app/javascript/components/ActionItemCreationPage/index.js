@@ -171,6 +171,14 @@ class ActionItemCreationPage extends React.Component {
       participant_ids: participantIds,
     };
 
+    const singleForm = new FormData();
+    singleForm.append('title', firstActionItem.title);
+    singleForm.append('description',firstActionItem.descriptio );
+    singleForm.append('due_date', firstActionItem.dueDate);
+    singleForm.append('category',firstActionItem.category );
+    singleForm.append('file', firstActionItem.file);
+    singleForm.append('participant_id',this.state.selectedParticipants[0].id );
+
     const formData = new FormData();
     formData.append('assignments', JSON.stringify(assignments));
     formData.append('participant_ids', participantIds);
@@ -179,10 +187,10 @@ class ActionItemCreationPage extends React.Component {
     console.log("this is form data");
     console.log(formData);
 
-    apiPost('/api/assignments', singleAssignment)
+    apiPost('/api/assignments', singleForm)
       .then((res) => console.log(res))
     this.setState({ submissionStatus: 'loading' });
-    apiPost('/api/assignments', singleAssignment)
+    apiPost('/api/assignments', singleForm)
       .then(() =>
         this.setState({ submissionStatus: 'complete', submitFailed: false }),
       )

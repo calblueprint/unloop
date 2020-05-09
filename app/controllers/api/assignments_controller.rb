@@ -194,6 +194,7 @@ class Api::AssignmentsController < ApplicationController
 
     def prepare_single_assignment(participant_id, action_item, due_date)
         puts 'i am processing single assignment'
+        puts action_item.id
         single_assignment = {
             action_item_id: action_item.id,
             staff_id: current_user.staff.id,
@@ -212,6 +213,7 @@ class Api::AssignmentsController < ApplicationController
 
     def single_assignment_params
         puts "I am processing the the single assignment parameters"
+        puts params
         one_assignment_params = params.permit(:title, :description, :due_date, :category, :file, :participant_id)
     end
     
