@@ -173,7 +173,7 @@ class ActionItemCreationPage extends React.Component {
 
     const singleForm = new FormData();
     singleForm.append('title', firstActionItem.title);
-    singleForm.append('description',firstActionItem.descriptio );
+    singleForm.append('description',firstActionItem.description);
     singleForm.append('due_date', firstActionItem.dueDate);
     singleForm.append('category',firstActionItem.category );
     singleForm.append('file', firstActionItem.file);
