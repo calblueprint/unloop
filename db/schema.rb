@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_02_232032) do
+ActiveRecord::Schema.define(version: 2020_05_10_013745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 2020_05_02_232032) do
   end
 
   create_table "personal_questionnaires", force: :cascade do |t|
-    t.datetime "birthdate"
+    t.date "birthdate"
     t.string "phone_number"
     t.string "pronouns"
     t.string "race_and_ethnicities"
