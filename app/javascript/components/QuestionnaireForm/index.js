@@ -317,6 +317,9 @@ class QuestionnaireForm extends React.Component {
         </div>
       );
     }
+    if (fieldName === 'validPhone') {
+      return <div></div>;
+    }
     return (
       <div className={this.props.classes.questionnaireEntry}>
         <DialogContentText className={this.props.classes.questionnaireLabel}>

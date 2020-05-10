@@ -71,22 +71,6 @@ ActiveRecord::Schema.define(version: 2020_05_02_232032) do
   end
 
   create_table "personal_questionnaires", force: :cascade do |t|
-    t.string "DOC_status"
-    t.string "housing"
-    t.string "mental_health"
-    t.string "medical"
-    t.string "transportation"
-    t.string "clothing"
-    t.string "significant_relationships"
-    t.string "support_systems"
-    t.string "DOC_regulations"
-    t.string "treatment"
-    t.string "triggers_and_prevention"
-    t.string "personal_needs"
-    t.string "personal_goals"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "participant_id", null: false
     t.datetime "birthdate"
     t.string "phone_number"
     t.string "pronouns"
@@ -98,10 +82,26 @@ ActiveRecord::Schema.define(version: 2020_05_02_232032) do
     t.string "emergency_contact_2_name"
     t.string "emergency_contact_2_phone_number"
     t.string "emergency_contact_2_relationship"
+    t.string "significant_relationships"
+    t.string "support_systems"
+    t.string "mental_health"
+    t.string "DOC_status"
+    t.string "DOC_regulations"
+    t.string "housing"
+    t.string "medical"
+    t.string "treatment"
+    t.string "triggers_and_prevention"
+    t.string "personal_needs"
+    t.string "transportation"
+    t.string "clothing"
     t.string "financial_obligations"
     t.string "resources_allocated"
     t.string "orca_card"
     t.string "state_assistance"
+    t.string "personal_goals"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "participant_id", null: false
     t.index ["participant_id"], name: "index_personal_questionnaires_on_participant_id"
   end
 
