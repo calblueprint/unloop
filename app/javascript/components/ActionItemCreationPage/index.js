@@ -156,46 +156,41 @@ class ActionItemCreationPage extends React.Component {
       file: actionItem.file
     }));
    
-  const firstActionItem = this.state.selectedActionItems[0]
-  const singleAssignment = {
-    title: firstActionItem.title,
-    description: firstActionItem.description,
-    due_date: firstActionItem.dueDate,
-    category: firstActionItem.category,
-    file: firstActionItem.file,
-    participant_id: this.state.selectedParticipants[0].id
-  }
-
+  
     const body = {
       assignments,
       participant_ids: participantIds,
     };
 
-    const singleForm = new FormData();
-    singleForm.append('title', firstActionItem.title);
-    singleForm.append('description',firstActionItem.description);
-    singleForm.append('due_date', firstActionItem.dueDate);
-    singleForm.append('category',firstActionItem.category );
-    singleForm.append('file', firstActionItem.file);
-    singleForm.append('participant_ids', participantIds);
-    console.log(participantIds.join());
-    apiPost('/api/assignments', singleForm)
-      .then((res) => console.log(res))
-    this.setState({ submissionStatus: 'loading' });
-    apiPost('/api/assignments', singleForm)
-      .then(() =>
-        this.setState({ submissionStatus: 'complete', submitFailed: false }),
-      )
-      .catch(error => {
-        this.setState({ submissionStatus: 'error' });
-        Sentry.configureScope(function(scope) {
-          scope.setExtra('file', 'ActionItemCreationPage');
-          scope.setExtra('action', 'apiPost (handleSubmit)');
-          scope.setExtra('participantIds', participantIds);
-          scope.setExtra('body', JSON.stringify(body));
-        });
-        Sentry.captureException(error);
-      });
+    for (let i = 0; i < this.state.selectedActionItems.length; i++) {
+
+          const firstActionItem = this.state.selectedActionItems[i]
+          const singleForm = new FormData();
+          singleForm.append('title', firstActionItem.title);
+          singleForm.append('description',firstActionItem.description);
+          singleForm.append('due_date', firstActionItem.dueDate);
+          singleForm.append('category',firstActionItem.category );
+          singleForm.append('file', firstActionItem.file);
+          singleForm.append('participant_ids', participantIds);
+      
+          apiPost('/api/assignments', singleForm)
+            .then((res) => console.log(res))
+          this.setState({ submissionStatus: 'loading' });
+          apiPost('/api/assignments', singleForm)
+            .then(() =>
+              this.setState({ submissionStatus: 'complete', submitFailed: false }),
+            )
+            .catch(error => {
+              this.setState({ submissionStatus: 'error' });
+              Sentry.configureScope(function(scope) {
+                scope.setExtra('file', 'ActionItemCreationPage');
+                scope.setExtra('action', 'apiPost (handleSubmit)');
+                scope.setExtra('participantIds', participantIds);
+                scope.setExtra('body', JSON.stringify(body));
+              });
+              Sentry.captureException(error);
+            });
+    }
   };
 
   deleteTemplate(templateActionItem) {
@@ -277,21 +272,7 @@ class ActionItemCreationPage extends React.Component {
           Sentry.captureException(error);
         });
     }
-    // const actionItem = {
-    //   title: actionItemTitle,
-    //   description: actionItemDescription,
-    //   category: actionItemCategory,
-    //   dueDate: actionItemDueDate,
-    //   is_template: saveToTemplates,
-    //   file: file,
-    // };
-    // const actionItem = new FormData();
-    // actionItem.append('title', actionItemTitle);
-    // actionItem.append('description', actionItemDescription);
-    // actionItem.append('category', actionItemCategory);
-    // actionItem.append('dueDate', actionItemDueDate);
-    // actionItem.append('is_template', saveToTemplates);
-    // actionItem.append('file', file);
+    
     console.log(actionItem);
     this.setState(prevState => ({
       selectedActionItems: [actionItem],

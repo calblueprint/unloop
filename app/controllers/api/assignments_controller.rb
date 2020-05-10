@@ -7,6 +7,7 @@ class Api::AssignmentsController < ApplicationController
         authorize Assignment
         participant_ids_string = single_assignment_params.fetch(:participant_ids)
         participant_ids = participant_ids_string.split(/,/)
+        puts participant_ids
         if  participant_ids.empty?
             render json: { error: 'Participant must be populated'}, status: :unprocessable_entity
             return
@@ -15,7 +16,7 @@ class Api::AssignmentsController < ApplicationController
             due_date = DateTime.parse(single_assignment_params.fetch(:due_date))
         rescue ArgumentError
             due_date = nil
-        end
+        end 
         action_item_params = {
             title:  single_assignment_params.fetch(:title),
             description: single_assignment_params.fetch(:description),
@@ -23,18 +24,20 @@ class Api::AssignmentsController < ApplicationController
             category: single_assignment_params.fetch(:category),
             file: single_assignment_params.fetch(:file),
         }
-        action_item = ActionItem.new(action_item_params.except(:due_date)) 
+        if (single_assignment_params.fetch(:file).eql?("null"))
+            action_item = ActionItem.new(action_item_params.except(:due_date, :file)) 
+        else 
+            action_item = ActionItem.new(action_item_params.except(:due_date)) 
+        end
         template_sentry_helper(action_item)
         action_item[:is_template] = false
         if !participant_ids.empty? && action_item.save
             prepare_bulk_assignment(participant_ids, action_item, due_date).each do |assignment|
                 assignment_sentry_helper(assignment)  
                 if assignment.save
-                    puts "I AM SAVING"
                     AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
                     created_assignments.append(assignment)
                 else 
-                    puts "will get festyored"
                     action_item.destroy
                     created_action_items.each {|item| item.destroy}
                     Raven.capture_message("Could not create action item")
@@ -43,7 +46,6 @@ class Api::AssignmentsController < ApplicationController
                 end
             end
         else
-            puts "not in first if"
             created_action_items.each {|item| item.destroy}
             Raven.capture_message("Could not create action item")
             render json: { error: 'Could not create action item' }, status: :unprocessable_entity
@@ -202,7 +204,7 @@ class Api::AssignmentsController < ApplicationController
 
     def single_assignment_params
         puts params
-        one_assignment_params = params.permit(:title, :description, :due_date, :category, :file, :participant_ids)
+        one_assignment_params = params.permit(:title, :description, :due_date, :category, :file, :participant_ids, :format)
     end
     
     def assignment_params
