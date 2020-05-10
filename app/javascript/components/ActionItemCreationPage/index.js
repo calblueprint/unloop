@@ -33,7 +33,8 @@ class ActionItemCreationPage extends React.Component {
       submitFailed: false,
       selectedActionItems: [],
       submissionModal: false,
-      file: null,
+      files: [],
+      hasFile: false,
       submissionStatus: null,
       // State given to the view more and edit modals when invoked
       modalActionItem: null,
@@ -132,7 +133,11 @@ class ActionItemCreationPage extends React.Component {
   }
 
   handleFile(event){
-    this.setState({ file: event.target.files[0]});
+    let file = event.target.files[0];
+    this.setState(prevState => ({
+      files: [file, ...prevState.files],
+      hasFile: true,
+    }));
   }
 
   handleSubmit = () => {
@@ -235,7 +240,8 @@ class ActionItemCreationPage extends React.Component {
       actionItemDescription,
       actionItemCategory,
       actionItemDueDate,
-      file,
+      files,
+      hasFile,
     } = this.state;
 
     if (
@@ -245,7 +251,11 @@ class ActionItemCreationPage extends React.Component {
     ) {
       return;
     }
-
+    let file = null;
+    if (hasFile) {
+      file = files[0];
+      console.log(file);
+    }
     const actionItem = {
       title: actionItemTitle,
       description: actionItemDescription,
@@ -275,13 +285,14 @@ class ActionItemCreationPage extends React.Component {
     
     console.log(actionItem);
     this.setState(prevState => ({
-      selectedActionItems: [actionItem],
+      selectedActionItems: [actionItem, ...prevState.selectedActionItems],
       actionItemTitle: '',
       actionItemDescription: '',
       actionItemDueDate: '',
       actionItemCategory: null,
-      file: null,
+      hasFile: false,
     }));
+    console.log(this.state.selectedActionItems);
   }
 
   selectActionItemTemplate(actionItem) {

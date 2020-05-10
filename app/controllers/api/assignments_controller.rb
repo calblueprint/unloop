@@ -24,7 +24,7 @@ class Api::AssignmentsController < ApplicationController
             category: single_assignment_params.fetch(:category),
             file: single_assignment_params.fetch(:file),
         }
-        if (single_assignment_params.fetch(:file).eql?("null"))
+        if single_assignment_params.fetch(:file).eql?("null") || single_assignment_params.fetch(:file).eql?("undefined") || !single_assignment_params.fetch(:file).present?
             action_item = ActionItem.new(action_item_params.except(:due_date, :file)) 
         else 
             action_item = ActionItem.new(action_item_params.except(:due_date)) 
@@ -35,8 +35,9 @@ class Api::AssignmentsController < ApplicationController
             prepare_bulk_assignment(participant_ids, action_item, due_date).each do |assignment|
                 assignment_sentry_helper(assignment)  
                 if assignment.save
-                    AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
-                    created_assignments.append(assignment)
+                    #AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
+                    puts "sent"
+                    puts assignment
                 else 
                     action_item.destroy
                     created_action_items.each {|item| item.destroy}
@@ -51,7 +52,8 @@ class Api::AssignmentsController < ApplicationController
             render json: { error: 'Could not create action item' }, status: :unprocessable_entity
             return
         end
-    render json: created_assignments, status: :created
+    #what is render json supposed to do?
+    #render json: created_assignments, status: :created 
     end  
 
     def show
