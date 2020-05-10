@@ -5,11 +5,9 @@ class Api::AssignmentsController < ApplicationController
 
     def create
         authorize Assignment
-        puts "Create has started"
-        puts "take a look at the single assignmet params"
-        puts single_assignment_params
-        curr_participant = single_assignment_params.fetch(:participant_id)
-        if  curr_participant.nil?
+        participant_ids_string = single_assignment_params.fetch(:participant_ids)
+        participant_ids = participant_ids_string.split(/,/)
+        if  participant_ids.empty?
             render json: { error: 'Participant must be populated'}, status: :unprocessable_entity
             return
         end
@@ -18,7 +16,6 @@ class Api::AssignmentsController < ApplicationController
         rescue ArgumentError
             due_date = nil
         end
-        puts "I will create the the action item now"
         action_item_params = {
             title:  single_assignment_params.fetch(:title),
             description: single_assignment_params.fetch(:description),
@@ -27,39 +24,33 @@ class Api::AssignmentsController < ApplicationController
             file: single_assignment_params.fetch(:file),
         }
         action_item = ActionItem.new(action_item_params.except(:due_date)) 
-        puts action_item
         template_sentry_helper(action_item)
         action_item[:is_template] = false
-        puts 'this should not be a template'
-        puts action_item.is_template
-        puts 'this is the id'
-        puts action_item.id
-        puts 'this is the action item category'
-        if !curr_participant.nil? && action_item.save
-            assignment = prepare_single_assignment(curr_participant, action_item, due_date)
-            puts assignment.nil?
-            puts assignment.participant_id
-            # assignment_sentry_helper(assignment) 
-            puts assignment.save
-            if assignment.save
-                puts "I AM SAVING"
-                AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
-            else 
-                puts "will get festyored"
-                action_item.destroy
-                created_action_items.each {|item| item.destroy}
-                Raven.capture_message("Could not create action item")
-                render json: { error: 'Could not create action item' }, status: :unprocessable_entity
-                return
+        if !participant_ids.empty? && action_item.save
+            prepare_bulk_assignment(participant_ids, action_item, due_date).each do |assignment|
+                assignment_sentry_helper(assignment)  
+                if assignment.save
+                    puts "I AM SAVING"
+                    AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
+                    created_assignments.append(assignment)
+                else 
+                    puts "will get festyored"
+                    action_item.destroy
+                    created_action_items.each {|item| item.destroy}
+                    Raven.capture_message("Could not create action item")
+                    render json: { error: 'Could not create action item' }, status: :unprocessable_entity
+                    return
+                end
             end
         else
-            action_item.destroy
+            puts "not in first if"
+            created_action_items.each {|item| item.destroy}
             Raven.capture_message("Could not create action item")
             render json: { error: 'Could not create action item' }, status: :unprocessable_entity
             return
         end
-        render json: created_assignments, status: :created
-    end 
+    render json: created_assignments, status: :created
+    end  
 
     def show
         authorize @assignment 
@@ -193,8 +184,6 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def prepare_single_assignment(participant_id, action_item, due_date)
-        puts 'i am processing single assignment'
-        puts action_item.id
         single_assignment = {
             action_item_id: action_item.id,
             staff_id: current_user.staff.id,
@@ -212,9 +201,8 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def single_assignment_params
-        puts "I am processing the the single assignment parameters"
         puts params
-        one_assignment_params = params.permit(:title, :description, :due_date, :category, :file, :participant_id)
+        one_assignment_params = params.permit(:title, :description, :due_date, :category, :file, :participant_ids)
     end
     
     def assignment_params

@@ -177,16 +177,8 @@ class ActionItemCreationPage extends React.Component {
     singleForm.append('due_date', firstActionItem.dueDate);
     singleForm.append('category',firstActionItem.category );
     singleForm.append('file', firstActionItem.file);
-    singleForm.append('participant_id',this.state.selectedParticipants[0].id );
-
-    const formData = new FormData();
-    formData.append('assignments', JSON.stringify(assignments));
-    formData.append('participant_ids', participantIds);
-    console.log("this is the body")
-    console.log(body);
-    console.log("this is form data");
-    console.log(formData);
-
+    singleForm.append('participant_ids', participantIds);
+    console.log(participantIds.join());
     apiPost('/api/assignments', singleForm)
       .then((res) => console.log(res))
     this.setState({ submissionStatus: 'loading' });
