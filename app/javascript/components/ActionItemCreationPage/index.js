@@ -132,12 +132,13 @@ class ActionItemCreationPage extends React.Component {
     };
   }
 
-  handleFile(event){
+  handleFile(event) {
     let file = event.target.files[0];
     this.setState(prevState => ({
-      files: [file, ...prevState.files],
+      files: [...prevState.files, file],
       hasFile: true,
     }));
+    console.log(this.state.files);
   }
 
   handleSubmit = () => {
@@ -152,49 +153,35 @@ class ActionItemCreationPage extends React.Component {
       participant => participant.id,
     );
 
-    
-    const assignments = this.state.selectedActionItems.map(actionItem => ({
-      title: actionItem.title,
-      description: actionItem.description,
-      due_date: actionItem.dueDate,
-      category: actionItem.category,
-      file: actionItem.file
-    }));
-   
-  
-    const body = {
-      assignments,
-      participant_ids: participantIds,
-    };
 
     for (let i = 0; i < this.state.selectedActionItems.length; i++) {
 
-          const firstActionItem = this.state.selectedActionItems[i]
-          const singleForm = new FormData();
-          singleForm.append('title', firstActionItem.title);
-          singleForm.append('description',firstActionItem.description);
-          singleForm.append('due_date', firstActionItem.dueDate);
-          singleForm.append('category',firstActionItem.category );
-          singleForm.append('file', firstActionItem.file);
-          singleForm.append('participant_ids', participantIds);
-      
-          apiPost('/api/assignments', singleForm)
-            .then((res) => console.log(res))
-          this.setState({ submissionStatus: 'loading' });
-          apiPost('/api/assignments', singleForm)
-            .then(() =>
-              this.setState({ submissionStatus: 'complete', submitFailed: false }),
-            )
-            .catch(error => {
-              this.setState({ submissionStatus: 'error' });
-              Sentry.configureScope(function(scope) {
-                scope.setExtra('file', 'ActionItemCreationPage');
-                scope.setExtra('action', 'apiPost (handleSubmit)');
-                scope.setExtra('participantIds', participantIds);
-                scope.setExtra('body', JSON.stringify(body));
-              });
-              Sentry.captureException(error);
-            });
+      const firstActionItem = this.state.selectedActionItems[i]
+      const singleForm = new FormData();
+      singleForm.append('title', firstActionItem.title);
+      singleForm.append('description', firstActionItem.description);
+      singleForm.append('due_date', firstActionItem.dueDate);
+      singleForm.append('category', firstActionItem.category);
+      singleForm.append('file', this.state.files[firstActionItem.fileIndex]);
+      singleForm.append('participant_ids', participantIds);
+      console.log(this.state.files[firstActionItem.fileIndex]);
+      apiPost('/api/assignments', singleForm)
+        .then((res) => console.log(res))
+      this.setState({ submissionStatus: 'loading' });
+      apiPost('/api/assignments', singleForm)
+        .then(() =>
+          this.setState({ submissionStatus: 'complete', submitFailed: false }),
+        )
+        .catch(error => {
+          this.setState({ submissionStatus: 'error' });
+          Sentry.configureScope(function (scope) {
+            scope.setExtra('file', 'ActionItemCreationPage');
+            scope.setExtra('action', 'apiPost (handleSubmit)');
+            scope.setExtra('participantIds', participantIds);
+            scope.setExtra('body', JSON.stringify(body));
+          });
+          Sentry.captureException(error);
+        });
     }
   };
 
@@ -212,7 +199,7 @@ class ActionItemCreationPage extends React.Component {
         }),
       )
       .catch(error => {
-        Sentry.configureScope(function(scope) {
+        Sentry.configureScope(function (scope) {
           scope.setExtra('file', 'ActionItemCreationPage');
           scope.setExtra('action', 'apiDelete');
           scope.setExtra('templateActionItemId', templateActionItem.id);
@@ -243,7 +230,7 @@ class ActionItemCreationPage extends React.Component {
       files,
       hasFile,
     } = this.state;
-
+    console.log(files);
     if (
       actionItemTitle === '' ||
       actionItemDescription === '' ||
@@ -253,7 +240,8 @@ class ActionItemCreationPage extends React.Component {
     }
     let file = null;
     if (hasFile) {
-      file = files[0];
+      console.log(files.length - 1);
+      file = files[files.length - 1];
       console.log(file);
     }
     const actionItem = {
@@ -262,10 +250,11 @@ class ActionItemCreationPage extends React.Component {
       category: actionItemCategory,
       dueDate: actionItemDueDate,
       is_template: saveToTemplates,
-      file: file
+      fileIndex: files.length - 1,
     };
 
     if (saveToTemplates) {
+
       apiPost('/api/assignments/templates', { assignment: actionItem })
         .then(resp => {
           actionItem.id = resp.data.id;
@@ -274,7 +263,7 @@ class ActionItemCreationPage extends React.Component {
           }));
         })
         .catch(error => {
-          Sentry.configureScope(function(scope) {
+          Sentry.configureScope(function (scope) {
             scope.setExtra('file', 'ActionItemCreationPage');
             scope.setExtra('action', 'apiPost (createActionItem)');
             scope.setExtra('template', JSON.stringify(actionItem));
@@ -282,7 +271,7 @@ class ActionItemCreationPage extends React.Component {
           Sentry.captureException(error);
         });
     }
-    
+
     console.log(actionItem);
     this.setState(prevState => ({
       selectedActionItems: [actionItem, ...prevState.selectedActionItems],
