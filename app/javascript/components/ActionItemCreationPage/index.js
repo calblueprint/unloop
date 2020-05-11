@@ -58,10 +58,16 @@ class ActionItemCreationPage extends React.Component {
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.editActionItem = this.editActionItem.bind(this);
     this.reloadPage = this.reloadPage.bind(this);
+    this.handleExitSubmitModal = this.handleExitSubmitModal.bind(this);
   }
 
   reloadPage() {
     window.location.href = '/assignments';
+  }
+
+  // Only passed to LoadModal if submissionStatus == 'error'
+  handleExitSubmitModal() {
+    this.setState({ submissionStatus: null });
   }
 
   checkActionItemsEqual(actionItem1, actionItem2) {
@@ -588,6 +594,11 @@ class ActionItemCreationPage extends React.Component {
             this.state.submissionStatus === 'complete'
               ? this.reloadPage
               : this.handleSubmit
+          }
+          handleClose={
+            this.state.submissionStatus === 'error'
+              ? this.handleExitSubmitModal
+              : null
           }
         />
         <Snackbar
