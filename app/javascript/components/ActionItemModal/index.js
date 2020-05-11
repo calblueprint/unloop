@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Fab from '@material-ui/core/Fab';
 import theme from 'utils/theme';
-import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import {
   Button,
@@ -24,7 +23,6 @@ class ActionItemForm extends React.Component {
       categorySelected:
         this.props.type === 'create' ? '' : this.props.categorySelected,
       dueDate: this.props.type === 'create' ? '' : this.props.dueDate,
-      addToTemplates: false,
       failedSubmit: false,
     };
   }
@@ -36,25 +34,18 @@ class ActionItemForm extends React.Component {
 
   handleSubmit = () => {
     const { participantId, actionItemId, actionItem } = this.props;
-    const {
-      title,
-      description,
-      categorySelected,
-      dueDate,
-      addToTemplates,
-    } = this.state;
+    const { title, description, categorySelected, dueDate } = this.state;
 
     if (title && description && categorySelected) {
-      this.props.handleSubmit(
+      this.props.handleSubmit({
         title,
         description,
         categorySelected,
         dueDate,
-        addToTemplates,
         participantId,
         actionItemId,
         actionItem,
-      );
+      });
       this.props.handleClose();
     } else {
       this.setState({ failedSubmit: true });
@@ -63,13 +54,7 @@ class ActionItemForm extends React.Component {
 
   render() {
     const { classes, open } = this.props;
-    const {
-      failedSubmit,
-      title,
-      description,
-      categorySelected,
-      addToTemplates,
-    } = this.state;
+    const { failedSubmit, title, description, categorySelected } = this.state;
 
     const categories = [
       'Finances',
@@ -213,24 +198,7 @@ class ActionItemForm extends React.Component {
             />
           </DialogContent>
           <DialogActions disableSpacing>
-            <Grid container justify="space-between" alignItems="center">
-              <Grid item>
-                <Checkbox
-                  color="primary"
-                  className={classes.checkboxStyle}
-                  checked={addToTemplates}
-                  onChange={e => {
-                    const newValue = { target: { value: e.target.checked } };
-                    this.handleChange('addToTemplates')(newValue);
-                  }}
-                />
-                <Typography
-                  display="inline"
-                  className={classes.checkboxTextStyle}
-                >
-                  ADD TO COMMON ASSIGNMENTS
-                </Typography>
-              </Grid>
+            <Grid container justify="flex-end" alignItems="center">
               <Grid item>
                 <Button onClick={this.handleSubmit}>
                   <Typography
