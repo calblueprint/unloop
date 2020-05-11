@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import styles from './styles';
 
-function LoadModal({ classes, open, status, handleClick }) {
+function LoadModal({ classes, open, status, handleClick, handleClose }) {
   const getText = () => {
     let titleText;
     let buttonText;
@@ -58,6 +58,7 @@ function LoadModal({ classes, open, status, handleClick }) {
       open={open}
       fullWidth
       classes={{ paper: classes.modalStyle }}
+      onClose={handleClose}
       onExited={() =>
         // Avoid blurring document.body on IE9 since it blurs the entire window
         document.activeElement !== document.body
@@ -112,5 +113,6 @@ LoadModal.propTypes = {
   status: PropTypes.string,
   open: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
+  handleClose: PropTypes.func,
 };
 export default withStyles(styles)(LoadModal);
