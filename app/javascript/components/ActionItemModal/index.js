@@ -106,23 +106,6 @@ class ActionItemModal extends React.Component {
       );
     });
 
-    const addToTemplatesCheckbox = (
-      <Grid item>
-        <Checkbox
-          color="primary"
-          className={classes.checkboxStyle}
-          checked={addToTemplates}
-          onChange={e => {
-            const newValue = { target: { value: e.target.checked } };
-            this.handleChange('addToTemplates')(newValue);
-          }}
-        />
-        <Typography display="inline" className={classes.checkboxTextStyle}>
-          ADD TO COMMON ASSIGNMENTS
-        </Typography>
-      </Grid>
-    );
-
     return (
       <ThemeProvider theme={theme}>
         <Dialog
@@ -250,7 +233,6 @@ ActionItemModal.propTypes = {
   actionItem: PropTypes.object,
   handleClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  showAddToTemplates: PropTypes.bool,
 };
 
 ActionItemModal.defaultProps = {
@@ -259,6 +241,5 @@ ActionItemModal.defaultProps = {
   description: '',
   dueDate: '',
   categorySelected: '',
-  showAddToTemplates: true,
 };
 export default withStyles(styles)(ActionItemModal);

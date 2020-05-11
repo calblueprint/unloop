@@ -160,14 +160,13 @@ class AssignmentList extends React.Component {
     );
   }
 
-  handleCreateAssignment(
+  handleCreateAssignment({
     title,
     description,
     categorySelected,
     dueDate,
-    addToTemplates,
     participantId,
-  ) {
+  }) {
     const assignments = [
       {
         title,
@@ -200,14 +199,13 @@ class AssignmentList extends React.Component {
       });
   }
 
-  handleEditAssignment(
+  handleEditAssignment({
     title,
     description,
     categorySelected,
     dueDate,
-    addToTemplates,
     participantId,
-  ) {
+  }) {
     const assignment = {
       title,
       description,

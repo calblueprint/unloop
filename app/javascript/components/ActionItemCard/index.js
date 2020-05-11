@@ -163,12 +163,8 @@ ActionItemCard.propTypes = {
   dueDate: PropTypes.string,
   handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,
-<<<<<<< HEAD
-  lastEntry: PropTypes.bool,
   renderEditOverMore: PropTypes.bool,
   formatDate: PropTypes.func,
-=======
   addBorderBottom: PropTypes.bool,
->>>>>>> julian/delete-edit
 };
 export default withStyles(styles)(ActionItemCard);
