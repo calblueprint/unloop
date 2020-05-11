@@ -76,6 +76,10 @@ function ParticipantCard({ classes, participant }) {
           incrementNumCaseNotes={() => setNumCaseNotes(numCaseNotes + 1)}
         ></CaseNoteForm>
       </TableCell>
+      <TableCell>
+        {participant.assignmentsCompleted} / {participant.assignmentsCount}{' '}
+        completed
+      </TableCell>
       <TableCell>{questionnaireStatus}</TableCell>
       <TableCell align="center">
         <FontAwesomeIcon

@@ -217,7 +217,7 @@ class ActionItemSearchParticipants extends React.Component {
 ActionItemSearchParticipants.propTypes = {
   classes: PropTypes.object.isRequired,
   participants: PropTypes.array.isRequired,
-  statuses: PropTypes.array.isRequired,
+  statuses: PropTypes.object.isRequired,
   selectedParticipants: PropTypes.array.isRequired,
   addUser: PropTypes.func.isRequired,
   removeUser: PropTypes.func.isRequired,

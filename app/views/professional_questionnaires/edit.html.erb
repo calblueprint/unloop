@@ -2,10 +2,8 @@
 <%= form_with(model: @questionnaire, url: api_professional_questionnaire_path, local: true) do |form| %>
   Medical:<br>
   <%= form.text_field :medical %> <br>
-  Contact Info: <br>
-  <%= form.text_field :contact_info %> <br>
   Emergency Contact: <br>
-  <%= form.text_field :emergency_contact %> <br>  
+  <%= form.text_field :emergency_contact_name %> <br>  
   <br>
   <%= form.submit "Submit" %>
 <% end %>

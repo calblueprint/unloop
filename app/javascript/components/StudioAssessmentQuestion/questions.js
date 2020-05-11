@@ -9,49 +9,46 @@ export const questions = [
 ];
 
 export const questionContent = [
-    [
-      'Describe the roles of Html,Javascript, and CSS in a webpage.',
-      'What distinguishes a web application from a static webpage?',
-      'In a full stack web application, what is the client-side code typically responsible for? The server side code?',
-      'Name a few ways in which data can be sent to a server from a web browser.',
-      'What frameworks might be used on the client to help manage modifying the DOM?',
-      'What technologies might be used on the server to deliver web pages to the browser?'
-    ],
-    [
-        'Explain the difference between var, let, and const?',
-        'What is a closure?',
-        'What is a prototype?',
-        'How are apply, call, and bind methods on the function prototype used? Why would you use them?',
-        'In a class method, what does "this" keyword refer to? In a top-level function?',
-        'What is an anonymous function? An arrow function? What is "this" in each?'
-    ],
-    [
-        'What is Git?',
-        'What are some advantages of using Git?'
-    ],
-    [
-        'What is a component?',
-        'Name two ways you might define a component?',
-        'Compare component properties versus state? How is each modified?',
-        'What do we mean by the lifecycle" of a component? Talk about some lifecycle methods and what they are used for.'
-    ],
-    [
-        'What is a module?',
-        'How does a module expose its public interface?',
-        'Are there different kinds of interfaces a module can expose?',
-        'When/how is asynchronous code executed? (getting at the event loop)'
-    ],
-    [
-        'Describe the difference between a relational DB and a json store such as Mongo.',
-        'Describe the use of keys in both.',
-        'How are relations between tables/collections established in either?',
-        'Write a SQL query to return the top 5 results from a “People” table, sorted alphabetically by name, selecting “Name”, “Dob”, and “Email” fields.'
-    ],
-    [
-      'Write a function in pseudocode that will format a string.', 
-      'It will take in two parameters, a format string, and an array of string replacements.'
-    ],
-  ];
+  [
+    'Describe the roles of Html,Javascript, and CSS in a webpage.',
+    'What distinguishes a web application from a static webpage?',
+    'In a full stack web application, what is the client-side code typically responsible for? The server side code?',
+    'Name a few ways in which data can be sent to a server from a web browser.',
+    'What frameworks might be used on the client to help manage modifying the DOM?',
+    'What technologies might be used on the server to deliver web pages to the browser?',
+  ],
+  [
+    'Explain the difference between var, let, and const?',
+    'What is a closure?',
+    'What is a prototype?',
+    'How are apply, call, and bind methods on the function prototype used? Why would you use them?',
+    'In a class method, what does "this" keyword refer to? In a top-level function?',
+    'What is an anonymous function? An arrow function? What is "this" in each?',
+  ],
+  ['What is Git?', 'What are some advantages of using Git?'],
+  [
+    'What is a component?',
+    'Name two ways you might define a component?',
+    'Compare component properties versus state? How is each modified?',
+    'What do we mean by the lifecycle" of a component? Talk about some lifecycle methods and what they are used for.',
+  ],
+  [
+    'What is a module?',
+    'How does a module expose its public interface?',
+    'Are there different kinds of interfaces a module can expose?',
+    'When/how is asynchronous code executed? (getting at the event loop)',
+  ],
+  [
+    'Describe the difference between a relational DB and a json store such as Mongo.',
+    'Describe the use of keys in both.',
+    'How are relations between tables/collections established in either?',
+    'Write a SQL query to return the top 5 results from a “People” table, sorted alphabetically by name, selecting “Name”, “Dob”, and “Email” fields.',
+  ],
+  [
+    'Write a function in pseudocode that will format a string.',
+    'It will take in two parameters, a format string, and an array of string replacements.',
+  ],
+];
 
 export const rubricItems = [
   [
@@ -84,11 +81,11 @@ export const rubricItems = [
     'Does not understand patterns. May know that async is code executed concurrently at a (possibly) later time, but does not know how and cannot write asynchronous code or identify when code is asynchronous.',
   ],
 
-    [
-        'Knows the difference between organization of data in document stores and relational DBs. Can successfully write a basic SQL query. Has a notion of ACID principles and how that relates to transactions.',
-        'Understands organization of data and relations between data entities in databases.',
-        'Does not understand how data is organized in a database.',
-    ],
+  [
+    'Knows the difference between organization of data in document stores and relational DBs. Can successfully write a basic SQL query. Has a notion of ACID principles and how that relates to transactions.',
+    'Understands organization of data and relations between data entities in databases.',
+    'Does not understand how data is organized in a database.',
+  ],
 
   [
     'Gives a correct solution with no bugs (eventually). If their solution started with bugs, can figure out that those bugs exist.May have bugs initially but ought to be able to test their functions by walking through line by line with mock data and find the bugs.',

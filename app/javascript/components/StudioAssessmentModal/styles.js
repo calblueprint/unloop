@@ -6,7 +6,7 @@
 
 const styles = theme => ({
   dialog: {
-    borderRadius: theme.shape.borderRadius
+    borderRadius: theme.shape.borderRadius,
   },
   title: {
     backgroundColor: theme.palette.primary.main,

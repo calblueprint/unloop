@@ -12,13 +12,12 @@ function ActionItemList({
   removeSelectedActionItem,
   handleOpenModal,
 }) {
-  const selectedCards = selectedActionItems.map((actionItem, i) => (
+  const selectedCards = selectedActionItems.map(actionItem => (
     <ActionItemCard
       key={actionItem.title + actionItem.description}
       title={actionItem.title}
       description={actionItem.description}
       dueDate={actionItem.dueDate}
-      lastEntry={i === selectedActionItems.length - 1}
       category={actionItem.category}
       handleOpenModal={handleOpenModal(actionItem)}
       renderClose

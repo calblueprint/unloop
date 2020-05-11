@@ -6,8 +6,8 @@ import InputBase from '@material-ui/core/InputBase';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import styles from './styles';
 import EnhancedTable from 'components/EnhancedTable';
+import styles from './styles';
 
 const TrieSearch = require('trie-search');
 

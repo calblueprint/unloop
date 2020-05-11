@@ -6,6 +6,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import theme from 'utils/theme';
@@ -23,7 +24,7 @@ function ActionItemCard({
   handleOpenModal,
   // Used by style file
   // eslint-disable-next-line no-unused-vars
-  lastEntry = false,
+  addBorderBottom,
   handleIconClick,
   removeActionItem,
   renderEditOverMore,
@@ -94,23 +95,22 @@ function ActionItemCard({
           wrap="nowrap"
           spacing={2}
         >
-          <Grid item container alignItems="center" wrap="nowrap">
+          <Grid
+            item
+            xs={2}
+            spacing={2}
+            container
+            alignItems="center"
+            wrap="nowrap"
+          >
             <Grid item className={classes.titleStyle}>
               <Typography variant="subtitle1" noWrap>
                 {' '}
                 {title}{' '}
               </Typography>
             </Grid>
-            <Grid item>
-              <div className={classes.iconStyle}>
-                <Typography
-                  className={classes.categoryButtonStyle}
-                  color="primary"
-                  align="center"
-                >
-                  {category ? category.toUpperCase() : category}
-                </Typography>
-              </div>
+            <Grid item xs={3}>
+              <ActionItemCategoryTag category={category} selected={false} />
             </Grid>
           </Grid>
           <Grid item>{renderClose ? renderCloseIcon() : null}</Grid>
@@ -163,8 +163,12 @@ ActionItemCard.propTypes = {
   dueDate: PropTypes.string,
   handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,
+<<<<<<< HEAD
   lastEntry: PropTypes.bool,
   renderEditOverMore: PropTypes.bool,
   formatDate: PropTypes.func,
+=======
+  addBorderBottom: PropTypes.bool,
+>>>>>>> julian/delete-edit
 };
 export default withStyles(styles)(ActionItemCard);
