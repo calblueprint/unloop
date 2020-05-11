@@ -62,6 +62,7 @@ function Main(props) {
         return <GroupIcon />;
       case 'Assessments':
         return <BarChartIcon />;
+      default:
     }
   };
 
@@ -100,12 +101,15 @@ function Main(props) {
         return <ParticipantShowPage {...contentProps}></ParticipantShowPage>;
       case 'StudioAssessmentDashboard':
         return (
-          <StudioAssessmentDashboard {...contentProps}></StudioAssessmentDashboard>
+          <StudioAssessmentDashboard
+            {...contentProps}
+          ></StudioAssessmentDashboard>
         );
       case 'ActionItemCreationPage':
         return (
           <ActionItemCreationPage {...contentProps}></ActionItemCreationPage>
         );
+      default:
     }
   };
 
@@ -133,11 +137,13 @@ function Main(props) {
               <div className={classes.navText}> Sign Out </div>
             </ListItem>
             {props.isAdmin ? renderAdminButton() : null}
-            {Object.entries({
-              Dashboard: '/',
-              'Bulk Assign': '/assignments',
-              Assessments: '/studio_assessments',
-            }).map(n => getButton(n[0], n[1]))}
+            {props.userType !== 'participant'
+              ? Object.entries({
+                Dashboard: '/',
+                'Bulk Assign': '/assignments',
+                Assessments: '/studio_assessments',
+              }).map(n => getButton(n[0], n[1]))
+              : null}
           </List>
         </Drawer>
       </div>

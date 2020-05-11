@@ -21,6 +21,19 @@ const styles = () => ({
   questionnaireEntry: {
     marginBottom: 20,
   },
+  questionnaireLabel: {
+    marginBottom: '0px',
+  },
+  radioGroup: {
+    marginTop: '5px',
+  },
+  selectMenu: {
+    minWidth: 200,
+    marginTop: '8px',
+  },
+  selectLabelText: {
+    marginLeft: '2px',
+  },
 });
 
 export default styles;

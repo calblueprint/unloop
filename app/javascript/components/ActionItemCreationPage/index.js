@@ -9,15 +9,11 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import ActionItemCreationContainer from 'components/ActionItemCreationContainer';
 import ActionItemSearchParticipants from 'components/ActionItemSearchParticipants';
+import LoadModal from 'components/LoadModal';
 import ActionItemList from 'components/ActionItemList';
 import ViewMoreModal from 'components/ViewMoreModal';
 import ActionItemModal from 'components/ActionItemModal';
 import ActionItemDisplayParticipants from 'components/ActionItemDisplayParticipants';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Button from '@material-ui/core/Button';
 import { apiPost, apiDelete } from 'utils/axios';
 import * as Sentry from '@sentry/browser';
 import styles from './styles';
@@ -36,12 +32,8 @@ class ActionItemCreationPage extends React.Component {
       templateActionItems: this.props.templates,
       submitFailed: false,
       selectedActionItems: [],
-      submissionModal: false,
+      submissionStatus: null,
       // State given to the view more and edit modals when invoked
-      // modalTitle: '',
-      // modalDescription: '',
-      // modalCategory: '',
-      // modalDueDate: '',
       modalActionItem: null,
       viewMoreModalOpen: false,
       editModalOpen: false,
@@ -65,6 +57,17 @@ class ActionItemCreationPage extends React.Component {
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.editActionItem = this.editActionItem.bind(this);
+    this.reloadPage = this.reloadPage.bind(this);
+    this.handleExitSubmitModal = this.handleExitSubmitModal.bind(this);
+  }
+
+  reloadPage() {
+    window.location.href = '/assignments';
+  }
+
+  // Only passed to LoadModal if submissionStatus == 'error'
+  handleExitSubmitModal() {
+    this.setState({ submissionStatus: null });
   }
 
   checkActionItemsEqual(actionItem1, actionItem2) {
@@ -111,7 +114,7 @@ class ActionItemCreationPage extends React.Component {
       const newSelectedActionItems = prevState.selectedActionItems.map(item => {
         const itemCopy = { ...item };
         if (this.checkActionItemsEqual(actionItem, item)) {
-          // id needs to be null so eheckmark doesn't appear
+          // id needs to be null so checkmark doesn't appear
           itemCopy.id = null;
           itemCopy.title = title;
           itemCopy.description = description;
@@ -155,9 +158,13 @@ class ActionItemCreationPage extends React.Component {
       assignments,
       participant_ids: participantIds,
     };
+    this.setState({ submissionStatus: 'loading' });
     apiPost('/api/assignments', body)
-      .then(() => this.setState({ submissionModal: true, submitFailed: false }))
+      .then(() =>
+        this.setState({ submissionStatus: 'complete', submitFailed: false }),
+      )
       .catch(error => {
+        this.setState({ submissionStatus: 'error' });
         Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'ActionItemCreationPage');
           scope.setExtra('action', 'apiPost (handleSubmit)');
@@ -356,6 +363,7 @@ class ActionItemCreationPage extends React.Component {
             selectActionItemTemplate={this.selectActionItemTemplate}
             deleteTemplate={this.deleteTemplate}
             handleOpenModal={this.handleOpenModal}
+            categories={this.props.categories}
           />
         );
         break;
@@ -552,7 +560,6 @@ class ActionItemCreationPage extends React.Component {
       headerText,
     } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
-    const submissionError = this.state.submitFailed && this.state.step === 2;
 
     return (
       <div>
@@ -579,8 +586,23 @@ class ActionItemCreationPage extends React.Component {
             type="edit"
           />
         ) : null}
+
+        <LoadModal
+          open={this.state.submissionStatus !== null}
+          status={this.state.submissionStatus}
+          handleClick={
+            this.state.submissionStatus === 'complete'
+              ? this.reloadPage
+              : this.handleSubmit
+          }
+          handleClose={
+            this.state.submissionStatus === 'error'
+              ? this.handleExitSubmitModal
+              : null
+          }
+        />
         <Snackbar
-          open={submissionError}
+          open={this.state.submitFailed}
           autoHideDuration={3000}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           onClose={(event, reason) => {
@@ -595,25 +617,6 @@ class ActionItemCreationPage extends React.Component {
             message="There must be at least 1 assignment and 1 student"
           />
         </Snackbar>
-        <Dialog open={this.state.submissionModal}>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Bulk assignment successfully submitted. Press the button to
-              refresh.
-            </DialogContentText>
-          </DialogContent>
-
-          <DialogActions>
-            <Button
-              onClick={() => {
-                window.location.href = '/assignments';
-              }}
-              color="primary"
-            >
-              REFRESH
-            </Button>
-          </DialogActions>
-        </Dialog>
         <Grid container style={{ height: '100vh', width: '100vw' }}>
           <Grid item container xs={11} justify="center">
             <Grid
@@ -685,6 +688,7 @@ ActionItemCreationPage.propTypes = {
   templates: PropTypes.array.isRequired,
   statuses: PropTypes.object.isRequired,
   participants: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(ActionItemCreationPage);

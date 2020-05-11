@@ -21,6 +21,8 @@ const styles = theme => ({
     boxShadow: 'none',
     backgroundColor: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,
+    borderBottom: ({ addBorderBottom }) =>
+      addBorderBottom ? `.75px solid ${theme.palette.common.lightGrey}` : '0px',
   },
   descriptionStyle: {
     textOverflow: 'ellipsis',

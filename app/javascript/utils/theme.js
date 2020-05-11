@@ -7,7 +7,6 @@ export const theme = createMuiTheme({
       lighterBlue: '#DCF0F2',
       indigo: '#5870EB',
       lightBlue: 'rgba(210, 220, 225, 0.63)',
-      lighterBlue: '#DCF0F2',
       purpleSecondary: '#DEE2FB',
       darkBlue: '#28303B',
       darkestBlue: '#29313C',

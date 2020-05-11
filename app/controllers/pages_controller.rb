@@ -15,7 +15,10 @@ class PagesController < ApplicationController
                     "case_notes_count" => p.case_notes.length, 
                     "paperworks_count" => p.paperworks.length,
                     "paperworks_completed" => p.paperworks.where(agree: true).length,
-                    "questionnaire_status" => completed(p)}
+                    "questionnaire_status" => completed(p),
+                    "assignments_completed" => p.assignments.where(completed: true).length,
+                    "assignments_count" => p.assignments.length,
+                  }
                 @participants_list.push(d)
               end
               authorize Staff
@@ -61,6 +64,10 @@ class PagesController < ApplicationController
     end
 
     p.personal_questionnaire.attributes.each do |a, v|
+      if a == 'emergency_contact_2_name' || a == 'emergency_contact_2_phone_number' || a == 
+        'emergency_contact_2_relationship'
+        next
+      end
       if !v
         return false 
       end

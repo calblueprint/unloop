@@ -1,4 +1,8 @@
 class StudioAssessmentPolicy < ApplicationPolicy  
+    def index?
+      staff?
+    end
+    
     def create?
       staff?
     end
@@ -24,7 +28,7 @@ class StudioAssessmentPolicy < ApplicationPolicy
         if user.staff?
             scope.all
         else
-            scope.where([participant_id: user.participant.id])
+            scope.where(participant_id: user.participant.id)
         end
       end
     end

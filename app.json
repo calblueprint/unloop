@@ -3,7 +3,7 @@
   "description": "Internal dashboard for Unloop to help them build a pipeline from prison to tech.",
   "repository": "https://github.com/calblueprint/unloop",
   "scripts": {
-    "postdeploy": "bundle exec rails db:schema:load db:seed"
+    "postdeploy": "bundle exec rails db:seed"
   },
   "env": {
     "SMTP_HOST": {
