@@ -64,6 +64,10 @@ class PagesController < ApplicationController
     end
 
     p.personal_questionnaire.attributes.each do |a, v|
+      if a == 'emergency_contact_2_name' || a == 'emergency_contact_2_phone_number' || a == 
+        'emergency_contact_2_relationship'
+        next
+      end
       if !v
         return false 
       end
