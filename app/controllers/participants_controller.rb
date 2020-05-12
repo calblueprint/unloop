@@ -26,6 +26,7 @@ class ParticipantsController < ApplicationController
   end
 
   def dashboard
+    skip_authorization
     redirect_to root_path
   end
 
