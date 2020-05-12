@@ -1,3 +1,0 @@
-class CaseNotesController < ApplicationController
-
-end

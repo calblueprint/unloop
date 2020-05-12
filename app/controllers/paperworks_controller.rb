@@ -1,2 +1,0 @@
-class PaperworksController < ApplicationController
-end

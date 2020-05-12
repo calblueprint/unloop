@@ -1,10 +1,6 @@
 class Api::CaseNotesController < ApplicationController
-  before_action :set_case_note, only: [:show, :update, :not_visible, :destroy]
+  before_action :set_case_note, only: [:update, :not_visible, :destroy]
   respond_to :json
-
-  def show
-    render json: @case_note
-  end
 
   def create
     @case_note = authorize CaseNote.new(case_notes_params)

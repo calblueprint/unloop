@@ -1,10 +1,6 @@
 class Api::PaperworksController < ApplicationController
-  before_action :set_paperwork, only: [:show, :update, :complete, :viewed, :destroy]
+  before_action :set_paperwork, only: [:update, :complete, :viewed, :destroy]
   respond_to :json
-
-  def show
-    render json: @paperwork
-  end
 
   def create
     @paperwork = authorize Paperwork.new(paperwork_params)

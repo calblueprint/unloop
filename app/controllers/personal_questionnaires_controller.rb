@@ -1,2 +1,0 @@
-class PersonalQuestionnairesController < ApplicationController
-end

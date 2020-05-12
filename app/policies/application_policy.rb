@@ -3,10 +3,10 @@ class ApplicationPolicy
 
   # In your controller, Pundit will call the current_user method
   #  to retrieve what to send into the argument
-  def initialize(user, record)
+  def initialize(user, resource)
     raise Pundit::NotAuthorizedError, "must be logged in" unless user
-    @user   = user
-    @record = record
+    @user = user
+    @resource = resource
   end
 
   def index?

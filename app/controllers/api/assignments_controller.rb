@@ -1,6 +1,6 @@
 class Api::AssignmentsController < ApplicationController
-    before_action :set_assignment, only: [:show, :update, :destroy]
-    before_action :set_template, only: [:show_template, :update_template, :destroy_template]
+    before_action :set_assignment, only: [:update, :destroy]
+    before_action :set_template, only: [:update_template, :destroy_template]
     respond_to :json
 
     def create
@@ -50,11 +50,6 @@ class Api::AssignmentsController < ApplicationController
         render json: created_assignments, status: :created
     end 
 
-    def show
-        authorize @assignment 
-        render json: @assignment, status: :ok
-    end
-
     def update
         authorize @assignment
         action_item_copied = false
@@ -103,16 +98,6 @@ class Api::AssignmentsController < ApplicationController
             Raven.capture_message("Could not create template")
             render json: { error: 'Could not create template' }, status: :unprocessable_entity
         end
-    end
-
-    def get_templates
-        @action_items = authorize ActionItem.where(is_template: true), :show?
-        render json: @action_items, status: :ok
-    end
-
-    def show_template
-        authorize @template, :show?
-        render json: @template, status: :ok
     end
 
     def update_template
