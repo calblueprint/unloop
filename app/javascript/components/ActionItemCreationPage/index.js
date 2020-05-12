@@ -179,8 +179,6 @@ class ActionItemCreationPage extends React.Component {
       singleForm.append('file', this.state.files[firstActionItem.fileIndex]);
       singleForm.append('participant_ids', participantIds);
       console.log(this.state.files[firstActionItem.fileIndex]);
-      apiPost('/api/assignments', singleForm)
-        .then((res) => console.log(res))
       this.setState({ submissionStatus: 'loading' });
       apiPost('/api/assignments', singleForm)
         .then(() =>
