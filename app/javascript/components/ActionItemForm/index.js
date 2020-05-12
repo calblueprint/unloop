@@ -166,10 +166,12 @@ function ActionItemForm({
                 >
                   ADD TO COMMON ASSIGNMENTS
                 </Typography>
+              </Grid>
+              <Grid item>
                 <input
-                    type="file"
-                    onChange={e => setFile(e)}
-              />
+                  type="file"
+                  onChange={e => setFile(e)}
+                />
               </Grid>
               <Grid item>
                 <Button

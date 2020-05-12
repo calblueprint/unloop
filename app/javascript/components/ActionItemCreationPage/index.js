@@ -62,6 +62,7 @@ class ActionItemCreationPage extends React.Component {
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.editActionItem = this.editActionItem.bind(this);
     this.reloadPage = this.reloadPage.bind(this);
+    this.handleFileEdit = this.handleFileEdit.bind(this);
   }
 
   reloadPage() {
@@ -134,11 +135,24 @@ class ActionItemCreationPage extends React.Component {
 
   handleFile(event) {
     let file = event.target.files[0];
-    this.setState(prevState => ({
-      files: [...prevState.files, file],
-      hasFile: true,
-    }));
+    if (file) {
+      this.setState(prevState => ({
+        files: [...prevState.files, file],
+        hasFile: true,
+      }));
+    }
     console.log(this.state.files);
+  }
+
+  handleFileEdit(event, actionItem) {
+    let file = event.target.files[0];
+    if (file) {
+      this.setState(prevState => ({
+        files: [...prevState.files, file],
+      }));
+      actionItem.fileIndex = this.state.files.length;
+      actionItem.fileName = file.name;
+    }
   }
 
   handleSubmit = () => {
@@ -242,16 +256,18 @@ class ActionItemCreationPage extends React.Component {
     if (hasFile) {
       console.log(files.length - 1);
       file = files[files.length - 1];
-      console.log(file);
     }
+
     const actionItem = {
       title: actionItemTitle,
       description: actionItemDescription,
       category: actionItemCategory,
       dueDate: actionItemDueDate,
       is_template: saveToTemplates,
-      fileIndex: files.length - 1,
+      fileIndex: file ? files.length - 1 : null,
+      fileName: file ? files[files.length - 1].name : null,
     };
+
 
     if (saveToTemplates) {
 
@@ -582,7 +598,6 @@ class ActionItemCreationPage extends React.Component {
       headerText,
     } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
-
     return (
       <div>
         {this.state.viewMoreModalOpen ? (
@@ -605,6 +620,7 @@ class ActionItemCreationPage extends React.Component {
             description={this.state.modalActionItem.description}
             categorySelected={this.state.modalActionItem.category}
             dueDate={this.state.modalActionItem.dueDate}
+            handleFileChange={this.handleFileEdit}
             type="edit"
           />
         ) : null}

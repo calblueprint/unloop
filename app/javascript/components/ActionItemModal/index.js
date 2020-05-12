@@ -71,6 +71,8 @@ class ActionItemForm extends React.Component {
       addToTemplates,
     } = this.state;
 
+
+
     const categories = [
       'Finances',
       'Project',
@@ -230,6 +232,13 @@ class ActionItemForm extends React.Component {
                 >
                   ADD TO COMMON ASSIGNMENTS
                 </Typography>
+              </Grid>
+              <Grid item>
+                {this.props.actionItem.fileName ? this.props.actionItem.fileName : 'No file currently uploaded'}
+                <input
+                  type="file"
+                  onChange={e => this.props.handleFileChange(e, this.props.actionItem)}
+                />
               </Grid>
               <Grid item>
                 <Button onClick={this.handleSubmit}>
