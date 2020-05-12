@@ -2,7 +2,6 @@ class ParticipantsController < ApplicationController
   before_action :set_participant, only: [:show]
 
   def show
-    # TODO CHECK IF CORRECT
     @participant = authorize Participant.find(params[:id])
     @paperworks = authorize @participant.paperworks
     @case_notes = authorize @participant.case_notes
