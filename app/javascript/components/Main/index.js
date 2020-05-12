@@ -71,7 +71,6 @@ function Main(props) {
       button
       key={name}
       component="a"
-      disableFocusRipple
       disableTouchRipple
       className={classes.navBarItem}
       onClick={() => {
