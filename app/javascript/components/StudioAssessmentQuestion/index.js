@@ -148,9 +148,6 @@ class Question extends React.Component {
                   `${this.props.questionType}_score`
                 ].toString()}
               </h3>
-              <p>
-                {this.state.studioAssessment[`${this.props.questionType}_score`]}
-              </p>
             </div>
           ) : (
             <div>

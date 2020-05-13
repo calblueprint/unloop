@@ -52,44 +52,44 @@ export const questionContent = [
 
 export const rubricItems = [
   [
-    'While they may recognize technologies, the student cannot articulate roles of varying technologies, let alone be able to decide what technology to use for a particular need or how it fits into the bigger picture.',
-    'The student articulates that there are different technologies with varied roles, can name the technologies involved with different roles, but struggles to decide what technology or role is involved in a particular domain. Also struggles with understanding how the technologies fit together.',
-    'The student articulates the varied technologies in a web stack, their roles, the roles of the client and server, how these technologies/roles fit together and can (mostly) decided where to implement varied needs such as authorization, validation, persistence, etc.',
+    '1) The student articulates that there are different technologies with varied roles, can name the technologies involved with different roles, but struggles to decide what technology or role is involved in a particular domain. Also struggles with understanding how the technologies fit together.',
+    '2) While they may recognize technologies, the student cannot articulate roles of varying technologies, let alone be able to decide what technology to use for a particular need or how it fits into the bigger picture.',
+    '3) The student articulates the varied technologies in a web stack, their roles, the roles of the client and server, how these technologies/roles fit together and can (mostly) decided where to implement varied needs such as authorization, validation, persistence, etc.',
   ],
 
   [
-    'Can clearly articulate hoisting, scope, closures. Knows the role of “this” and can describe the value under varied circumstances. Knows OOP and FP features. May be squishy on the “...” operator, but recognizes it and has an idea of its use.',
-    'Understands scope and this binding. May not know the hoisting difference between var and let, but knows what hoisting is. May not know closure or be able to articulate the concept (function plus context), but understands captured variables. Understands object encapsulation via classes/prototypes, but may not understand inheritance or clearly articulate the concepts.',
-    'Does not understand core javascript concepts. May be able to say what is output in the sample code, but does not have an understanding of why. Does not know about classes/prototypes.',
+    '1) Does not understand core javascript concepts. May be able to say what is output in the sample code, but does not have an understanding of why. Does not know about classes/prototypes.',
+    '2) Understands scope and this binding. May not know the hoisting difference between var and let, but knows what hoisting is. May not know closure or be able to articulate the concept (function plus context), but understands captured variables. Understands object encapsulation via classes/prototypes, but may not understand inheritance or clearly articulate the concepts.',
+    '3) Can clearly articulate hoisting, scope, closures. Knows the role of “this” and can describe the value under varied circumstances. Knows OOP and FP features. May be squishy on the “...” operator, but recognizes it and has an idea of its use.',
   ],
 
   [
-    'Understands that git is a version control system (should use this exact term) in order to manage the history of versions of a code/package/repository',
-    'Understands the role of Git but is fuzzy on the nature/purpose of continuous deployment',
-    'Does not understand the role of Git nor CD.',
+    '1) Does not understand the role of Git nor CD.',
+    '2) Understands the role of Git but is fuzzy on the nature/purpose of continuous deployment',
+    '3) Understands that git is a version control system (should use this exact term) in order to manage the history of versions of a code/package/repository',
   ],
 
   [
-    'Has a solid grasp of components, how to manage state, component lifecycle, event callbacks, and lifting state. May not fully understand state management, but does understand that it’s immutable though may not know the word.',
-    'Understands what components are and has an idea of their lifecycle. Has limited understanding of managing state, data binding, callbacks, and state lifting.',
-    'Fails to understand any of: what a component is, that there are lifecycle methods, what the difference between props and state is, or how to hook up an event callback',
+    '1) Fails to understand any of: what a component is, that there are lifecycle methods, what the difference between props and state is, or how to hook up an event callback',
+    '2) Understands what components are and has an idea of their lifecycle. Has limited understanding of managing state, data binding, callbacks, and state lifting.',
+    '3) Has a solid grasp of components, how to manage state, component lifecycle, event callbacks, and lifting state. May not fully understand state management, but does understand that it’s immutable though may not know the word.',
   ],
 
   [
-    'Is able to describe various methods of declaring async code and can describe when they run. Understands what EventEmitters and streams are and how to use them. Begins',
-    'Has an understanding of modules, async code, and node-core. May miss that these are patterns established by Node’s runtime environment, may not be able to enumerate async methods or fully grasp when it runs.',
-    'Does not understand patterns. May know that async is code executed concurrently at a (possibly) later time, but does not know how and cannot write asynchronous code or identify when code is asynchronous.',
+    '1) Does not understand patterns. May know that async is code executed concurrently at a (possibly) later time, but does not know how and cannot write asynchronous code or identify when code is asynchronous.',
+    '2) Has an understanding of modules, async code, and node-core. May miss that these are patterns established by Node’s runtime environment, may not be able to enumerate async methods or fully grasp when it runs.',
+    '3) Is able to describe various methods of declaring async code and can describe when they run. Understands what EventEmitters and streams are and how to use them. Begins',
   ],
 
   [
-    'Knows the difference between organization of data in document stores and relational DBs. Can successfully write a basic SQL query. Has a notion of ACID principles and how that relates to transactions.',
-    'Understands organization of data and relations between data entities in databases.',
-    'Does not understand how data is organized in a database.',
+    '1) Does not understand how data is organized in a database.',
+    '2) Understands organization of data and relations between data entities in databases.',
+    '3) Knows the difference between organization of data in document stores and relational DBs. Can successfully write a basic SQL query. Has a notion of ACID principles and how that relates to transactions.',
   ],
 
   [
-    'Gives a correct solution with no bugs (eventually). If their solution started with bugs, can figure out that those bugs exist.May have bugs initially but ought to be able to test their functions by walking through line by line with mock data and find the bugs.',
-    'Gives a plausible solution but may have remaining bugs even after some hinting.',
-    'Can’t arrive at a solution that even remotely prints out what’s required, even with subtle proctor hints and intervention.',
+    '1) Can’t arrive at a solution that even remotely prints out what’s required, even with subtle proctor hints and intervention.',
+    '2) Gives a plausible solution but may have remaining bugs even after some hinting.',
+    '3) Gives a correct solution with no bugs (eventually). If their solution started with bugs, can figure out that those bugs exist.May have bugs initially but ought to be able to test their functions by walking through line by line with mock data and find the bugs.',
   ],
 ];
