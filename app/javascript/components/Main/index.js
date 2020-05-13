@@ -11,7 +11,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import UnloopLogo from 'images/unloop_logo.png';
-import BlueprintBanner from 'images/blueprint_banner.svg';
+import BlueprintBanner from 'images/blueprint_banner.png';
 import * as Sentry from '@sentry/browser';
 import StaffDashboard from '../StaffDashboard';
 import styles from './styles';
@@ -159,6 +159,7 @@ function Main(props) {
               alignItems="center"
               justify="center"
               direction="column"
+              spacing={3}
               style={{ padding: '5px' }}
             >
               <Grid item>
