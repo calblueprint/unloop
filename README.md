@@ -103,6 +103,7 @@ Gems have many dependencies and also require certain ruby versions in order to b
 
 ### Faraday
 `Bundler could not find compatible versions for gem "faraday"`
+
 Make sure your ruby version is 2.6.3 as specificed above. Afterwards, run `bundle update`.
 
 
