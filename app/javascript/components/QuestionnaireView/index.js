@@ -16,7 +16,6 @@ function QuestionnaireView({ classes, questionnaire }) {
     if (title === 'id' || title === 'updated_at' || title === 'created_at') {
       return null;
     }
-    console.log(title);
 
     const titleRender = title.replace(/([-_]\w)/g, group =>
       group.replace('-', ' ').replace('_', ' '),

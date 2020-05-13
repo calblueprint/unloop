@@ -121,7 +121,6 @@ class QuestionnaireForm extends React.Component {
 
   handleSelectChange(e, fieldName) {
     const { value } = e.target;
-    console.log(value);
     this.setState(s => ({
       questionnaire: {
         ...s.questionnaire,
