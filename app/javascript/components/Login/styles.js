@@ -1,4 +1,6 @@
-const styles = theme => ({
+import theme from 'utils/theme';
+
+export const styles = () => ({
   body: {
     margin: 0,
   },
