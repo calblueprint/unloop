@@ -134,7 +134,7 @@ class QuestionnaireForm extends React.Component {
     this.setState(s => ({
       questionnaire: {
         ...s.questionnaire,
-        [fieldName]: date,
+        [fieldName]: new Date(date),
       },
     }));
   }
