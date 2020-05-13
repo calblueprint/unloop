@@ -100,16 +100,13 @@ class ActionItemCreationPage extends React.Component {
     };
   }
 
-  editActionItem(
+  editActionItem({
     title,
     description,
     categorySelected,
     dueDate,
-    addToTemplates,
-    participantId,
-    actionItemId,
     actionItem,
-  ) {
+  }) {
     this.setState(prevState => {
       const newSelectedActionItems = prevState.selectedActionItems.map(item => {
         const itemCopy = { ...item };
