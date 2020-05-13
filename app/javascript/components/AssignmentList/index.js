@@ -142,6 +142,7 @@ class AssignmentList extends React.Component {
           description={this.state.modalAssignment.description}
           category={this.state.modalAssignment.category}
           dueDate={this.state.modalAssignment.dueDate}
+          formatDate={this.props.formatDate}
         />
       );
     }
@@ -260,8 +261,6 @@ class AssignmentList extends React.Component {
 
   handleDeleteAssignment() {
     const assignment = this.state.modalAssignment;
-    console.log("hi there");
-    console.log("trying to delete:", assignment);
 
     // Make API request to delete assignment and remove assignment from state
     apiDelete(`/api/assignments/${assignment.id}`)
