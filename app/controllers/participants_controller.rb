@@ -3,13 +3,14 @@ class ParticipantsController < ApplicationController
 
   def show
     @participant = authorize Participant.find(params[:id])
-    @paperworks = @participant.paperworks
-    @case_notes = @participant.case_notes
+    @paperworks = authorize @participant.paperworks
+    @case_notes = authorize @participant.case_notes
+    @studio_assessments = authorize @participant.studio_assessments
 
     if @participant.personal_questionnaire.nil?
       personal_q = PersonalQuestionnaire.create("participant_id": @participant.id)
     else
-      personal_q = @participant.personal_questionnaire
+      personal_q = authorize @participant.personal_questionnaire, policy_class: QuestionnairePolicy
     end
     @personal_questionnaire = PersonalQuestionnaireSerializer.new(personal_q)
 
@@ -17,14 +18,14 @@ class ParticipantsController < ApplicationController
     if @participant.professional_questionnaire.nil?
       professional_q = ProfessionalQuestionnaire.create("participant_id": @participant.id)
     else
-      professional_q = @participant.professional_questionnaire
+      professional_q = authorize @participant.professional_questionnaire, policy_class: QuestionnairePolicy
     end
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
 
-    @studio_assessments = @participant.studio_assessments
   end
 
   def dashboard
+    skip_authorization
     redirect_to root_path
   end
 

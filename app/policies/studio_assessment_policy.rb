@@ -1,4 +1,4 @@
-class StudioAssessmentPolicy < ApplicationPolicy  
+class StudioAssessmentPolicy < ApplicationPolicy 
     def index?
       staff?
     end

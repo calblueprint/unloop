@@ -1,12 +1,6 @@
 class ParticipantPolicy < ApplicationPolicy
-  class Scope < Scope
-    def resolve
-      scope.all
-    end
-  end
-
   def show?
-    user.staff?
+    user.present? && user.staff?
   end
 
   def dashboard?
@@ -14,6 +8,6 @@ class ParticipantPolicy < ApplicationPolicy
   end
 
   def statuses?
-    user.staff?
+    user.present? && user.staff?
   end
 end
