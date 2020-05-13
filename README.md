@@ -2,7 +2,7 @@
 
 ## Technologies
 
-- Ruby 2.5.6
+- Ruby 2.6.3
 - Rails 6.0.0
 - Postgresql 11.6
 
@@ -97,3 +97,12 @@ You can also attach `functional` or `class` after generate to quickly specify wh
 ### After Generating
 
 If your component is not a root for a page or shared component, move your component to the folder that matches the page or shared component that it will live under.
+
+## Potential Errors and Solutions
+Gems have many dependencies and also require certain ruby versions in order to be used. Be sure that the ruby version you are using is compatible with this repo's gemfile. If you run into any issues with gems while you run `bundle install`, double check that your ruby version is the same as specified above.
+
+###Faraday
+`Bundler could not find compatible versions for gem "faraday"`
+Make sure your ruby version is 2.6.3 as specificed above. Afterwards, run `bundle update`.
+
+
