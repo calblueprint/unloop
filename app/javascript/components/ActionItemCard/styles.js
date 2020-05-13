@@ -3,16 +3,6 @@ const styles = theme => ({
     maxWidth: '200px',
     textOverflow: 'ellipsis',
   },
-  iconStyle: {
-    backgroundColor: theme.palette.common.lighterBlue,
-    margin: '0px 10px',
-    boxShadow: 'None',
-    width: '80px', // Not too flexible for really long categories, but is good enough for up to 10-letter words
-    height: '30px',
-    borderRadius: '17px',
-    textAlign: 'center',
-    paddingTop: '7.5px', // This was really annoying to middle-align the text
-  },
   categoryButtonStyle: {
     fontSize: '10px',
     width: '60px',
@@ -41,6 +31,13 @@ const styles = theme => ({
   },
   buttonStyle: {
     color: theme.palette.common.r0,
+  },
+  iconStyle: {
+    color: theme.palette.common.r0,
+    // marginLeft: '400%', // Push the chevron button all the way to the right
+    // height: 30,
+    minWidth: '13px',
+    minHeight: '23px',
   },
 });
 export default styles;

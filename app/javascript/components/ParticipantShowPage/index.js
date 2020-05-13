@@ -48,6 +48,7 @@ class ParticipantShowPage extends React.Component {
 
   render() {
     const {
+      userType,
       classes,
       paperworks,
       caseNotes,
@@ -58,7 +59,6 @@ class ParticipantShowPage extends React.Component {
       personalQuestionnaire,
       professionalQuestionnaire,
       studioAssessments,
-      userType,
       assignmentList,
     } = this.props;
 
@@ -71,7 +71,6 @@ class ParticipantShowPage extends React.Component {
           padding: '0px',
           width: '100%',
         }}
-        // justify="space-between"
       >
         <Grid item className={classes.leftHalf}>
           <Grid container direction="column" spacing={3}>
@@ -135,22 +134,20 @@ class ParticipantShowPage extends React.Component {
           </Grid>
         </Grid>
         <Grid item xs={5} className={classes.rightHalf}>
-          {/* <Grid item style={{ marginTop: '20px' }}> */}
-          {/* <Grid item xs={5} className={classes.rightHalf}>
-            <Grid item style={{ padding: '0px', marginTop: '40px' }}> */}
-
           <AssignmentList
             userType={userType}
             initialAssignments={assignmentList}
             participantId={participantId}
             formatDate={this.formatDate}
           />
-          <StudioAssessmentList
-            initialStudioAssessments={studioAssessments}
-            formatDate={this.formatDate}
-            userType={userType}
-            participantId={participantId}
-          />
+          {userType === 'staff' ? (
+            <StudioAssessmentList
+              initialStudioAssessments={studioAssessments}
+              formatDate={this.formatDate}
+              userType={userType}
+              participantId={participantId}
+            />
+          ) : null}
         </Grid>
       </Grid>
     );
@@ -168,7 +165,6 @@ ParticipantShowPage.propTypes = {
   participantId: PropTypes.number.isRequired,
   personalQuestionnaire: PropTypes.object.isRequired,
   professionalQuestionnaire: PropTypes.object.isRequired,
-  assignments: PropTypes.array.isRequired,
   studioAssessments: PropTypes.array.isRequired,
   assignmentList: PropTypes.array,
 };
