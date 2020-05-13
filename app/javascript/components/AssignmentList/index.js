@@ -206,6 +206,8 @@ class AssignmentList extends React.Component {
       .then(response => {
         this.handleCloseModal();
         const newAssignment = response.data[0].action_item;
+        newAssignment.id = response.data[0].id;
+        newAssignment.action_item_id = response.data[0].action_item.id;
         newAssignment.dueDate = response.data[0].due_date;
         this.appendStateAssignment(newAssignment);
       })
