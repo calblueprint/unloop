@@ -130,10 +130,14 @@ class QuestionnaireForm extends React.Component {
   }
 
   handleDateChange(date, fieldName) {
+    const shortDate = `${date.getMonth() +
+      1}-${date.getDate()}-${date.getFullYear()}`;
+    console.log(shortDate);
+
     this.setState(s => ({
       questionnaire: {
         ...s.questionnaire,
-        [fieldName]: new Date(date),
+        [fieldName]: shortDate,
       },
     }));
   }

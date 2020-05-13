@@ -22,18 +22,6 @@ function QuestionnaireView({ classes, questionnaire }) {
     );
     const bodyRender = body === null ? 'N/A' : body;
 
-    if (title === 'birthdate') {
-      const reformatDate = `${bodyRender.substring(5)}-${bodyRender.substring(
-        0,
-        4,
-      )}`;
-      return (
-        <Grid item key={title} className={classes.field}>
-          <Typography variant="h6">{titleRender}</Typography>
-          <Typography variant="body1">{reformatDate}</Typography>
-        </Grid>
-      );
-    }
     return (
       <Grid item key={title} className={classes.field}>
         <Typography variant="h6">{titleRender}</Typography>
