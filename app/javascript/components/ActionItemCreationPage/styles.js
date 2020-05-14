@@ -1,7 +1,7 @@
 const styles = theme => ({
   pageStyle: {
     minHeight: '100vh',
-    width: '100vw',
+    width: '100%',
     minWidth: '1000px',
     margin: '0px',
     backgroundColor: theme.palette.common.white,
