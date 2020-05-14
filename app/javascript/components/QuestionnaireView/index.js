@@ -13,13 +13,27 @@ import styles from './styles';
 
 function QuestionnaireView({ classes, questionnaire }) {
   const renderField = (title, body) => {
-    if (title === 'id' || title === 'updated_at' || title === 'created_at') {
+    if (
+      title === 'participant' ||
+      title === 'id' ||
+      title === 'updated_at' ||
+      title === 'created_at'
+    ) {
       return null;
     }
 
-    const titleRender = title.replace(/([-_]\w)/g, group =>
+    let titleRender = title.replace(/([-_]\w)/g, group =>
       group.replace('-', ' ').replace('_', ' '),
     );
+
+    if (title === 'emergency_contact_2_name') {
+      titleRender = 'Second Emergency Contact (optional)';
+    } else if (title === 'emergency_contact_2_phone_number') {
+      titleRender = 'Second Emergency Contact Phone Number (optional)';
+    } else if (title === 'emergency_contact_2_relationship') {
+      titleRender = 'Second Emergency Contact Relationship (optional)';
+    }
+
     const bodyRender = body === null ? 'N/A' : body;
 
     return (

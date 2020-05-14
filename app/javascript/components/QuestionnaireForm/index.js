@@ -306,15 +306,13 @@ class QuestionnaireForm extends React.Component {
             multiline
             type="text"
             margin="dense"
-            defaultValue={fieldValue}
-            maxRows={20}
+            value={fieldValue}
+            rowsMax={20}
           />
         </div>
       );
     }
-    if (fieldName === 'validPhone') {
-      return <div></div>;
-    }
+
     return (
       <div className={this.props.classes.questionnaireEntry}>
         <DialogContentText className={this.props.classes.questionnaireLabel}>
@@ -328,8 +326,8 @@ class QuestionnaireForm extends React.Component {
           multiline
           type="text"
           margin="dense"
-          defaultValue={fieldValue}
-          maxRows={20}
+          value={fieldValue}
+          rowsMax={20}
         />
       </div>
     );
@@ -348,6 +346,7 @@ class QuestionnaireForm extends React.Component {
             .replace('-', ' ')
             .replace('_', ' '),
         );
+
         if (f === 'emergency_contact_2_name') {
           sentenceCase = 'Second Emergency Contact (optional)';
         } else if (f === 'emergency_contact_2_phone_number') {
@@ -356,11 +355,7 @@ class QuestionnaireForm extends React.Component {
           sentenceCase = 'Second Emergency Contact Relationship (optional)';
         }
 
-        return (
-          <div key={f}>
-            {this.createTextForm(f, questionnaire[f], sentenceCase)}
-          </div>
-        );
+        return this.createTextForm(f, questionnaire[f], sentenceCase);
       });
       return <div className={styles.container}>{questionnaires}</div>;
     }

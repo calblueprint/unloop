@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_13_054225) do
+ActiveRecord::Schema.define(version: 2020_05_14_164852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,27 @@ ActiveRecord::Schema.define(version: 2020_05_13_054225) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "category"
+  end
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "assignments", force: :cascade do |t|
@@ -71,6 +92,22 @@ ActiveRecord::Schema.define(version: 2020_05_13_054225) do
   end
 
   create_table "personal_questionnaires", force: :cascade do |t|
+    t.string "DOC_status"
+    t.string "housing"
+    t.string "mental_health"
+    t.string "medical"
+    t.string "transportation"
+    t.string "clothing"
+    t.string "significant_relationships"
+    t.string "support_systems"
+    t.string "DOC_regulations"
+    t.string "treatment"
+    t.string "triggers_and_prevention"
+    t.string "personal_needs"
+    t.string "personal_goals"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "participant_id", null: false
     t.string "birthdate"
     t.string "phone_number"
     t.string "pronouns"
@@ -82,26 +119,10 @@ ActiveRecord::Schema.define(version: 2020_05_13_054225) do
     t.string "emergency_contact_2_name"
     t.string "emergency_contact_2_phone_number"
     t.string "emergency_contact_2_relationship"
-    t.string "significant_relationships"
-    t.string "support_systems"
-    t.string "mental_health"
-    t.string "DOC_status"
-    t.string "DOC_regulations"
-    t.string "housing"
-    t.string "medical"
-    t.string "treatment"
-    t.string "triggers_and_prevention"
-    t.string "personal_needs"
-    t.string "transportation"
-    t.string "clothing"
     t.string "financial_obligations"
     t.string "resources_allocated"
     t.string "orca_card"
     t.string "state_assistance"
-    t.string "personal_goals"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "participant_id", null: false
     t.index ["participant_id"], name: "index_personal_questionnaires_on_participant_id"
   end
 
@@ -116,8 +137,8 @@ ActiveRecord::Schema.define(version: 2020_05_13_054225) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "participant_id", null: false
     t.string "education_history"
-    t.datetime "begin_skills_assessment_date"
-    t.datetime "end_skills_assessment_date"
+    t.string "begin_skills_assessment_date"
+    t.string "end_skills_assessment_date"
     t.string "assigned_mentor"
     t.index ["participant_id"], name: "index_professional_questionnaires_on_participant_id"
   end
@@ -175,6 +196,7 @@ ActiveRecord::Schema.define(version: 2020_05_13_054225) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assignments", "action_items"
   add_foreign_key "assignments", "participants"
   add_foreign_key "assignments", "staffs"
