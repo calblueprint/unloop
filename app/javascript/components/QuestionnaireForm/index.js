@@ -23,7 +23,6 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import styles from './styles';
-import ActiveStorageProvider from 'react-activestorage-provider'
 
 class QuestionnaireForm extends React.Component {
   constructor(props) {
@@ -49,57 +48,57 @@ class QuestionnaireForm extends React.Component {
   }
 
   handleSubmit() {
-    if (this.props.type === 'professional'){
-        const qType = `${this.props.type}_questionnaire`;
-        const formData = new FormData();
+    if (this.props.type === 'professional') {
+      const qType = `${this.props.type}_questionnaire`;
+      const formData = new FormData();
 
-        Object.keys(this.state.questionnaire).forEach(f => {
-          formData.append(`${qType}[${f}]`, this.state.questionnaire[f]);
-        });
-        formData.append(`${qType}[resume]`, this.state.file);
-        formData.append(`${qType}[participant_id]`, this.props.participantId);
+      Object.keys(this.state.questionnaire).forEach(f => {
+        formData.append(`${qType}[${f}]`, this.state.questionnaire[f]);
+      });
+      formData.append(`${qType}[resume]`, this.state.file);
+      formData.append(`${qType}[participant_id]`, this.props.participantId);
 
-        // for (var pair of formData.entries()) {
-        //   console.log(pair[0] + ', ' + pair[1]);
-        // }
-        
-        const { id } = this.props.questionnaire;
-        const request = `/api/${qType}s/${id}`;
-        console.log(formData);
-        apiPut(request, formData)
-          .then(() => window.location.reload())
-          .catch(error => {
-            Sentry.configureScope(function(scope) {
-              scope.setExtra('file', 'QuestionnaireForm');
-              scope.setExtra('action', 'apiPut');
-              scope.setExtra('QuestionnaireForm', body);
-              scope.setExtra('qType', qType);
-            });
-            Sentry.captureException(error);
+      // for (var pair of formData.entries()) {
+      //   console.log(pair[0] + ', ' + pair[1]);
+      // }
+
+      const { id } = this.props.questionnaire;
+      const request = `/api/${qType}s/${id}`;
+      console.log(formData);
+      apiPut(request, formData)
+        .then(() => window.location.reload())
+        .catch(error => {
+          Sentry.configureScope(function (scope) {
+            scope.setExtra('file', 'QuestionnaireForm');
+            scope.setExtra('action', 'apiPut');
+            scope.setExtra('QuestionnaireForm', body);
+            scope.setExtra('qType', qType);
           });
+          Sentry.captureException(error);
+        });
     } else {
-        const qType = `${this.props.type}_questionnaire`;
-        const body = {};
+      const qType = `${this.props.type}_questionnaire`;
+      const body = {};
 
-        Object.keys(this.state.questionnaire).forEach(f => {
-          body[f] = this.state.questionnaire[f];
-        });
-        body.participant_id = this.props.participantId;
+      Object.keys(this.state.questionnaire).forEach(f => {
+        body[f] = this.state.questionnaire[f];
+      });
+      body.participant_id = this.props.participantId;
 
-        const { id } = this.props.questionnaire;
-        const request = `/api/${qType}s/${id}`;
+      const { id } = this.props.questionnaire;
+      const request = `/api/${qType}s/${id}`;
 
-        apiPut(request, { [qType]: body })
-          .then(() => window.location.reload())
-          .catch(error => {
-            Sentry.configureScope(function(scope) {
-              scope.setExtra('file', 'QuestionnaireForm');
-              scope.setExtra('action', 'apiPut');
-              scope.setExtra('QuestionnaireForm', body);
-              scope.setExtra('qType', qType);
-            });
-            Sentry.captureException(error);
+      apiPut(request, { [qType]: body })
+        .then(() => window.location.reload())
+        .catch(error => {
+          Sentry.configureScope(function (scope) {
+            scope.setExtra('file', 'QuestionnaireForm');
+            scope.setExtra('action', 'apiPut');
+            scope.setExtra('QuestionnaireForm', body);
+            scope.setExtra('qType', qType);
           });
+          Sentry.captureException(error);
+        });
     }
   }
 
@@ -188,7 +187,8 @@ class QuestionnaireForm extends React.Component {
           margin="dense"
           maxRows={20}
         />
-      </div>); }
+      </div>);
+    }
     if (fieldName === 'DOC_status') {
       return (
         <div className={this.props.classes.questionnaireEntry}>
@@ -412,26 +412,26 @@ class QuestionnaireForm extends React.Component {
         );
       });
       if (this.props.type === 'professional') {
-      questionnaires.push(this.getFileUpload());
+        questionnaires.push(this.getFileUpload());
       }
       return <div className={styles.container}>{questionnaires}</div>;
     }
   }
 
-  getFileUpload(){
-    return(
+  getFileUpload() {
+    return (
       <div>
         <DialogContentText>Upload Resume</DialogContentText>
         <input
-            type="file"
-            onChange = {(event) => {
-              console.log(event.target.files[0]);
-              console.log(event.target.files);
-              this.setState( {file: event.target.files[0]})
-              }}
-            />
-        </div>
-  );
+          type="file"
+          onChange={(event) => {
+            console.log(event.target.files[0]);
+            console.log(event.target.files);
+            this.setState({ file: event.target.files[0] })
+          }}
+        />
+      </div>
+    );
   }
 
   render() {
@@ -440,7 +440,7 @@ class QuestionnaireForm extends React.Component {
         <DialogContent>{this.createTextForms()}</DialogContent>
         <div className={this.props.classes.buttonContainer}>
           <DialogActions className={this.props.classes.DialogActions}>
-            
+
             <Button
               onClick={this.props.handleClose}
               variant="outlined"
