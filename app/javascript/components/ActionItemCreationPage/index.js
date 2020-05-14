@@ -422,9 +422,9 @@ class ActionItemCreationPage extends React.Component {
 
   getButtons(stepSize) {
     const { classes } = this.props;
-    const forwardButtonText = stepSize !== 2 ? 'SAVE & CONTINUE' : 'ASSIGN';
+    const forwardButtonText = stepSize === 2 ? 'ASSIGN' : 'SAVE & CONTINUE';
     const handleForwardButtonClick =
-      stepSize !== 2 ? this.nextStep : this.handleSubmit;
+      stepSize === 2 ? this.handleSubmit : this.nextStep;
 
     const backButton = (
       <Grid item>
