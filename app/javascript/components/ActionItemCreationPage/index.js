@@ -614,7 +614,7 @@ class ActionItemCreationPage extends React.Component {
             message="There must be at least 1 assignment and 1 student"
           />
         </Snackbar>
-        <Grid container style={{ height: '100vh', width: '100vw' }}>
+        <Grid container className={classes.pageStyle}>
           <Grid item container xs={11} justify="center">
             <Grid
               container
