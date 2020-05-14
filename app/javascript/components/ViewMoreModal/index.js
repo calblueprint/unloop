@@ -11,6 +11,7 @@ import {
   Input,
   Fab,
   Typography,
+  Button,
 } from '@material-ui/core/';
 import styles from './styles';
 
@@ -23,6 +24,8 @@ function ViewMoreModal({
   isCaseNote,
   open,
   handleClose,
+  files,
+  fileIndex,
 }) {
   const renderRichText = desc => (
     <MUIRichTextEditor value={desc} readOnly toolbar={false} />
@@ -60,6 +63,36 @@ function ViewMoreModal({
     return null;
   };
 
+  const renderFileName = fileIndex => {
+    if (fileIndex != null) {
+      return (
+        <Grid item>
+          <Fab
+            className={classes.iconStyle}
+            component="span"
+            variant="extended"
+            size="small"
+            aria-label="category"
+          >
+            <Typography
+              className={classes.categoryButtonStyle}
+              color="primary"
+              align="center"
+              onClick={showFile}
+            >
+              View File
+        </Typography>
+          </Fab>
+        </Grid >);
+    }
+  }
+
+  const showFile = url => {
+    const file = files[fileIndex];
+    const objectURL = window.URL.createObjectURL(file);
+    window.open(objectURL, '_blank');
+  }
+
   return (
     <>
       <Dialog
@@ -82,6 +115,7 @@ function ViewMoreModal({
                 <Grid item>
                   <h3 className={classes.titleStyle}>{title}</h3>
                 </Grid>
+                {renderFileName(fileIndex)}
                 {isCaseNote ? null : renderCategory(category)}
               </Grid>
               {isCaseNote ? null : renderDueDate(dueDate)}

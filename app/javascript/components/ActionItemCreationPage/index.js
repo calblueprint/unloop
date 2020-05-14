@@ -141,7 +141,6 @@ class ActionItemCreationPage extends React.Component {
         hasFile: true,
       }));
     }
-    console.log(this.state.files);
   }
 
   handleFileEdit(event, actionItem) {
@@ -601,6 +600,8 @@ class ActionItemCreationPage extends React.Component {
             description={this.state.modalActionItem.description}
             category={this.state.modalActionItem.category}
             dueDate={this.state.modalActionItem.dueDate}
+            files={this.state.files}
+            fileIndex={this.state.modalActionItem.fileIndex}
           />
         ) : null}
         {this.state.editModalOpen ? (
