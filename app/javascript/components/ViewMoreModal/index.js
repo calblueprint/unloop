@@ -17,6 +17,7 @@ function ViewMoreModal({
   isCaseNote,
   open,
   handleClose,
+  formatDate,
 }) {
   const renderRichText = desc => (
     <MUIRichTextEditor value={desc} readOnly toolbar={false} />
@@ -33,7 +34,9 @@ function ViewMoreModal({
     if (dueDate) {
       return (
         <Grid item>
-          <h4 className={classes.dateTextStyle}>Due Date: {date}</h4>
+          <h4 className={classes.dateTextStyle}>
+            Due Date: {formatDate(date)}
+          </h4>
         </Grid>
       );
     }
@@ -91,6 +94,7 @@ ViewMoreModal.propTypes = {
   open: PropTypes.bool.isRequired,
   isCaseNote: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
+  formatDate: PropTypes.func,
 };
 
 export default withStyles(styles)(ViewMoreModal);

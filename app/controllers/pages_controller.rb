@@ -29,7 +29,25 @@ class PagesController < ApplicationController
               @paperworks =  policy_scope(Paperwork)
               @case_notes = policy_scope(CaseNote)
               @studio_assessments = policy_scope(StudioAssessment)
-              
+              @assignments = @participant.assignments
+
+              @assignment_list = []
+              @assignments.each do |a|
+                action_item = ActionItem.where(id: a.action_item_id).first
+                complete_assignment = {
+                  "id" => a.id,
+                  "title" => action_item.title, 
+                  "description" => action_item.description,
+                  "category" => action_item.category,
+                  "is_template" => action_item.is_template,
+                  "created_at" => a.created_at,
+                  "updated_at" => a.updated_at,
+                  "due_date" => a.due_date&.strftime("%Y-%m-%d"),
+                  "action_item_id" => a.action_item_id,
+                }
+                @assignment_list.push(complete_assignment)
+              end
+
               if @participant.personal_questionnaire.nil?
                 personal_q = PersonalQuestionnaire.create("participant_id": @participant.id)
               else

@@ -52,6 +52,6 @@ Rails.application.routes.draw do
     end
     
   end
-
+  # This is root path
   root 'pages#dashboard'
 end

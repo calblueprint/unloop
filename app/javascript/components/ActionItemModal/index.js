@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import styles from './styles';
-class ActionItemForm extends React.Component {
+class ActionItemModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -68,6 +68,7 @@ class ActionItemForm extends React.Component {
     const categoryList = categories.map(category => {
       const isSelectedCategory =
         categorySelected && categorySelected === category;
+
       return (
         <Grid item key={category}>
           <Fab
@@ -186,7 +187,7 @@ class ActionItemForm extends React.Component {
               Due Date
             </DialogContentText>
             <TextField
-              value={this.state.dueDate || ''}
+              value={this.state.dueDate ? this.state.dueDate.split('T')[0] : ''} // Formatting the date correctly (remove timestamp)
               className={classes.dialogContentTextFieldStyle}
               name="Due Date"
               onChange={this.handleChange('dueDate')}
@@ -206,7 +207,7 @@ class ActionItemForm extends React.Component {
                     size="small"
                     className={classes.checkboxTextStyle}
                   >
-                    {this.props.type === 'CREATE'
+                    {this.props.type === 'create'
                       ? 'CREATE ACTION ITEM'
                       : 'EDIT ACTION ITEM'}
                   </Typography>
@@ -219,7 +220,7 @@ class ActionItemForm extends React.Component {
     );
   }
 }
-ActionItemForm.propTypes = {
+ActionItemModal.propTypes = {
   classes: PropTypes.object.isRequired,
   type: PropTypes.oneOf(['create', 'edit']),
   title: PropTypes.string,
@@ -233,11 +234,12 @@ ActionItemForm.propTypes = {
   handleClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
-ActionItemForm.defaultProps = {
+
+ActionItemModal.defaultProps = {
   title: '',
   type: 'create',
   description: '',
   dueDate: '',
   categorySelected: '',
 };
-export default withStyles(styles)(ActionItemForm);
+export default withStyles(styles)(ActionItemModal);

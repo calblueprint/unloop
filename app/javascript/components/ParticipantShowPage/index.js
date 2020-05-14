@@ -7,11 +7,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import QuestionnaireModal from 'components/QuestionnaireModal';
 import PaperworkList from 'components/PaperworkList';
+import AssignmentList from 'components/AssignmentList';
+import StudioAssessmentList from 'components/StudioAssessmentList';
+import QuestionnaireModal from 'components/QuestionnaireModal';
 import CaseNoteContainer from 'components/CaseNoteContainer';
 import { Grid, Typography, Avatar } from '@material-ui/core';
-import StudioAssessmentList from 'components/StudioAssessmentList';
 import styles from './styles';
 
 class ParticipantShowPage extends React.Component {
@@ -28,12 +29,13 @@ class ParticipantShowPage extends React.Component {
     const dateObj = new Date(dateString);
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
-    const dt = dateObj.getDate();
+    const dt = dateObj.getDate() + 1;
     return `${month.toString()}/${dt.toString()}/${year.toString()}`;
   };
 
   render() {
     const {
+      userType,
       classes,
       paperworks,
       caseNotes,
@@ -44,7 +46,7 @@ class ParticipantShowPage extends React.Component {
       personalQuestionnaire,
       professionalQuestionnaire,
       studioAssessments,
-      userType,
+      assignmentList,
     } = this.props;
 
     return (
@@ -56,7 +58,6 @@ class ParticipantShowPage extends React.Component {
           padding: '0px',
           width: '100%',
         }}
-        justify="space-between"
       >
         <Grid item className={classes.leftHalf}>
           <Grid container direction="column" spacing={3}>
@@ -101,6 +102,7 @@ class ParticipantShowPage extends React.Component {
               </Grid>
             </Grid>
             <Grid item>
+              {/* These are paperworks */}
               <PaperworkList
                 initialPaperworks={paperworks}
                 participantId={participantId}
@@ -108,22 +110,31 @@ class ParticipantShowPage extends React.Component {
                 userType={userType}
               />
             </Grid>
-            <Grid item style={{ marginTop: '20px' }}>
-              <StudioAssessmentList
-                initialStudioAssessments={studioAssessments}
-                formatDate={this.formatDate}
+            <Grid item style={{ padding: '0px', marginTop: '20px' }}>
+              {/* These are casenotes */}
+              <CaseNoteContainer
+                participant={participant}
+                caseNotes={caseNotes}
                 userType={userType}
-                participantId={participantId}
               />
             </Grid>
           </Grid>
         </Grid>
-        <Grid item className={classes.rightHalf}>
-          <CaseNoteContainer
-            participant={participant}
-            caseNotes={caseNotes}
+        <Grid item xs={5} className={classes.rightHalf}>
+          <AssignmentList
             userType={userType}
+            initialAssignments={assignmentList}
+            participantId={participantId}
+            formatDate={this.formatDate}
           />
+          {userType === 'staff' ? (
+            <StudioAssessmentList
+              initialStudioAssessments={studioAssessments}
+              formatDate={this.formatDate}
+              userType={userType}
+              participantId={participantId}
+            />
+          ) : null}
         </Grid>
       </Grid>
     );
@@ -141,7 +152,8 @@ ParticipantShowPage.propTypes = {
   participantId: PropTypes.number.isRequired,
   personalQuestionnaire: PropTypes.object.isRequired,
   professionalQuestionnaire: PropTypes.object.isRequired,
-  studioAssessments: PropTypes.object.isRequired,
+  studioAssessments: PropTypes.array.isRequired,
+  assignmentList: PropTypes.array,
 };
 
 export default withStyles(styles)(ParticipantShowPage);

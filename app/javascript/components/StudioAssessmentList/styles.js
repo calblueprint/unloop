@@ -20,15 +20,6 @@ const styles = theme => ({
     marginBottom: '0px',
     fontSize: '24px',
   },
-  listStyle: {
-    paddingTop: 0,
-    maxHeight: '600px',
-    height: '53vh',
-    overflow: 'auto',
-    overflowX: 'hidden',
-    overflowY: 'auto',
-    paddingRight: '10px',
-  },
   noPaperworksImg: {
     width: '50%',
     height: '50%',
@@ -36,6 +27,13 @@ const styles = theme => ({
     marginTop: '10%',
     marginLeft: 'auto',
     marginRight: 'auto',
+  },
+  paddingBox: {
+      marginLeft: '20px',
+      padding: '10px',
+      display: 'flex',
+      boxShadow: '5px',
+      justifyContent: 'space-between',
   },
   noPaperworksTxt: {
     textAlign: 'center',
