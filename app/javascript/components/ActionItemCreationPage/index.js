@@ -422,37 +422,11 @@ class ActionItemCreationPage extends React.Component {
 
   getButtons(stepSize) {
     const { classes } = this.props;
-    let leftButtonText;
-    let rightButtonText;
-    let handleLeftButtonClick;
-    let handleRightButtonClick;
-    switch (stepSize) {
-      case 0:
-        leftButtonText = null;
-        handleLeftButtonClick = null;
-        rightButtonText = 'SAVE & CONTINUE';
-        handleRightButtonClick = this.nextStep;
-        break;
-      case 1:
-        leftButtonText = 'BACK';
-        handleLeftButtonClick = this.prevStep;
-        rightButtonText = 'SAVE & CONTINUE';
-        handleRightButtonClick = this.nextStep;
-        break;
-      case 2:
-        leftButtonText = 'BACK';
-        handleLeftButtonClick = this.prevStep;
-        rightButtonText = 'ASSIGN';
-        handleRightButtonClick = this.handleSubmit;
-        break;
-      default:
-        leftButtonText = null;
-        handleLeftButtonClick = null;
-        rightButtonText = null;
-        handleRightButtonClick = null;
-    }
+    const forwardButtonText = stepSize !== 2 ? 'SAVE & CONTINUE' : 'ASSIGN';
+    const handleForwardButtonClick =
+      stepSize !== 2 ? this.nextStep : this.handleSubmit;
 
-    const leftButton = (
+    const backButton = (
       <Grid item>
         <Fab
           className={classes.iconStyle}
@@ -460,15 +434,15 @@ class ActionItemCreationPage extends React.Component {
           variant="extended"
           size="medium"
           aria-label="category"
-          onClick={handleLeftButtonClick}
+          onClick={this.prevStep}
         >
           <Typography className={classes.categoryButtonStyle} align="center">
-            {leftButtonText}
+            BACK
           </Typography>
         </Fab>
       </Grid>
     );
-    const rightButton = (
+    const forwardButton = (
       <Grid item>
         <Fab
           className={classes.iconStyle}
@@ -476,10 +450,10 @@ class ActionItemCreationPage extends React.Component {
           variant="extended"
           size="medium"
           aria-label="category"
-          onClick={handleRightButtonClick}
+          onClick={handleForwardButtonClick}
         >
           <Typography className={classes.categoryButtonStyle} align="center">
-            {rightButtonText}
+            {forwardButtonText}
           </Typography>
         </Fab>
       </Grid>
@@ -487,8 +461,9 @@ class ActionItemCreationPage extends React.Component {
 
     return (
       <Grid container item alignItems="center" justify="flex-end" spacing={3}>
-        {stepSize !== 0 ? leftButton : null}
-        {rightButton}
+        {/* No back button if at beginning of form */}
+        {stepSize === 0 ? null : backButton}
+        {forwardButton}
       </Grid>
     );
   }
