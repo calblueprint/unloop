@@ -178,7 +178,6 @@ class ActionItemCreationPage extends React.Component {
       singleForm.append('category', firstActionItem.category);
       singleForm.append('file', this.state.files[firstActionItem.fileIndex]);
       singleForm.append('participant_ids', participantIds);
-      console.log(this.state.files[firstActionItem.fileIndex]);
       this.setState({ submissionStatus: 'loading' });
       apiPost('/api/assignments', singleForm)
         .then(() =>
@@ -242,7 +241,6 @@ class ActionItemCreationPage extends React.Component {
       files,
       hasFile,
     } = this.state;
-    console.log(files);
     if (
       actionItemTitle === '' ||
       actionItemDescription === '' ||
@@ -252,7 +250,6 @@ class ActionItemCreationPage extends React.Component {
     }
     let file = null;
     if (hasFile) {
-      console.log(files.length - 1);
       file = files[files.length - 1];
     }
 
@@ -286,7 +283,6 @@ class ActionItemCreationPage extends React.Component {
         });
     }
 
-    console.log(actionItem);
     this.setState(prevState => ({
       selectedActionItems: [actionItem, ...prevState.selectedActionItems],
       actionItemTitle: '',
@@ -295,7 +291,6 @@ class ActionItemCreationPage extends React.Component {
       actionItemCategory: null,
       hasFile: false,
     }));
-    console.log(this.state.selectedActionItems);
   }
 
   selectActionItemTemplate(actionItem) {

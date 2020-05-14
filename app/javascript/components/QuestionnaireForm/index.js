@@ -57,14 +57,8 @@ class QuestionnaireForm extends React.Component {
       });
       formData.append(`${qType}[resume]`, this.state.file);
       formData.append(`${qType}[participant_id]`, this.props.participantId);
-
-      // for (var pair of formData.entries()) {
-      //   console.log(pair[0] + ', ' + pair[1]);
-      // }
-
       const { id } = this.props.questionnaire;
       const request = `/api/${qType}s/${id}`;
-      console.log(formData);
       apiPut(request, formData)
         .then(() => window.location.reload())
         .catch(error => {
@@ -425,8 +419,6 @@ class QuestionnaireForm extends React.Component {
         <input
           type="file"
           onChange={(event) => {
-            console.log(event.target.files[0]);
-            console.log(event.target.files);
             this.setState({ file: event.target.files[0] })
           }}
         />

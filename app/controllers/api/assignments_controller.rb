@@ -7,7 +7,6 @@ class Api::AssignmentsController < ApplicationController
         authorize Assignment
         participant_ids_string = single_assignment_params.fetch(:participant_ids)
         participant_ids = participant_ids_string.split(/,/)
-        puts participant_ids
         if  participant_ids.empty?
             render json: { error: 'Participant must be populated'}, status: :unprocessable_entity
             return
@@ -53,7 +52,7 @@ class Api::AssignmentsController < ApplicationController
             return
         end
     #what is render json supposed to do?
-    #render json: created_assignments, status: :created 
+    render json: created_assignments, status: :created 
     end  
 
     def show
@@ -205,7 +204,6 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def single_assignment_params
-        puts params
         one_assignment_params = params.permit(:title, :description, :due_date, :category, :file, :participant_ids, :format)
     end
     
