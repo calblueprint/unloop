@@ -22,7 +22,7 @@ class ParticipantsController < ApplicationController
     end
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
 
-    @assignments = @participant.assignments
+    @assignments = authorize @participant.assignments
     @assignment_list = []
     @assignments.each do |a|
       action_item = ActionItem.where(id: a.action_item_id).first

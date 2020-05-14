@@ -19,6 +19,16 @@ class AssignmentPolicy < ApplicationPolicy
       staff?
     end
 
+    class Scope < Scope
+      def resolve
+        if user.staff?
+            scope.all
+        else
+            scope.where(participant_id: user.participant.id)
+        end
+      end
+    end
+      
     private
 
     def staff?

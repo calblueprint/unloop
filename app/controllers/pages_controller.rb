@@ -29,7 +29,7 @@ class PagesController < ApplicationController
               @paperworks =  policy_scope(Paperwork)
               @case_notes = policy_scope(CaseNote)
               @studio_assessments = policy_scope(StudioAssessment)
-              @assignments = @participant.assignments
+              @assignments = policy_scope(Assignment)
 
               @assignment_list = []
               @assignments.each do |a|
