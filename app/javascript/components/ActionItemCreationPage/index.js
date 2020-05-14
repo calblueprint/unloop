@@ -422,129 +422,50 @@ class ActionItemCreationPage extends React.Component {
 
   getButtons(stepSize) {
     const { classes } = this.props;
+    const forwardButtonText = stepSize === 2 ? 'ASSIGN' : 'SAVE & CONTINUE';
+    const handleForwardButtonClick =
+      stepSize === 2 ? this.handleSubmit : this.nextStep;
 
-    switch (stepSize) {
-      case 0:
-        return (
-          <Grid
-            container
-            item
-            direction="row-reverse"
-            alignItems="center"
-            spacing={3}
-          >
-            <Grid item>
-              <Fab
-                className={classes.iconStyle}
-                component="span"
-                variant="extended"
-                size="medium"
-                aria-label="category"
-                onClick={this.nextStep}
-              >
-                <Typography
-                  className={classes.categoryButtonStyle}
-                  align="center"
-                >
-                  SAVE & CONTINUE
-                </Typography>
-              </Fab>
-            </Grid>
-          </Grid>
-        );
-      case 1:
-        return (
-          <Grid
-            container
-            item
-            direction="row-reverse"
-            alignItems="center"
-            spacing={3}
-          >
-            <Grid item>
-              <Fab
-                className={classes.iconStyle}
-                component="span"
-                variant="extended"
-                size="medium"
-                aria-label="category"
-                onClick={this.nextStep}
-              >
-                <Typography
-                  className={classes.categoryButtonStyle}
-                  align="center"
-                >
-                  SAVE & CONTINUE
-                </Typography>
-              </Fab>
-            </Grid>
-            <Grid item>
-              <Fab
-                className={classes.iconStyle}
-                component="span"
-                variant="extended"
-                size="medium"
-                aria-label="category"
-                onClick={this.prevStep}
-              >
-                <Typography
-                  className={classes.categoryButtonStyle}
-                  align="center"
-                >
-                  BACK
-                </Typography>
-              </Fab>
-            </Grid>
-          </Grid>
-        );
-      case 2:
-        return (
-          <Grid
-            container
-            item
-            direction="row-reverse"
-            alignItems="center"
-            spacing={3}
-          >
-            <Grid item>
-              <Fab
-                className={classes.iconStyle}
-                component="span"
-                variant="extended"
-                size="medium"
-                aria-label="category"
-                onClick={this.handleSubmit}
-              >
-                <Typography
-                  className={classes.categoryButtonStyle}
-                  align="center"
-                >
-                  ASSIGN
-                </Typography>
-              </Fab>
-            </Grid>
-            <Grid item>
-              <Fab
-                className={classes.iconStyle}
-                component="span"
-                variant="extended"
-                size="medium"
-                aria-label="category"
-                onClick={this.prevStep}
-              >
-                <Typography
-                  className={classes.categoryButtonStyle}
-                  align="center"
-                >
-                  BACK
-                </Typography>
-              </Fab>
-            </Grid>
-          </Grid>
-        );
-      default:
-        return null;
-    }
+    const backButton = (
+      <Grid item>
+        <Fab
+          className={classes.iconStyle}
+          component="span"
+          variant="extended"
+          size="medium"
+          aria-label="category"
+          onClick={this.prevStep}
+        >
+          <Typography className={classes.categoryButtonStyle} align="center">
+            BACK
+          </Typography>
+        </Fab>
+      </Grid>
+    );
+    const forwardButton = (
+      <Grid item>
+        <Fab
+          className={classes.iconStyle}
+          component="span"
+          variant="extended"
+          size="medium"
+          aria-label="category"
+          onClick={handleForwardButtonClick}
+        >
+          <Typography className={classes.categoryButtonStyle} align="center">
+            {forwardButtonText}
+          </Typography>
+        </Fab>
+      </Grid>
+    );
+
+    return (
+      <Grid container item alignItems="center" justify="flex-end" spacing={3}>
+        {/* No back button if at beginning of form */}
+        {stepSize === 0 ? null : backButton}
+        {forwardButton}
+      </Grid>
+    );
   }
 
   render() {
