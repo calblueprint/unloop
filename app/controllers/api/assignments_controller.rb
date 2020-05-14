@@ -16,27 +16,22 @@ class Api::AssignmentsController < ApplicationController
         rescue ArgumentError
             due_date = nil
         end 
-        action_item_params = {
-            title:  single_assignment_params.fetch(:title),
-            description: single_assignment_params.fetch(:description),
-            due_date: due_date,
-            category: single_assignment_params.fetch(:category),
-            file: single_assignment_params.fetch(:file),
-        }
+
         if single_assignment_params.fetch(:file).eql?("null") || single_assignment_params.fetch(:file).eql?("undefined") || !single_assignment_params.fetch(:file).present?
             action_item = ActionItem.new(action_item_params.except(:due_date, :file)) 
         else 
             action_item = ActionItem.new(action_item_params.except(:due_date)) 
         end
+        
         template_sentry_helper(action_item)
         action_item[:is_template] = false
+        
         if !participant_ids.empty? && action_item.save
             prepare_bulk_assignment(participant_ids, action_item, due_date).each do |assignment|
                 assignment_sentry_helper(assignment)  
                 if assignment.save
-                    #AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
-                    puts "sent"
-                    puts assignment
+                    AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
+                    created_assignments.append(assignment)
                 else 
                     action_item.destroy
                     created_action_items.each {|item| item.destroy}
@@ -51,7 +46,6 @@ class Api::AssignmentsController < ApplicationController
             render json: { error: 'Could not create action item' }, status: :unprocessable_entity
             return
         end
-    #what is render json supposed to do?
     render json: created_assignments, status: :created 
     end  
 
@@ -180,12 +174,13 @@ class Api::AssignmentsController < ApplicationController
            }
         assignment = Assignment.new(single_assignment.merge(participant_id: participant_id))
         return assignment
-        end
+    end
 
     def action_item_params
         action_item_param = params.require(:assignment).permit(:title,
                                                                :description,
-                                                               :category, :file)
+                                                               :category,
+                                                               :file)
     end
 
     def single_assignment_params
