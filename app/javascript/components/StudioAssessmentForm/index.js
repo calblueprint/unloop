@@ -52,7 +52,7 @@ export const StudioAssessmentForm = ({
   const steps = getSteps();
 
   const [formData, setFormData] = useState({
-    score: 'hi',
+    score: '',
     comments: '',
   });
   const nextStep = () => {
@@ -70,19 +70,19 @@ export const StudioAssessmentForm = ({
           ))}
         </Stepper>
       </div>
-        <Question
-          formData={formData}
-          setFormData={setFormData}
-          nextStep={nextStep}
-          prevStep={prevStep}
-          questionType={questionType[step - 1]}
-          questionID={step - 1}
-          studioAssessment={studioAssessment}
-          participantId={participantId}
-          userType={userType}
-          onClose={onClose}
-          type={type}
-        />
+      <Question
+        formData={formData}
+        setFormData={setFormData}
+        nextStep={nextStep}
+        prevStep={prevStep}
+        questionType={questionType[step - 1]}
+        questionID={step - 1}
+        studioAssessment={studioAssessment}
+        participantId={participantId}
+        userType={userType}
+        onClose={onClose}
+        type={type}
+      />
     </div>
   );
 };

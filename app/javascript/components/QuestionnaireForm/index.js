@@ -39,9 +39,9 @@ class QuestionnaireForm extends React.Component {
         questionnaire[k] = this.props.questionnaire[k];
       }
     });
-    questionnaire.validPhone = true;
     this.setState({
       questionnaire,
+      validPhone: true,
     });
   }
 
@@ -88,26 +88,21 @@ class QuestionnaireForm extends React.Component {
     const isValid = regex.test(value);
     if (isValid || value === '') {
       this.setState(s => ({
+        validPhone: true,
         questionnaire: {
           ...s.questionnaire,
-          validPhone: true,
+          [id]: value,
         },
       }));
     } else {
       this.setState(s => ({
+        validPhone: false,
         questionnaire: {
           ...s.questionnaire,
-          validPhone: false,
+          [id]: value,
         },
       }));
     }
-
-    this.setState(s => ({
-      questionnaire: {
-        ...s.questionnaire,
-        [id]: value,
-      },
-    }));
   }
 
   handleRadioChange(e, fieldName, newValue) {
@@ -302,11 +297,9 @@ class QuestionnaireForm extends React.Component {
           <TextField
             className={`${this.props.classes.dialogContentTextField} ${this.props.classes.questionnaireTextField}`}
             onChange={e => this.handlePhoneChange(e)}
-            error={!this.state.questionnaire.validPhone}
+            error={!this.state.validPhone}
             helperText={
-              !this.state.questionnaire.validPhone
-                ? 'Please enter a valid phone number.'
-                : ''
+              !this.state.validPhone ? 'Please enter a valid phone number.' : ''
             }
             variant="outlined"
             id={fieldName}

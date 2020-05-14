@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Fab from '@material-ui/core/Fab';
 import theme from 'utils/theme';
-import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import {
   Button,
@@ -15,7 +14,7 @@ import {
 } from '@material-ui/core';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import styles from './styles';
-class ActionItemForm extends React.Component {
+class ActionItemModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +23,6 @@ class ActionItemForm extends React.Component {
       categorySelected:
         this.props.type === 'create' ? '' : this.props.categorySelected,
       dueDate: this.props.type === 'create' ? '' : this.props.dueDate,
-      addToTemplates: false,
       failedSubmit: false,
     };
   }
@@ -36,25 +34,18 @@ class ActionItemForm extends React.Component {
 
   handleSubmit = () => {
     const { participantId, actionItemId, actionItem } = this.props;
-    const {
-      title,
-      description,
-      categorySelected,
-      dueDate,
-      addToTemplates,
-    } = this.state;
+    const { title, description, categorySelected, dueDate } = this.state;
 
     if (title && description && categorySelected) {
-      this.props.handleSubmit(
+      this.props.handleSubmit({
         title,
         description,
         categorySelected,
         dueDate,
-        addToTemplates,
         participantId,
         actionItemId,
         actionItem,
-      );
+      });
       this.props.handleClose();
     } else {
       this.setState({ failedSubmit: true });
@@ -63,13 +54,7 @@ class ActionItemForm extends React.Component {
 
   render() {
     const { classes, open } = this.props;
-    const {
-      failedSubmit,
-      title,
-      description,
-      categorySelected,
-      addToTemplates,
-    } = this.state;
+    const { failedSubmit, title, description, categorySelected } = this.state;
 
     const categories = [
       'Finances',
@@ -83,6 +68,7 @@ class ActionItemForm extends React.Component {
     const categoryList = categories.map(category => {
       const isSelectedCategory =
         categorySelected && categorySelected === category;
+
       return (
         <Grid item key={category}>
           <Fab
@@ -201,7 +187,7 @@ class ActionItemForm extends React.Component {
               Due Date
             </DialogContentText>
             <TextField
-              value={this.state.dueDate || ''}
+              value={this.state.dueDate ? this.state.dueDate.split('T')[0] : ''} // Formatting the date correctly (remove timestamp)
               className={classes.dialogContentTextFieldStyle}
               name="Due Date"
               onChange={this.handleChange('dueDate')}
@@ -213,24 +199,7 @@ class ActionItemForm extends React.Component {
             />
           </DialogContent>
           <DialogActions disableSpacing>
-            <Grid container justify="space-between" alignItems="center">
-              <Grid item>
-                <Checkbox
-                  color="primary"
-                  className={classes.checkboxStyle}
-                  checked={addToTemplates}
-                  onChange={e => {
-                    const newValue = { target: { value: e.target.checked } };
-                    this.handleChange('addToTemplates')(newValue);
-                  }}
-                />
-                <Typography
-                  display="inline"
-                  className={classes.checkboxTextStyle}
-                >
-                  ADD TO COMMON ASSIGNMENTS
-                </Typography>
-              </Grid>
+            <Grid container justify="flex-end" alignItems="center">
               <Grid item>
                 <Button onClick={this.handleSubmit}>
                   <Typography
@@ -238,7 +207,7 @@ class ActionItemForm extends React.Component {
                     size="small"
                     className={classes.checkboxTextStyle}
                   >
-                    {this.props.type === 'CREATE'
+                    {this.props.type === 'create'
                       ? 'CREATE ACTION ITEM'
                       : 'EDIT ACTION ITEM'}
                   </Typography>
@@ -251,7 +220,7 @@ class ActionItemForm extends React.Component {
     );
   }
 }
-ActionItemForm.propTypes = {
+ActionItemModal.propTypes = {
   classes: PropTypes.object.isRequired,
   type: PropTypes.oneOf(['create', 'edit']),
   title: PropTypes.string,
@@ -265,11 +234,12 @@ ActionItemForm.propTypes = {
   handleClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
-ActionItemForm.defaultProps = {
+
+ActionItemModal.defaultProps = {
   title: '',
   type: 'create',
   description: '',
   dueDate: '',
   categorySelected: '',
 };
-export default withStyles(styles)(ActionItemForm);
+export default withStyles(styles)(ActionItemModal);

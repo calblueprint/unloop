@@ -36,13 +36,12 @@ class CaseNotePolicy < ApplicationPolicy
       if user.staff?
           scope.all
       else
-          scope.where([participant_id: user.participant.id, visible: true])
+          scope.where(participant_id: user.participant.id, visible: true)
       end
     end
   end
 
   private
-
   def staff?
     user.present? && user.staff?
   end

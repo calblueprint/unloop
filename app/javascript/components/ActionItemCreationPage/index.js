@@ -58,10 +58,16 @@ class ActionItemCreationPage extends React.Component {
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.editActionItem = this.editActionItem.bind(this);
     this.reloadPage = this.reloadPage.bind(this);
+    this.handleExitSubmitModal = this.handleExitSubmitModal.bind(this);
   }
 
   reloadPage() {
     window.location.href = '/assignments';
+  }
+
+  // Only passed to LoadModal if submissionStatus == 'error'
+  handleExitSubmitModal() {
+    this.setState({ submissionStatus: null });
   }
 
   checkActionItemsEqual(actionItem1, actionItem2) {
@@ -94,21 +100,18 @@ class ActionItemCreationPage extends React.Component {
     };
   }
 
-  editActionItem(
+  editActionItem({
     title,
     description,
     categorySelected,
     dueDate,
-    addToTemplates,
-    participantId,
-    actionItemId,
     actionItem,
-  ) {
+  }) {
     this.setState(prevState => {
       const newSelectedActionItems = prevState.selectedActionItems.map(item => {
         const itemCopy = { ...item };
         if (this.checkActionItemsEqual(actionItem, item)) {
-          // id needs to be null so eheckmark doesn't appear
+          // id needs to be null so checkmark doesn't appear
           itemCopy.id = null;
           itemCopy.title = title;
           itemCopy.description = description;
@@ -357,6 +360,7 @@ class ActionItemCreationPage extends React.Component {
             selectActionItemTemplate={this.selectActionItemTemplate}
             deleteTemplate={this.deleteTemplate}
             handleOpenModal={this.handleOpenModal}
+            categories={this.props.categories}
           />
         );
         break;
@@ -579,17 +583,21 @@ class ActionItemCreationPage extends React.Component {
             type="edit"
           />
         ) : null}
-        {this.state.submissionStatus ? (
-          <LoadModal
-            status={this.state.submissionStatus}
-            handleClick={
-              this.state.submissionStatus === 'complete'
-                ? this.reloadPage
-                : this.handleSubmit
-            }
-          />
-        ) : null}
 
+        <LoadModal
+          open={this.state.submissionStatus !== null}
+          status={this.state.submissionStatus}
+          handleClick={
+            this.state.submissionStatus === 'complete'
+              ? this.reloadPage
+              : this.handleSubmit
+          }
+          handleClose={
+            this.state.submissionStatus === 'error'
+              ? this.handleExitSubmitModal
+              : null
+          }
+        />
         <Snackbar
           open={this.state.submitFailed}
           autoHideDuration={3000}
@@ -677,6 +685,7 @@ ActionItemCreationPage.propTypes = {
   templates: PropTypes.array.isRequired,
   statuses: PropTypes.object.isRequired,
   participants: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(ActionItemCreationPage);

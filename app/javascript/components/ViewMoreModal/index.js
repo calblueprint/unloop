@@ -4,14 +4,8 @@ import MUIRichTextEditor from 'mui-rte';
 import 'draft-js/dist/Draft.css';
 import 'draftail/dist/draftail.css';
 import { withStyles } from '@material-ui/core/styles';
-import {
-  Dialog,
-  Grid,
-  Paper,
-  Input,
-  Fab,
-  Typography,
-} from '@material-ui/core/';
+import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
+import { Dialog, Grid, Paper, Input } from '@material-ui/core/';
 import styles from './styles';
 
 function ViewMoreModal({
@@ -23,6 +17,7 @@ function ViewMoreModal({
   isCaseNote,
   open,
   handleClose,
+  formatDate,
 }) {
   const renderRichText = desc => (
     <MUIRichTextEditor value={desc} readOnly toolbar={false} />
@@ -32,28 +27,16 @@ function ViewMoreModal({
   );
   const renderCategory = categorySelected => (
     <Grid item>
-      <Fab
-        className={classes.iconStyle}
-        component="span"
-        variant="extended"
-        size="small"
-        aria-label="category"
-      >
-        <Typography
-          className={classes.categoryButtonStyle}
-          color="primary"
-          align="center"
-        >
-          {categorySelected.toUpperCase()}
-        </Typography>
-      </Fab>
+      <ActionItemCategoryTag category={categorySelected} selected={false} />
     </Grid>
   );
   const renderDueDate = date => {
     if (dueDate) {
       return (
         <Grid item>
-          <h4 className={classes.dateTextStyle}>Due Date: {date}</h4>
+          <h4 className={classes.dateTextStyle}>
+            Due Date: {formatDate(date)}
+          </h4>
         </Grid>
       );
     }
@@ -106,11 +89,12 @@ ViewMoreModal.propTypes = {
   classes: PropTypes.object.isRequired,
   description: PropTypes.string,
   title: PropTypes.string,
-  category: PropTypes.string,
+  category: PropTypes.string.isRequired,
   dueDate: PropTypes.string,
   open: PropTypes.bool.isRequired,
   isCaseNote: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
+  formatDate: PropTypes.func,
 };
 
 export default withStyles(styles)(ViewMoreModal);

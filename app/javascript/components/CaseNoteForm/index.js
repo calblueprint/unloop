@@ -166,7 +166,7 @@ class CaseNoteForm extends React.Component {
       ret = (
         <Fab
           size="small"
-          color="secondary"
+          color="primary"
           aria-label="add"
           onClick={this.handleOpen}
           className={this.props.classes.plusButton}
@@ -179,7 +179,7 @@ class CaseNoteForm extends React.Component {
         <Button
           className={this.props.classes.primaryButton}
           variant="contained"
-          color="secondary"
+          color="primary"
           onClick={this.handleOpen}
         >
           NEW CASENOTE +

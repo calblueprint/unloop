@@ -1,10 +1,6 @@
 class Api::ProfessionalQuestionnairesController < ApplicationController
-    before_action :set_questionnaire, only: [:show, :update, :destroy]
+    before_action :set_questionnaire, only: [:update, :destroy]
     respond_to :json
-  
-    def show
-      render json: @questionnaire
-    end
   
     def create
       @questionnaire = ProfessionalQuestionnaire.new(questionnaire_params)

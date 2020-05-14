@@ -4,7 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,6 +12,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Paper from '@material-ui/core/Paper';
 import ActionItemCard from 'components/ActionItemCard';
 import theme from 'utils/theme';
+import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
 import styles from './styles';
 
 const TrieSearch = require('trie-search');
@@ -34,6 +34,8 @@ class AddFromExistingForm extends React.Component {
       this,
     );
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.renderChooseDateModal = this.renderChooseDateModal.bind(this);
+    this.buttonRef = React.createRef();
   }
 
   componentDidMount() {
@@ -95,6 +97,41 @@ class AddFromExistingForm extends React.Component {
     }));
   }
 
+  renderChooseDateModal() {
+    return (
+      <Dialog
+        open={this.state.selectedActionItem !== null}
+        onClose={this.handleCloseDateModal}
+        onExited={() =>
+          // Avoid blurring document.body on IE9 since it blurs the entire window
+          document.activeElement !== document.body
+            ? document.activeElement.blur()
+            : null
+        }
+        onEnter={() => this.buttonRef.current.focus()}
+      >
+        <DialogTitle> Choose a due date (optional) </DialogTitle>
+        <DialogContent>
+          <TextField
+            type="date"
+            value={this.state.selectedActionItemDate}
+            fullWidth
+            onChange={e => this.handleDateChange(e)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={this.handleSubmitSelectedTemplateActionItem}
+            ref={this.buttonRef}
+            color="primary"
+          >
+            Create Assignment
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -127,81 +164,31 @@ class AddFromExistingForm extends React.Component {
         </Grid>
       );
     });
-    const categories = [
-      'Finances',
-      'Project',
-      'Community',
-      'Startup',
-      'Treatment',
-      'Health',
-      'Education',
-    ];
-    const categoryList = categories.map(category => {
+    const categoryList = this.props.categories.map(category => {
       const isSelectedCategory =
         this.state.categorySelected && this.state.categorySelected === category;
       return (
         <Grid item key={category}>
-          <Fab
-            className={classes.iconStyle}
-            style={{
-              backgroundColor: isSelectedCategory
-                ? theme.palette.primary.main
-                : theme.palette.common.lighterBlue,
-            }}
-            component="span"
-            variant="extended"
-            size="small"
-            aria-label="category"
-            onClick={() => this.selectCategory(category)}
-          >
-            <Typography
-              className={classes.categoryButtonStyle}
-              style={{
-                color: isSelectedCategory
-                  ? theme.palette.common.lighterBlue
-                  : theme.palette.primary.main,
-              }}
-              align="center"
-            >
-              {category.toUpperCase()}
-            </Typography>
-          </Fab>
+          <ActionItemCategoryTag
+            category={category}
+            selected={isSelectedCategory}
+            handleClick={this.selectCategory}
+          />
         </Grid>
       );
     });
 
     return (
       <ThemeProvider theme={theme}>
-        <Dialog
-          open={this.state.selectedActionItem !== null}
-          onClose={this.handleCloseDateModal}
-        >
-          <DialogTitle> Choose a due date (optional) </DialogTitle>
-          <DialogContent>
-            <TextField
-              type="date"
-              value={this.state.selectedActionItemDate}
-              fullWidth
-              onChange={e => this.handleDateChange(e)}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={this.handleSubmitSelectedTemplateActionItem}
-              color="primary"
-            >
-              Create Assignment
-            </Button>
-          </DialogActions>
-        </Dialog>
+        {this.renderChooseDateModal()}
         <Paper elevation={3} className={classes.formStyle}>
           <Grid container spacing={1} direction="column">
             <Grid item container direction="column" spacing={1}>
               <Grid item>SEARCH BY CATEGORY</Grid>
-              <Grid item container direction="row" justify="space-evenly">
+              <Grid item container justify="center" spacing={1}>
                 {categoryList.slice(0, 4)}
               </Grid>
-              <Grid container item justify="center" spacing={2}>
+              <Grid container item justify="center" spacing={1}>
                 {categoryList.slice(4)}
               </Grid>
             </Grid>
@@ -246,6 +233,7 @@ AddFromExistingForm.propTypes = {
   removeSelectedActionItem: PropTypes.func.isRequired,
   handleOpenModal: PropTypes.func.isRequired,
   deleteTemplate: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(AddFromExistingForm);

@@ -5,16 +5,17 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
-export default function RadioButtonsGroup({ 
-  rubricItems, questionType, score, radioHandler
+export default function RadioButtonsGroup({
+  rubricItems,
+  questionType,
+  score,
+  radioHandler,
 }) {
-  const [value, setValue] = React.useState(
-    `${questionType}_score${score}` 
-  );
+  const [value, setValue] = React.useState(`${questionType}_score${score}`);
   const rubricList = rubricItems;
 
   const handleChange = event => {
-    radioHandler(event.target.value.slice(-1))
+    radioHandler(event.target.value.slice(-1));
     setValue(event.target.value);
   };
 
