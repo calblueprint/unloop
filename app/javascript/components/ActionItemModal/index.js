@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Fab from '@material-ui/core/Fab';
 import theme from 'utils/theme';
 import Typography from '@material-ui/core/Typography';
 import {
@@ -13,6 +12,7 @@ import {
   Grid,
 } from '@material-ui/core';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
+import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
 import styles from './styles';
 class ActionItemModal extends React.Component {
   constructor(props) {
@@ -25,6 +25,7 @@ class ActionItemModal extends React.Component {
       dueDate: this.props.type === 'create' ? '' : this.props.dueDate,
       failedSubmit: false,
     };
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
   }
 
   handleChange = name => event => {
@@ -52,6 +53,13 @@ class ActionItemModal extends React.Component {
     }
   };
 
+  handleCategoryChange = category => {
+    // setCategory uses ActionItemCreationPage's handleChange which expects this form
+    const newCategory =
+      this.state.categorySelected !== category ? category : null;
+    this.handleChange('categorySelected')({ target: { value: newCategory } });
+  };
+
   render() {
     const { classes, open } = this.props;
     const { failedSubmit, title, description, categorySelected } = this.state;
@@ -65,43 +73,17 @@ class ActionItemModal extends React.Component {
       'Health',
       'Education',
     ];
+
     const categoryList = categories.map(category => {
       const isSelectedCategory =
         categorySelected && categorySelected === category;
-
       return (
         <Grid item key={category}>
-          <Fab
-            className={classes.iconStyle}
-            style={{
-              backgroundColor: isSelectedCategory
-                ? theme.palette.primary.main
-                : theme.palette.common.lighterBlue,
-            }}
-            onClick={() => {
-              const newCategoryValue =
-                categorySelected !== category
-                  ? { target: { value: category } }
-                  : { target: { value: null } };
-              this.handleChange('categorySelected')(newCategoryValue);
-            }}
-            component="span"
-            variant="extended"
-            size="medium"
-            aria-label="category"
-          >
-            <Typography
-              className={classes.categoryButtonStyle}
-              style={{
-                color: isSelectedCategory
-                  ? theme.palette.common.lighterBlue
-                  : theme.palette.primary.main,
-              }}
-              align="center"
-            >
-              {category.toUpperCase()}
-            </Typography>
-          </Fab>
+          <ActionItemCategoryTag
+            category={category}
+            selected={isSelectedCategory}
+            handleClick={this.handleCategoryChange}
+          />
         </Grid>
       );
     });
@@ -122,20 +104,18 @@ class ActionItemModal extends React.Component {
               justify="center"
               spacing={1}
             >
-              <Grid item>
-                <DialogContentText
-                  className={classes.dialogContentTextStyle}
-                  style={{
-                    color: failedSubmit && !categorySelected ? 'red' : 'black',
-                  }}
-                >
-                  Assign Category
-                </DialogContentText>
+              <Grid
+                item
+                style={{
+                  color: failedSubmit && !categorySelected ? 'red' : 'black',
+                }}
+              >
+                Choose Category
               </Grid>
-              <Grid item container direction="row" justify="center">
+              <Grid item container justify="center" spacing={4}>
                 {categoryList.slice(0, 4)}
               </Grid>
-              <Grid container item justify="center">
+              <Grid container item justify="center" spacing={4}>
                 {categoryList.slice(4)}
               </Grid>
             </Grid>
