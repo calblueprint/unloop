@@ -1,20 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
-export default function RadioButtonsGroup({ 
-  rubricItems, questionType, score, radioHandler
-}) {
-  const [value, setValue] = React.useState(
-    `${questionType}_score${score}` 
-  );
+function RadioButtonsGroup({ rubricItems, questionType, score, radioHandler }) {
+  const [value, setValue] = React.useState(`${questionType}_score${score}`);
   const rubricList = rubricItems;
 
   const handleChange = event => {
-    radioHandler(event.target.value.slice(-1))
+    radioHandler(event.target.value.slice(-1));
     setValue(event.target.value);
   };
 
@@ -51,3 +48,12 @@ export default function RadioButtonsGroup({
     </FormControl>
   );
 }
+
+RadioButtonsGroup.propTypes = {
+  rubricItems: PropTypes.array.isRequired,
+  questionType: PropTypes.string.isRequired,
+  score: PropTypes.string.isRequired,
+  radioHandler: PropTypes.func.isRequired,
+};
+
+export default RadioButtonsGroup;

@@ -3,15 +3,11 @@ const styles = theme => ({
     maxWidth: '200px',
     textOverflow: 'ellipsis',
   },
-  iconStyle: {
-    backgroundColor: theme.palette.common.lighterBlue,
-    margin: '0px 10px',
-    boxShadow: 'None',
-  },
   categoryButtonStyle: {
     fontSize: '10px',
     width: '60px',
     textAlign: 'center',
+    margin: 'auto',
   },
   cardStyle: {
     width: '100%',
@@ -35,6 +31,11 @@ const styles = theme => ({
   },
   buttonStyle: {
     color: theme.palette.common.r0,
+  },
+  iconStyle: {
+    color: theme.palette.common.r0,
+    minWidth: '13px',
+    minHeight: '23px',
   },
 });
 export default styles;

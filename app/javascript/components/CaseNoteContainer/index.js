@@ -9,6 +9,7 @@ import CaseNoteCard from 'components/CaseNoteCard';
 import ViewMoreModal from 'components/ViewMoreModal';
 import PropTypes from 'prop-types';
 import styles from './styles';
+import theme from '../../utils/theme';
 
 class CaseNoteContainer extends React.Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class CaseNoteContainer extends React.Component {
     const dateObj = new Date(dateString);
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth() + 1;
-    const dt = dateObj.getDate();
+    const dt = dateObj.getDate() + 1;
     return `${month.toString()}/${dt.toString()}/${year.toString()}`;
   }
 
@@ -133,14 +134,15 @@ class CaseNoteContainer extends React.Component {
           <Grid>
             <Typography
               component="div"
-              style={{ height: '100vh', maxHeight: '700px' }}
+              style={{ height: '80%', maxHeight: '700px' }}
             >
               <div className={classes.root} style={{ paddingTop: '20px' }}>
                 <Grid
                   container
                   justify="space-between"
                   style={{
-                    borderBottom: '5px solid #EB6658',
+                    borderBottom: `5px solid ${theme.palette.common.r0}`,
+                    marginBottom: '25px',
                   }}
                 >
                   <Grid item xs={4}>
@@ -150,9 +152,10 @@ class CaseNoteContainer extends React.Component {
                 </Grid>
                 <div
                   style={{
-                    height: '80vh',
+                    padding: '10px',
+                    height: '70vh',
                     overflowX: 'hidden',
-                    overflowY: 'auto',
+                    overflowY: 'scroll',
                   }}
                 >
                   {this.renderCaseNoteCards()}

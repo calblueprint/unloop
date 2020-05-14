@@ -1,14 +1,14 @@
 class PaperworkPolicy < ApplicationPolicy
   def index?
-    user.staff?
+    staff?
   end
 
   def create?
-    user.staff?
+    staff?
   end
 
   def destroy?
-    user.staff?
+    staff?
   end
 
   def viewed?
@@ -20,11 +20,11 @@ class PaperworkPolicy < ApplicationPolicy
   end
 
   def show?
-    user.staff? || (user.participant? && user.participant.id == resource.participant_id)
+    staff? || (user.participant? && user.participant.id == resource.participant_id)
   end
 
   def update?
-    user.staff?
+    staff?
   end
 
   class Scope < Scope
@@ -39,5 +39,10 @@ class PaperworkPolicy < ApplicationPolicy
         scope.where(participant_id: user.participant.id)
       end
     end
+  end
+
+  private
+  def staff?
+    user.present? && user.staff?
   end
 end

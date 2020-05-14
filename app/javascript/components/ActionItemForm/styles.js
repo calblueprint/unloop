@@ -11,6 +11,7 @@ const styles = theme => ({
     padding: '10px',
     minHeight: '425px',
     display: 'block',
+    overflow: 'hidden',
   },
   iconStyle: {
     boxShadow: 'None',

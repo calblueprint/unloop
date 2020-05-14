@@ -11,8 +11,8 @@ import {
   Input,
   Fab,
   Typography,
-  Button,
 } from '@material-ui/core/';
+import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
 import styles from './styles';
 
 function ViewMoreModal({
@@ -26,6 +26,7 @@ function ViewMoreModal({
   handleClose,
   files,
   fileIndex,
+  formatDate,
 }) {
   const renderRichText = desc => (
     <MUIRichTextEditor value={desc} readOnly toolbar={false} />
@@ -35,35 +36,23 @@ function ViewMoreModal({
   );
   const renderCategory = categorySelected => (
     <Grid item>
-      <Fab
-        className={classes.iconStyle}
-        component="span"
-        variant="extended"
-        size="small"
-        aria-label="category"
-      >
-        <Typography
-          className={classes.categoryButtonStyle}
-          color="primary"
-          align="center"
-        >
-          {categorySelected.toUpperCase()}
-        </Typography>
-      </Fab>
+      <ActionItemCategoryTag category={categorySelected} selected={false} />
     </Grid>
   );
   const renderDueDate = date => {
     if (dueDate) {
       return (
         <Grid item>
-          <h4 className={classes.dateTextStyle}>Due Date: {date}</h4>
+          <h4 className={classes.dateTextStyle}>
+            Due Date: {formatDate(date)}
+          </h4>
         </Grid>
       );
     }
     return null;
   };
 
-  const renderFileName = fileIndex => {
+  const renderFileName = () => {
     if (fileIndex != null) {
       return (
         <Grid item>
@@ -81,17 +70,18 @@ function ViewMoreModal({
               onClick={showFile}
             >
               View File
-        </Typography>
+            </Typography>
           </Fab>
-        </Grid >);
+        </Grid>
+      );
     }
-  }
+  };
 
-  const showFile = url => {
+  const showFile = () => {
     const file = files[fileIndex];
     const objectURL = window.URL.createObjectURL(file);
     window.open(objectURL, '_blank');
-  }
+  };
 
   return (
     <>
@@ -115,7 +105,7 @@ function ViewMoreModal({
                 <Grid item>
                   <h3 className={classes.titleStyle}>{title}</h3>
                 </Grid>
-                {renderFileName(fileIndex)}
+                {renderFileName()}
                 {isCaseNote ? null : renderCategory(category)}
               </Grid>
               {isCaseNote ? null : renderDueDate(dueDate)}
@@ -140,11 +130,14 @@ ViewMoreModal.propTypes = {
   classes: PropTypes.object.isRequired,
   description: PropTypes.string,
   title: PropTypes.string,
-  category: PropTypes.string,
+  category: PropTypes.string.isRequired,
   dueDate: PropTypes.string,
   open: PropTypes.bool.isRequired,
   isCaseNote: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
+  files: PropTypes.array,
+  fileIndex: PropTypes.number,
+  formatDate: PropTypes.func,
 };
 
 export default withStyles(styles)(ViewMoreModal);

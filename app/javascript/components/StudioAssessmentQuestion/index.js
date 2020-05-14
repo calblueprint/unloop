@@ -141,23 +141,20 @@ class Question extends React.Component {
       rubric =
         this.state.studioAssessment[`${this.props.questionType}_score`] !==
         null ? (
-            <div>
-              <h3>
-              Score:{' '}
-                {this.state.studioAssessment[
-                  `${this.props.questionType}_score`
-                ].toString()}
-              </h3>
-              <p>
-                {this.state.studioAssessment[`${this.props.questionType}_score`]}
-              </p>
-            </div>
-          ) : (
-            <div>
-              <h3>Score:</h3>
-              <p>No score entered yet</p>
-            </div>
-          );
+          <div>
+            <h3>
+            Score:{' '}
+              {this.state.studioAssessment[
+                `${this.props.questionType}_score`
+              ].toString()}
+            </h3>
+          </div>
+        ) : (
+          <div>
+            <h3>Score:</h3>
+            <p>No score entered yet</p>
+          </div>
+        );
 
       comments = (
         <div>

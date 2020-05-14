@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import errorMailbox from 'images/error_mailbox';
@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import styles from './styles';
 
-function LoadModal({ classes, status, handleClick }) {
+function LoadModal({ classes, open, status, handleClick, handleClose }) {
   const getText = () => {
     let titleText;
     let buttonText;
@@ -44,10 +44,28 @@ function LoadModal({ classes, status, handleClick }) {
     return { titleText, buttonText, statusImage };
   };
 
+  const buttonRef = useRef(null);
   const { titleText, buttonText, statusImage } = getText();
 
+  useEffect(() => {
+    if (buttonText && buttonRef.current) {
+      buttonRef.current.focus();
+    }
+  }, [status]);
+
   return (
-    <Dialog open fullWidth classes={{ paper: classes.modalStyle }}>
+    <Dialog
+      open={open}
+      fullWidth
+      classes={{ paper: classes.modalStyle }}
+      onClose={handleClose}
+      onExited={() =>
+        // Avoid blurring document.body on IE9 since it blurs the entire window
+        document.activeElement !== document.body
+          ? document.activeElement.blur()
+          : null
+      }
+    >
       <Grid item container direction="column" alignItems="center">
         <Grid item>
           <DialogContent>
@@ -67,11 +85,13 @@ function LoadModal({ classes, status, handleClick }) {
             {buttonText ? (
               <Fab
                 className={classes.iconStyle}
+                ref={buttonRef}
                 component="span"
                 variant="extended"
                 size="medium"
                 color="primary"
                 onClick={handleClick}
+                disableRipple
               >
                 <Typography
                   className={classes.categoryButtonStyle}
@@ -90,7 +110,9 @@ function LoadModal({ classes, status, handleClick }) {
 
 LoadModal.propTypes = {
   classes: PropTypes.object.isRequired,
-  status: PropTypes.string.isRequired,
+  status: PropTypes.string,
+  open: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
+  handleClose: PropTypes.func,
 };
 export default withStyles(styles)(LoadModal);

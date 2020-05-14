@@ -1,16 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import theme from 'utils/theme';
-
+import Grid from '@material-ui/core/Grid';
 import HomeIcon from '@material-ui/icons/Home';
 import GroupIcon from '@material-ui/icons/Group';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import UnloopLogo from 'images/unloop_logo.png';
+import BlueprintBanner from 'images/blueprint_banner.png';
 import * as Sentry from '@sentry/browser';
 import StaffDashboard from '../StaffDashboard';
 import styles from './styles';
@@ -63,7 +65,9 @@ function Main(props) {
       case 'Assessments':
         return <BarChartIcon />;
       default:
+        return
     }
+    return
   };
 
   const getButton = (name, route) => (
@@ -71,7 +75,6 @@ function Main(props) {
       button
       key={name}
       component="a"
-      disableFocusRipple
       disableTouchRipple
       className={classes.navBarItem}
       onClick={() => {
@@ -110,7 +113,9 @@ function Main(props) {
           <ActionItemCreationPage {...contentProps}></ActionItemCreationPage>
         );
       default:
+        return
     }
+    return
   };
 
   return (
@@ -124,32 +129,72 @@ function Main(props) {
           }}
           anchor="left"
         >
-          <List className={classes.navBar}>
-            <ListItem
-              button
-              component="a"
-              disableFocusRipple
-              disableTouchRipple
-              className={classes.navBarItem}
-              onClick={logout}
+          <Grid
+            container
+            direction="column"
+            justify="space-between"
+            style={{ height: '100%' }}
+          >
+            <Grid item>
+              <List className={classes.navBar}>
+                <ListItem
+                  button
+                  component="a"
+                  disableFocusRipple
+                  disableTouchRipple
+                  className={classes.navBarItem}
+                  onClick={logout}
+                >
+                  <AccountCircleIcon />
+                  <div className={classes.navText}> Sign Out </div>
+                </ListItem>
+                {props.isAdmin ? renderAdminButton() : null}
+                {props.userType !== 'participant'
+                  ? Object.entries({
+                    Dashboard: '/',
+                    'Bulk Assign': '/assignments',
+                      Assessments: '/studio_assessments',
+                    }).map(n => getButton(n[0], n[1]))
+                  : null}
+              </List>
+            </Grid>
+            <Grid
+              container
+              item
+              alignItems="center"
+              justify="center"
+              direction="column"
+              spacing={3}
+              style={{ padding: '5px' }}
             >
-              <AccountCircleIcon />
-              <div className={classes.navText}> Sign Out </div>
-            </ListItem>
-            {props.isAdmin ? renderAdminButton() : null}
-            {props.userType !== 'participant'
-              ? Object.entries({
-                Dashboard: '/',
-                'Bulk Assign': '/assignments',
-                Assessments: '/studio_assessments',
-              }).map(n => getButton(n[0], n[1]))
-              : null}
-          </List>
+              <Grid item>
+                <img
+                  src={UnloopLogo}
+                  alt="Unloop logo"
+                  className={classes.unloopLogo}
+                />
+              </Grid>
+              <Grid item>
+                <img
+                  src={BlueprintBanner}
+                  alt="Blueprint logo"
+                  className={classes.blueprintLogo}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
         </Drawer>
       </div>
       <main className={classes.content}>{getContent()}</main>
     </ThemeProvider>
   );
 }
+
+Main.propTypes = {
+  classes: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  content: PropTypes.string.isRequired,
+  userType: PropTypes.string,
+};
 
 export default withStyles(styles)(Main);

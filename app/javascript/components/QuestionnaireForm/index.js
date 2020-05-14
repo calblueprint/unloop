@@ -41,9 +41,9 @@ class QuestionnaireForm extends React.Component {
         questionnaire[k] = this.props.questionnaire[k];
       }
     });
-    questionnaire.validPhone = true;
     this.setState({
       questionnaire,
+      validPhone: true,
     });
   }
 
@@ -62,10 +62,10 @@ class QuestionnaireForm extends React.Component {
       apiPut(request, formData)
         .then(() => window.location.reload())
         .catch(error => {
-          Sentry.configureScope(function (scope) {
+          Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'QuestionnaireForm');
             scope.setExtra('action', 'apiPut');
-            scope.setExtra('QuestionnaireForm', body);
+            scope.setExtra('QuestionnaireForm', JSON.stringify(formData));
             scope.setExtra('qType', qType);
           });
           Sentry.captureException(error);
@@ -85,7 +85,7 @@ class QuestionnaireForm extends React.Component {
       apiPut(request, { [qType]: body })
         .then(() => window.location.reload())
         .catch(error => {
-          Sentry.configureScope(function (scope) {
+          Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'QuestionnaireForm');
             scope.setExtra('action', 'apiPut');
             scope.setExtra('QuestionnaireForm', body);
@@ -114,26 +114,21 @@ class QuestionnaireForm extends React.Component {
     const isValid = regex.test(value);
     if (isValid || value === '') {
       this.setState(s => ({
+        validPhone: true,
         questionnaire: {
           ...s.questionnaire,
-          validPhone: true,
+          [id]: value,
         },
       }));
     } else {
       this.setState(s => ({
+        validPhone: false,
         questionnaire: {
           ...s.questionnaire,
-          validPhone: false,
+          [id]: value,
         },
       }));
     }
-
-    this.setState(s => ({
-      questionnaire: {
-        ...s.questionnaire,
-        [id]: value,
-      },
-    }));
   }
 
   handleRadioChange(e, fieldName, newValue) {
@@ -147,7 +142,6 @@ class QuestionnaireForm extends React.Component {
 
   handleSelectChange(e, fieldName) {
     const { value } = e.target;
-    console.log(value);
     this.setState(s => ({
       questionnaire: {
         ...s.questionnaire,
@@ -168,20 +162,22 @@ class QuestionnaireForm extends React.Component {
   createTextForm(fieldName, fieldValue, contentText) {
     // content text is prompt/title for the text box
     // field name is the name of the field that will be filled in the database
-    if (fieldValue === null || fieldValue === "null") {
-      return (<div className={this.props.classes.questionnaireEntry}>
-        <DialogContentText>{contentText}</DialogContentText>
-        <TextField
-          className={`${this.props.classes.dialogContentTextField} ${this.props.classes.questionnaireTextField}`}
-          onChange={e => this.handleTextFormChange(e)}
-          variant="outlined"
-          id={fieldName}
-          multiline
-          type="text"
-          margin="dense"
-          maxRows={20}
-        />
-      </div>);
+    if (fieldValue === null || fieldValue === 'null') {
+      return (
+        <div className={this.props.classes.questionnaireEntry}>
+          <DialogContentText>{contentText}</DialogContentText>
+          <TextField
+            className={`${this.props.classes.dialogContentTextField} ${this.props.classes.questionnaireTextField}`}
+            onChange={e => this.handleTextFormChange(e)}
+            variant="outlined"
+            id={fieldName}
+            multiline
+            type="text"
+            margin="dense"
+            maxRows={20}
+          />
+        </div>
+      );
     }
     if (fieldName === 'DOC_status') {
       return (
@@ -341,11 +337,9 @@ class QuestionnaireForm extends React.Component {
           <TextField
             className={`${this.props.classes.dialogContentTextField} ${this.props.classes.questionnaireTextField}`}
             onChange={e => this.handlePhoneChange(e)}
-            error={!this.state.questionnaire.validPhone}
+            error={!this.state.validPhone}
             helperText={
-              !this.state.questionnaire.validPhone
-                ? 'Please enter a valid phone number.'
-                : ''
+              !this.state.validPhone ? 'Please enter a valid phone number.' : ''
             }
             variant="outlined"
             id={fieldName}
@@ -381,9 +375,9 @@ class QuestionnaireForm extends React.Component {
   // eslint-disable-next-line consistent-return
   createTextForms() {
     if (this.state.questionnaire) {
-      let { questionnaire } = this.state;
+      const { questionnaire } = this.state;
 
-      let questionnaires = Object.keys(questionnaire).map(f => {
+      const questionnaires = Object.keys(questionnaire).map(f => {
         let sentenceCase = f.charAt(0).toUpperCase() + f.substring(1);
         sentenceCase = sentenceCase.replace(/([-_][a-z])/gi, $1 =>
           $1
@@ -418,8 +412,8 @@ class QuestionnaireForm extends React.Component {
         <DialogContentText>Upload Resume</DialogContentText>
         <input
           type="file"
-          onChange={(event) => {
-            this.setState({ file: event.target.files[0] })
+          onChange={event => {
+            this.setState({ file: event.target.files[0] });
           }}
         />
       </div>
@@ -432,7 +426,6 @@ class QuestionnaireForm extends React.Component {
         <DialogContent>{this.createTextForms()}</DialogContent>
         <div className={this.props.classes.buttonContainer}>
           <DialogActions className={this.props.classes.DialogActions}>
-
             <Button
               onClick={this.props.handleClose}
               variant="outlined"

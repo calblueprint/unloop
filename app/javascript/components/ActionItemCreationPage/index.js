@@ -32,7 +32,6 @@ class ActionItemCreationPage extends React.Component {
       templateActionItems: this.props.templates,
       submitFailed: false,
       selectedActionItems: [],
-      submissionModal: false,
       files: [],
       hasFile: false,
       submissionStatus: null,
@@ -63,10 +62,16 @@ class ActionItemCreationPage extends React.Component {
     this.editActionItem = this.editActionItem.bind(this);
     this.reloadPage = this.reloadPage.bind(this);
     this.handleFileEdit = this.handleFileEdit.bind(this);
+    this.handleExitSubmitModal = this.handleExitSubmitModal.bind(this);
   }
 
   reloadPage() {
     window.location.href = '/assignments';
+  }
+
+  // Only passed to LoadModal if submissionStatus == 'error'
+  handleExitSubmitModal() {
+    this.setState({ submissionStatus: null });
   }
 
   checkActionItemsEqual(actionItem1, actionItem2) {
@@ -99,21 +104,19 @@ class ActionItemCreationPage extends React.Component {
     };
   }
 
-  editActionItem(
+  // files need to be edited with this function
+  editActionItem({
     title,
     description,
     categorySelected,
     dueDate,
-    addToTemplates,
-    participantId,
-    actionItemId,
     actionItem,
-  ) {
+  }) {
     this.setState(prevState => {
       const newSelectedActionItems = prevState.selectedActionItems.map(item => {
         const itemCopy = { ...item };
         if (this.checkActionItemsEqual(actionItem, item)) {
-          // id needs to be null so eheckmark doesn't appear
+          // id needs to be null so checkmark doesn't appear
           itemCopy.id = null;
           itemCopy.title = title;
           itemCopy.description = description;
@@ -134,7 +137,7 @@ class ActionItemCreationPage extends React.Component {
   }
 
   handleFile(event) {
-    let file = event.target.files[0];
+    const file = event.target.files[0];
     if (file) {
       this.setState(prevState => ({
         files: [...prevState.files, file],
@@ -144,7 +147,8 @@ class ActionItemCreationPage extends React.Component {
   }
 
   handleFileEdit(event, actionItem) {
-    let file = event.target.files[0];
+    // Should remove the previous file instead of continually adding to an array
+    const file = event.target.files[0];
     if (file) {
       this.setState(prevState => ({
         files: [...prevState.files, file],
@@ -166,10 +170,8 @@ class ActionItemCreationPage extends React.Component {
       participant => participant.id,
     );
 
-
-    for (let i = 0; i < this.state.selectedActionItems.length; i++) {
-
-      const firstActionItem = this.state.selectedActionItems[i]
+    for (let i = 0; i < this.state.selectedActionItems.length; i += 1) {
+      const firstActionItem = this.state.selectedActionItems[i];
       const singleForm = new FormData();
       singleForm.append('title', firstActionItem.title);
       singleForm.append('description', firstActionItem.description);
@@ -180,15 +182,17 @@ class ActionItemCreationPage extends React.Component {
       this.setState({ submissionStatus: 'loading' });
       apiPost('/api/assignments', singleForm)
         .then(() =>
+          // TO CHANGE
           this.setState({ submissionStatus: 'complete', submitFailed: false }),
         )
         .catch(error => {
           this.setState({ submissionStatus: 'error' });
-          Sentry.configureScope(function (scope) {
+          Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'ActionItemCreationPage');
             scope.setExtra('action', 'apiPost (handleSubmit)');
             scope.setExtra('participantIds', participantIds);
-            scope.setExtra('body', JSON.stringify(body));
+            // unsure about stringify-ing FormData
+            scope.setExtra('body', JSON.stringify(singleForm));
           });
           Sentry.captureException(error);
         });
@@ -209,7 +213,7 @@ class ActionItemCreationPage extends React.Component {
         }),
       )
       .catch(error => {
-        Sentry.configureScope(function (scope) {
+        Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'ActionItemCreationPage');
           scope.setExtra('action', 'apiDelete');
           scope.setExtra('templateActionItemId', templateActionItem.id);
@@ -262,9 +266,7 @@ class ActionItemCreationPage extends React.Component {
       fileName: file ? files[files.length - 1].name : null,
     };
 
-
     if (saveToTemplates) {
-
       apiPost('/api/assignments/templates', { assignment: actionItem })
         .then(resp => {
           actionItem.id = resp.data.id;
@@ -273,7 +275,7 @@ class ActionItemCreationPage extends React.Component {
           }));
         })
         .catch(error => {
-          Sentry.configureScope(function (scope) {
+          Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'ActionItemCreationPage');
             scope.setExtra('action', 'apiPost (createActionItem)');
             scope.setExtra('template', JSON.stringify(actionItem));
@@ -283,6 +285,7 @@ class ActionItemCreationPage extends React.Component {
     }
 
     this.setState(prevState => ({
+      // probably should change as well
       selectedActionItems: [actionItem, ...prevState.selectedActionItems],
       actionItemTitle: '',
       actionItemDescription: '',
@@ -394,6 +397,7 @@ class ActionItemCreationPage extends React.Component {
             deleteTemplate={this.deleteTemplate}
             setFile={this.handleFile}
             handleOpenModal={this.handleOpenModal}
+            categories={this.props.categories}
           />
         );
         break;
@@ -618,17 +622,21 @@ class ActionItemCreationPage extends React.Component {
             type="edit"
           />
         ) : null}
-        {this.state.submissionStatus ? (
-          <LoadModal
-            status={this.state.submissionStatus}
-            handleClick={
-              this.state.submissionStatus === 'complete'
-                ? this.reloadPage
-                : this.handleSubmit
-            }
-          />
-        ) : null}
 
+        <LoadModal
+          open={this.state.submissionStatus !== null}
+          status={this.state.submissionStatus}
+          handleClick={
+            this.state.submissionStatus === 'complete'
+              ? this.reloadPage
+              : this.handleSubmit
+          }
+          handleClose={
+            this.state.submissionStatus === 'error'
+              ? this.handleExitSubmitModal
+              : null
+          }
+        />
         <Snackbar
           open={this.state.submitFailed}
           autoHideDuration={3000}
@@ -716,6 +724,7 @@ ActionItemCreationPage.propTypes = {
   templates: PropTypes.array.isRequired,
   statuses: PropTypes.object.isRequired,
   participants: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(ActionItemCreationPage);

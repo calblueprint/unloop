@@ -4,8 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :authenticate_user!
   before_action :set_raven_context
-  after_action :verify_authorized, except: :index, unless: :devise_controller?
-  after_action :verify_policy_scoped, only: :index
+  after_action :verify_authorized, unless: :devise_controller?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -22,7 +21,6 @@ class ApplicationController < ActionController::Base
         provider: current_user.provider,
         uid: current_user.uid,
         user_type: current_user.user_type,
-        admin: current_user.admin
       )
     end
   end

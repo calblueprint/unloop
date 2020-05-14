@@ -32,6 +32,7 @@ function ActionItemCreationContainer({
   deleteTemplate,
   setFile,
   handleOpenModal,
+  categories,
 }) {
   const [creationSetting, setCreationSetting] = useState(Setting.SCRATCH);
   const [addToTemplates, setAddToTemplates] = useState(false);
@@ -99,7 +100,8 @@ function ActionItemCreationContainer({
               addToTemplates={addToTemplates}
               setAddToTemplates={setAddToTemplates}
               createActionItem={createActionItem}
-              setFile ={setFile}
+              setFile={setFile}
+              categories={categories}
             />
           ) : (
             <AddFromExistingForm
@@ -109,6 +111,7 @@ function ActionItemCreationContainer({
               removeSelectedActionItem={removeSelectedActionItem}
               deleteTemplate={deleteTemplate}
               handleOpenModal={handleOpenModal}
+              categories={categories}
             />
           )}
         </Grid>
@@ -134,6 +137,8 @@ ActionItemCreationContainer.propTypes = {
   setCategory: PropTypes.func.isRequired,
   deleteTemplate: PropTypes.func.isRequired,
   handleOpenModal: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
+  setFile: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ActionItemCreationContainer);

@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :studio_assessments
   # Routes for Google authentication
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   get 'auth/:provider/callback', to: 'sessions#googleAuth'
@@ -12,11 +11,7 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  resources :assignments, :paperworks, :case_notes, :studio_assessments, :professional_questionnaires, :personal_questionnaires, only: [:index, :show, :new, :edit]
-
-  get '/assignments', to: 'assignments#index'
-
-  get '/studio_assessments', to: 'studio_assessments#index'
+  resources :assignments, :studio_assessments, only: :index
   
   resources :staffs, only: [] do
     collection do
@@ -35,22 +30,20 @@ Rails.application.routes.draw do
       patch 'complete', to: 'paperworks#complete', on: :member
       patch 'viewed', to: 'paperworks#viewed', on: :member
     end
-    resources :case_notes, only: [:show, :create, :update, :destroy] do
+    resources :case_notes, only: [:create, :update, :destroy] do
       patch 'not_visible', to: 'case_notes#not_visible', on: :member
     end
 
     scope '/assignments' do
       post 'templates', to: 'assignments#create_template'
-      get 'templates', to: 'assignments#get_templates'
       patch 'templates/:id', to: 'assignments#update_template'
-      get 'templates/:id', to: 'assignments#show_template'
       delete 'templates/:id', to: 'assignments#destroy_template'
     end
 
-    resources :studio_assessments, only: [:show, :create, :update, :destroy]
-    resources :assignments, only: [:show, :create, :update, :destroy]
-    resources :professional_questionnaires, only: [:show, :create, :update, :destroy]
-    resources :personal_questionnaires, only: [:show, :create, :update, :destroy]
+    resources :studio_assessments, only: [:create, :update, :destroy]
+    resources :assignments, only: [:create, :update, :destroy]
+    resources :professional_questionnaires, only: [:create, :update, :destroy]
+    resources :personal_questionnaires, only: [:create, :update, :destroy]
     
     resources :participants, only: [] do
       collection do
@@ -59,6 +52,6 @@ Rails.application.routes.draw do
     end
     
   end
-
+  # This is root path
   root 'pages#dashboard'
 end
