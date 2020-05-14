@@ -4,6 +4,7 @@ class ApplicationPolicy
   # In your controller, Pundit will call the current_user method
   #  to retrieve what to send into the argument
   def initialize(user, resource)
+    raise Pundit::NotAuthorizedError, "must be logged in" unless user
     @user = user
     @resource = resource
   end
@@ -35,8 +36,7 @@ class ApplicationPolicy
   def destroy?
     false
   end
-
-
+  
   class Scope
     attr_reader :user, :scope
 

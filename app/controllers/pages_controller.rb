@@ -1,15 +1,16 @@
 class PagesController < ApplicationController
   def dashboard
-    path =  case current_user.user_type
+    @user = current_user
+
+    path = case @user.user_type
             when 'staff'
-              @user = current_user
               @participants = Participant.all
               @participants_list = []
               @participants.each do |p|
                 if p.personal_questionnaire.nil?
                     PersonalQuestionnaire.create("participant_id": p.id)
                 end
-              d = {"name" => p.full_name, 
+                d = {"name" => p.full_name, 
                     "status" => p.status, 
                     "id" => p.id, 
                     "case_notes_count" => p.case_notes.length, 
@@ -24,10 +25,10 @@ class PagesController < ApplicationController
               authorize Staff
               dashboard_staffs_path
             when 'participant'
-              @user = current_user
               @participant = @user.participant
-              @paperworks = @user.participant.paperworks
-              @case_notes = @user.participant.case_notes.where(visible: true)
+              @paperworks =  policy_scope(Paperwork)
+              @case_notes = policy_scope(CaseNote)
+              @studio_assessments = policy_scope(StudioAssessment)
               @assignments = @participant.assignments
 
               @assignment_list = []
@@ -47,21 +48,20 @@ class PagesController < ApplicationController
                 @assignment_list.push(complete_assignment)
               end
 
-              @studio_assessments = @user.participant.studio_assessments            
-
               if @participant.personal_questionnaire.nil?
-                @personal_questionnaire = PersonalQuestionnaire.create("participant_id": @participant.id)
+                personal_q = PersonalQuestionnaire.create("participant_id": @participant.id)
               else
-                @personal_questionnaire = @participant.personal_questionnaire
+                personal_q = authorize @participant.personal_questionnaire, policy_class: QuestionnairePolicy
               end
+              @personal_questionnaire = PersonalQuestionnaireSerializer.new(personal_q)
           
+              
               if @participant.professional_questionnaire.nil?
-                @professional_questionnaire = ProfessionalQuestionnaire.create("participant_id": @participant.id)
+                professional_q = ProfessionalQuestionnaire.create("participant_id": @participant.id)
               else
-                @professional_questionnaire = @participant.professional_questionnaire
+                professional_q = authorize @participant.professional_questionnaire, policy_class: QuestionnairePolicy
               end
-
-              @studio_assessments = @participant.studio_assessments
+              @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
 
               authorize Participant
               dashboard_participants_path

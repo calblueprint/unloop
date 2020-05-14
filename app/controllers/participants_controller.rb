@@ -4,26 +4,25 @@ class ParticipantsController < ApplicationController
   def show
     # Run this method when we're a staff
     @participant = authorize Participant.find(params[:id])
-    @paperworks = @participant.paperworks
-    @case_notes = @participant.case_notes
-    @assignments = @participant.assignments
-    @studio_assessments = @participant.studio_assessments
+    @paperworks = authorize @participant.paperworks
+    @case_notes = authorize @participant.case_notes
+    @studio_assessments = authorize @participant.studio_assessments
 
     if @participant.personal_questionnaire.nil?
       personal_q = PersonalQuestionnaire.create("participant_id": @participant.id)
     else
-      personal_q = @participant.personal_questionnaire
+      personal_q = authorize @participant.personal_questionnaire, policy_class: QuestionnairePolicy
     end
     @personal_questionnaire = PersonalQuestionnaireSerializer.new(personal_q)
 
     if @participant.professional_questionnaire.nil?
       professional_q = ProfessionalQuestionnaire.create("participant_id": @participant.id)
     else
-      professional_q = @participant.professional_questionnaire
+      professional_q = authorize @participant.professional_questionnaire, policy_class: QuestionnairePolicy
     end
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
-    @studio_assessments = @participant.studio_assessments
 
+    @assignments = @participant.assignments
     @assignment_list = []
     @assignments.each do |a|
       action_item = ActionItem.where(id: a.action_item_id).first
@@ -43,8 +42,9 @@ class ParticipantsController < ApplicationController
     
   end
 
+
   def dashboard
-    # Run this method when we're a participant
+    skip_authorization
     redirect_to root_path
   end
 

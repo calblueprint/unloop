@@ -28,11 +28,18 @@ const styles = () => ({
     color: '#ffffff',
     paddingTop: 24,
   },
-  unloopLogo: {
+  blueprintLogo: {
     width: '100%',
     height: 'auto',
     objectFit: 'contain',
-    overflowX: 'hidden',
+  },
+  unloopLogo: {
+    width: '75%',
+    objectFit: 'contain',
+    // Needed to center logo because grid item not wrapping to size of image
+    display: 'flex',
+    position: 'relative',
+    left: '10px',
   },
   navText: {
     paddingLeft: 4,

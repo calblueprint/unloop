@@ -1,5 +1,5 @@
 class Api::StudioAssessmentsController < ApplicationController
-    before_action :set_studio_assessment, only: [:show, :update, :destroy]
+    before_action :set_studio_assessment, only: [:update, :destroy]
     respond_to :json
 
     def create
@@ -15,10 +15,6 @@ class Api::StudioAssessmentsController < ApplicationController
 
     def user_not_authorized
         render json: { error: 'You are not authorized to perform this action' }, status: :unauthorized
-    end
-    
-    def show
-        render json: @studio_assessment
     end
     
     def update
