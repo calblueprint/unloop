@@ -422,129 +422,75 @@ class ActionItemCreationPage extends React.Component {
 
   getButtons(stepSize) {
     const { classes } = this.props;
-
+    let leftButtonText;
+    let rightButtonText;
+    let handleLeftButtonClick;
+    let handleRightButtonClick;
     switch (stepSize) {
       case 0:
-        return (
-          <Grid
-            container
-            item
-            direction="row-reverse"
-            alignItems="center"
-            spacing={3}
-          >
-            <Grid item>
-              <Fab
-                className={classes.iconStyle}
-                component="span"
-                variant="extended"
-                size="medium"
-                aria-label="category"
-                onClick={this.nextStep}
-              >
-                <Typography
-                  className={classes.categoryButtonStyle}
-                  align="center"
-                >
-                  SAVE & CONTINUE
-                </Typography>
-              </Fab>
-            </Grid>
-          </Grid>
-        );
+        leftButtonText = null;
+        handleLeftButtonClick = null;
+        rightButtonText = 'SAVE & CONTINUE';
+        handleRightButtonClick = this.nextStep;
+        break;
       case 1:
-        return (
-          <Grid
-            container
-            item
-            direction="row-reverse"
-            alignItems="center"
-            spacing={3}
-          >
-            <Grid item>
-              <Fab
-                className={classes.iconStyle}
-                component="span"
-                variant="extended"
-                size="medium"
-                aria-label="category"
-                onClick={this.nextStep}
-              >
-                <Typography
-                  className={classes.categoryButtonStyle}
-                  align="center"
-                >
-                  SAVE & CONTINUE
-                </Typography>
-              </Fab>
-            </Grid>
-            <Grid item>
-              <Fab
-                className={classes.iconStyle}
-                component="span"
-                variant="extended"
-                size="medium"
-                aria-label="category"
-                onClick={this.prevStep}
-              >
-                <Typography
-                  className={classes.categoryButtonStyle}
-                  align="center"
-                >
-                  BACK
-                </Typography>
-              </Fab>
-            </Grid>
-          </Grid>
-        );
+        leftButtonText = 'BACK';
+        handleLeftButtonClick = this.prevStep;
+        rightButtonText = 'SAVE & CONTINUE';
+        handleRightButtonClick = this.nextStep;
+        break;
       case 2:
-        return (
-          <Grid
-            container
-            item
-            direction="row-reverse"
-            alignItems="center"
-            spacing={3}
-          >
-            <Grid item>
-              <Fab
-                className={classes.iconStyle}
-                component="span"
-                variant="extended"
-                size="medium"
-                aria-label="category"
-                onClick={this.handleSubmit}
-              >
-                <Typography
-                  className={classes.categoryButtonStyle}
-                  align="center"
-                >
-                  ASSIGN
-                </Typography>
-              </Fab>
-            </Grid>
-            <Grid item>
-              <Fab
-                className={classes.iconStyle}
-                component="span"
-                variant="extended"
-                size="medium"
-                aria-label="category"
-                onClick={this.prevStep}
-              >
-                <Typography
-                  className={classes.categoryButtonStyle}
-                  align="center"
-                >
-                  BACK
-                </Typography>
-              </Fab>
-            </Grid>
-          </Grid>
-        );
+        leftButtonText = 'BACK';
+        handleLeftButtonClick = this.prevStep;
+        rightButtonText = 'ASSIGN';
+        handleRightButtonClick = this.handleSubmit;
+        break;
       default:
-        return null;
+        leftButtonText = null;
+        handleLeftButtonClick = null;
+        rightButtonText = null;
+        handleRightButtonClick = null;
     }
+
+    const leftButton = (
+      <Grid item>
+        <Fab
+          className={classes.iconStyle}
+          component="span"
+          variant="extended"
+          size="medium"
+          aria-label="category"
+          onClick={handleLeftButtonClick}
+        >
+          <Typography className={classes.categoryButtonStyle} align="center">
+            {leftButtonText}
+          </Typography>
+        </Fab>
+      </Grid>
+    );
+    const rightButton = (
+      <Grid item>
+        <Fab
+          className={classes.iconStyle}
+          component="span"
+          variant="extended"
+          size="medium"
+          aria-label="category"
+          onClick={handleRightButtonClick}
+        >
+          <Typography className={classes.categoryButtonStyle} align="center">
+            {rightButtonText}
+          </Typography>
+        </Fab>
+      </Grid>
+    );
+
+    return (
+      <Grid container item alignItems="center" justify="flex-end" spacing={3}>
+        {stepSize !== 0 ? leftButton : null}
+        {rightButton}
+      </Grid>
+    );
   }
 
   render() {
