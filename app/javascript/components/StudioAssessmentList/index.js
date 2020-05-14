@@ -19,15 +19,13 @@ function StudioAssessmentList({
   userType,
 }) {
   const [studioAssessments] = useState(initialStudioAssessments);
-  
+
   const studioAssessmentEntries = studioAssessments.map(studioAssessment => (
     <div key={studioAssessment.id}>
       <Container style={{ padding: '0px' }}>
         <Paper style={{ marginTop: '10px', borderRadius: '10px' }}>
           <div className={classes.paddingBox}>
-            {/* The following line renders the date the studio assessment was created at as the title, but might not be what we want to render here */}
             <h3>{formatDate(studioAssessment.created_at)}</h3>
-            {/* Only admins can edit the different studioAssessments */}
             {userType !== 'participant' ? (
               <StudioAssessmentModal
                 studioAssessment={studioAssessment}
@@ -38,7 +36,6 @@ function StudioAssessmentList({
             ) : (
               <div />
             )}
-            {/* Everyone should be able to view */}
             <StudioAssessmentModal
               studioAssessment={studioAssessment}
               userType={userType}
@@ -52,13 +49,6 @@ function StudioAssessmentList({
   ));
 
   return (
-    // This should render similarly to Paperwork notes
-
-    // 1. Title Bar (without surrounding box, maybe like CaseNotes?)
-    // 2. Render new assessment button if the current user is a 'staff'
-    // 3. List out all the cards, but only let staff modify the modal. Participants
-    //    can only view (similar to how questionaires look for participants)
-
     <div className={classes.containerStyle}>
       <Grid
         container

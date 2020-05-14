@@ -33,19 +33,6 @@ class ParticipantShowPage extends React.Component {
     return `${month.toString()}/${dt.toString()}/${year.toString()}`;
   };
 
-  sampleActionItem = [
-    {
-      id: 13,
-      title: 'panel',
-      description:
-        'Try to synthesize the XSS panel, maybe it will input the open-source hard drive!',
-      is_template: false,
-      created_at: '2020-04-17 02:07:27',
-      updated_at: '2020-04-17 02:07:27',
-      category: 'Community',
-    },
-  ];
-
   render() {
     const {
       userType,

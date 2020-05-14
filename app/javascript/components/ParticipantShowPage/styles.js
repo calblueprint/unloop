@@ -15,7 +15,6 @@ const styles = theme => ({
   },
   rightHalf: {
     paddingLeft: 40,
-    // paddingRight: 28,
     paddingTop: 20,
     width: '50%',
     height: 'max(100%, 100vh)',
