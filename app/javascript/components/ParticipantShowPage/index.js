@@ -68,7 +68,7 @@ class ParticipantShowPage extends React.Component {
               spacing={2}
             >
               <Grid item xs={9}>
-                <Typography variant="h2">{fullName}</Typography>
+                <Typography variant="h3">{fullName}</Typography>
               </Grid>
               <Grid item xs={1}>
                 <Avatar className={classes.avatarStyle}>
