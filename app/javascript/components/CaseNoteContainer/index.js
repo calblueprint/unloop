@@ -152,10 +152,10 @@ class CaseNoteContainer extends React.Component {
                 </Grid>
                 <div
                   style={{
-                    height: '40vh',
+                    padding: '10px',
+                    height: '70vh',
                     overflowX: 'hidden',
                     overflowY: 'scroll',
-                    // overflow: 'scroll',
                   }}
                 >
                   {this.renderCaseNoteCards()}

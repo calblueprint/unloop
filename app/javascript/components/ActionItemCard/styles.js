@@ -34,8 +34,6 @@ const styles = theme => ({
   },
   iconStyle: {
     color: theme.palette.common.r0,
-    // marginLeft: '400%', // Push the chevron button all the way to the right
-    // height: 30,
     minWidth: '13px',
     minHeight: '23px',
   },
