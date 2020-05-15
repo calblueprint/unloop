@@ -1,3 +1,18 @@
+/* 
+ * This is the root component for every page in the app. It contains the navigation bar.
+ *
+ * Authors - Divi Schmidt, Alison Dowski, Joelene Latief, Julian Kung, 
+ *           Erin Song, Fredrick Kim, Calvin Chen, Kyle Hua, Christopher Grey
+ * 
+ * integration@calblueprint.org 
+ * Blueprint, Technology for Nonprofits (C) 2020
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the MIT License. See the MIT License for more details.
+ * You should have received a copy of the MIT License along with 
+ * this program. 
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';

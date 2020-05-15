@@ -62,7 +62,7 @@ function ActionItemForm({
                 color: failedSubmit && !categorySelected ? 'red' : 'black',
               }}
             >
-              CHOOSE CATEGORY
+              Choose Category
             </Grid>
             <Grid item container justify="center" spacing={1}>
               {categoryList.slice(0, 4)}

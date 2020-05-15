@@ -14,6 +14,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.common.lightestGrey,
     padding: '2%',
     minWidth: '950px',
+    maxHeight: '575px',
     borderRadius: theme.shape.borderRadius,
   },
   iconStyle: {
