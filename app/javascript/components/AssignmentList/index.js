@@ -288,6 +288,7 @@ class AssignmentList extends React.Component {
           description={assignment.description}
           category={assignment.category}
           selected={false} // Dummy prop for not rendering check or add icons
+          addBorderBottom={true}
           renderClose={false} // Don't render close icon in dashboard assignment list
           handleOpenModal={this.handleOpenModal(assignment)}
           dueDate={assignment.dueDate}
