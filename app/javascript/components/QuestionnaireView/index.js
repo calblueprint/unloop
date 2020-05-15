@@ -45,7 +45,7 @@ function QuestionnaireView({ classes, questionnaire, resumeURL }) {
   };
 
   const showUploadedFile = () => {
-    console.log(resumeURL);
+
     if (resumeURL) {
       return (
         <Grid item className={classes.field}>

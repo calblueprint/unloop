@@ -51,17 +51,6 @@ class ParticipantShowPage extends React.Component {
     } = this.props;
 
     console.log(userType);
-    console.log(paperworks);
-    console.log(participant);
-    console.log(status);
-    console.log(participantId);
-    console.log(personalQuestionnaire);
-    console.log(professionalQuestionnaire);
-    console.log(studioAssessments);
-    console.log(assignmentList);
-    console.log(resumeURL);
-
-
     return (
       <Grid
         container

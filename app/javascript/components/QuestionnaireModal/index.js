@@ -18,7 +18,7 @@ function QuestionnaireModal({
   const [open, setOpen] = useState(false);
   const qType =
     questionnaireType.charAt(0).toUpperCase() + questionnaireType.slice(1);
-  console.log(resumeURL);
+
   let content;
   if (userType === 'staff') {
     content = (

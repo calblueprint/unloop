@@ -30,7 +30,7 @@ class PagesController < ApplicationController
               @case_notes = policy_scope(CaseNote)
               @studio_assessments = policy_scope(StudioAssessment)
               @assignments = policy_scope(Assignment)
-
+              
               @assignment_list = []
               @assignments.each do |a|
                 action_item = ActionItem.where(id: a.action_item_id).first
@@ -64,7 +64,11 @@ class PagesController < ApplicationController
                 professional_q = authorize @participant.professional_questionnaire, policy_class: QuestionnairePolicy
               end
               @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
-
+              @resumeURL = nil
+              @resumeURL = nil
+              if (professional_q.resume.attached?)
+                @resumeURL = url_for(professional_q.resume)
+              end
               authorize Participant
               dashboard_participants_path
               
