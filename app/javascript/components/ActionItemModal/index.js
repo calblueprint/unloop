@@ -212,13 +212,9 @@ class ActionItemModal extends React.Component {
                 </Button>
                 <input
                   type="file"
-<<<<<<< HEAD
                   onChange={e =>
                     this.handleFileChange(e)
                   }
-=======
-                  onChange={e => this.props.handleFileChange(e, actionItem)}
->>>>>>> 789c1c1a902a45c24777279efda71b64288b4df5
                 />
               </Grid>
               <Grid item>
