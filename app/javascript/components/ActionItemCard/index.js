@@ -101,8 +101,9 @@ function ActionItemCard({
       .then(() => {
         if (userType === 'participant') {
           setCompletedParticipant(true);
+        } else {
+          setCompletedStaff(true);
         }
-        setCompletedStaff(true);
       })
       .catch(error => {
         Sentry.configureScope(function(scope) {
@@ -183,7 +184,7 @@ function ActionItemCard({
       <Grid
         container
         className={
-          completedParticipant && completedStaff
+          (completedParticipant && completedStaff)
             ? classes.disabledCardStyle
             : classes.cardStyle
         }
