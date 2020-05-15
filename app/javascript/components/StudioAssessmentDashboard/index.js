@@ -52,7 +52,7 @@ class StudioAssessmentDashboard extends React.Component {
     }
 
     this.setState({
-      assessments: assessments,
+      assessments,
       pageNo: 0,
     });
   }

@@ -49,7 +49,7 @@ class StaffDashboard extends React.Component {
     const participants = this.state.trie.get(searchVal);
     this.setState({
       participants,
-      pageNo: 0
+      pageNo: 0,
     });
   }
 
