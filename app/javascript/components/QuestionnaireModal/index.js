@@ -13,6 +13,7 @@ function QuestionnaireModal({
   participantId,
   questionnaireType,
   userType,
+  resumeURL,
 }) {
   const [open, setOpen] = useState(false);
   const qType =
@@ -26,6 +27,7 @@ function QuestionnaireModal({
         participantId={participantId}
         questionnaire={questionnaire}
         handleClose={() => setOpen(false)}
+        resumeURL={resumeURL}
       />
     );
   } else if (userType === 'participant') {
@@ -34,6 +36,7 @@ function QuestionnaireModal({
         type={questionnaireType}
         questionnaire={questionnaire}
         handleClose={() => setOpen(false)}
+        resumeURL={resumeURL}
       />
     );
   }

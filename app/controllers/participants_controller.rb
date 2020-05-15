@@ -21,7 +21,11 @@ class ParticipantsController < ApplicationController
       professional_q = authorize @participant.professional_questionnaire, policy_class: QuestionnairePolicy
     end
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
-
+    puts professional_q.resume
+    @resumeURL = nil
+    if (professional_q.resume.attached?)
+      @resumeURL = url_for(professional_q.resume)
+    end
     @assignments = @participant.assignments
     @assignment_list = []
     @assignments.each do |a|
