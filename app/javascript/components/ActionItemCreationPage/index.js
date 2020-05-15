@@ -158,7 +158,7 @@ class ActionItemCreationPage extends React.Component {
     }
   }
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     if (
       this.state.selectedParticipants.length === 0 ||
       this.state.selectedActionItems.length === 0
@@ -170,24 +170,24 @@ class ActionItemCreationPage extends React.Component {
       participant => participant.id,
     );
 
-    for (let i = 0; i < this.state.selectedActionItems.length; i += 1) {
-      const firstActionItem = this.state.selectedActionItems[i];
-      const singleForm = new FormData();
-      singleForm.append('title', firstActionItem.title);
-      singleForm.append('description', firstActionItem.description);
-      singleForm.append('due_date', firstActionItem.dueDate);
-      singleForm.append('category', firstActionItem.category);
-      singleForm.append('file', this.state.files[firstActionItem.fileIndex]);
-      singleForm.append('participant_ids', participantIds);
-      this.setState({ submissionStatus: 'loading' });
-      apiPost('/api/assignments', singleForm)
-        .then(() =>
-          // TO CHANGE
-          this.setState({ submissionStatus: 'complete', submitFailed: false }),
-        )
-        .catch(error => {
-          this.setState({ submissionStatus: 'error' });
-          Sentry.configureScope(function (scope) {
+    this.setState({ submissionStatus: 'loading' });
+    const actionItemList = [...this.state.selectedActionItems];
+
+    // Wait until all http requests are done before rendering complete or error
+    await Promise.all(
+      actionItemList.map(async actionItem => {
+        const singleForm = new FormData();
+        singleForm.append('title', actionItem.title);
+        singleForm.append('description', actionItem.description);
+        singleForm.append('due_date', actionItem.dueDate);
+        singleForm.append('category', actionItem.category);
+        singleForm.append('file', this.state.files[actionItem.fileIndex]);
+        singleForm.append('participant_ids', participantIds);
+        try {
+          await apiPost('/api/assignments', singleForm);
+          this.removeSelectedActionItem(actionItem);
+        } catch (error) {
+          Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'ActionItemCreationPage');
             scope.setExtra('action', 'apiPost (handleSubmit)');
             scope.setExtra('participantIds', participantIds);
@@ -195,8 +195,15 @@ class ActionItemCreationPage extends React.Component {
             scope.setExtra('body', JSON.stringify(singleForm));
           });
           Sentry.captureException(error);
-        });
-    }
+        }
+      }),
+    );
+
+    // After Promise only error'd action items will be in selectedActionItems
+    this.setState(prevState => ({
+      submissionStatus:
+        prevState.selectedActionItems.length === 0 ? 'complete' : 'error',
+    }));
   };
 
   deleteTemplate(templateActionItem) {
@@ -213,7 +220,7 @@ class ActionItemCreationPage extends React.Component {
         }),
       )
       .catch(error => {
-        Sentry.configureScope(function (scope) {
+        Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'ActionItemCreationPage');
           scope.setExtra('action', 'apiDelete');
           scope.setExtra('templateActionItemId', templateActionItem.id);
@@ -275,7 +282,7 @@ class ActionItemCreationPage extends React.Component {
           }));
         })
         .catch(error => {
-          Sentry.configureScope(function (scope) {
+          Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'ActionItemCreationPage');
             scope.setExtra('action', 'apiPost (createActionItem)');
             scope.setExtra('template', JSON.stringify(actionItem));
