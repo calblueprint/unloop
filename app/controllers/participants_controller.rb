@@ -21,12 +21,13 @@ class ParticipantsController < ApplicationController
       professional_q = authorize @participant.professional_questionnaire, policy_class: QuestionnairePolicy
     end
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
-    puts professional_q.resume
+
     @resumeURL = nil
     if (professional_q.resume.attached?)
       @resumeURL = url_for(professional_q.resume)
     end
-    @assignments = @participant.assignments
+
+    @assignments = authorize @participant.assignments
     @assignment_list = []
     @assignments.each do |a|
       action_item = ActionItem.where(id: a.action_item_id).first
@@ -40,6 +41,8 @@ class ParticipantsController < ApplicationController
         "updated_at" => a.updated_at,
         "due_date" => a.due_date&.strftime("%Y-%m-%d"),
         "action_item_id" => a.action_item_id,
+        "completed_staff" => a.completed_staff,
+        "completed_participant" => a.completed_participant,
       }
       @assignment_list.push(complete_assignment)
     end

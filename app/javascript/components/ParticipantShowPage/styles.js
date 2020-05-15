@@ -14,14 +14,21 @@ const styles = theme => ({
     height: 'max(100%, 100vh)',
   },
   rightHalf: {
-    paddingLeft: 40,
+    paddingLeft: 28,
+    paddingRight: 28,
     paddingTop: 20,
     width: '50%',
     height: 'max(100%, 100vh)',
   },
   avatarStyle: {
-    width: 60,
-    height: 60,
+    width: 100,
+    height: 30,
+    borderRadius: 14,
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    lineHeight: '25px',
+    color: theme.palette.common.white,
+    fontSize: '18px',
     backgroundColor: ({ status }) => {
       switch (status.toUpperCase()) {
         case 'R0':

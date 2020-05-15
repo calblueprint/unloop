@@ -85,6 +85,8 @@ class AssignmentList extends React.Component {
       category: actionItem.category,
       description: actionItem.description,
       title: actionItem.title,
+      completedStaff: assignmentResponse.completed_staff,
+      completedParticipant: assignmentResponse.completed_participant,
       dueDate: assignmentResponse.due_date,
       id: assignmentResponse.id,
       isTemplate: false,
@@ -210,6 +212,9 @@ class AssignmentList extends React.Component {
         newAssignment.id = response.data[0].id;
         newAssignment.action_item_id = response.data[0].action_item.id;
         newAssignment.dueDate = response.data[0].due_date;
+        newAssignment.completedParticipant =
+          response.data[0].completed_participant;
+        newAssignment.completedStaff = response.data[0].completed_staff;
         this.appendStateAssignment(newAssignment);
       })
       .catch(error => {
@@ -284,10 +289,12 @@ class AssignmentList extends React.Component {
         <ActionItemCard
           userType={this.props.userType}
           key={assignment.id}
+          assignmentId={assignment.id}
           title={assignment.title}
           description={assignment.description}
           category={assignment.category}
           selected={false} // Dummy prop for not rendering check or add icons
+          addBorderBottom
           renderClose={false} // Don't render close icon in dashboard assignment list
           handleOpenModal={this.handleOpenModal(assignment)}
           dueDate={assignment.dueDate}
@@ -297,6 +304,8 @@ class AssignmentList extends React.Component {
           }}
           // This prop tells whether or not the assignments are being rendered from the participantShowPage
           participantShowPage
+          initialCompletedStaff={assignment.completedStaff}
+          initialCompletedParticipant={assignment.completedParticipant}
         />
       ));
       return assignmentCards;

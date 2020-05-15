@@ -4,7 +4,8 @@ class Assignment < ApplicationRecord
     belongs_to :participant
     
     validates :action_item, :staff_id, :participant_id, presence: true
-    validates :completed, inclusion: [true, false]
+    validates :completed_staff, inclusion: [true, false]
+    validates :completed_participant, inclusion: [true, false]
     validate :nontemplate_assignment, on: [:create, :update, :save]
 
     def cond_assignment_title

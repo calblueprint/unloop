@@ -49,6 +49,9 @@ Object.assign(defaultTheme, {
         borderBottom: `solid 1px ${theme.palette.common.lightGrey}`,
         borderRadius: '4px',
       },
+      hidePlaceholder: {
+        display: "block",
+      },
       editorContainer: {
         padding: '20px',
         overflow: 'auto',

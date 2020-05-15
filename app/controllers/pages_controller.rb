@@ -17,7 +17,7 @@ class PagesController < ApplicationController
                     "paperworks_count" => p.paperworks.length,
                     "paperworks_completed" => p.paperworks.where(agree: true).length,
                     "questionnaire_status" => completed(p),
-                    "assignments_completed" => p.assignments.where(completed: true).length,
+                    "assignments_completed" => p.assignments.where(completed_staff: true, completed_participant: true).length,
                     "assignments_count" => p.assignments.length,
                   }
                 @participants_list.push(d)
@@ -29,7 +29,7 @@ class PagesController < ApplicationController
               @paperworks =  policy_scope(Paperwork)
               @case_notes = policy_scope(CaseNote)
               @studio_assessments = policy_scope(StudioAssessment)
-              @assignments = @participant.assignments
+              @assignments = policy_scope(Assignment)
 
               @assignment_list = []
               @assignments.each do |a|
@@ -44,6 +44,8 @@ class PagesController < ApplicationController
                   "updated_at" => a.updated_at,
                   "due_date" => a.due_date&.strftime("%Y-%m-%d"),
                   "action_item_id" => a.action_item_id,
+                  "completed_staff" => a.completed_staff,
+                  "completed_participant" => a.completed_participant,
                 }
                 @assignment_list.push(complete_assignment)
               end
