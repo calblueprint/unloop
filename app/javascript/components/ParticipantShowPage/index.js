@@ -120,7 +120,7 @@ class ParticipantShowPage extends React.Component {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={5} className={classes.rightHalf}>
+        <Grid item className={classes.rightHalf}>
           <AssignmentList
             userType={userType}
             initialAssignments={assignmentList}
