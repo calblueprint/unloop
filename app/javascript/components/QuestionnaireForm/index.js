@@ -62,7 +62,7 @@ class QuestionnaireForm extends React.Component {
       apiPut(request, formData)
         .then(() => window.location.reload())
         .catch(error => {
-          Sentry.configureScope(function (scope) {
+          Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'QuestionnaireForm');
             scope.setExtra('action', 'apiPut');
             scope.setExtra('QuestionnaireForm', JSON.stringify(formData));
@@ -85,7 +85,7 @@ class QuestionnaireForm extends React.Component {
       apiPut(request, { [qType]: body })
         .then(() => window.location.reload())
         .catch(error => {
-          Sentry.configureScope(function (scope) {
+          Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'QuestionnaireForm');
             scope.setExtra('action', 'apiPut');
             scope.setExtra('QuestionnaireForm', body);
@@ -151,10 +151,13 @@ class QuestionnaireForm extends React.Component {
   }
 
   handleDateChange(date, fieldName) {
+    const shortDate = `${date.getMonth() +
+      1}-${date.getDate()}-${date.getFullYear()}`;
+
     this.setState(s => ({
       questionnaire: {
         ...s.questionnaire,
-        [fieldName]: date,
+        [fieldName]: shortDate,
       },
     }));
   }
@@ -346,12 +349,13 @@ class QuestionnaireForm extends React.Component {
             multiline
             type="text"
             margin="dense"
-            defaultValue={fieldValue}
-            maxRows={20}
+            value={fieldValue}
+            rowsMax={20}
           />
         </div>
       );
     }
+
     return (
       <div className={this.props.classes.questionnaireEntry}>
         <DialogContentText className={this.props.classes.questionnaireLabel}>
@@ -365,8 +369,8 @@ class QuestionnaireForm extends React.Component {
           multiline
           type="text"
           margin="dense"
-          defaultValue={fieldValue}
-          maxRows={20}
+          value={fieldValue}
+          rowsMax={20}
         />
       </div>
     );
@@ -385,6 +389,7 @@ class QuestionnaireForm extends React.Component {
             .replace('-', ' ')
             .replace('_', ' '),
         );
+
         if (f === 'emergency_contact_2_name') {
           sentenceCase = 'Second Emergency Contact (optional)';
         } else if (f === 'emergency_contact_2_phone_number') {
@@ -393,11 +398,7 @@ class QuestionnaireForm extends React.Component {
           sentenceCase = 'Second Emergency Contact Relationship (optional)';
         }
 
-        return (
-          <div key={f}>
-            {this.createTextForm(f, questionnaire[f], sentenceCase)}
-          </div>
-        );
+        return this.createTextForm(f, questionnaire[f], sentenceCase);
       });
       if (this.props.type === 'professional') {
         questionnaires.push(this.getFileUpload());
@@ -429,15 +430,12 @@ class QuestionnaireForm extends React.Component {
           View Uploaded File
         </Button>
       );
-    } else {
-      return (
-        <div>No File Uploaded</div>
-      )
     }
+    return <div>No File Uploaded</div>;
   }
 
   showSelectedFile() {
-    const file = this.state.file;
+    const { file } = this.state;
     if (file) {
       const objectURL = window.URL.createObjectURL(file);
       return (

@@ -71,7 +71,7 @@ class ParticipantShowPage extends React.Component {
               spacing={2}
             >
               <Grid item xs={9}>
-                <Typography variant="h2">{fullName}</Typography>
+                <Typography variant="h3">{fullName}</Typography>
               </Grid>
               <Grid item xs={1}>
                 <Avatar className={classes.avatarStyle}>
@@ -123,7 +123,7 @@ class ParticipantShowPage extends React.Component {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={5} className={classes.rightHalf}>
+        <Grid item className={classes.rightHalf}>
           <AssignmentList
             userType={userType}
             initialAssignments={assignmentList}

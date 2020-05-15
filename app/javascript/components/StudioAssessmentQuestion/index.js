@@ -22,7 +22,9 @@ class Question extends React.Component {
     this.state = {
       direction: 'back',
       studioAssessment,
+      loading: false,
     };
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSubmitFinal = this.handleSubmitFinal.bind(this);
     this.generateField = this.generateField.bind(this);
@@ -73,7 +75,12 @@ class Question extends React.Component {
     body.participant_id = this.props.participantId;
 
     if (this.props.type === 'create') {
+      this.setState({
+        loading: true,
+      });
+
       apiPost('/api/studio_assessments', { studio_assessment: body })
+        .then(() => this.setState({ loading: false }))
         .then(() => window.location.reload())
         .catch(error => {
           Sentry.configureScope(function(scope) {
@@ -143,7 +150,7 @@ class Question extends React.Component {
         null ? (
           <div>
             <h3>
-            Score:{' '}
+              Score:{' '}
               {this.state.studioAssessment[
                 `${this.props.questionType}_score`
               ].toString()}
@@ -240,6 +247,7 @@ class Question extends React.Component {
                   variant="contained"
                   color="secondary"
                   className={this.props.classes.button}
+                  disabled={this.state.loading}
                   onClick={this.handleSubmitFinal}
                 >
                   save and close
