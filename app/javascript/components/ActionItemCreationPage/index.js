@@ -30,7 +30,12 @@ class ActionItemCreationPage extends React.Component {
       actionItemDueDate: '',
       actionItemCategory: null,
       templateActionItems: this.props.templates,
+      // Submit failed occurs if ASSIGN is pressed without
+      // at least 1 assignment and 1 participant
       submitFailed: false,
+      // Submit errored occurs if API request to
+      // create assignment comes back with an error
+      submitErrored: false,
       selectedActionItems: [],
       files: [],
       hasFile: false,
@@ -200,10 +205,13 @@ class ActionItemCreationPage extends React.Component {
     );
 
     // After Promise only error'd action items will be in selectedActionItems
-    this.setState(prevState => ({
-      submissionStatus:
-        prevState.selectedActionItems.length === 0 ? 'complete' : 'error',
-    }));
+    this.setState(prevState => {
+      const allRequestsSuccessful = prevState.selectedActionItems.length === 0;
+      return {
+        submissionStatus: allRequestsSuccessful ? 'complete' : 'error',
+        submitErrored: !allRequestsSuccessful,
+      };
+    });
   };
 
   deleteTemplate(templateActionItem) {
@@ -316,7 +324,11 @@ class ActionItemCreationPage extends React.Component {
   }
 
   prevStep() {
-    this.setState(prevState => ({ step: prevState.step - 1 }));
+    // Clear any submit error text too
+    this.setState(prevState => ({
+      step: prevState.step - 1,
+      submitErrored: false,
+    }));
   }
 
   // Adds selected user to state to be displayed
@@ -432,7 +444,9 @@ class ActionItemCreationPage extends React.Component {
         break;
       case 2:
         leftComponentText = 'Review Students';
-        rightComponentText = 'Review Assignments';
+        rightComponentText = this.state.submitErrored
+          ? 'Failed Assignments'
+          : 'Review Assignments';
         headerText = 'Review and Assign';
 
         leftComponent = (
@@ -522,6 +536,7 @@ class ActionItemCreationPage extends React.Component {
       headerText,
     } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
+
     return (
       <div>
         {this.state.viewMoreModalOpen ? (
@@ -558,11 +573,16 @@ class ActionItemCreationPage extends React.Component {
           handleClick={
             this.state.submissionStatus === 'complete'
               ? this.reloadPage
-              : this.handleSubmit
+              : this.handleExitSubmitModal
           }
           handleClose={
             this.state.submissionStatus === 'error'
               ? this.handleExitSubmitModal
+              : null
+          }
+          errorCount={
+            this.state.submissionStatus === 'error'
+              ? this.state.selectedActionItems.length
               : null
           }
         />
@@ -631,7 +651,10 @@ class ActionItemCreationPage extends React.Component {
                   {leftComponent}
                 </Grid>
                 <Grid item>
-                  <Typography className={classes.underlineStyle}>
+                  <Typography
+                    className={classes.underlineStyle}
+                    style={{ color: this.state.submitErrored ? 'red' : null }}
+                  >
                     {rightComponentText}
                   </Typography>
                   <hr className={classes.borderStyle}></hr>
