@@ -22,6 +22,11 @@ class ParticipantsController < ApplicationController
     end
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
 
+    @resumeURL = nil
+    if (professional_q.resume.attached?)
+      @resumeURL = url_for(professional_q.resume)
+    end
+
     @assignments = authorize @participant.assignments
     @assignment_list = []
     @assignments.each do |a|
@@ -54,6 +59,12 @@ class ParticipantsController < ApplicationController
 
   def set_participant
     @participant = authorize Participant.find(params[:id])
+    puts @participant.professional_questionnaire
+    @resumeURL = "https://guides.rubyonrails.org/routing.html"
+    if @participant.professional_questionnaire.nil? && @participant.professional_questionnaire.resume.attached?
+      puts url_for(@participant.professional_questionnaire.resume)
+      @resumeURL = url_for(@participant.professional_questionnaire.resume)
+    end
   rescue ActiveRecord::RecordNotFound => exception
     Raven.extra_context(participant_id: params[:id])
     Raven.capture_exception(exception)

@@ -13,11 +13,12 @@ function QuestionnaireModal({
   participantId,
   questionnaireType,
   userType,
+  resumeURL,
 }) {
   const [open, setOpen] = useState(false);
   const qType =
     questionnaireType.charAt(0).toUpperCase() + questionnaireType.slice(1);
-
+  console.log(resumeURL);
   let content;
   if (userType === 'staff') {
     content = (
@@ -26,6 +27,7 @@ function QuestionnaireModal({
         participantId={participantId}
         questionnaire={questionnaire}
         handleClose={() => setOpen(false)}
+        resumeURL={resumeURL}
       />
     );
   } else if (userType === 'participant') {
@@ -34,6 +36,7 @@ function QuestionnaireModal({
         type={questionnaireType}
         questionnaire={questionnaire}
         handleClose={() => setOpen(false)}
+        resumeURL={resumeURL}
       />
     );
   }
@@ -41,7 +44,7 @@ function QuestionnaireModal({
   return (
     <>
       <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
-        {qType} INTAKE FORM
+        {qType} INTAKE FORM
       </Button>
       <Dialog
         open={open}

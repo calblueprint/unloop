@@ -27,7 +27,9 @@ import styles from './styles';
 class QuestionnaireForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      file: null,
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -46,28 +48,52 @@ class QuestionnaireForm extends React.Component {
   }
 
   handleSubmit() {
-    const qType = `${this.props.type}_questionnaire`;
-    const body = {};
+    if (this.props.type === 'professional') {
+      const qType = `${this.props.type}_questionnaire`;
+      const formData = new FormData();
 
-    Object.keys(this.state.questionnaire).forEach(f => {
-      body[f] = this.state.questionnaire[f];
-    });
-    body.participant_id = this.props.participantId;
-
-    const { id } = this.props.questionnaire;
-    const request = `/api/${qType}s/${id}`;
-
-    apiPut(request, { [qType]: body })
-      .then(() => window.location.reload())
-      .catch(error => {
-        Sentry.configureScope(function(scope) {
-          scope.setExtra('file', 'QuestionnaireForm');
-          scope.setExtra('action', 'apiPut');
-          scope.setExtra('QuestionnaireForm', body);
-          scope.setExtra('qType', qType);
-        });
-        Sentry.captureException(error);
+      Object.keys(this.state.questionnaire).forEach(f => {
+        formData.append(`${qType}[${f}]`, this.state.questionnaire[f]);
       });
+      formData.append(`${qType}[resume]`, this.state.file);
+      formData.append(`${qType}[participant_id]`, this.props.participantId);
+      const { id } = this.props.questionnaire;
+      const request = `/api/${qType}s/${id}`;
+      apiPut(request, formData)
+        .then(() => window.location.reload())
+        .catch(error => {
+          Sentry.configureScope(function (scope) {
+            scope.setExtra('file', 'QuestionnaireForm');
+            scope.setExtra('action', 'apiPut');
+            scope.setExtra('QuestionnaireForm', JSON.stringify(formData));
+            scope.setExtra('qType', qType);
+          });
+          Sentry.captureException(error);
+        });
+    } else {
+      const qType = `${this.props.type}_questionnaire`;
+      const body = {};
+
+      Object.keys(this.state.questionnaire).forEach(f => {
+        body[f] = this.state.questionnaire[f];
+      });
+      body.participant_id = this.props.participantId;
+
+      const { id } = this.props.questionnaire;
+      const request = `/api/${qType}s/${id}`;
+
+      apiPut(request, { [qType]: body })
+        .then(() => window.location.reload())
+        .catch(error => {
+          Sentry.configureScope(function (scope) {
+            scope.setExtra('file', 'QuestionnaireForm');
+            scope.setExtra('action', 'apiPut');
+            scope.setExtra('QuestionnaireForm', body);
+            scope.setExtra('qType', qType);
+          });
+          Sentry.captureException(error);
+        });
+    }
   }
 
   handleTextFormChange(e) {
@@ -139,6 +165,23 @@ class QuestionnaireForm extends React.Component {
   createTextForm(fieldName, fieldValue, contentText) {
     // content text is prompt/title for the text box
     // field name is the name of the field that will be filled in the database
+    if (fieldValue === null || fieldValue === 'null') {
+      return (
+        <div className={this.props.classes.questionnaireEntry}>
+          <DialogContentText>{contentText}</DialogContentText>
+          <TextField
+            className={`${this.props.classes.dialogContentTextField} ${this.props.classes.questionnaireTextField}`}
+            onChange={e => this.handleTextFormChange(e)}
+            variant="outlined"
+            id={fieldName}
+            multiline
+            type="text"
+            margin="dense"
+            maxRows={20}
+          />
+        </div>
+      );
+    }
     if (fieldName === 'DOC_status') {
       return (
         <div className={this.props.classes.questionnaireEntry}>
@@ -357,7 +400,52 @@ class QuestionnaireForm extends React.Component {
 
         return this.createTextForm(f, questionnaire[f], sentenceCase);
       });
+      if (this.props.type === 'professional') {
+        questionnaires.push(this.getFileUpload());
+      }
+      if (this.props.type === 'personal') {
+        questionnaires.push(this.showUploadedFile);
+      }
       return <div className={styles.container}>{questionnaires}</div>;
+    }
+  }
+
+  getFileUpload() {
+    return (
+      <div>
+        <DialogContentText>Upload Resume</DialogContentText>
+        {this.showUploadedFile()}
+        {this.showSelectedFile()}
+        <input
+          type="file"
+          onChange={event => {
+            this.setState({ file: event.target.files[0] });
+          }}
+        />
+      </div>
+    );
+  }
+
+  showUploadedFile() {
+    if (this.props.resumeURL) {
+      return (
+        <Button onClick={() => window.open(this.props.resumeURL, '_blank')}>
+          View Uploaded Resume
+        </Button>
+      );
+    }
+    return (<div>No Resume Uploaded</div>);
+  }
+
+  showSelectedFile() {
+    const { file } = this.state;
+    if (file) {
+      const objectURL = window.URL.createObjectURL(file);
+      return (
+        <Button onClick={() => window.open(objectURL, '_blank')}>
+          View Selected File
+        </Button>
+      );
     }
   }
 

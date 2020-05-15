@@ -47,7 +47,20 @@ class ParticipantShowPage extends React.Component {
       professionalQuestionnaire,
       studioAssessments,
       assignmentList,
+      resumeURL,
     } = this.props;
+
+    console.log(userType);
+    console.log(paperworks);
+    console.log(participant);
+    console.log(status);
+    console.log(participantId);
+    console.log(personalQuestionnaire);
+    console.log(professionalQuestionnaire);
+    console.log(studioAssessments);
+    console.log(assignmentList);
+    console.log(resumeURL);
+
 
     return (
       <Grid
@@ -90,6 +103,7 @@ class ParticipantShowPage extends React.Component {
                   questionnaireType="personal"
                   participantId={participantId}
                   questionnaire={personalQuestionnaire}
+                  resumeURL={resumeURL}
                 />
               </Grid>
               <Grid item>
@@ -98,6 +112,7 @@ class ParticipantShowPage extends React.Component {
                   questionnaireType="professional"
                   participantId={participantId}
                   questionnaire={professionalQuestionnaire}
+                  resumeURL={resumeURL}
                 />
               </Grid>
             </Grid>
