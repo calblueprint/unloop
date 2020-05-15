@@ -411,6 +411,7 @@ class QuestionnaireForm extends React.Component {
       <div>
         <DialogContentText>Upload Resume</DialogContentText>
         {this.showUploadedFile()}
+        {this.showSelectedFile()}
         <input
           type="file"
           onChange={event => {
@@ -432,6 +433,18 @@ class QuestionnaireForm extends React.Component {
       return (
         <div>No File Uploaded</div>
       )
+    }
+  }
+
+  showSelectedFile() {
+    const file = this.state.file;
+    if (file) {
+      const objectURL = window.URL.createObjectURL(file);
+      return (
+        <Button onClick={() => window.open(objectURL, '_blank')}>
+          View Selected File
+        </Button>
+      );
     }
   }
 
