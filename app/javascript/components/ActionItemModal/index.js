@@ -189,16 +189,17 @@ class ActionItemModal extends React.Component {
           <DialogActions disableSpacing>
             <Grid container justify="flex-end" alignItems="center">
               <Grid item>
-                <Button className={classes.checkboxTextStyle} onClick={this.showFile}>
+                <Button
+                  className={classes.checkboxTextStyle}
+                  onClick={this.showFile}
+                >
                   {actionItem.fileName
                     ? actionItem.fileName
                     : 'No file currently uploaded'}
                 </Button>
                 <input
                   type="file"
-                  onChange={e =>
-                    this.props.handleFileChange(e, actionItem)
-                  }
+                  onChange={e => this.props.handleFileChange(e, actionItem)}
                 />
               </Grid>
               <Grid item>

@@ -80,9 +80,7 @@ function Main(props) {
       case 'Assessments':
         return <BarChartIcon />;
       default:
-        return
     }
-    return
   };
 
   const getButton = (name, route) => (
@@ -128,9 +126,7 @@ function Main(props) {
           <ActionItemCreationPage {...contentProps}></ActionItemCreationPage>
         );
       default:
-        return
     }
-    return
   };
 
   return (

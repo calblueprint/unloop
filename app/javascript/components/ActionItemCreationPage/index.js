@@ -188,7 +188,7 @@ class ActionItemCreationPage extends React.Component {
         )
         .catch(error => {
           this.setState({ submissionStatus: 'error' });
-          Sentry.configureScope(function (scope) {
+          Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'ActionItemCreationPage');
             scope.setExtra('action', 'apiPost (handleSubmit)');
             scope.setExtra('participantIds', participantIds);
@@ -214,7 +214,7 @@ class ActionItemCreationPage extends React.Component {
         }),
       )
       .catch(error => {
-        Sentry.configureScope(function (scope) {
+        Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'ActionItemCreationPage');
           scope.setExtra('action', 'apiDelete');
           scope.setExtra('templateActionItemId', templateActionItem.id);
@@ -276,7 +276,7 @@ class ActionItemCreationPage extends React.Component {
           }));
         })
         .catch(error => {
-          Sentry.configureScope(function (scope) {
+          Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'ActionItemCreationPage');
             scope.setExtra('action', 'apiPost (createActionItem)');
             scope.setExtra('template', JSON.stringify(actionItem));
