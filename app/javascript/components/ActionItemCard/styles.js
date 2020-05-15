@@ -11,11 +11,22 @@ const styles = theme => ({
   },
   cardStyle: {
     width: '100%',
-    height: '140px',
+    minHeight: '140px',
     padding: '8px',
     margin: '10px 0px',
     boxShadow: 'none',
     backgroundColor: theme.palette.common.white,
+    borderRadius: theme.shape.borderRadius,
+    borderBottom: ({ addBorderBottom }) =>
+      addBorderBottom ? `.75px solid ${theme.palette.common.lightGrey}` : '0px',
+  },
+  disabledCardStyle: {
+    width: '100%',
+    minHeight: '140px',
+    padding: '8px',
+    margin: '10px 0px',
+    boxShadow: 'none',
+    backgroundColor: '#f1f8e9',
     borderRadius: theme.shape.borderRadius,
     borderBottom: ({ addBorderBottom }) =>
       addBorderBottom ? `.75px solid ${theme.palette.common.lightGrey}` : '0px',

@@ -12,11 +12,15 @@ class AssignmentPolicy < ApplicationPolicy
     end
 
     def show?
-        staff? or (user.participant? and (user.id == resource.participant.id))
+        staff? or (user.participant? and (user.participant.id == resource.participant.id))
     end
 
     def index?
       staff?
+    end
+
+    def complete?
+      staff? or (user.participant? and (user.participant.id == resource.participant.id))
     end
 
     class Scope < Scope

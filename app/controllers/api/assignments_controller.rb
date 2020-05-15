@@ -1,5 +1,5 @@
 class Api::AssignmentsController < ApplicationController
-    before_action :set_assignment, only: [:update, :destroy]
+    before_action :set_assignment, only: [:update, :destroy, :complete]
     before_action :set_template, only: [:update_template, :destroy_template]
     respond_to :json
 
@@ -62,6 +62,7 @@ class Api::AssignmentsController < ApplicationController
 
         @assignment.assign_attributes(assignment_params)
         action_item.assign_attributes(action_item_params)
+
         if (action_item.valid? && @assignment.valid?) && (action_item.save && @assignment.save)
             if action_item_copied
                 @assignment.update(action_item: action_item)
@@ -120,6 +121,27 @@ class Api::AssignmentsController < ApplicationController
         end
     end
 
+    def complete
+        authorize @assignment
+        if current_user.user_type === 'staff'
+            if @assignment.update(completed_staff: true)
+                render json: @assignment, status: :ok
+            else
+                Raven.capture_message("Failed to mark as completed by participant")
+                render json: { error: 'Failed to mark as completed by participant' }, status: :unprocessable_entity
+            end
+        end
+
+        if current_user.user_type === 'participant'
+            if @assignment.update(completed_participant: true)
+                render json: @assignment, status: :ok
+            else
+                Raven.capture_message("Failed to mark as completed by participant")
+                render json: { error: 'Failed to mark as completed by participant' }, status: :unprocessable_entity
+            end
+        end
+    end
+
     private
     
     def set_template
@@ -157,7 +179,8 @@ class Api::AssignmentsController < ApplicationController
                                     action_item_id: action_item.id,
                                     staff_id: current_user.staff.id,
                                     due_date: due_date,
-                                    completed: false,
+                                    completed_participant: false,
+                                    completed_staff: false,
                                    }
         participant_ids.each do |id|
             assignment = Assignment.new(single_assignment_params.merge(participant_id: id))
@@ -179,7 +202,8 @@ class Api::AssignmentsController < ApplicationController
     def assignment_params
         assignment_param = params.require(:assignment).permit(:action_item_id,
                                                                :due_date,
-                                                               :completed)
+                                                               :completed_participant,
+                                                               :completed_staff)
         assignment_param.merge(staff_id: current_user.staff.id)
     end
 
