@@ -62,7 +62,7 @@ class QuestionnaireForm extends React.Component {
       apiPut(request, formData)
         .then(() => window.location.reload())
         .catch(error => {
-          Sentry.configureScope(function(scope) {
+          Sentry.configureScope(function (scope) {
             scope.setExtra('file', 'QuestionnaireForm');
             scope.setExtra('action', 'apiPut');
             scope.setExtra('QuestionnaireForm', JSON.stringify(formData));
@@ -85,7 +85,7 @@ class QuestionnaireForm extends React.Component {
       apiPut(request, { [qType]: body })
         .then(() => window.location.reload())
         .catch(error => {
-          Sentry.configureScope(function(scope) {
+          Sentry.configureScope(function (scope) {
             scope.setExtra('file', 'QuestionnaireForm');
             scope.setExtra('action', 'apiPut');
             scope.setExtra('QuestionnaireForm', body);
@@ -427,11 +427,11 @@ class QuestionnaireForm extends React.Component {
     if (this.props.resumeURL) {
       return (
         <Button onClick={() => window.open(this.props.resumeURL, '_blank')}>
-          View Uploaded File
+          View Uploaded Resume
         </Button>
       );
     }
-    return <div>No File Uploaded</div>;
+    return (<div>No Resume Uploaded</div>);
   }
 
   showSelectedFile() {

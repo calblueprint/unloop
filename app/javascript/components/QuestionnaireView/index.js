@@ -7,11 +7,11 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { DialogContent, Grid, Typography } from '@material-ui/core';
+import { DialogContent, Grid, Typography, Button } from '@material-ui/core';
 
 import styles from './styles';
 
-function QuestionnaireView({ classes, questionnaire }) {
+function QuestionnaireView({ classes, questionnaire, resumeURL }) {
   const renderField = (title, body) => {
     if (
       title === 'participant' ||
@@ -44,12 +44,33 @@ function QuestionnaireView({ classes, questionnaire }) {
     );
   };
 
+  const showUploadedFile = () => {
+
+    if (resumeURL) {
+      return (
+        <Grid item className={classes.field}>
+          <Typography variant="h6">Resume</Typography>
+          <Button onClick={() => window.open(resumeURL, '_blank')}>
+            View Uploaded Resume
+        </Button>
+        </Grid>
+      );
+    }
+    return (<Grid item className={classes.field}>
+      <Typography variant="h6">Resume</Typography>
+      <Button >
+        No Resume Uploaded
+   </Button>
+    </Grid>);
+  }
+
   return (
     <DialogContent>
       <Grid container direction="column">
         {Object.entries(questionnaire).map(field =>
           renderField(field[0], field[1]),
         )}
+        {showUploadedFile()}
       </Grid>
     </DialogContent>
   );
