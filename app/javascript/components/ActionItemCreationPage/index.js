@@ -147,16 +147,15 @@ class ActionItemCreationPage extends React.Component {
     }
   }
 
-  handleFileEdit(event, actionItem) {
+  handleFileEdit(event, boolean) {
     // Should remove the previous file instead of continually adding to an array
     const file = event.target.files[0];
     if (file) {
-      actionItem.fileIndex = this.state.files.length;
-      actionItem.fileName = file.name;
       this.setState(prevState => ({
         files: [...prevState.files, file],
       }));
     }
+    boolean = true;
   }
 
   handleSubmit = () => {

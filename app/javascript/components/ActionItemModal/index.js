@@ -24,6 +24,7 @@ class ActionItemModal extends React.Component {
         this.props.type === 'create' ? '' : this.props.categorySelected,
       dueDate: this.props.type === 'create' ? '' : this.props.dueDate,
       failedSubmit: false,
+      newFile: false,
     };
   }
 
@@ -40,10 +41,22 @@ class ActionItemModal extends React.Component {
     }
   };
 
+  updateFile() {
+    this.props.actionItem.fileIndex = this.props.files.length - 1;
+    this.props.actionItem.fileName = this.props.files[this.props.files.length - 1].name;
+  }
+
+  handleFileChange(e) {
+    this.props.handleFileChange(e);
+    this.setState({ newFile: true });
+  }
+
   handleSubmit = () => {
     const { participantId, actionItemId, actionItem } = this.props;
     const { title, description, categorySelected, dueDate } = this.state;
-
+    if (this.state.newFile) {
+      this.updateFile()
+    }
     if (title && description && categorySelected) {
       this.props.handleSubmit({
         title,
@@ -217,7 +230,7 @@ class ActionItemModal extends React.Component {
                 <input
                   type="file"
                   onChange={e =>
-                    this.props.handleFileChange(e, actionItem)
+                    this.handleFileChange(e)
                   }
                 />
               </Grid>
