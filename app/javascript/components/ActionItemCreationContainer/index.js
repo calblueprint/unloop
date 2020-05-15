@@ -33,7 +33,7 @@ function ActionItemCreationContainer({
   handleOpenModal,
   categories,
 }) {
-  const [creationSetting, setCreationSetting] = useState(Setting.SCRATCH);
+  const [creationSetting, setCreationSetting] = useState(Setting.TEMPLATE);
   const [addToTemplates, setAddToTemplates] = useState(false);
 
   const renderButtonRow = () => {
