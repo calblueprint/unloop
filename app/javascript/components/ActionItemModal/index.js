@@ -32,6 +32,14 @@ class ActionItemModal extends React.Component {
     this.setState({ [name]: value });
   };
 
+  showFile = () => {
+    if (this.props.actionItem.fileIndex != null) {
+      const file = this.props.files[this.props.actionItem.fileIndex];
+      const objectURL = window.URL.createObjectURL(file);
+      window.open(objectURL, '_blank');
+    }
+  };
+
   handleSubmit = () => {
     const { participantId, actionItemId, actionItem } = this.props;
     const { title, description, categorySelected, dueDate } = this.state;
@@ -201,9 +209,11 @@ class ActionItemModal extends React.Component {
           <DialogActions disableSpacing>
             <Grid container justify="flex-end" alignItems="center">
               <Grid item>
-                {actionItem.fileName
-                  ? actionItem.fileName
-                  : 'No file currently uploaded'}
+                <Button className={classes.checkboxTextStyle} onClick={this.showFile}>
+                  {actionItem.fileName
+                    ? actionItem.fileName
+                    : 'No file currently uploaded'}
+                </Button>
                 <input
                   type="file"
                   onChange={e =>
