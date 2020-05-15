@@ -17,7 +17,7 @@ class PagesController < ApplicationController
                     "paperworks_count" => p.paperworks.length,
                     "paperworks_completed" => p.paperworks.where(agree: true).length,
                     "questionnaire_status" => completed(p),
-                    "assignments_completed" => p.assignments.where(completed: true).length,
+                    "assignments_completed" => p.assignments.where(completed_staff: true, completed_participant: true).length,
                     "assignments_count" => p.assignments.length,
                   }
                 @participants_list.push(d)

@@ -19,6 +19,14 @@ class AssignmentPolicy < ApplicationPolicy
       staff?
     end
 
+    def staff_complete
+      staff?
+    end
+
+    def participant_complete
+      user.present? && user.participant?
+    end
+
     class Scope < Scope
       def resolve
         if user.staff?
