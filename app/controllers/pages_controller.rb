@@ -44,6 +44,8 @@ class PagesController < ApplicationController
                   "updated_at" => a.updated_at,
                   "due_date" => a.due_date&.strftime("%Y-%m-%d"),
                   "action_item_id" => a.action_item_id,
+                  "completed_staff" => a.completed_staff,
+                  "completed_participant" => a.completed_participant,
                 }
                 @assignment_list.push(complete_assignment)
               end

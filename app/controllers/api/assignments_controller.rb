@@ -1,5 +1,5 @@
 class Api::AssignmentsController < ApplicationController
-    before_action :set_assignment, only: [:update, :destroy, :staff_complete, :participant_complete]
+    before_action :set_assignment, only: [:update, :destroy, :complete]
     before_action :set_template, only: [:update_template, :destroy_template]
     respond_to :json
 
@@ -62,6 +62,7 @@ class Api::AssignmentsController < ApplicationController
 
         @assignment.assign_attributes(assignment_params)
         action_item.assign_attributes(action_item_params)
+
         if (action_item.valid? && @assignment.valid?) && (action_item.save && @assignment.save)
             if action_item_copied
                 @assignment.update(action_item: action_item)
@@ -120,21 +121,24 @@ class Api::AssignmentsController < ApplicationController
         end
     end
 
-    def participant_complete
-        if authorize @assignment.update(completed_participant: true)
-          render json: @assignment, status: :ok
-        else
-          Raven.capture_message("Failed to mark as completed by participant")
-          render json: { error: 'Failed to mark as completed by participant' }, status: :unprocessable_entity
+    def complete
+        authorize @assignment
+        if current_user.user_type === 'staff'
+            if @assignment.update(completed_staff: true)
+                render json: @assignment, status: :ok
+            else
+                Raven.capture_message("Failed to mark as completed by participant")
+                render json: { error: 'Failed to mark as completed by participant' }, status: :unprocessable_entity
+            end
         end
-    end
 
-    def staff_complete
-        if authorize @assignment.update(completed_staff: true)
-          render json: @assignment, status: :ok
-        else
-          Raven.capture_message("Failed to mark as completed by staff")
-          render json: { error: 'Failed to mark as completed by staff' }, status: :unprocessable_entity
+        if current_user.user_type === 'participant'
+            if @assignment.update(completed_participant: true)
+                render json: @assignment, status: :ok
+            else
+                Raven.capture_message("Failed to mark as completed by participant")
+                render json: { error: 'Failed to mark as completed by participant' }, status: :unprocessable_entity
+            end
         end
     end
 
