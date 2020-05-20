@@ -50,7 +50,6 @@ class ParticipantShowPage extends React.Component {
       resumeURL,
     } = this.props;
 
-
     return (
       <Grid
         container
@@ -157,6 +156,7 @@ ParticipantShowPage.propTypes = {
   personalQuestionnaire: PropTypes.object.isRequired,
   professionalQuestionnaire: PropTypes.object.isRequired,
   studioAssessments: PropTypes.array.isRequired,
+  resumeURL: PropTypes.string.isRequired,
   assignmentList: PropTypes.array,
 };
 

@@ -35,7 +35,6 @@ function QuestionnaireModal({
       <QuestionnaireView
         type={questionnaireType}
         questionnaire={questionnaire}
-        handleClose={() => setOpen(false)}
         resumeURL={resumeURL}
       />
     );
@@ -71,6 +70,7 @@ QuestionnaireModal.propTypes = {
   participantId: PropTypes.number.isRequired,
   questionnaireType: PropTypes.oneOf(['personal', 'professional']).isRequired,
   userType: PropTypes.oneOf(['staff', 'participant']).isRequired,
+  resumeURL: PropTypes.string,
 };
 
 export default memo(withStyles(styles)(QuestionnaireModal));
