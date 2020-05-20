@@ -22,6 +22,11 @@ class ParticipantsController < ApplicationController
     end
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
 
+    @resumeURL = nil
+    if (professional_q.resume.attached?)
+      @resumeURL = url_for(professional_q.resume)
+    end
+
     @assignments = authorize @participant.assignments
     @assignment_list = []
     @assignments.each do |a|

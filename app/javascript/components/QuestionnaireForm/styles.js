@@ -4,12 +4,15 @@
  * This contains all the styles for the QuestionnaireForm container.
  */
 
-const styles = () => ({
+const styles = theme => ({
   dialogActions: {
     padding: 30,
   },
   buttonContainer: {
     padding: 15,
+  },
+  buttonStyle: {
+    color: theme.palette.common.r0,
   },
   questionnaireTextField: {
     width: '100%',
