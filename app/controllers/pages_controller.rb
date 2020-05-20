@@ -65,7 +65,6 @@ class PagesController < ApplicationController
               end
               @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
               @resumeURL = nil
-              @resumeURL = nil
               if (professional_q.resume.attached?)
                 @resumeURL = url_for(professional_q.resume)
               end

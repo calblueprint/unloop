@@ -4,10 +4,13 @@
  * This contains all the styles for the QuestionnaireView component.
  */
 
-const styles = () => ({
+const styles = theme => ({
   field: {
     padding: '12px 90px',
     textTransform: 'capitalize',
+  },
+  buttonStyle: {
+    color: theme.palette.common.r0,
   },
 });
 

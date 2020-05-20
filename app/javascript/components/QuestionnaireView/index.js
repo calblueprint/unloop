@@ -8,10 +8,9 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { DialogContent, Grid, Typography, Button } from '@material-ui/core';
-
 import styles from './styles';
 
-function QuestionnaireView({ classes, questionnaire, resumeURL }) {
+function QuestionnaireView({ classes, questionnaire, type, resumeURL }) {
   const renderField = (title, body) => {
     if (
       title === 'participant' ||
@@ -34,7 +33,7 @@ function QuestionnaireView({ classes, questionnaire, resumeURL }) {
       titleRender = 'Second Emergency Contact Relationship (optional)';
     }
 
-    const bodyRender = body === null ? 'N/A' : body;
+    const bodyRender = body || 'N/A';
 
     return (
       <Grid item key={title} className={classes.field}>
@@ -45,24 +44,26 @@ function QuestionnaireView({ classes, questionnaire, resumeURL }) {
   };
 
   const showUploadedFile = () => {
-
     if (resumeURL) {
       return (
         <Grid item className={classes.field}>
           <Typography variant="h6">Resume</Typography>
-          <Button onClick={() => window.open(resumeURL, '_blank')}>
+          <Button
+            className={classes.buttonStyle}
+            onClick={() => window.open(resumeURL, '_blank')}
+          >
             View Uploaded Resume
-        </Button>
+          </Button>
         </Grid>
       );
     }
-    return (<Grid item className={classes.field}>
-      <Typography variant="h6">Resume</Typography>
-      <Button >
-        No Resume Uploaded
-   </Button>
-    </Grid>);
-  }
+    return (
+      <Grid item className={classes.field}>
+        <Typography variant="h6">Resume</Typography>
+        <Typography variant="overline">No Resume Uploaded</Typography>
+      </Grid>
+    );
+  };
 
   return (
     <DialogContent>
@@ -70,7 +71,7 @@ function QuestionnaireView({ classes, questionnaire, resumeURL }) {
         {Object.entries(questionnaire).map(field =>
           renderField(field[0], field[1]),
         )}
-        {showUploadedFile()}
+        {type === 'professional' ? showUploadedFile() : null}
       </Grid>
     </DialogContent>
   );
@@ -79,6 +80,8 @@ function QuestionnaireView({ classes, questionnaire, resumeURL }) {
 QuestionnaireView.propTypes = {
   classes: PropTypes.object.isRequired,
   questionnaire: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
+  resumeURL: PropTypes.string,
 };
 
 export default memo(withStyles(styles)(QuestionnaireView));
