@@ -24,8 +24,7 @@ function ViewMoreModal({
   isCaseNote,
   open,
   handleClose,
-  files,
-  fileIndex,
+  fileURL,
   formatDate,
 }) {
   const renderRichText = desc => (
@@ -52,36 +51,26 @@ function ViewMoreModal({
     return null;
   };
 
-  const renderFileName = () => {
-    if (fileIndex != null) {
-      return (
-        <Grid item>
-          <Fab
-            className={classes.iconStyle}
-            component="span"
-            variant="extended"
-            size="small"
-            aria-label="category"
-          >
-            <Typography
-              className={classes.categoryButtonStyle}
-              color="primary"
-              align="center"
-              onClick={showFile}
-            >
-              View File
-            </Typography>
-          </Fab>
-        </Grid>
-      );
-    }
-  };
-
-  const showFile = () => {
-    const file = files[fileIndex];
-    const objectURL = window.URL.createObjectURL(file);
-    window.open(objectURL, '_blank');
-  };
+  const renderFileButton = () => (
+    <Grid item>
+      <Fab
+        className={classes.iconStyle}
+        component="span"
+        variant="extended"
+        size="small"
+        aria-label="category"
+      >
+        <Typography
+          className={classes.categoryButtonStyle}
+          color="primary"
+          align="center"
+          onClick={() => window.open(fileURL, '_blank')}
+        >
+          View File
+        </Typography>
+      </Fab>
+    </Grid>
+  );
 
   return (
     <>
@@ -105,7 +94,7 @@ function ViewMoreModal({
                 <Grid item>
                   <h3 className={classes.titleStyle}>{title}</h3>
                 </Grid>
-                {renderFileName()}
+                {fileURL ? renderFileButton() : null}
                 {isCaseNote ? null : renderCategory(category)}
               </Grid>
               {isCaseNote ? null : renderDueDate(dueDate)}
@@ -135,8 +124,7 @@ ViewMoreModal.propTypes = {
   open: PropTypes.bool.isRequired,
   isCaseNote: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
-  files: PropTypes.array,
-  fileIndex: PropTypes.number,
+  fileURL: PropTypes.string,
   formatDate: PropTypes.func,
 };
 

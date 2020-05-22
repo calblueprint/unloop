@@ -29,11 +29,11 @@ class ActionItemCreationPage extends React.Component {
       actionItemDescription: '',
       actionItemDueDate: '',
       actionItemCategory: null,
+      actionItemFile: null,
       templateActionItems: this.props.templates,
       submitFailed: false,
       selectedActionItems: [],
       files: [],
-      hasFile: false,
       submissionStatus: null,
       // State given to the view more and edit modals when invoked
       modalActionItem: null,
@@ -140,14 +140,11 @@ class ActionItemCreationPage extends React.Component {
   handleFile(event) {
     const file = event.target.files[0];
     if (file) {
-      this.setState(prevState => ({
-        files: [...prevState.files, file],
-        hasFile: true,
-      }));
+      this.setState({ actionItemFile: file });
     }
   }
 
-  handleFileEdit(event, boolean) {
+  handleFileEdit(event) {
     // Should remove the previous file instead of continually adding to an array
     const file = event.target.files[0];
     if (file) {
@@ -155,7 +152,6 @@ class ActionItemCreationPage extends React.Component {
         files: [...prevState.files, file],
       }));
     }
-    boolean = true;
   }
 
   handleSubmit = () => {
@@ -177,7 +173,7 @@ class ActionItemCreationPage extends React.Component {
       singleForm.append('description', firstActionItem.description);
       singleForm.append('due_date', firstActionItem.dueDate);
       singleForm.append('category', firstActionItem.category);
-      singleForm.append('file', this.state.files[firstActionItem.fileIndex]);
+      singleForm.append('file', firstActionItem.file);
       singleForm.append('participant_ids', participantIds);
       this.setState({ submissionStatus: 'loading' });
       apiPost('/api/assignments', singleForm)
@@ -241,8 +237,7 @@ class ActionItemCreationPage extends React.Component {
       actionItemDescription,
       actionItemCategory,
       actionItemDueDate,
-      files,
-      hasFile,
+      actionItemFile,
     } = this.state;
     if (
       actionItemTitle === '' ||
@@ -251,23 +246,27 @@ class ActionItemCreationPage extends React.Component {
     ) {
       return;
     }
-    let file = null;
-    if (hasFile) {
-      file = files[files.length - 1];
-    }
 
     const actionItem = {
       title: actionItemTitle,
       description: actionItemDescription,
       category: actionItemCategory,
       dueDate: actionItemDueDate,
+      file: actionItemFile,
+      fileURL: actionItemFile
+        ? window.URL.createObjectURL(actionItemFile)
+        : null,
       is_template: saveToTemplates,
-      fileIndex: file ? files.length - 1 : null,
-      fileName: file ? files[files.length - 1].name : null,
     };
 
     if (saveToTemplates) {
-      apiPost('/api/assignments/templates', { assignment: actionItem })
+      const singleForm = new FormData();
+      singleForm.append('title', actionItem.title);
+      singleForm.append('description', actionItem.description);
+      singleForm.append('due_date', actionItem.dueDate);
+      singleForm.append('category', actionItem.category);
+      singleForm.append('file', actionItem.file);
+      apiPost('/api/assignments/templates', singleForm)
         .then(resp => {
           actionItem.id = resp.data.id;
           this.setState(prevState => ({
@@ -291,7 +290,7 @@ class ActionItemCreationPage extends React.Component {
       actionItemDescription: '',
       actionItemDueDate: '',
       actionItemCategory: null,
-      hasFile: false,
+      actionItemFile: null,
     }));
   }
 
@@ -533,8 +532,7 @@ class ActionItemCreationPage extends React.Component {
             description={this.state.modalActionItem.description}
             category={this.state.modalActionItem.category}
             dueDate={this.state.modalActionItem.dueDate}
-            files={this.state.files}
-            fileIndex={this.state.modalActionItem.fileIndex}
+            fileURL={this.state.modalActionItem.fileURL}
             formatDate={this.formatDate}
           />
         ) : null}
@@ -548,8 +546,8 @@ class ActionItemCreationPage extends React.Component {
             description={this.state.modalActionItem.description}
             categorySelected={this.state.modalActionItem.category}
             dueDate={this.state.modalActionItem.dueDate}
+            file={this.state.modalActionItem.file}
             handleFileChange={this.handleFileEdit}
-            files={this.state.files}
             type="edit"
           />
         ) : null}
