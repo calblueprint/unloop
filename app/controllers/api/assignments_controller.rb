@@ -35,14 +35,12 @@ class Api::AssignmentsController < ApplicationController
                     created_assignments.append(assignment)
                 else 
                     action_item.destroy
-                    created_action_items.each {|item| item.destroy}
                     Raven.capture_message("Could not create action item")
                     render json: { error: 'Could not create action item' }, status: :unprocessable_entity
                     return
                 end
             end
         else
-            created_action_items.each {|item| item.destroy}
             Raven.capture_message("Could not create action item")
             render json: { error: 'Could not create action item' }, status: :unprocessable_entity
             return
@@ -202,9 +200,9 @@ class Api::AssignmentsController < ApplicationController
 
     def action_item_params
         action_item_param = params.permit(:title,
-                                                               :description,
-                                                               :category,
-                                                               :file)
+                                          :description,
+                                          :category,
+                                          :file)
     end
 
     def single_assignment_params
