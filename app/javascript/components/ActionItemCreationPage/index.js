@@ -111,6 +111,8 @@ class ActionItemCreationPage extends React.Component {
     categorySelected,
     dueDate,
     actionItem,
+    file,
+    fileURL,
   }) {
     this.setState(prevState => {
       const newSelectedActionItems = prevState.selectedActionItems.map(item => {
@@ -122,6 +124,8 @@ class ActionItemCreationPage extends React.Component {
           itemCopy.description = description;
           itemCopy.category = categorySelected;
           itemCopy.dueDate = dueDate;
+          itemCopy.file = file;
+          itemCopy.fileURL = fileURL;
         }
         return itemCopy;
       });
@@ -535,6 +539,7 @@ class ActionItemCreationPage extends React.Component {
             categorySelected={this.state.modalActionItem.category}
             dueDate={this.state.modalActionItem.dueDate}
             file={this.state.modalActionItem.file}
+            fileURL={this.state.modalActionItem.fileURL}
             type="edit"
           />
         ) : null}
