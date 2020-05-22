@@ -1,6 +1,6 @@
 <%= react_component("Main", {
   content: "ActionItemCreationPage",
-  templates: ActionItem.where(is_template: true),
+  templates: @templates_list,
   participants: @participants_list,
   categories: ActionItem.categories.keys,
   statuses: Participant.statuses.except(:studio),

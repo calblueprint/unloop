@@ -33,7 +33,6 @@ class ActionItemCreationPage extends React.Component {
       templateActionItems: this.props.templates,
       submitFailed: false,
       selectedActionItems: [],
-      files: [],
       submissionStatus: null,
       // State given to the view more and edit modals when invoked
       modalActionItem: null,
@@ -61,7 +60,6 @@ class ActionItemCreationPage extends React.Component {
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.editActionItem = this.editActionItem.bind(this);
     this.reloadPage = this.reloadPage.bind(this);
-    this.handleFileEdit = this.handleFileEdit.bind(this);
     this.handleExitSubmitModal = this.handleExitSubmitModal.bind(this);
     this.formatDate = this.formatDate.bind(this);
   }
@@ -80,7 +78,8 @@ class ActionItemCreationPage extends React.Component {
       actionItem1.title === actionItem2.title &&
       actionItem1.description === actionItem2.description &&
       actionItem1.category === actionItem2.category &&
-      actionItem1.dueDate === actionItem2.dueDate
+      actionItem1.dueDate === actionItem2.dueDate &&
+      actionItem1.fileURL === actionItem2.fileURL
     );
   }
 
@@ -139,19 +138,7 @@ class ActionItemCreationPage extends React.Component {
 
   handleFile(event) {
     const file = event.target.files[0];
-    if (file) {
-      this.setState({ actionItemFile: file });
-    }
-  }
-
-  handleFileEdit(event) {
-    // Should remove the previous file instead of continually adding to an array
-    const file = event.target.files[0];
-    if (file) {
-      this.setState(prevState => ({
-        files: [...prevState.files, file],
-      }));
-    }
+    this.setState({ actionItemFile: file || null });
   }
 
   handleSubmit = () => {
@@ -269,6 +256,7 @@ class ActionItemCreationPage extends React.Component {
       apiPost('/api/assignments/templates', singleForm)
         .then(resp => {
           actionItem.id = resp.data.id;
+          actionItem.fileURL = resp.data.fileURL;
           this.setState(prevState => ({
             templateActionItems: [actionItem, ...prevState.templateActionItems],
           }));
@@ -547,7 +535,6 @@ class ActionItemCreationPage extends React.Component {
             categorySelected={this.state.modalActionItem.category}
             dueDate={this.state.modalActionItem.dueDate}
             file={this.state.modalActionItem.file}
-            handleFileChange={this.handleFileEdit}
             type="edit"
           />
         ) : null}
