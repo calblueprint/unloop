@@ -13,6 +13,7 @@ import {
   Typography,
 } from '@material-ui/core/';
 import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
+import formatDate from 'utils/utils';
 import styles from './styles';
 
 function ViewMoreModal({
@@ -25,7 +26,6 @@ function ViewMoreModal({
   open,
   handleClose,
   fileURL,
-  formatDate,
 }) {
   const renderRichText = desc => (
     <MUIRichTextEditor value={desc} readOnly toolbar={false} />
@@ -125,7 +125,6 @@ ViewMoreModal.propTypes = {
   isCaseNote: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
   fileURL: PropTypes.string,
-  formatDate: PropTypes.func,
 };
 
 export default withStyles(styles)(ViewMoreModal);

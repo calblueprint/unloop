@@ -10,7 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Grid, Paper, List } from '@material-ui/core';
 import PaperworkEntry from 'components/PaperworkEntry';
 import PaperworkForm from 'components/PaperworkForm';
-
+import formatDate from 'utils/utils';
 import styles from './styles';
 
 function PaperworkList({
@@ -18,7 +18,6 @@ function PaperworkList({
   initialPaperworks,
   participantId,
   userType,
-  formatDate,
 }) {
   const [paperworks, setPaperworks] = useState(initialPaperworks);
 
@@ -98,7 +97,6 @@ PaperworkList.propTypes = {
   classes: PropTypes.object.isRequired,
   initialPaperworks: PropTypes.array.isRequired,
   participantId: PropTypes.number.isRequired,
-  formatDate: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(PaperworkList);

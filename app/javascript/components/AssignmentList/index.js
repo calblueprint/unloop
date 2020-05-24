@@ -108,7 +108,7 @@ class AssignmentList extends React.Component {
           type="edit"
           title={this.state.modalAssignment.title}
           description={this.state.modalAssignment.description}
-          dueDate={this.state.modalAssignment.dueDate}
+          dueDate={this.state.modalAssignment.due_date}
           categorySelected={this.state.modalAssignment.category}
           open={this.state.editModalOpen}
           handleClose={() => this.handleCloseModal()}
@@ -130,12 +130,11 @@ class AssignmentList extends React.Component {
           description={this.state.modalAssignment.description}
           title={this.state.modalAssignment.title}
           category={this.state.modalAssignment.category}
-          dueDate={this.state.modalAssignment.dueDate}
+          dueDate={this.state.modalAssignment.due_date}
           isCaseNote={false}
           open={this.state.viewMoreModalOpen}
           handleClose={() => this.handleCloseModal()}
           fileURL={this.state.modalAssignment.fileURL}
-          formatDate={this.props.formatDate}
         />
       );
     }
@@ -181,12 +180,8 @@ class AssignmentList extends React.Component {
     categorySelected,
     dueDate,
     participantId,
-    actionItemId,
-    actionItem,
     file,
-    fileURL,
   }) {
- 
     const singleForm = new FormData();
     singleForm.append('title', title);
     singleForm.append('description', description);
@@ -201,8 +196,7 @@ class AssignmentList extends React.Component {
         this.appendStateAssignment(response.data[0]);
       })
       .catch(error => {
-        this.setState({ submissionStatus: 'error' });
-        Sentry.configureScope(function (scope) {
+        Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'AssignmentList');
           scope.setExtra('action', 'apiPost (handleCreateAssignment)');
           scope.setExtra('participantId', participantId);
@@ -219,18 +213,14 @@ class AssignmentList extends React.Component {
     categorySelected,
     dueDate,
     participantId,
-    actionItemId,
-    actionItem,
     file,
-    fileURL,
   }) {
-
     const singleForm = new FormData();
     singleForm.append('title', title);
     singleForm.append('description', description);
-    singleForm.append('due_date', dueDate ? dueDate : '');
+    singleForm.append('due_date', dueDate || '');
     singleForm.append('category', categorySelected);
-    singleForm.append('file', file ? file : '');
+    singleForm.append('file', file || '');
     singleForm.append('participant_ids', [participantId]);
 
     const endpoint = '/api/assignments/'.concat(this.state.modalAssignment.id);
@@ -240,7 +230,7 @@ class AssignmentList extends React.Component {
         this.editStateAssignment(response.data);
       })
       .catch(error => {
-        Sentry.configureScope(function (scope) {
+        Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'AssignmentList');
           scope.setExtra('action', 'apiPatch (handleEditAssignment)');
           scope.setExtra('participantId', participantId);
@@ -283,8 +273,7 @@ class AssignmentList extends React.Component {
           addBorderBottom
           renderClose={false} // Don't render close icon in dashboard assignment list
           handleOpenModal={this.handleOpenModal(assignment)}
-          dueDate={assignment.dueDate}
-          formatDate={this.props.formatDate}
+          dueDate={assignment.due_date}
           removeActionItem={() => {
             this.handleOpenModal(assignment)('delete');
           }}
@@ -337,8 +326,8 @@ class AssignmentList extends React.Component {
                 ) : null}
               </div>
             ) : (
-                <div />
-              )}
+              <div />
+            )}
           </Grid>
         </Grid>
 
@@ -346,22 +335,22 @@ class AssignmentList extends React.Component {
           {this.state.assignments ? (
             this.assignmentEntries()
           ) : (
-              <div>
-                <img
-                  src="/assets/noPaperworks.svg"
-                  className={classes.noPaperworksImg}
-                  alt="no Assignments"
-                />
-                <div className={classes.noPaperworksTxt}>
-                  <h3>No assignments yet</h3>
-                  {this.props.userType === 'staff' ? (
-                    <p>Click on ASSIGN ASSIGNMENT + to assign one.</p>
-                  ) : (
-                      <div />
-                    )}
-                </div>
+            <div>
+              <img
+                src="/assets/noPaperworks.svg"
+                className={classes.noPaperworksImg}
+                alt="no Assignments"
+              />
+              <div className={classes.noPaperworksTxt}>
+                <h3>No assignments yet</h3>
+                {this.props.userType === 'staff' ? (
+                  <p>Click on ASSIGN ASSIGNMENT + to assign one.</p>
+                ) : (
+                  <div />
+                )}
               </div>
-            )}
+            </div>
+          )}
         </List>
       </Paper>
     );
@@ -373,7 +362,6 @@ AssignmentList.propTypes = {
   classes: PropTypes.object.isRequired,
   initialAssignments: PropTypes.array.isRequired,
   participantId: PropTypes.number.isRequired,
-  formatDate: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(AssignmentList);

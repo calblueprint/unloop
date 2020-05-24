@@ -61,7 +61,6 @@ class ActionItemCreationPage extends React.Component {
     this.editActionItem = this.editActionItem.bind(this);
     this.reloadPage = this.reloadPage.bind(this);
     this.handleExitSubmitModal = this.handleExitSubmitModal.bind(this);
-    this.formatDate = this.formatDate.bind(this);
   }
 
   reloadPage() {
@@ -303,14 +302,6 @@ class ActionItemCreationPage extends React.Component {
     this.setState(prevState => ({ step: prevState.step - 1 }));
   }
 
-  formatDate = dateString => {
-    const dateObj = new Date(dateString);
-    const year = dateObj.getFullYear();
-    const month = dateObj.getMonth() + 1;
-    const dt = dateObj.getDate() + 1;
-    return `${month.toString()}/${dt.toString()}/${year.toString()}`;
-  };
-
   // Adds selected user to state to be displayed
   addUserToState(user) {
     this.setState(prevState => ({
@@ -525,7 +516,6 @@ class ActionItemCreationPage extends React.Component {
             category={this.state.modalActionItem.category}
             dueDate={this.state.modalActionItem.dueDate}
             fileURL={this.state.modalActionItem.fileURL}
-            formatDate={this.formatDate}
           />
         ) : null}
         {this.state.editModalOpen ? (
