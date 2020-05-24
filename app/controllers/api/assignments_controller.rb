@@ -57,9 +57,16 @@ class Api::AssignmentsController < ApplicationController
             action_item = action_item.dup
             action_item_copied = true
         end
-
+        
+        if !action_item_params.empty? && action_item_params.fetch(:file).present? && !(action_item_params.fetch(:file).eql?("null"))
+            if @assignment.file.attached?
+              @assignment.file.purge
+            end
+            @assignment.file.attach(action_item_params.fetch(:file))
+        end
+        
         @assignment.assign_attributes(assignment_params)
-        action_item.assign_attributes(action_item_params)
+        action_item.assign_attributes(action_item_params.except(:file))
 
         if (action_item.valid? && @assignment.valid?) && (action_item.save && @assignment.save)
             if action_item_copied
@@ -210,10 +217,10 @@ class Api::AssignmentsController < ApplicationController
     end
     
     def assignment_params
-        assignment_param = params.require(:assignment).permit(:action_item_id,
-                                                               :due_date,
-                                                               :completed_participant,
-                                                               :completed_staff)
+        assignment_param = params.permit(:action_item_id,
+                                        :due_date,
+                                        :completed_participant,
+                                        :completed_staff)
         assignment_param.merge(staff_id: current_user.staff.id)
     end
 
