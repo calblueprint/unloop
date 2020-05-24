@@ -10,10 +10,8 @@ class AssignmentsController < ApplicationController
               PersonalQuestionnaire.create("participant_id": p.id)
           end
 
-        d = {"name" => p.full_name, 
-              "status" => p.status, 
-              "id" => p.id}
-          @participants_list.push(d)
+          participant = SimpleParticipantSerializer.new(p)
+          @participants_list.push(participant)
         end
     end
 

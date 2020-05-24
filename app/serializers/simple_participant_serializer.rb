@@ -1,15 +1,7 @@
 class SimpleParticipantSerializer < ActiveModel::Serializer
-  attributes :id, :email, :first_name, :last_name, :status
+  attributes :id, :email, :status, :name
 
-  def email
-    object.user.email
-  end
-
-  def first_name
-    object.user.first_name
-  end
-
-  def last_name
-    object.user.last_name
+  def name
+    object.user.full_name
   end
 end

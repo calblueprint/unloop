@@ -22,7 +22,7 @@ class StudioAssessmentDashboard extends React.Component {
 
   componentDidMount() {
     const { assessments } = this.props;
-    const trie = new TrieSearch('name');
+    const trie = new TrieSearch('participant_name');
     trie.addAll(assessments);
     this.setState({
       assessments,
@@ -49,56 +49,56 @@ class StudioAssessmentDashboard extends React.Component {
     const { classes } = this.props;
     const headCells = [
       {
-        id: 'name',
+        id: 'participant_name',
         disablePadding: false,
         label: 'Participant',
         sortable: true,
       },
       {
-        id: 'bigpictureScore',
+        id: 'bigpicture_score',
         numeric: true,
         disablePadding: false,
         label: 'Big Picture',
         sortable: true,
       },
       {
-        id: 'progfundamentalsScore',
+        id: 'progfundamentals_score',
         disablePadding: false,
         label: 'Fundamentals',
         sortable: true,
       },
       {
-        id: 'versioncontrolScore',
+        id: 'versioncontrol_score',
         disablePadding: false,
         label: 'Version Control',
         sortable: true,
       },
       {
-        id: 'reactScore',
+        id: 'react_score',
         disablePadding: false,
         label: 'React',
         sortable: true,
       },
       {
-        id: 'dbScore',
+        id: 'db_score',
         disablePadding: false,
         label: 'Database',
         sortable: true,
       },
       {
-        id: 'nodeScore',
+        id: 'node_score',
         disablePadding: false,
         label: 'Node',
         sortable: true,
       },
       {
-        id: 'problemsolvingScore',
+        id: 'problemsolving_score',
         disablePadding: false,
         label: 'Problem Solving',
         sortable: true,
       },
       {
-        id: 'problemsolvingaltScore',
+        id: 'problemsolvingalt_score',
         disablePadding: false,
         label: 'Problem Solving Alt',
         sortable: true,
