@@ -30,21 +30,8 @@ class ParticipantsController < ApplicationController
     @assignments = authorize @participant.assignments
     @assignment_list = []
     @assignments.each do |a|
-      action_item = ActionItem.where(id: a.action_item_id).first
-      complete_assignment = {
-        "id" => a.id,
-        "title" => action_item.title, 
-        "description" => action_item.description,
-        "category" => action_item.category,
-        "is_template" => action_item.is_template,
-        "created_at" => a.created_at,
-        "updated_at" => a.updated_at,
-        "due_date" => a.due_date&.strftime("%Y-%m-%d"),
-        "action_item_id" => a.action_item_id,
-        "completed_staff" => a.completed_staff,
-        "completed_participant" => a.completed_participant,
-      }
-      @assignment_list.push(complete_assignment)
+      serialized_assignment = AssignmentSerializer.new(a)
+      @assignment_list.push(serialized_assignment)
     end
     
   end
