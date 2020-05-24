@@ -8,14 +8,11 @@ class Assignment < ApplicationRecord
     validates :completed_participant, inclusion: [true, false]
     validate :nontemplate_assignment, on: [:create, :update, :save]
 
-    def cond_assignment_title
-        action_item.title unless action_item.nil?
-    end
-
-    def cond_assignment_description
-        action_item.description unless action_item.nil?
-    end
-
+    delegate :title, to: :action_item
+    delegate :description, to: :action_item
+    delegate :category, to: :action_item
+    delegate :fileURL, to: :action_item
+  
     private 
     def nontemplate_assignment
         if action_item.is_template
