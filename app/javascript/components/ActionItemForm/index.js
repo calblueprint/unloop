@@ -126,6 +126,9 @@ function ActionItemForm({
             </Grid>
             <Grid item container justify="space-between">
               <Grid item>
+                <input type="file" ref={inputRef} onChange={e => setFile(e)} />
+              </Grid>
+              <Grid item>
                 <Checkbox
                   color="primary"
                   className={classes.checkboxStyle}
@@ -138,9 +141,6 @@ function ActionItemForm({
                 >
                   ADD TO COMMON ASSIGNMENTS
                 </Typography>
-              </Grid>
-              <Grid item>
-                <input type="file" ref={inputRef} onChange={e => setFile(e)} />
               </Grid>
               <Grid item>
                 <Button
@@ -161,7 +161,7 @@ function ActionItemForm({
                     size="small"
                     className={classes.checkboxTextStyle}
                   >
-                    ADD ACTION ITEM
+                    ADD ASSIGNMENT
                   </Typography>
                 </Button>
               </Grid>
