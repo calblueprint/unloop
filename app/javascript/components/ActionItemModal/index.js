@@ -79,7 +79,7 @@ class ActionItemModal extends React.Component {
   };
 
   render() {
-    const { classes, open } = this.props;
+    const { classes, open, categories } = this.props;
     const {
       failedSubmit,
       title,
@@ -88,15 +88,15 @@ class ActionItemModal extends React.Component {
       fileURL,
     } = this.state;
 
-    const categories = [
-      'Finances',
-      'Project',
-      'Community',
-      'Startup',
-      'Treatment',
-      'Health',
-      'Education',
-    ];
+    // const categories = [
+    //   'Finances',
+    //   'Project',
+    //   'Community',
+    //   'Startup',
+    //   'Treatment',
+    //   'Health',
+    //   'Education',
+    // ];
 
     const categoryList = categories.map(category => {
       const isSelectedCategory =
@@ -257,6 +257,7 @@ ActionItemModal.propTypes = {
   description: PropTypes.string,
   dueDate: PropTypes.string,
   categorySelected: PropTypes.string,
+  categories: PropTypes.array.isRequired,
   open: PropTypes.bool.isRequired,
   participantId: PropTypes.number,
   actionItemId: PropTypes.number,

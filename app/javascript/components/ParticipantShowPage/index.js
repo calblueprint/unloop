@@ -40,6 +40,7 @@ class ParticipantShowPage extends React.Component {
       studioAssessments,
       assignmentList,
       resumeURL,
+      categories,
     } = this.props;
 
     return (
@@ -119,6 +120,7 @@ class ParticipantShowPage extends React.Component {
             userType={userType}
             initialAssignments={assignmentList}
             participantId={participantId}
+            categories={categories}
           />
           {userType === 'staff' ? (
             <StudioAssessmentList
@@ -146,6 +148,7 @@ ParticipantShowPage.propTypes = {
   professionalQuestionnaire: PropTypes.object.isRequired,
   studioAssessments: PropTypes.array.isRequired,
   resumeURL: PropTypes.string.isRequired,
+  categories: PropTypes.array.isRequired,
   assignmentList: PropTypes.array,
 };
 

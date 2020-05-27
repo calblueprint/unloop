@@ -524,6 +524,7 @@ class ActionItemCreationPage extends React.Component {
             title={this.state.modalActionItem.title}
             description={this.state.modalActionItem.description}
             categorySelected={this.state.modalActionItem.category}
+            categories={this.props.categories}
             dueDate={this.state.modalActionItem.dueDate}
             file={this.state.modalActionItem.file}
             fileURL={this.state.modalActionItem.fileURL}

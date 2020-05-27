@@ -110,6 +110,7 @@ class AssignmentList extends React.Component {
           description={this.state.modalAssignment.description}
           dueDate={this.state.modalAssignment.due_date}
           categorySelected={this.state.modalAssignment.category}
+          categories={this.props.categories}
           open={this.state.editModalOpen}
           handleClose={() => this.handleCloseModal()}
           handleSubmit={this.handleEditAssignment}
@@ -318,6 +319,7 @@ class AssignmentList extends React.Component {
                 {this.state.createModalOpen ? (
                   <ActionItemModal
                     type="create"
+                    categories={this.props.categories}
                     open={this.state.createModalOpen}
                     handleClose={() => this.handleCloseModal()}
                     handleSubmit={this.handleCreateAssignment}
@@ -363,6 +365,7 @@ AssignmentList.propTypes = {
   classes: PropTypes.object.isRequired,
   initialAssignments: PropTypes.array.isRequired,
   participantId: PropTypes.number.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(AssignmentList);
