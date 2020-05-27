@@ -199,7 +199,14 @@ function PaperworkForm({
       <DialogTitle>Are you sure you want to delete this paperwork?</DialogTitle>
       <DialogActions>
         <Button
+          onClick={() => setDeleteModal(false)}
+          variant="contained"
           color="primary"
+        >
+          Cancel
+        </Button>
+        <Button
+          color="secondary"
           variant="contained"
           type="submit"
           onClick={handleDelete}
