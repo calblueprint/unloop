@@ -30,6 +30,7 @@ function ActionItemCreationContainer({
   removeSelectedActionItem,
   createActionItem,
   deleteTemplate,
+  setFile,
   handleOpenModal,
   categories,
 }) {
@@ -99,6 +100,7 @@ function ActionItemCreationContainer({
               addToTemplates={addToTemplates}
               setAddToTemplates={setAddToTemplates}
               createActionItem={createActionItem}
+              setFile={setFile}
               categories={categories}
             />
           ) : (
@@ -136,6 +138,7 @@ ActionItemCreationContainer.propTypes = {
   deleteTemplate: PropTypes.func.isRequired,
   handleOpenModal: PropTypes.func.isRequired,
   categories: PropTypes.array.isRequired,
+  setFile: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ActionItemCreationContainer);

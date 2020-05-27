@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -24,9 +24,11 @@ function ActionItemForm({
   addToTemplates,
   setAddToTemplates,
   createActionItem,
+  setFile,
   categories,
 }) {
   const [failedSubmit, setFailedSubmit] = useState(false);
+  const inputRef = useRef(null);
 
   const handleCategoryChange = category => {
     // setCategory uses ActionItemCreationPage's handleChange which expects this form
@@ -138,12 +140,17 @@ function ActionItemForm({
                 </Typography>
               </Grid>
               <Grid item>
+                <input type="file" ref={inputRef} onChange={e => setFile(e)} />
+              </Grid>
+              <Grid item>
                 <Button
                   onClick={() => {
                     if (allFieldsFilled) {
                       createActionItem(addToTemplates);
                       setAddToTemplates(false);
                       setFailedSubmit(false);
+                      // Needed to clear file input after successful creation
+                      inputRef.current.value = '';
                     } else {
                       setFailedSubmit(true);
                     }
@@ -180,6 +187,7 @@ ActionItemForm.propTypes = {
   setAddToTemplates: PropTypes.func.isRequired,
   createActionItem: PropTypes.func.isRequired,
   categories: PropTypes.array.isRequired,
+  setFile: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ActionItemForm);

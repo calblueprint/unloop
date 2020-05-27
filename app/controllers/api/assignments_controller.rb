@@ -5,50 +5,48 @@ class Api::AssignmentsController < ApplicationController
 
     def create
         authorize Assignment
-
+        participant_ids_string = single_assignment_params.fetch(:participant_ids)
+        participant_ids = participant_ids_string.split(/,/)
         created_assignments = []
-        created_action_items = []
-        participant_ids = bulk_assignment_params.fetch(:participant_ids, [])
-        action_items = bulk_assignment_params.fetch(:assignments, [])
-
-        if action_items.empty? || participant_ids.empty?
-            render json: { error: 'Action items and Participants must be populated'}, status: :unprocessable_entity
+        if participant_ids.empty?
+            render json: { error: 'Participant must be populated'}, status: :unprocessable_entity
             return
         end
+        begin
+            due_date = DateTime.parse(single_assignment_params.fetch(:due_date))
+        rescue ArgumentError
+            due_date = nil
+        end 
 
-        action_items.each do |action_item|
-            begin
-                due_date = DateTime.parse(action_item[:due_date])
-            rescue ArgumentError
-                due_date = nil
-            end
-            action_item = ActionItem.new(action_item.except(:due_date)) 
-            template_sentry_helper(action_item)
-            action_item[:is_template] = false
-            if !participant_ids.empty? && action_item.save
-                created_action_items.append(action_item)
-                prepare_bulk_assignment(participant_ids, action_item, due_date).each do |assignment|
-                    assignment_sentry_helper(assignment)  
-                    if assignment.save
-                        AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
-                        created_assignments.append(assignment)
-                    else 
-                        action_item.destroy
-                        created_action_items.each {|item| item.destroy}
-                        Raven.capture_message("Could not create action item")
-                        render json: { error: 'Could not create action item' }, status: :unprocessable_entity
-                        return
-                    end
-                end
-            else
-                created_action_items.each {|item| item.destroy}
-                Raven.capture_message("Could not create action item")
-                render json: { error: 'Could not create action item' }, status: :unprocessable_entity
-                return
-            end
+        if file_absent?(action_item_params[:file])
+            action_item = ActionItem.new(action_item_params.except(:due_date, :file)) 
+        else 
+            action_item = ActionItem.new(action_item_params.except(:due_date)) 
         end
-        render json: created_assignments, status: :created
-    end 
+        
+        template_sentry_helper(action_item)
+        action_item[:is_template] = false
+        
+        if !participant_ids.empty? && action_item.save
+            prepare_bulk_assignment(participant_ids, action_item, due_date).each do |assignment|
+                assignment_sentry_helper(assignment)  
+                if assignment.save
+                    AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
+                    created_assignments.append(assignment)
+                else 
+                    action_item.destroy
+                    Raven.capture_message("Could not create action item")
+                    render json: { error: 'Could not create action item' }, status: :unprocessable_entity
+                    return
+                end
+            end
+        else
+            Raven.capture_message("Could not create action item")
+            render json: { error: 'Could not create action item' }, status: :unprocessable_entity
+            return
+        end
+    render json: created_assignments, status: :created 
+    end  
 
     def update
         authorize @assignment
@@ -59,7 +57,7 @@ class Api::AssignmentsController < ApplicationController
             action_item = action_item.dup
             action_item_copied = true
         end
-
+        
         @assignment.assign_attributes(assignment_params)
         action_item.assign_attributes(action_item_params)
 
@@ -189,21 +187,37 @@ class Api::AssignmentsController < ApplicationController
         return bulk_assignment_params
     end
 
-    def action_item_params
-        action_item_param = params.require(:assignment).permit(:title,
-                                                               :description,
-                                                               :category)
+    def file_absent?(file)
+        file.eql?("null") || file.eql?("undefined") || !file.present?
     end
 
-    def bulk_assignment_params
-        all_assignment_params = params.permit(assignments: [:title, :description, :due_date, :category], participant_ids: [])
-     end
+    def action_item_params
+        action_item_param = params.permit(:title,
+                                          :description,
+                                          :category,
+                                          :file)
 
+        if file_absent?(action_item_param[:file]) and params[:fileURL].present?
+            action_item_param[:file] = get_file_blob_from_fileURL(params[:fileURL])
+        end
+
+        return action_item_param
+    end
+
+    def get_file_blob_from_fileURL(fileURL)
+        action_item = ActionItem.all.select{|action_item| action_item.fileURL === fileURL}.first
+        return action_item.present? ? action_item.file.blob : nil
+    end
+
+    def single_assignment_params
+        one_assignment_params = params.permit(:title, :description, :due_date, :category, :file, :participant_ids, :format)
+    end
+    
     def assignment_params
-        assignment_param = params.require(:assignment).permit(:action_item_id,
-                                                               :due_date,
-                                                               :completed_participant,
-                                                               :completed_staff)
+        assignment_param = params.permit(:action_item_id,
+                                        :due_date,
+                                        :completed_participant,
+                                        :completed_staff)
         assignment_param.merge(staff_id: current_user.staff.id)
     end
 

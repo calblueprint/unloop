@@ -50,7 +50,7 @@ Object.assign(defaultTheme, {
         borderRadius: '4px',
       },
       hidePlaceholder: {
-        display: "block",
+        display: 'block',
       },
       editorContainer: {
         padding: '20px',

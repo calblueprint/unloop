@@ -17,15 +17,16 @@ import styles from './styles';
 class ActionItemModal extends React.Component {
   constructor(props) {
     super(props);
+    const isCreate = this.props.type === 'create';
     this.state = {
-      title: this.props.type === 'create' ? '' : this.props.title,
-      description: this.props.type === 'create' ? '' : this.props.description,
-      categorySelected:
-        this.props.type === 'create' ? '' : this.props.categorySelected,
-      dueDate: this.props.type === 'create' ? '' : this.props.dueDate,
+      title: isCreate ? '' : this.props.title,
+      description: isCreate ? '' : this.props.description,
+      categorySelected: isCreate ? '' : this.props.categorySelected,
+      dueDate: isCreate ? '' : this.props.dueDate,
+      file: isCreate ? '' : this.props.file,
+      fileURL: isCreate ? '' : this.props.fileURL,
       failedSubmit: false,
     };
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
   }
 
   handleChange = name => event => {
@@ -33,10 +34,25 @@ class ActionItemModal extends React.Component {
     this.setState({ [name]: value });
   };
 
+  handleFileChange = event => {
+    const file = event.target.files[0] ? event.target.files[0] : null;
+    const fileURL = file ? window.URL.createObjectURL(file) : null;
+    this.setState({ file, fileURL });
+  };
+
   handleSubmit = () => {
     const { participantId, actionItemId, actionItem } = this.props;
-    const { title, description, categorySelected, dueDate } = this.state;
-
+    const {
+      title,
+      description,
+      categorySelected,
+      dueDate,
+      file,
+      fileURL,
+    } = this.state;
+    if (this.state.newFile) {
+      this.updateFile();
+    }
     if (title && description && categorySelected) {
       this.props.handleSubmit({
         title,
@@ -46,6 +62,8 @@ class ActionItemModal extends React.Component {
         participantId,
         actionItemId,
         actionItem,
+        file,
+        fileURL,
       });
       this.props.handleClose();
     } else {
@@ -54,7 +72,7 @@ class ActionItemModal extends React.Component {
   };
 
   handleCategoryChange = category => {
-    // setCategory uses ActionItemCreationPage's handleChange which expects this form
+    // handleChange expects this form
     const newCategory =
       this.state.categorySelected !== category ? category : null;
     this.handleChange('categorySelected')({ target: { value: newCategory } });
@@ -62,7 +80,13 @@ class ActionItemModal extends React.Component {
 
   render() {
     const { classes, open } = this.props;
-    const { failedSubmit, title, description, categorySelected } = this.state;
+    const {
+      failedSubmit,
+      title,
+      description,
+      categorySelected,
+      fileURL,
+    } = this.state;
 
     const categories = [
       'Finances',
@@ -179,7 +203,33 @@ class ActionItemModal extends React.Component {
             />
           </DialogContent>
           <DialogActions disableSpacing>
-            <Grid container justify="flex-end" alignItems="center">
+            <Grid container justify="space-between" alignItems="center">
+              <Grid
+                item
+                container
+                direction="column"
+                xs={6}
+                justify="space-between"
+              >
+                {/* Style needed to align button and input tag */}
+                <Grid item style={{ position: 'relative', right: '10px' }}>
+                  <Button
+                    onClick={() => window.open(fileURL, '_blank')}
+                    disabled={!fileURL}
+                  >
+                    <Typography
+                      display="inline"
+                      size="small"
+                      className={classes.checkboxTextStyle}
+                    >
+                      {fileURL ? 'View File' : 'No File Uploaded'}
+                    </Typography>
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <input type="file" onChange={e => this.handleFileChange(e)} />
+                </Grid>
+              </Grid>
               <Grid item>
                 <Button onClick={this.handleSubmit}>
                   <Typography
@@ -211,6 +261,8 @@ ActionItemModal.propTypes = {
   participantId: PropTypes.number,
   actionItemId: PropTypes.number,
   actionItem: PropTypes.object,
+  file: PropTypes.object,
+  fileURL: PropTypes.object,
   handleClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };

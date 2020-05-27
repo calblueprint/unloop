@@ -29,11 +29,11 @@ const styles = theme => ({
     marginRight: 'auto',
   },
   paddingBox: {
-      marginLeft: '20px',
-      padding: '10px',
-      display: 'flex',
-      boxShadow: '5px',
-      justifyContent: 'space-between',
+    marginLeft: '20px',
+    padding: '10px',
+    display: 'flex',
+    boxShadow: '5px',
+    justifyContent: 'space-between',
   },
   noPaperworksTxt: {
     textAlign: 'center',

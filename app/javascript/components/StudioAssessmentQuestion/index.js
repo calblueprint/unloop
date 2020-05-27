@@ -76,11 +76,11 @@ class Question extends React.Component {
 
     if (this.props.type === 'create') {
       this.setState({
-        loading: true
+        loading: true,
       });
 
       apiPost('/api/studio_assessments', { studio_assessment: body })
-        .then(() => this.setState({loading: false}))
+        .then(() => this.setState({ loading: false }))
         .then(() => window.location.reload())
         .catch(error => {
           Sentry.configureScope(function(scope) {
@@ -148,20 +148,20 @@ class Question extends React.Component {
       rubric =
         this.state.studioAssessment[`${this.props.questionType}_score`] !==
         null ? (
-            <div>
-              <h3>
+          <div>
+            <h3>
               Score:{' '}
-                {this.state.studioAssessment[
-                  `${this.props.questionType}_score`
-                ].toString()}
-              </h3>
-            </div>
-          ) : (
-            <div>
-              <h3>Score:</h3>
-              <p>No score entered yet</p>
-            </div>
-          );
+              {this.state.studioAssessment[
+                `${this.props.questionType}_score`
+              ].toString()}
+            </h3>
+          </div>
+        ) : (
+          <div>
+            <h3>Score:</h3>
+            <p>No score entered yet</p>
+          </div>
+        );
 
       comments = (
         <div>
