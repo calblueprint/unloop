@@ -155,19 +155,19 @@ class AssignmentList extends React.Component {
         </DialogTitle>
         <DialogActions>
           <Button
+            onClick={() => this.handleCloseModal()}
+            variant="contained"
             color="primary"
+          >
+            Cancel
+          </Button>
+          <Button
+            color="secondary"
             variant="contained"
             type="submit"
             onClick={() => this.handleDeleteAssignment()}
           >
             Delete
-          </Button>
-          <Button
-            onClick={() => this.handleCloseModal()}
-            variant="contained"
-            color="secondary"
-          >
-            Cancel
           </Button>
         </DialogActions>
       </Dialog>
