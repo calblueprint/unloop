@@ -26,28 +26,15 @@ class PagesController < ApplicationController
               dashboard_staffs_path
             when 'participant'
               @participant = @user.participant
-              @paperworks =  policy_scope(Paperwork)
-              @case_notes = policy_scope(CaseNote)
-              @studio_assessments = policy_scope(StudioAssessment)
-              @assignments = policy_scope(Assignment)
+              @paperworks =  policy_scope(Paperwork).order('created_at DESC')
+              @case_notes = policy_scope(CaseNote).order('created_at DESC')
+              @studio_assessments = policy_scope(StudioAssessment).order('created_at DESC')
+              @assignments = policy_scope(Assignment).order('due_date')
               
               @assignment_list = []
               @assignments.each do |a|
-                action_item = ActionItem.where(id: a.action_item_id).first
-                complete_assignment = {
-                  "id" => a.id,
-                  "title" => action_item.title, 
-                  "description" => action_item.description,
-                  "category" => action_item.category,
-                  "is_template" => action_item.is_template,
-                  "created_at" => a.created_at,
-                  "updated_at" => a.updated_at,
-                  "due_date" => a.due_date&.strftime("%Y-%m-%d"),
-                  "action_item_id" => a.action_item_id,
-                  "completed_staff" => a.completed_staff,
-                  "completed_participant" => a.completed_participant,
-                }
-                @assignment_list.push(complete_assignment)
+                serialized_assignment = AssignmentSerializer.new(a)
+                @assignment_list.push(serialized_assignment)
               end
 
               if @participant.personal_questionnaire.nil?

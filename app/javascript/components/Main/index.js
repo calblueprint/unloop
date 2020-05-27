@@ -14,6 +14,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -199,5 +200,12 @@ function Main(props) {
     </ThemeProvider>
   );
 }
+
+Main.propTypes = {
+  classes: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  content: PropTypes.string.isRequired,
+  userType: PropTypes.string,
+};
 
 export default withStyles(styles)(Main);

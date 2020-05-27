@@ -9,11 +9,11 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Paper, List, Container } from '@material-ui/core';
 import StudioAssessmentModal from 'components/StudioAssessmentModal';
+import formatDate from 'utils/utils';
 import styles from './styles';
 
 function StudioAssessmentList({
   classes,
-  formatDate,
   initialStudioAssessments,
   participantId,
   userType,
@@ -90,7 +90,6 @@ function StudioAssessmentList({
 StudioAssessmentList.propTypes = {
   userType: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  formatDate: PropTypes.func,
   initialStudioAssessments: PropTypes.array.isRequired,
   participantId: PropTypes.number.isRequired,
 };

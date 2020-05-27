@@ -78,26 +78,14 @@ class AssignmentList extends React.Component {
     }));
   }
 
-  editStateAssignment(assignmentResponse) {
-    const actionItem = assignmentResponse.action_item;
-    const correctAssignment = {
-      actionItemId: actionItem.id,
-      category: actionItem.category,
-      description: actionItem.description,
-      title: actionItem.title,
-      completedStaff: assignmentResponse.completed_staff,
-      completedParticipant: assignmentResponse.completed_participant,
-      dueDate: assignmentResponse.due_date,
-      id: assignmentResponse.id,
-      isTemplate: false,
-    };
+  editStateAssignment(newAssignment) {
     this.setState(prevState => {
       const toUpdate = [...prevState.assignments];
       const foundIndex = toUpdate.findIndex(
-        assignment => assignment.id === correctAssignment.id,
+        assignment => assignment.id === newAssignment.id,
       );
       if (foundIndex !== -1) {
-        toUpdate[foundIndex] = correctAssignment;
+        toUpdate[foundIndex] = newAssignment;
         return { assignments: toUpdate };
       }
       return {};
@@ -120,7 +108,7 @@ class AssignmentList extends React.Component {
           type="edit"
           title={this.state.modalAssignment.title}
           description={this.state.modalAssignment.description}
-          dueDate={this.state.modalAssignment.dueDate}
+          dueDate={this.state.modalAssignment.due_date}
           categorySelected={this.state.modalAssignment.category}
           open={this.state.editModalOpen}
           handleClose={() => this.handleCloseModal()}
@@ -128,6 +116,7 @@ class AssignmentList extends React.Component {
           participantId={this.props.participantId}
           actionItemId={this.state.modalAssignment.actionItemId}
           showAddToTemplates={false}
+          fileURL={this.state.modalAssignment.fileURL}
         />
       );
     }
@@ -138,13 +127,14 @@ class AssignmentList extends React.Component {
     if (this.state.modalAssignment) {
       return (
         <ViewMoreModal
+          description={this.state.modalAssignment.description}
+          title={this.state.modalAssignment.title}
+          category={this.state.modalAssignment.category}
+          dueDate={this.state.modalAssignment.due_date}
+          isCaseNote={false}
           open={this.state.viewMoreModalOpen}
           handleClose={() => this.handleCloseModal()}
-          title={this.state.modalAssignment.title}
-          description={this.state.modalAssignment.description}
-          category={this.state.modalAssignment.category}
-          dueDate={this.state.modalAssignment.dueDate}
-          formatDate={this.props.formatDate}
+          fileURL={this.state.modalAssignment.fileURL}
         />
       );
     }
@@ -190,39 +180,27 @@ class AssignmentList extends React.Component {
     categorySelected,
     dueDate,
     participantId,
+    file,
   }) {
-    const assignments = [
-      {
-        title,
-        description,
-        due_date: dueDate,
-        category: categorySelected,
-      },
-    ];
+    const singleForm = new FormData();
+    singleForm.append('title', title);
+    singleForm.append('description', description);
+    singleForm.append('due_date', dueDate);
+    singleForm.append('category', categorySelected);
+    singleForm.append('file', file);
+    singleForm.append('participant_ids', [participantId]);
 
-    const body = {
-      assignments,
-      participant_ids: [participantId],
-    };
-
-    apiPost('/api/assignments', body)
+    apiPost('/api/assignments', singleForm)
       .then(response => {
         this.handleCloseModal();
-        const newAssignment = response.data[0].action_item;
-        newAssignment.id = response.data[0].id;
-        newAssignment.action_item_id = response.data[0].action_item.id;
-        newAssignment.dueDate = response.data[0].due_date;
-        newAssignment.completedParticipant =
-          response.data[0].completed_participant;
-        newAssignment.completedStaff = response.data[0].completed_staff;
-        this.appendStateAssignment(newAssignment);
+        this.appendStateAssignment(response.data[0]);
       })
       .catch(error => {
         Sentry.configureScope(function(scope) {
           scope.setExtra('file', 'AssignmentList');
           scope.setExtra('action', 'apiPost (handleCreateAssignment)');
           scope.setExtra('participantId', participantId);
-          scope.setExtra('body', JSON.stringify(body));
+          scope.setExtra('body', JSON.stringify(singleForm));
         });
         Sentry.captureException(error);
       });
@@ -234,21 +212,20 @@ class AssignmentList extends React.Component {
     categorySelected,
     dueDate,
     participantId,
+    file,
+    fileURL,
   }) {
-    const assignment = {
-      title,
-      description,
-      due_date: dueDate,
-      category: categorySelected,
-    };
-
-    const body = {
-      assignment,
-      participant_ids: [participantId],
-    };
+    const singleForm = new FormData();
+    singleForm.append('title', title);
+    singleForm.append('description', description);
+    singleForm.append('due_date', dueDate || '');
+    singleForm.append('category', categorySelected);
+    singleForm.append('file', file || '');
+    singleForm.append('fileURL', fileURL || '');
+    singleForm.append('participant_ids', [participantId]);
 
     const endpoint = '/api/assignments/'.concat(this.state.modalAssignment.id);
-    apiPatch(endpoint, body)
+    apiPatch(endpoint, singleForm)
       .then(response => {
         this.handleCloseModal();
         this.editStateAssignment(response.data);
@@ -258,7 +235,7 @@ class AssignmentList extends React.Component {
           scope.setExtra('file', 'AssignmentList');
           scope.setExtra('action', 'apiPatch (handleEditAssignment)');
           scope.setExtra('participantId', participantId);
-          scope.setExtra('body', JSON.stringify(body));
+          scope.setExtra('body', JSON.stringify(singleForm));
         });
         Sentry.captureException(error);
       });
@@ -297,8 +274,7 @@ class AssignmentList extends React.Component {
           addBorderBottom
           renderClose={false} // Don't render close icon in dashboard assignment list
           handleOpenModal={this.handleOpenModal(assignment)}
-          dueDate={assignment.dueDate}
-          formatDate={this.props.formatDate}
+          dueDate={assignment.due_date}
           removeActionItem={() => {
             this.handleOpenModal(assignment)('delete');
           }}
@@ -387,7 +363,6 @@ AssignmentList.propTypes = {
   classes: PropTypes.object.isRequired,
   initialAssignments: PropTypes.array.isRequired,
   participantId: PropTypes.number.isRequired,
-  formatDate: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(AssignmentList);

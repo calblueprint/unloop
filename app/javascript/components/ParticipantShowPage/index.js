@@ -25,14 +25,6 @@ class ParticipantShowPage extends React.Component {
     }));
   };
 
-  formatDate = dateString => {
-    const dateObj = new Date(dateString);
-    const year = dateObj.getFullYear();
-    const month = dateObj.getMonth() + 1;
-    const dt = dateObj.getDate() + 1;
-    return `${month.toString()}/${dt.toString()}/${year.toString()}`;
-  };
-
   render() {
     const {
       userType,
@@ -109,7 +101,6 @@ class ParticipantShowPage extends React.Component {
               <PaperworkList
                 initialPaperworks={paperworks}
                 participantId={participantId}
-                formatDate={this.formatDate}
                 userType={userType}
               />
             </Grid>
@@ -128,12 +119,10 @@ class ParticipantShowPage extends React.Component {
             userType={userType}
             initialAssignments={assignmentList}
             participantId={participantId}
-            formatDate={this.formatDate}
           />
           {userType === 'staff' ? (
             <StudioAssessmentList
               initialStudioAssessments={studioAssessments}
-              formatDate={this.formatDate}
               userType={userType}
               participantId={participantId}
             />

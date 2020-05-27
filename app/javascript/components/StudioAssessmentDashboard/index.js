@@ -16,8 +16,10 @@ class StudioAssessmentDashboard extends React.Component {
     super(props);
     this.state = {
       assessments: this.props.assessments,
+      pageNo: 0,
     };
     this.handleSearch = this.handleSearch.bind(this);
+    this.onPageChange = this.onPageChange.bind(this);
   }
 
   componentDidMount() {
@@ -30,8 +32,17 @@ class StudioAssessmentDashboard extends React.Component {
     });
   }
 
+  onPageChange(e, newPage) {
+    this.setState({
+      pageNo: newPage,
+    });
+  }
+
   handleSearch(e) {
     const searchVal = e.target.value.trim();
+    this.setState({
+      pageNo: 0,
+    });
 
     let assessments = [];
     if (searchVal === '') {
@@ -42,6 +53,7 @@ class StudioAssessmentDashboard extends React.Component {
 
     this.setState({
       assessments,
+      pageNo: 0,
     });
   }
 
@@ -132,6 +144,8 @@ class StudioAssessmentDashboard extends React.Component {
           headCells={headCells}
           rows={this.state.assessments}
           type="studio"
+          pageHandler={this.onPageChange}
+          page={this.state.pageNo}
         ></EnhancedTable>
       </div>
     );

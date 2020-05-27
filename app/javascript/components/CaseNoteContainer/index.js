@@ -36,14 +36,6 @@ class CaseNoteContainer extends React.Component {
     this.setState({ title, description, modalOpen: true });
   }
 
-  formatDate(dateString) {
-    const dateObj = new Date(dateString);
-    const year = dateObj.getFullYear();
-    const month = dateObj.getMonth() + 1;
-    const dt = dateObj.getDate() + 1;
-    return `${month.toString()}/${dt.toString()}/${year.toString()}`;
-  }
-
   renderCaseNoteCreationIfStaff() {
     if (this.state.userType === 'staff') {
       return (

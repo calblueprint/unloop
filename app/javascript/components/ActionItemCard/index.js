@@ -16,15 +16,14 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { apiPatch } from 'utils/axios';
 import * as Sentry from '@sentry/browser';
+import formatDate from 'utils/utils';
 import styles from './styles';
-
 function ActionItemCard({
   classes,
   userType,
   title,
   description,
   dueDate,
-  formatDate,
   category,
   selected,
   renderClose,
@@ -88,13 +87,6 @@ function ActionItemCard({
     </Button>
   );
 
-  const formattedDueDate = () => {
-    if (formatDate) {
-      return formatDate(dueDate);
-    }
-    return dueDate;
-  };
-
   const handleComplete = () => {
     const endpoint = '/api/assignments/complete/'.concat(assignmentId);
     apiPatch(endpoint, {})
@@ -113,6 +105,7 @@ function ActionItemCard({
         });
         Sentry.captureException(error);
       });
+    return
   };
 
   const renderCompleteButton = () => {
@@ -184,7 +177,7 @@ function ActionItemCard({
       <Grid
         container
         className={
-          (completedParticipant && completedStaff)
+          completedParticipant && completedStaff
             ? classes.disabledCardStyle
             : classes.cardStyle
         }
@@ -247,7 +240,7 @@ function ActionItemCard({
           <Grid item>
             {dueDate ? (
               <Typography variant="body1" style={{ fontSize: '14px' }}>
-                Due: {formattedDueDate()}
+                Due: {formatDate(dueDate)}
               </Typography>
             ) : null}
           </Grid>
@@ -281,7 +274,6 @@ ActionItemCard.propTypes = {
   dueDate: PropTypes.string,
   handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,
-  formatDate: PropTypes.func,
   addBorderBottom: PropTypes.bool,
   participantShowPage: PropTypes.bool,
   initialCompletedStaff: PropTypes.bool.isRequired,
