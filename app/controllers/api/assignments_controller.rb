@@ -18,7 +18,7 @@ class Api::AssignmentsController < ApplicationController
             due_date = nil
         end 
 
-        if single_assignment_params.fetch(:file).eql?("null") || single_assignment_params.fetch(:file).eql?("undefined") || !single_assignment_params.fetch(:file).present?
+        if file_absent?(action_item_params[:file])
             action_item = ActionItem.new(action_item_params.except(:due_date, :file)) 
         else 
             action_item = ActionItem.new(action_item_params.except(:due_date)) 
@@ -58,15 +58,8 @@ class Api::AssignmentsController < ApplicationController
             action_item_copied = true
         end
         
-        if !action_item_params.empty? && action_item_params.fetch(:file).present? && !(action_item_params.fetch(:file).eql?("null"))
-            if @assignment.file.attached?
-              @assignment.file.purge
-            end
-            @assignment.file.attach(action_item_params.fetch(:file))
-        end
-        
         @assignment.assign_attributes(assignment_params)
-        action_item.assign_attributes(action_item_params.except(:file))
+        action_item.assign_attributes(action_item_params)
 
         if (action_item.valid? && @assignment.valid?) && (action_item.save && @assignment.save)
             if action_item_copied
@@ -194,15 +187,8 @@ class Api::AssignmentsController < ApplicationController
         return bulk_assignment_params
     end
 
-    def prepare_single_assignment(participant_id, action_item, due_date)
-        single_assignment = {
-            action_item_id: action_item.id,
-            staff_id: current_user.staff.id,
-            due_date: due_date,
-            completed: false,
-           }
-        assignment = Assignment.new(single_assignment.merge(participant_id: participant_id))
-        return assignment
+    def file_absent?(file)
+        file.eql?("null") || file.eql?("undefined") || !file.present?
     end
 
     def action_item_params
@@ -210,6 +196,17 @@ class Api::AssignmentsController < ApplicationController
                                           :description,
                                           :category,
                                           :file)
+
+        if file_absent?(action_item_param[:file]) and params[:fileURL].present?
+            action_item_param[:file] = get_file_blob_from_fileURL(params[:fileURL])
+        end
+
+        return action_item_param
+    end
+
+    def get_file_blob_from_fileURL(fileURL)
+        action_item = ActionItem.all.select{|action_item| action_item.fileURL === fileURL}.first
+        return action_item.present? ? action_item.file.blob : nil
     end
 
     def single_assignment_params

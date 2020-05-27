@@ -164,6 +164,7 @@ class ActionItemCreationPage extends React.Component {
       singleForm.append('due_date', firstActionItem.dueDate);
       singleForm.append('category', firstActionItem.category);
       singleForm.append('file', firstActionItem.file);
+      singleForm.append('fileURL', firstActionItem.fileURL);
       singleForm.append('participant_ids', participantIds);
       this.setState({ submissionStatus: 'loading' });
       apiPost('/api/assignments', singleForm)

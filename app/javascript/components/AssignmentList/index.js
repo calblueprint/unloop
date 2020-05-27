@@ -214,6 +214,7 @@ class AssignmentList extends React.Component {
     dueDate,
     participantId,
     file,
+    fileURL,
   }) {
     const singleForm = new FormData();
     singleForm.append('title', title);
@@ -221,6 +222,7 @@ class AssignmentList extends React.Component {
     singleForm.append('due_date', dueDate || '');
     singleForm.append('category', categorySelected);
     singleForm.append('file', file || '');
+    singleForm.append('fileURL', fileURL || '');
     singleForm.append('participant_ids', [participantId]);
 
     const endpoint = '/api/assignments/'.concat(this.state.modalAssignment.id);

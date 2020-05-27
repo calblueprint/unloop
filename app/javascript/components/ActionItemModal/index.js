@@ -85,10 +85,8 @@ class ActionItemModal extends React.Component {
       title,
       description,
       categorySelected,
-      file,
       fileURL,
     } = this.state;
-    const fileExists = file && fileURL;
 
     const categories = [
       'Finances',
@@ -217,14 +215,14 @@ class ActionItemModal extends React.Component {
                 <Grid item style={{ position: 'relative', right: '10px' }}>
                   <Button
                     onClick={() => window.open(fileURL, '_blank')}
-                    disabled={!fileExists}
+                    disabled={!fileURL}
                   >
                     <Typography
                       display="inline"
                       size="small"
                       className={classes.checkboxTextStyle}
                     >
-                      {fileExists ? 'View File' : 'No File Uploaded'}
+                      {fileURL ? 'View File' : 'No File Uploaded'}
                     </Typography>
                   </Button>
                 </Grid>
