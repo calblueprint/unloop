@@ -9,10 +9,9 @@ class AssignmentsController < ApplicationController
           if p.personal_questionnaire.nil?
               PersonalQuestionnaire.create("participant_id": p.id)
           end
-          d = {"name" => p.full_name, 
-              "status" => p.status, 
-              "id" => p.id}
-          @participants_list.push(d)
+
+          participant = SimpleParticipantSerializer.new(p)
+          @participants_list.push(participant)
         end
 
         @templates = ActionItem.where(is_template: true).order('created_at DESC')
