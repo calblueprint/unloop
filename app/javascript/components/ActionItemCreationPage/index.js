@@ -169,7 +169,6 @@ class ActionItemCreationPage extends React.Component {
       this.setState({ submissionStatus: 'loading' });
       apiPost('/api/assignments', singleForm)
         .then(() =>
-          // TO CHANGE
           this.setState({ submissionStatus: 'complete', submitFailed: false }),
         )
         .catch(error => {
@@ -178,7 +177,6 @@ class ActionItemCreationPage extends React.Component {
             scope.setExtra('file', 'ActionItemCreationPage');
             scope.setExtra('action', 'apiPost (handleSubmit)');
             scope.setExtra('participantIds', participantIds);
-            // unsure about stringify-ing FormData
             scope.setExtra('body', JSON.stringify(singleForm));
           });
           Sentry.captureException(error);
