@@ -4,7 +4,6 @@ class AssignmentsController < ApplicationController
         @user = current_user
         @participants = Participant.all
         @participants_list = []
-        @templates_list = []
 
         @participants.each do |p|
           if p.personal_questionnaire.nil?
@@ -16,7 +15,9 @@ class AssignmentsController < ApplicationController
           @participants_list.push(d)
         end
 
-        ActionItem.where(is_template: true).each do |template|
+        @templates = ActionItem.where(is_template: true).order('created_at DESC')
+        @templates_list = []
+        @templates.each do |template|
             serialized_action_item = ActionItemSerializer.new(template)
             @templates_list.push(serialized_action_item)
         end
