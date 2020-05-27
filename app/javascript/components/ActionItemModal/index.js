@@ -88,16 +88,6 @@ class ActionItemModal extends React.Component {
       fileURL,
     } = this.state;
 
-    // const categories = [
-    //   'Finances',
-    //   'Project',
-    //   'Community',
-    //   'Startup',
-    //   'Treatment',
-    //   'Health',
-    //   'Education',
-    // ];
-
     const categoryList = categories.map(category => {
       const isSelectedCategory =
         categorySelected && categorySelected === category;
