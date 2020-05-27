@@ -160,13 +160,14 @@ class QuestionnaireForm extends React.Component {
   }
 
   handleDateChange(date, fieldName) {
-    const shortDate = `${date.getMonth() +
-      1}-${date.getDate()}-${date.getFullYear()}`;
+    if (date != null) {
+      date = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
+    }
 
     this.setState(s => ({
       questionnaire: {
         ...s.questionnaire,
-        [fieldName]: shortDate,
+        [fieldName]: date,
       },
     }));
   }
@@ -314,7 +315,6 @@ class QuestionnaireForm extends React.Component {
             <KeyboardDatePicker
               disableToolbar
               variant="inline"
-              label="Select date"
               value={this.state.questionnaire.birthdate}
               onChange={e => this.handleDateChange(e, fieldName)}
               format="MM/dd/yyyy"
