@@ -87,7 +87,11 @@ class Api::AssignmentsController < ApplicationController
     end
 
     def create_template
-        @template = authorize ActionItem.new(action_item_params), :create?
+        if file_absent?(action_item_params.fetch(:file))
+            @template = authorize ActionItem.new(action_item_params.except(:file)), :create?
+        else
+            @template = authorize ActionItem.new(action_item_params), :create?
+        end
         template_sentry_helper(@template)
         @template[:is_template] = true
 
