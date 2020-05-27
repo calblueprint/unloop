@@ -200,7 +200,6 @@ class AssignmentList extends React.Component {
           scope.setExtra('file', 'AssignmentList');
           scope.setExtra('action', 'apiPost (handleCreateAssignment)');
           scope.setExtra('participantId', participantId);
-          // unsure about stringify-ing FormData
           scope.setExtra('body', JSON.stringify(singleForm));
         });
         Sentry.captureException(error);
