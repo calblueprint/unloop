@@ -103,7 +103,6 @@ class ActionItemCreationPage extends React.Component {
     };
   }
 
-  // files need to be edited with this function
   editActionItem({
     title,
     description,
@@ -274,7 +273,6 @@ class ActionItemCreationPage extends React.Component {
     }
 
     this.setState(prevState => ({
-      // probably should change as well
       selectedActionItems: [actionItem, ...prevState.selectedActionItems],
       actionItemTitle: '',
       actionItemDescription: '',
