@@ -26,10 +26,10 @@ class PagesController < ApplicationController
               dashboard_staffs_path
             when 'participant'
               @participant = @user.participant
-              @paperworks =  policy_scope(Paperwork)
-              @case_notes = policy_scope(CaseNote)
-              @studio_assessments = policy_scope(StudioAssessment)
-              @assignments = policy_scope(Assignment)
+              @paperworks =  policy_scope(Paperwork).order('created_at DESC')
+              @case_notes = policy_scope(CaseNote).order('created_at DESC')
+              @studio_assessments = policy_scope(StudioAssessment).order('created_at DESC')
+              @assignments = policy_scope(Assignment).order('due_date')
               
               @assignment_list = []
               @assignments.each do |a|
