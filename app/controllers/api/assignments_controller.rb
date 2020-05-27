@@ -8,7 +8,7 @@ class Api::AssignmentsController < ApplicationController
         participant_ids_string = single_assignment_params.fetch(:participant_ids)
         participant_ids = participant_ids_string.split(/,/)
         created_assignments = []
-        if  participant_ids.empty?
+        if participant_ids.empty?
             render json: { error: 'Participant must be populated'}, status: :unprocessable_entity
             return
         end
@@ -31,7 +31,7 @@ class Api::AssignmentsController < ApplicationController
             prepare_bulk_assignment(participant_ids, action_item, due_date).each do |assignment|
                 assignment_sentry_helper(assignment)  
                 if assignment.save
-                    #AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
+                    AssignmentMailer.with(assignment: assignment, action_item: action_item).new_assignment.deliver_now
                     created_assignments.append(assignment)
                 else 
                     action_item.destroy
