@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       post 'templates', to: 'assignments#create_template'
       patch 'templates/:id', to: 'assignments#update_template'
       delete 'templates/:id', to: 'assignments#destroy_template'
+      patch 'complete/:id', to: 'assignments#complete'
     end
 
     resources :studio_assessments, only: [:create, :update, :destroy]

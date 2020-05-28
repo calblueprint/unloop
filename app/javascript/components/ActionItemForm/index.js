@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -28,6 +28,7 @@ function ActionItemForm({
   categories,
 }) {
   const [failedSubmit, setFailedSubmit] = useState(false);
+  const inputRef = useRef(null);
 
   const handleCategoryChange = category => {
     // setCategory uses ActionItemCreationPage's handleChange which expects this form
@@ -125,6 +126,9 @@ function ActionItemForm({
             </Grid>
             <Grid item container justify="space-between">
               <Grid item>
+                <input type="file" ref={inputRef} onChange={e => setFile(e)} />
+              </Grid>
+              <Grid item>
                 <Checkbox
                   color="primary"
                   className={classes.checkboxStyle}
@@ -139,15 +143,14 @@ function ActionItemForm({
                 </Typography>
               </Grid>
               <Grid item>
-                <input type="file" onChange={e => setFile(e)} />
-              </Grid>
-              <Grid item>
                 <Button
                   onClick={() => {
                     if (allFieldsFilled) {
                       createActionItem(addToTemplates);
                       setAddToTemplates(false);
                       setFailedSubmit(false);
+                      // Needed to clear file input after successful creation
+                      inputRef.current.value = '';
                     } else {
                       setFailedSubmit(true);
                     }
@@ -158,7 +161,7 @@ function ActionItemForm({
                     size="small"
                     className={classes.checkboxTextStyle}
                   >
-                    ADD ACTION ITEM
+                    ADD ASSIGNMENT
                   </Typography>
                 </Button>
               </Grid>

@@ -17,7 +17,7 @@ class PagesController < ApplicationController
                     "paperworks_count" => p.paperworks.length,
                     "paperworks_completed" => p.paperworks.where(agree: true).length,
                     "questionnaire_status" => completed(p),
-                    "assignments_completed" => p.assignments.where(completed: true).length,
+                    "assignments_completed" => p.assignments.where(completed_staff: true, completed_participant: true).length,
                     "assignments_count" => p.assignments.length,
                   }
                 @participants_list.push(d)
@@ -26,26 +26,15 @@ class PagesController < ApplicationController
               dashboard_staffs_path
             when 'participant'
               @participant = @user.participant
-              @paperworks =  policy_scope(Paperwork)
-              @case_notes = policy_scope(CaseNote)
-              @studio_assessments = policy_scope(StudioAssessment)
-              @assignments = policy_scope(Assignment)
-
+              @paperworks =  policy_scope(Paperwork).order('created_at DESC')
+              @case_notes = policy_scope(CaseNote).order('created_at DESC')
+              @studio_assessments = policy_scope(StudioAssessment).order('created_at DESC')
+              @assignments = policy_scope(Assignment).order('due_date')
+              
               @assignment_list = []
               @assignments.each do |a|
-                action_item = ActionItem.where(id: a.action_item_id).first
-                complete_assignment = {
-                  "id" => a.id,
-                  "title" => action_item.title, 
-                  "description" => action_item.description,
-                  "category" => action_item.category,
-                  "is_template" => action_item.is_template,
-                  "created_at" => a.created_at,
-                  "updated_at" => a.updated_at,
-                  "due_date" => a.due_date&.strftime("%Y-%m-%d"),
-                  "action_item_id" => a.action_item_id,
-                }
-                @assignment_list.push(complete_assignment)
+                serialized_assignment = AssignmentSerializer.new(a)
+                @assignment_list.push(serialized_assignment)
               end
 
               if @participant.personal_questionnaire.nil?
@@ -62,7 +51,10 @@ class PagesController < ApplicationController
                 professional_q = authorize @participant.professional_questionnaire, policy_class: QuestionnairePolicy
               end
               @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
-
+              @resumeURL = nil
+              if (professional_q.resume.attached?)
+                @resumeURL = url_for(professional_q.resume)
+              end
               authorize Participant
               dashboard_participants_path
               

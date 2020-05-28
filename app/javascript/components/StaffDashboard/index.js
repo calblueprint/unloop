@@ -16,8 +16,10 @@ class StaffDashboard extends React.Component {
     super(props);
     this.state = {
       participants: this.props.participants,
+      pageNo: 0,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.onPageChange = this.onPageChange.bind(this);
   }
 
   componentDidMount() {
@@ -29,8 +31,15 @@ class StaffDashboard extends React.Component {
     });
   }
 
+  onPageChange(e, newPage) {
+    this.setState({
+      pageNo: newPage,
+    });
+  }
+
   handleChange(e) {
     const searchVal = e.target.value.trim();
+
     if (searchVal === '') {
       this.setState({
         participants: this.props.participants,
@@ -40,6 +49,7 @@ class StaffDashboard extends React.Component {
     const participants = this.state.trie.get(searchVal);
     this.setState({
       participants,
+      pageNo: 0,
     });
   }
 
@@ -116,6 +126,8 @@ class StaffDashboard extends React.Component {
         <EnhancedTable
           headCells={headCells}
           rows={this.state.participants}
+          pageHandler={this.onPageChange}
+          page={this.state.pageNo}
         ></EnhancedTable>
       </div>
     );

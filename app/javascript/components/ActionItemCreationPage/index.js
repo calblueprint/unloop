@@ -29,6 +29,7 @@ class ActionItemCreationPage extends React.Component {
       actionItemDescription: '',
       actionItemDueDate: '',
       actionItemCategory: null,
+      actionItemFile: null,
       templateActionItems: this.props.templates,
       // Submit failed occurs if ASSIGN is pressed without
       // at least 1 assignment and 1 participant
@@ -37,8 +38,6 @@ class ActionItemCreationPage extends React.Component {
       // create assignment comes back with an error
       submitErrored: false,
       selectedActionItems: [],
-      files: [],
-      hasFile: false,
       submissionStatus: null,
       // State given to the view more and edit modals when invoked
       modalActionItem: null,
@@ -66,7 +65,6 @@ class ActionItemCreationPage extends React.Component {
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.editActionItem = this.editActionItem.bind(this);
     this.reloadPage = this.reloadPage.bind(this);
-    this.handleFileEdit = this.handleFileEdit.bind(this);
     this.handleExitSubmitModal = this.handleExitSubmitModal.bind(this);
   }
 
@@ -84,7 +82,8 @@ class ActionItemCreationPage extends React.Component {
       actionItem1.title === actionItem2.title &&
       actionItem1.description === actionItem2.description &&
       actionItem1.category === actionItem2.category &&
-      actionItem1.dueDate === actionItem2.dueDate
+      actionItem1.dueDate === actionItem2.dueDate &&
+      actionItem1.fileURL === actionItem2.fileURL
     );
   }
 
@@ -109,13 +108,14 @@ class ActionItemCreationPage extends React.Component {
     };
   }
 
-  // files need to be edited with this function
   editActionItem({
     title,
     description,
     categorySelected,
     dueDate,
     actionItem,
+    file,
+    fileURL,
   }) {
     this.setState(prevState => {
       const newSelectedActionItems = prevState.selectedActionItems.map(item => {
@@ -127,6 +127,8 @@ class ActionItemCreationPage extends React.Component {
           itemCopy.description = description;
           itemCopy.category = categorySelected;
           itemCopy.dueDate = dueDate;
+          itemCopy.file = file;
+          itemCopy.fileURL = fileURL;
         }
         return itemCopy;
       });
@@ -143,24 +145,7 @@ class ActionItemCreationPage extends React.Component {
 
   handleFile(event) {
     const file = event.target.files[0];
-    if (file) {
-      this.setState(prevState => ({
-        files: [...prevState.files, file],
-        hasFile: true,
-      }));
-    }
-  }
-
-  handleFileEdit(event, actionItem) {
-    // Should remove the previous file instead of continually adding to an array
-    const file = event.target.files[0];
-    if (file) {
-      this.setState(prevState => ({
-        files: [...prevState.files, file],
-      }));
-      actionItem.fileIndex = this.state.files.length;
-      actionItem.fileName = file.name;
-    }
+    this.setState({ actionItemFile: file || null });
   }
 
   handleSubmit = async () => {
@@ -186,8 +171,9 @@ class ActionItemCreationPage extends React.Component {
         singleForm.append('description', actionItem.description);
         singleForm.append('due_date', actionItem.dueDate);
         singleForm.append('category', actionItem.category);
-        singleForm.append('file', this.state.files[actionItem.fileIndex]);
+        singleForm.append('file', actionItem.file);
         singleForm.append('participant_ids', participantIds);
+        singleForm.append('fileURL', actionItem.fileURL);
         try {
           await apiPost('/api/assignments', singleForm);
           this.removeSelectedActionItem(actionItem);
@@ -196,7 +182,6 @@ class ActionItemCreationPage extends React.Component {
             scope.setExtra('file', 'ActionItemCreationPage');
             scope.setExtra('action', 'apiPost (handleSubmit)');
             scope.setExtra('participantIds', participantIds);
-            // unsure about stringify-ing FormData
             scope.setExtra('body', JSON.stringify(singleForm));
           });
           Sentry.captureException(error);
@@ -256,8 +241,7 @@ class ActionItemCreationPage extends React.Component {
       actionItemDescription,
       actionItemCategory,
       actionItemDueDate,
-      files,
-      hasFile,
+      actionItemFile,
     } = this.state;
     if (
       actionItemTitle === '' ||
@@ -266,25 +250,30 @@ class ActionItemCreationPage extends React.Component {
     ) {
       return;
     }
-    let file = null;
-    if (hasFile) {
-      file = files[files.length - 1];
-    }
 
     const actionItem = {
       title: actionItemTitle,
       description: actionItemDescription,
       category: actionItemCategory,
       dueDate: actionItemDueDate,
+      file: actionItemFile,
+      fileURL: actionItemFile
+        ? window.URL.createObjectURL(actionItemFile)
+        : null,
       is_template: saveToTemplates,
-      fileIndex: file ? files.length - 1 : null,
-      fileName: file ? files[files.length - 1].name : null,
     };
 
     if (saveToTemplates) {
-      apiPost('/api/assignments/templates', { assignment: actionItem })
+      const singleForm = new FormData();
+      singleForm.append('title', actionItem.title);
+      singleForm.append('description', actionItem.description);
+      singleForm.append('due_date', actionItem.dueDate);
+      singleForm.append('category', actionItem.category);
+      singleForm.append('file', actionItem.file);
+      apiPost('/api/assignments/templates', singleForm)
         .then(resp => {
           actionItem.id = resp.data.id;
+          actionItem.fileURL = resp.data.fileURL;
           this.setState(prevState => ({
             templateActionItems: [actionItem, ...prevState.templateActionItems],
           }));
@@ -300,13 +289,12 @@ class ActionItemCreationPage extends React.Component {
     }
 
     this.setState(prevState => ({
-      // probably should change as well
       selectedActionItems: [actionItem, ...prevState.selectedActionItems],
       actionItemTitle: '',
       actionItemDescription: '',
       actionItemDueDate: '',
       actionItemCategory: null,
-      hasFile: false,
+      actionItemFile: null,
     }));
   }
 
@@ -547,8 +535,7 @@ class ActionItemCreationPage extends React.Component {
             description={this.state.modalActionItem.description}
             category={this.state.modalActionItem.category}
             dueDate={this.state.modalActionItem.dueDate}
-            files={this.state.files}
-            fileIndex={this.state.modalActionItem.fileIndex}
+            fileURL={this.state.modalActionItem.fileURL}
           />
         ) : null}
         {this.state.editModalOpen ? (
@@ -560,9 +547,10 @@ class ActionItemCreationPage extends React.Component {
             title={this.state.modalActionItem.title}
             description={this.state.modalActionItem.description}
             categorySelected={this.state.modalActionItem.category}
+            categories={this.props.categories}
             dueDate={this.state.modalActionItem.dueDate}
-            handleFileChange={this.handleFileEdit}
-            files={this.state.files}
+            file={this.state.modalActionItem.file}
+            fileURL={this.state.modalActionItem.fileURL}
             type="edit"
           />
         ) : null}

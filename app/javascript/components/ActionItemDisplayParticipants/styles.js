@@ -28,12 +28,12 @@ export const styles = theme => ({
     paddingLeft: '20px',
     paddingRight: '20px',
     paddingBottom: '10px',
+    overflowY: 'scroll',
   },
 
   displayScroll: {
     minHeight: '220px',
     height: '65vh',
-    overflowY: 'scroll',
     left: 0,
     top: 0,
     direction: 'rtl',

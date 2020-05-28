@@ -4,9 +4,9 @@ class ParticipantsController < ApplicationController
   def show
     # Run this method when we're a staff
     @participant = authorize Participant.find(params[:id])
-    @paperworks = authorize @participant.paperworks
-    @case_notes = authorize @participant.case_notes
-    @studio_assessments = authorize @participant.studio_assessments
+    @paperworks = authorize @participant.paperworks.order('created_at DESC')
+    @case_notes = authorize @participant.case_notes.order('created_at DESC')
+    @studio_assessments = authorize @participant.studio_assessments.order('created_at DESC')
 
     if @participant.personal_questionnaire.nil?
       personal_q = PersonalQuestionnaire.create("participant_id": @participant.id)
@@ -22,22 +22,16 @@ class ParticipantsController < ApplicationController
     end
     @professional_questionnaire = ProfessionalQuestionnairesSerializer.new(professional_q)
 
-    @assignments = authorize @participant.assignments
+    @resumeURL = nil
+    if (professional_q.resume.attached?)
+      @resumeURL = url_for(professional_q.resume)
+    end
+
+    @assignments = authorize @participant.assignments.order('due_date')
     @assignment_list = []
     @assignments.each do |a|
-      action_item = ActionItem.where(id: a.action_item_id).first
-      complete_assignment = {
-        "id" => a.id,
-        "title" => action_item.title, 
-        "description" => action_item.description,
-        "category" => action_item.category,
-        "is_template" => action_item.is_template,
-        "created_at" => a.created_at,
-        "updated_at" => a.updated_at,
-        "due_date" => a.due_date&.strftime("%Y-%m-%d"),
-        "action_item_id" => a.action_item_id,
-      }
-      @assignment_list.push(complete_assignment)
+      serialized_assignment = AssignmentSerializer.new(a)
+      @assignment_list.push(serialized_assignment)
     end
     
   end

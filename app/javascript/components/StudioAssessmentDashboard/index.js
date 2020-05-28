@@ -16,13 +16,15 @@ class StudioAssessmentDashboard extends React.Component {
     super(props);
     this.state = {
       assessments: this.props.assessments,
+      pageNo: 0,
     };
     this.handleSearch = this.handleSearch.bind(this);
+    this.onPageChange = this.onPageChange.bind(this);
   }
 
   componentDidMount() {
     const { assessments } = this.props;
-    const trie = new TrieSearch('name');
+    const trie = new TrieSearch('participant_name');
     trie.addAll(assessments);
     this.setState({
       assessments,
@@ -30,8 +32,17 @@ class StudioAssessmentDashboard extends React.Component {
     });
   }
 
+  onPageChange(e, newPage) {
+    this.setState({
+      pageNo: newPage,
+    });
+  }
+
   handleSearch(e) {
     const searchVal = e.target.value.trim();
+    this.setState({
+      pageNo: 0,
+    });
 
     let assessments = [];
     if (searchVal === '') {
@@ -42,6 +53,7 @@ class StudioAssessmentDashboard extends React.Component {
 
     this.setState({
       assessments,
+      pageNo: 0,
     });
   }
 
@@ -49,56 +61,56 @@ class StudioAssessmentDashboard extends React.Component {
     const { classes } = this.props;
     const headCells = [
       {
-        id: 'name',
+        id: 'participant_name',
         disablePadding: false,
         label: 'Participant',
         sortable: true,
       },
       {
-        id: 'bigpictureScore',
+        id: 'bigpicture_score',
         numeric: true,
         disablePadding: false,
         label: 'Big Picture',
         sortable: true,
       },
       {
-        id: 'progfundamentalsScore',
+        id: 'progfundamentals_score',
         disablePadding: false,
         label: 'Fundamentals',
         sortable: true,
       },
       {
-        id: 'versioncontrolScore',
+        id: 'versioncontrol_score',
         disablePadding: false,
         label: 'Version Control',
         sortable: true,
       },
       {
-        id: 'reactScore',
+        id: 'react_score',
         disablePadding: false,
         label: 'React',
         sortable: true,
       },
       {
-        id: 'dbScore',
+        id: 'db_score',
         disablePadding: false,
         label: 'Database',
         sortable: true,
       },
       {
-        id: 'nodeScore',
+        id: 'node_score',
         disablePadding: false,
         label: 'Node',
         sortable: true,
       },
       {
-        id: 'problemsolvingScore',
+        id: 'problemsolving_score',
         disablePadding: false,
         label: 'Problem Solving',
         sortable: true,
       },
       {
-        id: 'problemsolvingaltScore',
+        id: 'problemsolvingalt_score',
         disablePadding: false,
         label: 'Problem Solving Alt',
         sortable: true,
@@ -132,6 +144,8 @@ class StudioAssessmentDashboard extends React.Component {
           headCells={headCells}
           rows={this.state.assessments}
           type="studio"
+          pageHandler={this.onPageChange}
+          page={this.state.pageNo}
         ></EnhancedTable>
       </div>
     );

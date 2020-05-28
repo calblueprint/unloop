@@ -6,46 +6,66 @@
 - Rails 6.0.0
 - Postgresql 11.6
 
-## Installation
+## Setup for Local Development
 
-### Local Development
 
-1. Clone the repo
+### 1. Clone the repo
 
 ```bash
 git clone https://github.com/calblueprint/unloop.git
 cd unloop
 ```
 
-2. Install dependencies
+### 2. Install dependencies
 
 ```bash
 bundle install
 yarn install
 ```
+You may need to install bundle and/or yarn if you do not already have them.
 
-3. Setup database
-
+### 3. Setup database
 ```bash
 cp config/database.yml.example config/database.yml
 rails db:setup
 # This runs db:create, db:schema:load, and db:seed
 ```
+You may need to run `start postgres` if postgres is not running (you will get an error).
 
-3. SMTP server
+### 4. SMTP server
 
+This is a simple mail server that sends and receives all emails.
+
+**Installation**
 ```bash
 gem install mailcatcher
-# This installs a simple mail server that sends and receives all emails
 ```
+**Running mailcatcher**
+```bash
+mailcatcher
+```
+Creating new assignments in the app will throw a 505 error if you are not running mailcatcher. 
+
+### 5. Running the project locally
+```bash
+rails server
+```
+In order to speed up development and enable hot reloading, you should run this command in a separate terminal. 
+```bash
+./bin/webpack-dev-server
+``` 
 
 
 ## Secret Credentials
+In order to run the development server successfully, you need the `config/master.key` file. 
+Once you have the file, you can check that this is the correct key by running `EDITOR=vim rails credentials:edit`. You should be able to see the api keys in vim using this command. 
+
+**Regenerating the master.key file**
 
 If your master.key has been compromised, you might want to regenerate it.
 
 No key regeneration feature at the moment.
-We have to do it manually.
+We have to do this manually.
 
 1. Copy content of original credentials `rails credentials:show` somewhere temporarily.
 2. Remove `config/master.key` and `config/credentials.yml.enc`

@@ -13,6 +13,7 @@ function QuestionnaireModal({
   participantId,
   questionnaireType,
   userType,
+  resumeURL,
 }) {
   const [open, setOpen] = useState(false);
   const qType =
@@ -26,6 +27,7 @@ function QuestionnaireModal({
         participantId={participantId}
         questionnaire={questionnaire}
         handleClose={() => setOpen(false)}
+        resumeURL={resumeURL}
       />
     );
   } else if (userType === 'participant') {
@@ -33,7 +35,7 @@ function QuestionnaireModal({
       <QuestionnaireView
         type={questionnaireType}
         questionnaire={questionnaire}
-        handleClose={() => setOpen(false)}
+        resumeURL={resumeURL}
       />
     );
   }
@@ -41,7 +43,7 @@ function QuestionnaireModal({
   return (
     <>
       <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
-        {qType} INTAKE FORM
+        {qType} INTAKE FORM
       </Button>
       <Dialog
         open={open}
@@ -68,6 +70,7 @@ QuestionnaireModal.propTypes = {
   participantId: PropTypes.number.isRequired,
   questionnaireType: PropTypes.oneOf(['personal', 'professional']).isRequired,
   userType: PropTypes.oneOf(['staff', 'participant']).isRequired,
+  resumeURL: PropTypes.string,
 };
 
 export default memo(withStyles(styles)(QuestionnaireModal));

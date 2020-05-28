@@ -1,16 +1,16 @@
-/* 
+/*
  * This is the root component for every page in the app. It contains the navigation bar.
  *
- * Authors - Divi Schmidt, Alison Dowski, Joelene Latief, Julian Kung, 
+ * Authors - Divi Schmidt, Alison Dowski, Joelene Latief, Julian Kung,
  *           Erin Song, Fredrick Kim, Calvin Chen, Kyle Hua, Christopher Grey
- * 
- * integration@calblueprint.org 
+ *
+ * integration@calblueprint.org
  * Blueprint, Technology for Nonprofits (C) 2020
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the MIT License. See the MIT License for more details.
- * You should have received a copy of the MIT License along with 
- * this program. 
+ * You should have received a copy of the MIT License along with
+ * this program.
  */
 
 import React from 'react';
@@ -80,9 +80,7 @@ function Main(props) {
       case 'Assessments':
         return <BarChartIcon />;
       default:
-        return
     }
-    return
   };
 
   const getButton = (name, route) => (
@@ -128,9 +126,7 @@ function Main(props) {
           <ActionItemCreationPage {...contentProps}></ActionItemCreationPage>
         );
       default:
-        return
     }
-    return
   };
 
   return (
@@ -200,7 +196,7 @@ function Main(props) {
           </Grid>
         </Drawer>
       </div>
-      <main className={classes.content}>{getContent()}</main>
+      <div className={classes.content}>{getContent()}</div>
     </ThemeProvider>
   );
 }

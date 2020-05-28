@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withStyles, ThemeProvider } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloseIcon from '@material-ui/icons/Close';
+import Badge from '@material-ui/core/Badge';
+import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import ActionItemCategoryTag from 'components/ActionItemCategoryTag';
@@ -12,15 +14,16 @@ import Button from '@material-ui/core/Button';
 import theme from 'utils/theme';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { apiPatch } from 'utils/axios';
+import * as Sentry from '@sentry/browser';
+import formatDate from 'utils/utils';
 import styles from './styles';
-
 function ActionItemCard({
   classes,
   userType,
   title,
   description,
   dueDate,
-  formatDate,
   category,
   selected,
   renderClose,
@@ -32,7 +35,15 @@ function ActionItemCard({
   removeActionItem,
   // This prop tells whether or not the assignments are being rendered from the participantShowPage
   participantShowPage,
+  initialCompletedParticipant,
+  initialCompletedStaff,
+  assignmentId,
 }) {
+  const [completedParticipant, setCompletedParticipant] = useState(
+    initialCompletedParticipant,
+  );
+  const [completedStaff, setCompletedStaff] = useState(initialCompletedStaff);
+
   const renderSelectIcon = () => (
     <IconButton aria-label="add" onClick={handleIconClick}>
       {selected ? <CheckCircleIcon /> : <AddIcon />}
@@ -76,11 +87,62 @@ function ActionItemCard({
     </Button>
   );
 
-  const formattedDueDate = () => {
-    if (formatDate) {
-      return formatDate(dueDate);
+  const handleComplete = () => {
+    const endpoint = '/api/assignments/complete/'.concat(assignmentId);
+    apiPatch(endpoint, {})
+      .then(() => {
+        if (userType === 'participant') {
+          setCompletedParticipant(true);
+        } else {
+          setCompletedStaff(true);
+        }
+      })
+      .catch(error => {
+        Sentry.configureScope(function(scope) {
+          scope.setExtra('file', 'ActionItemCard');
+          scope.setExtra('action', 'apiPatch (handleComplete)');
+          scope.setExtra('assignmentId', assignmentId);
+        });
+        Sentry.captureException(error);
+      });
+  };
+
+  const renderCompleteButton = () => {
+    if (participantShowPage && userType === 'participant' && !completedStaff) {
+      // if user is a participant and we are on the participant show page
+      return (
+        <Tooltip title="Staff member must also mark assignment as completed in order to fully complete this assignment.">
+          <span>
+            <Button
+              size="small"
+              className={classes.buttonStyle}
+              onClick={() => handleComplete()}
+              disabled={completedParticipant}
+            >
+              {completedParticipant
+                ? 'WAITING FOR VERIFICATION'
+                : 'MARK COMPLETE'}
+            </Button>
+          </span>
+        </Tooltip>
+      );
     }
-    return dueDate;
+    if (participantShowPage && completedParticipant && !completedStaff) {
+      // if user is a staff and we are on the participant show page
+      return (
+        <Tooltip title="Participant marked this as completed. Press complete to verify completion">
+          <Badge color="secondary" variant="dot">
+            <Button
+              size="small"
+              className={classes.buttonStyle}
+              onClick={() => handleComplete()}
+            >
+              COMPLETE
+            </Button>
+          </Badge>
+        </Tooltip>
+      );
+    }
   };
 
   // Handles logic for the first button on bottom of ActionItemCard
@@ -113,7 +175,11 @@ function ActionItemCard({
     <ThemeProvider theme={theme}>
       <Grid
         container
-        className={classes.cardStyle}
+        className={
+          completedParticipant && completedStaff
+            ? classes.disabledCardStyle
+            : classes.cardStyle
+        }
         direction="column"
         justify="space-evenly"
       >
@@ -127,19 +193,18 @@ function ActionItemCard({
         >
           <Grid
             item
-            xs={2}
-            spacing={2}
             container
+            spacing={2}
+            direction="row"
             alignItems="center"
             wrap="nowrap"
           >
             <Grid item className={classes.titleStyle}>
               <Typography variant="subtitle1" noWrap>
-                {' '}
-                {title}{' '}
+                {title}
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item>
               <ActionItemCategoryTag category={category} selected={false} />
             </Grid>
           </Grid>
@@ -173,21 +238,22 @@ function ActionItemCard({
         <Grid item container justify="space-between" alignItems="center">
           <Grid item>
             {dueDate ? (
-              <Typography variant="body1" style={{ fontSize: '14px'}}>
-                Due: {formattedDueDate()}
+              <Typography variant="body1" style={{ fontSize: '14px' }}>
+                Due: {formatDate(dueDate)}
               </Typography>
             ) : null}
           </Grid>
           <Grid
             item
             container
-            xs={6}
+            xs={7}
             justify="space-evenly"
             alignItems="flex-start"
           >
-            <Grid item>{renderFirstButton()}</Grid>
             {/* Make sure renderClose + participantShowPage are not both true, or else you get two edit buttons. */}
             <Grid item>{renderSecondButton()}</Grid>
+            <Grid item>{renderFirstButton()}</Grid>
+            <Grid item>{renderCompleteButton()}</Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -207,8 +273,11 @@ ActionItemCard.propTypes = {
   dueDate: PropTypes.string,
   handleIconClick: PropTypes.func,
   removeActionItem: PropTypes.func,
-  formatDate: PropTypes.func,
   addBorderBottom: PropTypes.bool,
   participantShowPage: PropTypes.bool,
+  initialCompletedStaff: PropTypes.bool.isRequired,
+  initialCompletedParticipant: PropTypes.bool.isRequired,
+  assignmentId: PropTypes.number,
 };
+
 export default withStyles(styles)(ActionItemCard);

@@ -25,14 +25,6 @@ class ParticipantShowPage extends React.Component {
     }));
   };
 
-  formatDate = dateString => {
-    const dateObj = new Date(dateString);
-    const year = dateObj.getFullYear();
-    const month = dateObj.getMonth() + 1;
-    const dt = dateObj.getDate() + 1;
-    return `${month.toString()}/${dt.toString()}/${year.toString()}`;
-  };
-
   render() {
     const {
       userType,
@@ -47,6 +39,8 @@ class ParticipantShowPage extends React.Component {
       professionalQuestionnaire,
       studioAssessments,
       assignmentList,
+      resumeURL,
+      categories,
     } = this.props;
 
     return (
@@ -90,6 +84,7 @@ class ParticipantShowPage extends React.Component {
                   questionnaireType="personal"
                   participantId={participantId}
                   questionnaire={personalQuestionnaire}
+                  resumeURL={resumeURL}
                 />
               </Grid>
               <Grid item>
@@ -98,6 +93,7 @@ class ParticipantShowPage extends React.Component {
                   questionnaireType="professional"
                   participantId={participantId}
                   questionnaire={professionalQuestionnaire}
+                  resumeURL={resumeURL}
                 />
               </Grid>
             </Grid>
@@ -106,7 +102,6 @@ class ParticipantShowPage extends React.Component {
               <PaperworkList
                 initialPaperworks={paperworks}
                 participantId={participantId}
-                formatDate={this.formatDate}
                 userType={userType}
               />
             </Grid>
@@ -125,12 +120,11 @@ class ParticipantShowPage extends React.Component {
             userType={userType}
             initialAssignments={assignmentList}
             participantId={participantId}
-            formatDate={this.formatDate}
+            categories={categories}
           />
           {userType === 'staff' ? (
             <StudioAssessmentList
               initialStudioAssessments={studioAssessments}
-              formatDate={this.formatDate}
               userType={userType}
               participantId={participantId}
             />
@@ -153,6 +147,8 @@ ParticipantShowPage.propTypes = {
   personalQuestionnaire: PropTypes.object.isRequired,
   professionalQuestionnaire: PropTypes.object.isRequired,
   studioAssessments: PropTypes.array.isRequired,
+  resumeURL: PropTypes.string.isRequired,
+  categories: PropTypes.array.isRequired,
   assignmentList: PropTypes.array,
 };
 

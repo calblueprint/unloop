@@ -10,6 +10,7 @@ const styles = theme => ({
     borderRadius: 10,
     marginLeft: 0,
     marginRight: 0,
+    width: '100%',
   },
   componentTitle: {
     paddingBottom: 16,
@@ -24,6 +25,7 @@ const styles = theme => ({
     paddingTop: 0,
     maxHeight: '600px',
     height: '53vh',
+    width: '100%',
     overflow: 'auto',
     overflowX: 'hidden',
     overflowY: 'auto',

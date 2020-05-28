@@ -93,13 +93,14 @@ function EnhancedTable(props) {
   const { classes } = props;
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
-  const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selectedCat, setSelectedCat] = React.useState('name');
 
   const { rows } = props;
   const { headCells } = props;
   const { type } = props;
+  const { pageHandler } = props;
+  const { page } = props;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -108,13 +109,9 @@ function EnhancedTable(props) {
     setSelectedCat(property);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    pageHandler(null, 0);
   };
 
   const emptyRows =
@@ -170,7 +167,7 @@ function EnhancedTable(props) {
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          onChangePage={handleChangePage}
+          onChangePage={pageHandler}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
@@ -182,6 +179,8 @@ EnhancedTable.propTypes = {
   rows: PropTypes.array.isRequired,
   headCells: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
+  pageHandler: PropTypes.func.isRequired,
+  page: PropTypes.object.isRequired,
   type: PropTypes.string,
 };
 
