@@ -1,11 +1,16 @@
 const styles = theme => ({
   pageStyle: {
     minHeight: '100vh',
-    width: '100%',
-    minWidth: '1000px',
+    maxWidth: '100%',
     margin: '0px',
     backgroundColor: theme.palette.common.white,
-    overflow: 'none',
+    padding: '8px 4%',
+  },
+  headerStyle: {
+    // paddingLeft: '6%',
+    '& div': {
+      padding: '8px',
+    },
   },
   snackbarStyle: {
     backgroundColor: 'red',
@@ -34,9 +39,6 @@ const styles = theme => ({
     color: theme.palette.common.white,
     paddingLeft: '16px',
     paddingRight: '16px',
-  },
-  stepperStyle: {
-    paddingTop: '10px',
   },
   underlineStyle: {
     color: theme.palette.common.indigo,

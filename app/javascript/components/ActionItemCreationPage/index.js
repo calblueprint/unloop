@@ -489,7 +489,7 @@ class ActionItemCreationPage extends React.Component {
       </Grid>
     );
     const forwardButton = (
-      <Grid item>
+      <Grid item style={{ 'padding-left': '16px' }}>
         <Fab
           className={classes.iconStyle}
           component="span"
@@ -506,7 +506,7 @@ class ActionItemCreationPage extends React.Component {
     );
 
     return (
-      <Grid container item alignItems="center" justify="flex-end" spacing={3}>
+      <Grid container alignItems="center" justify="flex-end">
         {/* No back button if at beginning of form */}
         {stepSize === 0 ? null : backButton}
         {forwardButton}
@@ -590,68 +590,62 @@ class ActionItemCreationPage extends React.Component {
             message="There must be at least 1 assignment and 1 student"
           />
         </Snackbar>
-        <Grid container className={classes.pageStyle}>
-          <Grid item container xs={11} justify="center">
+        <Grid container className={classes.pageStyle} spacing={1}>
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            justify="center"
+            wrap="nowrap"
+          >
             <Grid
               container
               item
-              direction="column"
-              alignItems="center"
-              justify="center"
-              xs={11}
-              spacing={2}
+              direction="row"
+              alignItems="flex-start"
+              justifyContent="center"
+              className={classes.headerStyle}
             >
-              <Grid
-                container
-                item
-                direction="column"
-                alignItems="flex-start"
-                spacing={1}
-              >
-                <Grid item>
-                  <img
-                    src={`/assets/action_item_step_${this.state.step}.svg`}
-                    className={classes.stepperStyle}
-                    alt={`Step ${this.state.step + 1} of form`}
-                  />
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.topLeftTextStyle}>
-                    {headerText}
-                  </Typography>
-                </Grid>
+              <Grid item>
+                <img
+                  src={`/assets/action_item_step_${this.state.step}.svg`}
+                  alt={`Step ${this.state.step + 1} of form`}
+                />
               </Grid>
-              <Grid
-                container
-                item
-                xs={8}
-                spacing={1}
-                className={classes.mainBackgroundStyle}
-                justify="space-evenly"
-                alignItems="flex-start"
-              >
-                <Grid item>
-                  <Typography className={classes.underlineStyle}>
-                    {leftComponentText}
-                  </Typography>
-                  <hr className={classes.borderStyle}></hr>
-                  <Divider style={{ marginBottom: '10px' }} />
-                  {leftComponent}
-                </Grid>
-                <Grid item>
-                  <Typography
-                    className={classes.underlineStyle}
-                    style={{ color: this.state.submitErrored ? 'red' : null }}
-                  >
-                    {rightComponentText}
-                  </Typography>
-                  <hr className={classes.borderStyle}></hr>
-                  <Divider style={{ marginBottom: '10px' }} />
-                  {rightComponent}
-                </Grid>
+              <Grid item>
+                <Typography className={classes.topLeftTextStyle}>
+                  {headerText}
+                </Typography>
               </Grid>
-              {buttonsGrid}
             </Grid>
+            <Grid
+              container
+              item
+              className={classes.mainBackgroundStyle}
+              justify="space-evenly"
+              alignItems="flex-start"
+            >
+              <Grid item>
+                <Typography className={classes.underlineStyle}>
+                  {leftComponentText}
+                </Typography>
+                <hr className={classes.borderStyle}></hr>
+                <Divider style={{ marginBottom: '10px' }} />
+                {leftComponent}
+              </Grid>
+              <Grid item>
+                <Typography
+                  className={classes.underlineStyle}
+                  style={{ color: this.state.submitErrored ? 'red' : null }}
+                >
+                  {rightComponentText}
+                </Typography>
+                <hr className={classes.borderStyle}></hr>
+                <Divider style={{ marginBottom: '10px' }} />
+                {rightComponent}
+              </Grid>
+            </Grid>
+            {buttonsGrid}
           </Grid>
         </Grid>
       </div>

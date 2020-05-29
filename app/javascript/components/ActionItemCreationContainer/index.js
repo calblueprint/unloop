@@ -49,6 +49,7 @@ function ActionItemCreationContainer({
         <Grid item>
           <Button
             variant={isTemplateSetting ? 'contained' : null}
+            size="small"
             className={
               isTemplateSetting
                 ? classes.selectedButton
@@ -62,6 +63,7 @@ function ActionItemCreationContainer({
         <Grid item>
           <Button
             variant={!isTemplateSetting ? 'contained' : null}
+            size="small"
             className={
               !isTemplateSetting
                 ? classes.selectedButton
@@ -82,7 +84,6 @@ function ActionItemCreationContainer({
         direction="column"
         alignItems="center"
         justify="center"
-        spacing={1}
         className={classes.containerStyle}
       >
         {renderButtonRow()}
