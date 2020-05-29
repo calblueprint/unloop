@@ -22,18 +22,12 @@ export const styles = () => ({
   boundaryBox: {
     borderColor: theme.palette.common.white,
     backgroundColor: theme.palette.common.white,
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-    borderRadius: '10px',
+    borderRadius: theme.shape.borderRadius,
     border: 1,
     width: '90%',
     minWidth: '400px',
-    height: '90%',
-    minHeight: '300px',
-    marginTop: '7px',
-    marginBottom: '15px',
-    paddingLeft: '30px',
-    paddingTop: '20px',
-    paddingRight: '20px',
+    height: '100%',
+    padding: '16px',
   },
 
   searchIndividual: {

@@ -54,7 +54,7 @@ function ActionItemForm({
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper elevation={3} className={classes.formStyle}>
+      <Paper elevation={0} className={classes.formStyle}>
         <Grid container spacing={1} direction="column">
           <Grid item container direction="column" justify="center" spacing={1}>
             <Grid

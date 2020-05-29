@@ -18,9 +18,8 @@ export const styles = theme => ({
 
   boundaryBox: {
     borderColor: theme.palette.common.white,
-    backgroundColor: '#FFFFFF',
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-    borderRadius: '10px',
+    backgroundColor: theme.palette.common.white,
+    borderRadius: theme.shape.borderRadius,
     border: 1,
     width: '400px',
     height: '460px',

@@ -27,7 +27,7 @@ function ActionItemList({
   ));
 
   return (
-    <Paper elevation={3} className={classes.formStyle}>
+    <Paper elevation={0} className={classes.formStyle}>
       <Grid
         container
         direction="column"
