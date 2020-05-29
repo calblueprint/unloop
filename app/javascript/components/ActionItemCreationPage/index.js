@@ -31,7 +31,12 @@ class ActionItemCreationPage extends React.Component {
       actionItemCategory: null,
       actionItemFile: null,
       templateActionItems: this.props.templates,
+      // Submit failed occurs if ASSIGN is pressed without
+      // at least 1 assignment and 1 participant
       submitFailed: false,
+      // Submit errored occurs if API request to
+      // create assignment comes back with an error
+      submitErrored: false,
       selectedActionItems: [],
       submissionStatus: null,
       // State given to the view more and edit modals when invoked
@@ -143,7 +148,7 @@ class ActionItemCreationPage extends React.Component {
     this.setState({ actionItemFile: file || null });
   }
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     if (
       this.state.selectedParticipants.length === 0 ||
       this.state.selectedActionItems.length === 0
@@ -155,23 +160,24 @@ class ActionItemCreationPage extends React.Component {
       participant => participant.id,
     );
 
-    for (let i = 0; i < this.state.selectedActionItems.length; i += 1) {
-      const firstActionItem = this.state.selectedActionItems[i];
-      const singleForm = new FormData();
-      singleForm.append('title', firstActionItem.title);
-      singleForm.append('description', firstActionItem.description);
-      singleForm.append('due_date', firstActionItem.dueDate);
-      singleForm.append('category', firstActionItem.category);
-      singleForm.append('file', firstActionItem.file);
-      singleForm.append('fileURL', firstActionItem.fileURL);
-      singleForm.append('participant_ids', participantIds);
-      this.setState({ submissionStatus: 'loading' });
-      apiPost('/api/assignments', singleForm)
-        .then(() =>
-          this.setState({ submissionStatus: 'complete', submitFailed: false }),
-        )
-        .catch(error => {
-          this.setState({ submissionStatus: 'error' });
+    this.setState({ submissionStatus: 'loading' });
+    const actionItemList = [...this.state.selectedActionItems];
+
+    // Wait until all http requests are done before rendering complete or error
+    await Promise.all(
+      actionItemList.map(async actionItem => {
+        const singleForm = new FormData();
+        singleForm.append('title', actionItem.title);
+        singleForm.append('description', actionItem.description);
+        singleForm.append('due_date', actionItem.dueDate);
+        singleForm.append('category', actionItem.category);
+        singleForm.append('file', actionItem.file);
+        singleForm.append('participant_ids', participantIds);
+        singleForm.append('fileURL', actionItem.fileURL);
+        try {
+          await apiPost('/api/assignments', singleForm);
+          this.removeSelectedActionItem(actionItem);
+        } catch (error) {
           Sentry.configureScope(function(scope) {
             scope.setExtra('file', 'ActionItemCreationPage');
             scope.setExtra('action', 'apiPost (handleSubmit)');
@@ -179,8 +185,18 @@ class ActionItemCreationPage extends React.Component {
             scope.setExtra('body', JSON.stringify(singleForm));
           });
           Sentry.captureException(error);
-        });
-    }
+        }
+      }),
+    );
+
+    // After Promise only error'd action items will be in selectedActionItems
+    this.setState(prevState => {
+      const allRequestsSuccessful = prevState.selectedActionItems.length === 0;
+      return {
+        submissionStatus: allRequestsSuccessful ? 'complete' : 'error',
+        submitErrored: !allRequestsSuccessful,
+      };
+    });
   };
 
   deleteTemplate(templateActionItem) {
@@ -296,7 +312,11 @@ class ActionItemCreationPage extends React.Component {
   }
 
   prevStep() {
-    this.setState(prevState => ({ step: prevState.step - 1 }));
+    // Clear any submit error text too
+    this.setState(prevState => ({
+      step: prevState.step - 1,
+      submitErrored: false,
+    }));
   }
 
   // Adds selected user to state to be displayed
@@ -412,7 +432,9 @@ class ActionItemCreationPage extends React.Component {
         break;
       case 2:
         leftComponentText = 'Review Students';
-        rightComponentText = 'Review Assignments';
+        rightComponentText = this.state.submitErrored
+          ? 'Failed Assignments'
+          : 'Review Assignments';
         headerText = 'Review and Assign';
 
         leftComponent = (
@@ -502,6 +524,7 @@ class ActionItemCreationPage extends React.Component {
       headerText,
     } = this.getMainComponents(this.state.step);
     const buttonsGrid = this.getButtonsGrid(this.state.step);
+
     return (
       <div>
         {this.state.viewMoreModalOpen ? (
@@ -538,11 +561,16 @@ class ActionItemCreationPage extends React.Component {
           handleClick={
             this.state.submissionStatus === 'complete'
               ? this.reloadPage
-              : this.handleSubmit
+              : this.handleExitSubmitModal
           }
           handleClose={
             this.state.submissionStatus === 'error'
               ? this.handleExitSubmitModal
+              : null
+          }
+          errorCount={
+            this.state.submissionStatus === 'error'
+              ? this.state.selectedActionItems.length
               : null
           }
         />
@@ -611,7 +639,10 @@ class ActionItemCreationPage extends React.Component {
                   {leftComponent}
                 </Grid>
                 <Grid item>
-                  <Typography className={classes.underlineStyle}>
+                  <Typography
+                    className={classes.underlineStyle}
+                    style={{ color: this.state.submitErrored ? 'red' : null }}
+                  >
                     {rightComponentText}
                   </Typography>
                   <hr className={classes.borderStyle}></hr>

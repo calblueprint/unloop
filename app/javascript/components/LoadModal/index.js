@@ -15,7 +15,14 @@ import {
 } from '@material-ui/core';
 import styles from './styles';
 
-function LoadModal({ classes, open, status, handleClick, handleClose }) {
+function LoadModal({
+  classes,
+  open,
+  status,
+  handleClick,
+  handleClose,
+  errorCount,
+}) {
   const getText = () => {
     let titleText;
     let buttonText;
@@ -32,8 +39,8 @@ function LoadModal({ classes, open, status, handleClick, handleClose }) {
         statusImage = successMailbox;
         break;
       case 'error':
-        titleText = 'Failed  to Assign';
-        buttonText = 'TRY AGAIN';
+        titleText = `Failed to assign ${errorCount} assignments`;
+        buttonText = 'VIEW FAILED ASSIGNMENTS';
         statusImage = errorMailbox;
         break;
       default:
@@ -114,5 +121,6 @@ LoadModal.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
   handleClose: PropTypes.func,
+  errorCount: PropTypes.number,
 };
 export default withStyles(styles)(LoadModal);

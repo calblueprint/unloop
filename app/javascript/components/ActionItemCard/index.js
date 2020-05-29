@@ -105,7 +105,6 @@ function ActionItemCard({
         });
         Sentry.captureException(error);
       });
-    return
   };
 
   const renderCompleteButton = () => {
