@@ -11,8 +11,8 @@ class Assignment < ApplicationRecord
     delegate :title, to: :action_item
     delegate :description, to: :action_item
     delegate :category, to: :action_item
-    delegate :fileURL, to: :action_item
-    delegate :file, to: :action_item
+    delegate :fileURL, to: :action_item, :allow_nil => true
+    delegate :file, to: :action_item, :allow_nil => true
     
     private 
     def nontemplate_assignment
