@@ -19,19 +19,11 @@ export const styles = theme => ({
   boundaryBox: {
     backgroundColor: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,
-    height: '444px',
+    height: '480px',
     padding: '8px',
     width: '100%',
     minWidth: '400px',
     overflowY: 'scroll',
-  },
-
-  displayScroll: {
-    minHeight: '220px',
-    height: '460px',
-    left: 0,
-    top: 0,
-    direction: 'rtl',
   },
 });
 

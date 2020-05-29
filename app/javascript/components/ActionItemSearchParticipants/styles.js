@@ -6,7 +6,8 @@ export const styles = () => ({
     borderRadius: theme.shape.borderRadius,
     width: '100%',
     minWidth: '400px',
-    height: '460px',
+    padding: '8px',
+    height: '480px',
   },
 
   categoryItem: {
@@ -39,7 +40,7 @@ export const styles = () => ({
     margin: '0px 8px',
     overflowY: 'scroll',
     left: 0,
-    height: '210px',
+    height: '224px',
     top: 0,
   },
 
