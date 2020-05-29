@@ -1,48 +1,42 @@
 import theme from 'utils/theme';
 
 export const styles = () => ({
+  boundaryBox: {
+    backgroundColor: theme.palette.common.white,
+    borderRadius: theme.shape.borderRadius,
+    width: '100%',
+    minWidth: '400px',
+    height: '460px',
+  },
+
+  categoryItem: {
+    width: 'calc(100% - 16px)',
+    margin: '8px',
+  },
+
   statusButton: {
     borderRadius: '20px',
     height: '0.01px',
     width: '100px',
     brightness: '50%',
     marginRight: '10px',
-    marginBottom: '10px',
-    marginTop: '20px',
-  },
-
-  boxProps: {
-    backgroundColor: theme.palette.common.indigo,
-    width: '15rem',
-    height: '0.4rem',
-    borderRadius: '5px 5px 0px 0px',
-    marginTop: '2%',
-  },
-
-  boundaryBox: {
-    borderColor: theme.palette.common.white,
-    backgroundColor: theme.palette.common.white,
-    borderRadius: theme.shape.borderRadius,
-    border: 1,
-    width: '90%',
-    minWidth: '400px',
-    height: '100%',
-    padding: '16px',
   },
 
   searchIndividual: {
-    marginTop: '20px',
+    width: 'calc(100% - 16px)',
+    margin: '8px',
   },
 
   searchBar: {
-    marginBottom: '10px',
+    width: 'calc(100% - 16px)',
+    margin: '8px',
     backgroundColor: theme.palette.common.searchBox,
-    width: '100%',
-    borderRadius: '5px',
-    marginTop: '5px',
+    borderRadius: theme.shape.borderRadius,
   },
 
   searchScroll: {
+    width: 'calc(100% - 16px)',
+    margin: '0px 8px',
     overflowY: 'scroll',
     left: 0,
     height: '210px',
@@ -50,9 +44,8 @@ export const styles = () => ({
   },
 
   selectAll: {
-    marginLeft: '70%',
-    marginTop: '20px',
-    marginBottom: '30px',
+    width: 'calc(100% - 16px)',
+    margin: '8px',
   },
 });
 

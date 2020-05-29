@@ -17,22 +17,18 @@ export const styles = theme => ({
   },
 
   boundaryBox: {
-    borderColor: theme.palette.common.white,
     backgroundColor: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,
-    border: 1,
-    width: '400px',
-    height: '460px',
-    paddingTop: '30px',
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    paddingBottom: '10px',
+    height: '444px',
+    padding: '8px',
+    width: '100%',
+    minWidth: '400px',
     overflowY: 'scroll',
   },
 
   displayScroll: {
     minHeight: '220px',
-    height: '65vh',
+    height: '460px',
     left: 0,
     top: 0,
     direction: 'rtl',

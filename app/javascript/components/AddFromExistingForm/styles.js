@@ -8,7 +8,6 @@ const styles = theme => ({
   },
   formStyle: {
     width: '400px',
-    height: '40%',
     padding: '10px',
     minHeight: '300px',
   },
