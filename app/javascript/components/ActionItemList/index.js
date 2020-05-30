@@ -29,9 +29,9 @@ function ActionItemList({
     <Grid
       container
       direction="column"
+      alignItems="center"
       wrap="nowrap"
       className={classes.formStyle}
-      spacing={1}
     >
       {selectedCards}
     </Grid>

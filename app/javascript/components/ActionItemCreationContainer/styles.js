@@ -8,12 +8,14 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: theme.palette.common.purpleSecondary,
     },
+    border: 'none',
   },
   unselectedButton: {
     color: theme.palette.common.indigo,
     '&:hover': {
       backgroundColor: theme.palette.common.lightestGrey,
     },
+    border: 'none',
   },
 });
 

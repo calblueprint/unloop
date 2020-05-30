@@ -182,6 +182,7 @@ function ActionItemCard({
         }
         direction="column"
         justify="space-evenly"
+        wrap="nowrap"
       >
         <Grid
           item

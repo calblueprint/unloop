@@ -43,12 +43,13 @@ function ActionItemCreationContainer({
       <Grid
         container
         item
-        justify="space-evenly"
+        justify="flex-start"
         className={classes.containerStyle}
       >
         <Grid item>
           <Button
-            variant={isTemplateSetting ? 'contained' : null}
+            disableElevation
+            variant={isTemplateSetting ? 'contained' : 'outlined'}
             size="small"
             className={
               isTemplateSetting
@@ -62,7 +63,8 @@ function ActionItemCreationContainer({
         </Grid>
         <Grid item>
           <Button
-            variant={!isTemplateSetting ? 'contained' : null}
+            disableElevation
+            variant={!isTemplateSetting ? 'contained' : 'outlined'}
             size="small"
             className={
               !isTemplateSetting

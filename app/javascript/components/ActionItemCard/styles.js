@@ -13,7 +13,7 @@ const styles = theme => ({
     width: '100%',
     minHeight: '140px',
     padding: '8px',
-    margin: '10px 0px',
+    marginBottom: '10px',
     boxShadow: 'none',
     backgroundColor: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,

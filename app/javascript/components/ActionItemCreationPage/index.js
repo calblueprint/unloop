@@ -624,8 +624,9 @@ class ActionItemCreationPage extends React.Component {
               className={classes.mainBackgroundStyle}
               justify="space-evenly"
               alignItems="flex-start"
+              wrap="nowrap"
             >
-              <Grid item>
+              <Grid item className={classes.sideComponentStyle}>
                 <Typography className={classes.underlineStyle}>
                   {leftComponentText}
                 </Typography>
@@ -633,7 +634,7 @@ class ActionItemCreationPage extends React.Component {
                 <Divider style={{ marginBottom: '10px' }} />
                 {leftComponent}
               </Grid>
-              <Grid item>
+              <Grid item className={classes.sideComponentStyle}>
                 <Typography
                   className={classes.underlineStyle}
                   style={{ color: this.state.submitErrored ? 'red' : null }}

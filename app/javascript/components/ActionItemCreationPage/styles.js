@@ -6,6 +6,12 @@ const styles = theme => ({
     backgroundColor: theme.palette.common.white,
     padding: '8px 4%',
   },
+  sideComponentStyle: {
+    width: '50%',
+    maxWidth: '600px',
+    height: '80%',
+    padding: '8px',
+  },
   headerStyle: {
     // paddingLeft: '6%',
     '& div': {

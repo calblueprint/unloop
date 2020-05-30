@@ -1,8 +1,7 @@
 const styles = theme => ({
   formStyle: {
-    padding: '8px',
     height: '480px',
-    width: '400px',
+    minWidth: '400px',
     display: 'block',
     overflowY: 'scroll',
     backgroundColor: theme.palette.common.lightestGrey,
