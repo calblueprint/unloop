@@ -190,14 +190,13 @@ function ActionItemCard({
           alignItems="center"
           justify="space-between"
           wrap="nowrap"
-          spacing={2}
         >
           <Grid
             item
             container
-            spacing={2}
             direction="row"
             alignItems="center"
+            justify="flex-start"
             wrap="nowrap"
           >
             <Grid item className={classes.titleStyle}>
@@ -214,11 +213,11 @@ function ActionItemCard({
         <Grid
           item
           container
+          direction="row"
           justify="space-between"
           alignItems="center"
-          spacing={6}
         >
-          <Grid item xs={9} className={classes.descriptionStyle}>
+          <Grid item className={classes.descriptionStyle}>
             <Typography variant="body1" style={{ fontSize: '14px' }}>
               {description}
             </Typography>
@@ -236,7 +235,13 @@ function ActionItemCard({
             ) : null}
           </Grid>
         </Grid>
-        <Grid item container justify="space-between" alignItems="center">
+        <Grid
+          item
+          container
+          direction="row"
+          justify="space-between"
+          alignItems="center"
+        >
           <Grid item>
             {dueDate ? (
               <Typography variant="body1" style={{ fontSize: '14px' }}>
@@ -247,14 +252,13 @@ function ActionItemCard({
           <Grid
             item
             container
-            xs={7}
-            justify="space-evenly"
-            alignItems="flex-start"
+            justify="flex-end"
+            style={{ 'padding-left': '16px', width: 'calc(100% - 100px)' }}
           >
             {/* Make sure renderClose + participantShowPage are not both true, or else you get two edit buttons. */}
+            <Grid item>{renderCompleteButton()}</Grid>
             <Grid item>{renderSecondButton()}</Grid>
             <Grid item>{renderFirstButton()}</Grid>
-            <Grid item>{renderCompleteButton()}</Grid>
           </Grid>
         </Grid>
       </Grid>
