@@ -54,7 +54,7 @@ function ActionItemParticipant({
             backgroundColor: theme.palette.common[participant.status],
           }}
         />
-        <Typography noWrap variant="body1" style={{ fontSize: '14px' }}>
+        <Typography noWrap variant="body1" style={{ fontSize: '16px' }}>
           {participant.name}
         </Typography>
       </Grid>

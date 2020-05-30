@@ -7,10 +7,10 @@ const styles = theme => ({
     paddingRight: '8px',
   },
   formStyle: {
-    padding: '8px',
-    minHeight: '425px',
-    display: 'block',
     overflow: 'hidden',
+    padding: '8px',
+    minHeight: '300px',
+    width: '100%',
   },
   iconStyle: {
     boxShadow: 'None',

@@ -217,8 +217,8 @@ function ActionItemCard({
           justify="space-between"
           alignItems="center"
         >
-          <Grid item className={classes.descriptionStyle}>
-            <Typography variant="body1" style={{ fontSize: '14px' }}>
+          <Grid item className={classes.descriptionStyle} zeroMinWidth>
+            <Typography noWrap variant="body1" style={{ fontSize: '14px' }}>
               {description}
             </Typography>
           </Grid>

@@ -9,6 +9,7 @@ const styles = theme => ({
   formStyle: {
     padding: '8px',
     minHeight: '300px',
+    width: '100%',
   },
   iconStyle: {
     boxShadow: 'None',
