@@ -1,8 +1,7 @@
 import React from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import Divider from '@material-ui/core/Divider';
-import Box from '@material-ui/core/Box';
+import { Grid, Box, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import theme from 'utils/theme';
 import PropTypes from 'prop-types';
@@ -28,33 +27,39 @@ function ActionItemParticipant({
   }
 
   return (
-    <div
+    <Grid
+      item
+      container
+      direction="row"
+      justify="space-between"
+      alignItems="center"
       role="button"
       tabIndex={0}
       onKeyDown={() => changeChecked(participant)}
       onClick={() => changeChecked(participant)}
+      className={classes.participant}
     >
-      <div className={classes.participant}>
-        <div
+      <Grid
+        item
+        container
+        direction="row"
+        alignItems="center"
+        justifyContent="flex-start"
+        zeroMinWidth
+        style={{ width: '80%' }}
+      >
+        <Box
+          className={classes.participantBar}
           style={{
-            display: 'flex',
-            width: '70%',
-            lineHeight: '36px',
-            height: '36px',
+            backgroundColor: theme.palette.common[participant.status],
           }}
-        >
-          <Box
-            className={classes.participantBar}
-            style={{
-              backgroundColor: theme.palette.common[participant.status],
-            }}
-          />
+        />
+        <Typography noWrap variant="body1" style={{ fontSize: '14px' }}>
           {participant.name}
-        </div>
-        {button}
-      </div>
-      <Divider />
-    </div>
+        </Typography>
+      </Grid>
+      <Grid item>{button}</Grid>
+    </Grid>
   );
 }
 

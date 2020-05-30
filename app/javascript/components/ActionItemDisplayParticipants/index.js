@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import ActionItemParticipant from '../ActionItemParticipant';
@@ -18,17 +18,17 @@ function ActionItemDisplayParticipants({ classes, selectedParticipants }) {
   }
 
   return (
-    <div className={classes.displayParticipant}>
-      <Box className={classes.boundaryBox}>
-        <div className={classes.displayScroll}>
-          {/* List students out */}
-          <div style={{ direction: 'ltr' }}>
-            {/* Julian passing in cards */}
-            {participantCards}
-          </div>
-        </div>
-      </Box>
-    </div>
+    <Grid
+      container
+      className={classes.boundaryBox}
+      direction="column"
+      justify="flex-start"
+      wrap="nowrap"
+    >
+      {/* List students out */}
+      {/* Julian passing in cards */}
+      {participantCards}
+    </Grid>
   );
 }
 

@@ -7,9 +7,7 @@ const styles = theme => ({
     paddingRight: '8px',
   },
   formStyle: {
-    width: '400px',
-    height: '40%',
-    padding: '10px',
+    padding: '8px',
     minHeight: '300px',
   },
   iconStyle: {

@@ -1,5 +1,6 @@
 const styles = theme => ({
   titleStyle: {
+    paddingRight: '16px',
     maxWidth: '200px',
     textOverflow: 'ellipsis',
   },
@@ -12,8 +13,8 @@ const styles = theme => ({
   cardStyle: {
     width: '100%',
     minHeight: '140px',
-    padding: '8px',
-    margin: '10px 0px',
+    padding: '8px 8px 8px 16px',
+    marginBottom: '10px',
     boxShadow: 'none',
     backgroundColor: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,
@@ -23,8 +24,8 @@ const styles = theme => ({
   disabledCardStyle: {
     width: '100%',
     minHeight: '140px',
-    padding: '8px',
-    margin: '10px 0px',
+    padding: '8px 8px 8px 16px',
+    marginBottom: '10px',
     boxShadow: 'none',
     backgroundColor: '#f1f8e9',
     borderRadius: theme.shape.borderRadius,
@@ -39,6 +40,7 @@ const styles = theme => ({
     height: '4.5em',
     margin: '0px',
     marginBottom: '15px',
+    maxWidth: 'calc(100% - 64px)',
   },
   buttonStyle: {
     color: theme.palette.common.r0,

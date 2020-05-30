@@ -1,12 +1,7 @@
 const styles = theme => ({
-  listStyle: {
-    width: '400px',
-    overflowY: 'scroll',
-    marginBottom: '20px',
-  },
   formStyle: {
-    padding: '10px',
-    height: '475px',
+    height: '480px',
+    minWidth: '400px',
     display: 'block',
     overflowY: 'scroll',
     backgroundColor: theme.palette.common.lightestGrey,

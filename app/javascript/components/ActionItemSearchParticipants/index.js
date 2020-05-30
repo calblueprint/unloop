@@ -4,7 +4,7 @@ import {
   FormControlLabel,
   InputBase,
   Fab,
-  Box,
+  Grid,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -115,7 +115,7 @@ class ActionItemSearchParticipants extends React.Component {
       const light = theme.palette.lighterButton[status];
       if (this.state.selectedStatus !== status) {
         importedStyles.backgroundColor = dark;
-        importedStyles.color = light;
+        importedStyles.color = theme.palette.common.white;
       } else {
         importedStyles.backgroundColor = light;
         importedStyles.color = dark;
@@ -171,45 +171,52 @@ class ActionItemSearchParticipants extends React.Component {
     });
 
     return (
-      <div>
-        <div>
-          <Box className={classes.boundaryBox}>
-            {/* Filter By Category */}
-            <div>
-              FILTER BY CATEGORY
-              <div>{this.statusButtons()}</div>
-            </div>
+      <Grid
+        container
+        className={classes.boundaryBox}
+        direction="column"
+        alignItems="center"
+        justifyContent="space-evenly"
+      >
+        {/* Filter By Category */}
+        <Grid item className={classes.categoryItem}>
+          FILTER BY CATEGORY
+          <Grid justify="center" item>
+            {this.statusButtons()}
+          </Grid>
+        </Grid>
 
-            {/* Search for an individual */}
-            <div className={classes.searchIndividual}>
-              SEARCH FOR INDIVIDUAL
-              <InputBase
-                className={classes.searchBar}
-                onChange={this.filterByName}
-                value={this.state.searchValue}
-              />
-            </div>
-
-            {/* List all the participant cards in scrolling fashion */}
-            <div className={classes.searchScroll}>
-              <div>{participantCards}</div>
-            </div>
-
-            {/* Select All Button */}
-            <FormControlLabel
-              className={classes.selectAll}
-              control={
-                <Checkbox
-                  color="default"
-                  checked={this.isAllSelected()}
-                  onClick={this.allSelect}
-                />
-              }
-              label="SELECT ALL"
+        {/* Search for an individual */}
+        <Grid container direction="column" className={classes.searchIndividual}>
+          <Grid item>SEARCH FOR INDIVIDUAL</Grid>
+          <Grid item>
+            <InputBase
+              className={classes.searchBar}
+              onChange={this.filterByName}
+              value={this.state.searchValue}
             />
-          </Box>
-        </div>
-      </div>
+          </Grid>
+        </Grid>
+
+        {/* List all the participant cards in scrolling fashion */}
+        <Grid item className={classes.searchScroll}>
+          <Grid item>{participantCards}</Grid>
+        </Grid>
+
+        {/* Select All Button */}
+        <Grid item alignItems="flex-end" className={classes.selectAll}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="default"
+                checked={this.isAllSelected()}
+                onClick={this.allSelect}
+              />
+            }
+            label="SELECT ALL"
+          />
+        </Grid>
+      </Grid>
     );
   }
 }

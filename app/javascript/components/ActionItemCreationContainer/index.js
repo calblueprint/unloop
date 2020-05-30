@@ -43,12 +43,14 @@ function ActionItemCreationContainer({
       <Grid
         container
         item
-        justify="space-evenly"
+        justify="flex-start"
         className={classes.containerStyle}
       >
         <Grid item>
           <Button
-            variant={isTemplateSetting ? 'contained' : null}
+            disableElevation
+            variant={isTemplateSetting ? 'contained' : 'outlined'}
+            size="small"
             className={
               isTemplateSetting
                 ? classes.selectedButton
@@ -61,7 +63,9 @@ function ActionItemCreationContainer({
         </Grid>
         <Grid item>
           <Button
-            variant={!isTemplateSetting ? 'contained' : null}
+            disableElevation
+            variant={!isTemplateSetting ? 'contained' : 'outlined'}
+            size="small"
             className={
               !isTemplateSetting
                 ? classes.selectedButton
@@ -82,7 +86,6 @@ function ActionItemCreationContainer({
         direction="column"
         alignItems="center"
         justify="center"
-        spacing={1}
         className={classes.containerStyle}
       >
         {renderButtonRow()}

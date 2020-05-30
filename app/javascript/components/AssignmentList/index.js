@@ -281,8 +281,8 @@ class AssignmentList extends React.Component {
           }}
           // This prop tells whether or not the assignments are being rendered from the participantShowPage
           participantShowPage
-          initialCompletedStaff={assignment.completedStaff}
-          initialCompletedParticipant={assignment.completedParticipant}
+          initialCompletedStaff={assignment.completed_staff}
+          initialCompletedParticipant={assignment.completed_participant}
         />
       ));
       return assignmentCards;

@@ -1,4 +1,4 @@
-export const styles = () => ({
+export const styles = theme => ({
   participantSelect: {
     position: 'absolute',
     right: '0px',
@@ -7,12 +7,10 @@ export const styles = () => ({
   },
 
   participant: {
-    marginTop: '12px',
-    height: '30px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    margin: '8px 0px',
+    height: '36px',
     width: '100%',
+    borderBottom: `.75px solid ${theme.palette.common.lightGrey}`,
   },
 
   participantBar: {

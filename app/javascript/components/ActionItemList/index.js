@@ -1,7 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import ActionItemCard from 'components/ActionItemCard';
 import PropTypes from 'prop-types';
 import styles from './styles';
@@ -27,17 +26,15 @@ function ActionItemList({
   ));
 
   return (
-    <Paper elevation={3} className={classes.formStyle}>
-      <Grid
-        container
-        direction="column"
-        wrap="nowrap"
-        className={classes.listStyle}
-        spacing={1}
-      >
-        {selectedCards}
-      </Grid>
-    </Paper>
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      wrap="nowrap"
+      className={classes.formStyle}
+    >
+      {selectedCards}
+    </Grid>
   );
 }
 

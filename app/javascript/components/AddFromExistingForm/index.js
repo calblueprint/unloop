@@ -181,7 +181,7 @@ class AddFromExistingForm extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         {this.renderChooseDateModal()}
-        <Paper elevation={3} className={classes.formStyle}>
+        <Paper elevation={0} className={classes.formStyle}>
           <Grid container spacing={1} direction="column">
             <Grid item container direction="column" spacing={1}>
               <Grid item>SEARCH BY CATEGORY</Grid>

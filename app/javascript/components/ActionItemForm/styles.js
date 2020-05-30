@@ -7,8 +7,7 @@ const styles = theme => ({
     paddingRight: '8px',
   },
   formStyle: {
-    width: '400px',
-    padding: '10px',
+    padding: '8px',
     minHeight: '425px',
     display: 'block',
     overflow: 'hidden',
