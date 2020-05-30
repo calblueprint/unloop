@@ -89,7 +89,7 @@ function ActionItemCreationContainer({
         className={classes.containerStyle}
       >
         {renderButtonRow()}
-        <Grid item>
+        <Grid item container>
           {creationSetting === Setting.SCRATCH ? (
             <ActionItemForm
               title={title}

@@ -37,9 +37,7 @@ const styles = theme => ({
     fontSize: '14px',
     overflow: 'hidden',
     lineHeight: '1.5em',
-    height: '4.5em',
-    margin: '0px',
-    marginBottom: '15px',
+    height: '1.5em',
     maxWidth: 'calc(100% - 64px)',
   },
   buttonStyle: {

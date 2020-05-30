@@ -8,7 +8,7 @@ const styles = theme => ({
   },
   sideComponentStyle: {
     width: '50%',
-    maxWidth: '600px',
+    maxWidth: '480px',
     height: '80%',
     padding: '8px',
   },
@@ -24,7 +24,8 @@ const styles = theme => ({
   mainBackgroundStyle: {
     backgroundColor: theme.palette.common.lightestGrey,
     padding: '2%',
-    minWidth: '950px',
+    minWidth: '600px',
+    maxWidth: '1200px',
     maxHeight: '80vw',
     borderRadius: theme.shape.borderRadius,
   },
