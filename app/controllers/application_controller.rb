@@ -20,7 +20,6 @@ class ApplicationController < ActionController::Base
         admin: current_user.admin,
         provider: current_user.provider,
         uid: current_user.uid,
-        user_type: current_user.user_type,
       )
     end
   end
