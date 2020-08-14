@@ -1,10 +1,9 @@
 class Staff < ApplicationRecord
   belongs_to :user, dependent: :destroy
-  has_many :case_notes
-  has_many :paperworks
-  has_many :assignments
-  has_many :studio_assessments
-  has_many :assignments
+  has_many :case_notes, dependent: :destroy
+  has_many :paperworks, dependent: :destroy
+  has_many :assignments, dependent: :destroy
+  has_many :studio_assessments, dependent: :destroy
 
   delegate :first_name, to: :user
   delegate :last_name, to: :user

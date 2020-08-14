@@ -1,13 +1,12 @@
 class Participant < ApplicationRecord
   belongs_to :user, dependent: :destroy
-  has_many :case_notes
-  has_many :paperworks
-  has_many :assignments
-  has_many :studio_assessments
-  has_many :assignments
+  has_many :case_notes, dependent: :destroy
+  has_many :paperworks, dependent: :destroy
+  has_many :assignments, dependent: :destroy
+  has_many :studio_assessments, dependent: :destroy
 
-  has_one :personal_questionnaire
-  has_one :professional_questionnaire
+  has_one :personal_questionnaire, dependent: :destroy
+  has_one :professional_questionnaire, dependent: :destroy
 
   enum status: { r0: 0, r1: 1, r2: 2, studio: 3 }
 
