@@ -8,12 +8,12 @@ class Assignment < ApplicationRecord
     validates :completed_participant, inclusion: [true, false]
     validate :nontemplate_assignment, on: [:create, :update, :save]
 
-    delegate :title, to: :action_item
-    delegate :description, to: :action_item
-    delegate :category, to: :action_item
+    delegate :title, to: :action_item, :allow_nil => true
+    delegate :description, to: :action_item, :allow_nil => true
+    delegate :category, to: :action_item, :allow_nil => true
     delegate :fileURL, to: :action_item, :allow_nil => true
     delegate :file, to: :action_item, :allow_nil => true
-    
+
     private 
     def nontemplate_assignment
         if action_item.is_template

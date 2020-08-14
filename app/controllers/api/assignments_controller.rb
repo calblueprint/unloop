@@ -42,7 +42,7 @@ class Api::AssignmentsController < ApplicationController
             render json: { error: 'Could not create assignment' }, status: :unprocessable_entity
             return
         end
-    render json: created_assignments, status: :created 
+        render json: created_assignments, status: :created 
     end  
 
     def update
