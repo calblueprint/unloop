@@ -44,4 +44,3 @@ yarn-debug.log*
 
 #Ignore AWS env vars
 /aws.env
-.idea/
