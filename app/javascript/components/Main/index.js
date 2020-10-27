@@ -64,7 +64,9 @@ function Main(props) {
       disableFocusRipple
       disableTouchRipple
       className={classes.navBarItem}
-      onClick={() => (window.location.href = '/admin')}
+      onClick={() => {
+        window.location.href = '/admin';
+      }}
     >
       <ExitToAppIcon />
       <div className={classes.navText}> Admin View </div>
@@ -80,6 +82,7 @@ function Main(props) {
       case 'Assessments':
         return <BarChartIcon />;
       default:
+        return null;
     }
   };
 
@@ -126,6 +129,7 @@ function Main(props) {
           <ActionItemCreationPage {...contentProps}></ActionItemCreationPage>
         );
       default:
+        return null;
     }
   };
 
@@ -160,13 +164,12 @@ function Main(props) {
                   <div className={classes.navText}> Sign Out </div>
                 </ListItem>
                 {props.isAdmin ? renderAdminButton() : null}
-                {props.userType !== 'participant'
-                  ? Object.entries({
+                {props.userType !== 'participant' &&
+                  Object.entries({
                     Dashboard: '/',
                     'Bulk Assign': '/assignments',
-                      Assessments: '/studio_assessments',
-                    }).map(n => getButton(n[0], n[1]))
-                  : null}
+                    Assessments: '/studio_assessments',
+                  }).map(n => getButton(n[0], n[1]))}
               </List>
             </Grid>
             <Grid
