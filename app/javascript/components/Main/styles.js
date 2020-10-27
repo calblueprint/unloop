@@ -14,6 +14,7 @@ const styles = () => ({
   drawerPaper: {
     width: drawerWidth,
     backgroundColor: '#29313C',
+    overflow: 'hidden',
   },
   // necessary for content to be below app bar
   content: {
