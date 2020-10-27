@@ -13,6 +13,7 @@ export const styles = () => ({
   categoryItem: {
     width: 'calc(100% - 16px)',
     margin: '8px',
+    fontFamily: 'Roboto',
   },
 
   statusButton: {
@@ -26,6 +27,7 @@ export const styles = () => ({
   searchIndividual: {
     width: 'calc(100% - 16px)',
     margin: '8px',
+    fontFamily: 'Roboto',
   },
 
   searchBar: {

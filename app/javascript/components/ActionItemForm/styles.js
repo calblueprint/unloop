@@ -11,6 +11,7 @@ const styles = theme => ({
     padding: '8px',
     minHeight: '300px',
     width: '100%',
+    fontFamily: 'Roboto',
   },
   iconStyle: {
     boxShadow: 'None',
