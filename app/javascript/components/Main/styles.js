@@ -14,12 +14,13 @@ const styles = () => ({
   drawerPaper: {
     width: drawerWidth,
     backgroundColor: '#29313C',
+    overflow: 'hidden',
   },
   // necessary for content to be below app bar
   content: {
     flexGrow: 1,
     backgroundColor: 'rgba(210, 220, 225, 0.63)',
-    position: 'absolute',
+    position: 'relative',
     left: drawerWidth,
     minHeight: '100vh',
     width: 'calc(100vw - 130px)',
