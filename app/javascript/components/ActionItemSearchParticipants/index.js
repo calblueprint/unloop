@@ -5,6 +5,7 @@ import {
   InputBase,
   Fab,
   Grid,
+  Typography,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -180,7 +181,7 @@ class ActionItemSearchParticipants extends React.Component {
       >
         {/* Filter By Category */}
         <Grid item className={classes.categoryItem}>
-          FILTER BY CATEGORY
+          <Typography variant="body1">FILTER BY CATEGORY</Typography>
           <Grid justify="center" item>
             {this.statusButtons()}
           </Grid>
@@ -188,7 +189,7 @@ class ActionItemSearchParticipants extends React.Component {
 
         {/* Search for an individual */}
         <Grid container direction="column" className={classes.searchIndividual}>
-          <Grid item>SEARCH FOR INDIVIDUAL</Grid>
+          <Typography variant="body1">SEARCH FOR INDIVIDUAL</Typography>
           <Grid item>
             <InputBase
               className={classes.searchBar}
