@@ -18,11 +18,17 @@ import { apiPost, apiDelete } from 'utils/axios';
 import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
+const steps = {
+  CHOOSE_ASSIGNMENT: 0,
+  CHOOSE_PARTICIPANT: 1,
+  CONFIRM_SUBMIT: 2,
+};
+
 class ActionItemCreationPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      step: 0,
+      step: steps.CHOOSE_ASSIGNMENT,
       participants: this.props.participants,
       selectedParticipants: [],
       actionItemTitle: '',
@@ -373,16 +379,21 @@ class ActionItemCreationPage extends React.Component {
     let rightComponentText;
     let headerText;
     switch (stepSize) {
-      case 0:
+      case steps.CHOOSE_ASSIGNMENT:
         leftComponentText = 'Assignments';
         rightComponentText = 'Add Assignments';
         headerText = 'Add Assignments to List';
-        leftComponent = (
+        leftComponent = this.state.selectedActionItems.length ? (
           <ActionItemList
             selectedActionItems={this.state.selectedActionItems}
             removeSelectedActionItem={this.removeSelectedActionItem}
             handleOpenModal={this.handleOpenModal}
           />
+        ) : (
+          <Typography variant="body1">
+            Select or create from scratch at least one assignment to assign to
+            participants.
+          </Typography>
         );
         rightComponent = (
           <ActionItemCreationContainer
@@ -408,15 +419,20 @@ class ActionItemCreationPage extends React.Component {
           />
         );
         break;
-      case 1:
+      case steps.CHOOSE_PARTICIPANT:
         leftComponentText = 'Students';
         rightComponentText = 'Add Students';
         headerText = 'Add Students to Assignments';
 
-        leftComponent = (
+        leftComponent = this.state.selectedParticipants.length ? (
           <ActionItemDisplayParticipants
             selectedParticipants={this.state.selectedParticipants}
           />
+        ) : (
+          <Typography variant="body1">
+            Select at least one individual from the right to attach your
+            assignments to.
+          </Typography>
         );
         rightComponent = (
           <ActionItemSearchParticipants
@@ -430,7 +446,7 @@ class ActionItemCreationPage extends React.Component {
           />
         );
         break;
-      case 2:
+      case steps.CONFIRM_SUBMIT:
         leftComponentText = 'Review Students';
         rightComponentText = this.state.submitErrored
           ? 'Failed Assignments'
@@ -468,10 +484,28 @@ class ActionItemCreationPage extends React.Component {
 
   getButtons(stepSize) {
     const { classes } = this.props;
-    const forwardButtonText = stepSize === 2 ? 'ASSIGN' : 'SAVE & CONTINUE';
+    const forwardButtonText =
+      stepSize === steps.CONFIRM_SUBMIT ? 'ASSIGN' : 'SAVE & CONTINUE';
     const handleForwardButtonClick =
-      stepSize === 2 ? this.handleSubmit : this.nextStep;
-
+      stepSize === steps.CONFIRM_SUBMIT ? this.handleSubmit : this.nextStep;
+    const forwardButtonEnabled = () => {
+      if (
+        stepSize === steps.CHOOSE_ASSIGNMENT &&
+        this.state.selectedActionItems.length
+      ) {
+        return true;
+      }
+      if (
+        stepSize === steps.CHOOSE_PARTICIPANT &&
+        this.state.selectedParticipants.length
+      ) {
+        return true;
+      }
+      if (stepSize === steps.CONFIRM_SUBMIT) {
+        return true;
+      }
+      return false;
+    };
     const backButton = (
       <Grid item>
         <Fab
@@ -496,6 +530,7 @@ class ActionItemCreationPage extends React.Component {
           variant="extended"
           size="medium"
           aria-label="category"
+          disabled={forwardButtonEnabled}
           onClick={handleForwardButtonClick}
         >
           <Typography className={classes.categoryButtonStyle} align="center">
