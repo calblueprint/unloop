@@ -63,7 +63,7 @@ function ActionItemForm({
                 color: failedSubmit && !categorySelected ? 'red' : 'black',
               }}
             >
-              Choose Category
+              <Typography variant="body1">Choose Category</Typography>
             </Grid>
             <Grid item container justify="center" spacing={1}>
               {categoryList.slice(0, 4)}
@@ -81,7 +81,7 @@ function ActionItemForm({
           >
             <Grid item>
               <div style={{ color: failedSubmit && !title ? 'red' : 'black' }}>
-                Assignment Title
+                <Typography variant="body1">Assignment Title</Typography>
               </div>
               <TextField
                 className={classes.searchBar}
@@ -100,7 +100,7 @@ function ActionItemForm({
                   color: failedSubmit && !description ? 'red' : 'black',
                 }}
               >
-                Assignment Description
+                <Typography variant="body1">Assignment Description</Typography>
               </div>
               <TextField
                 variant="outlined"
@@ -116,7 +116,7 @@ function ActionItemForm({
               />
             </Grid>
             <Grid item>
-              <div>Due Date (Optional)</div>
+              <Typography variant="body1">Due Date (Optional)</Typography>
               <TextField
                 type="date"
                 value={dueDate}
