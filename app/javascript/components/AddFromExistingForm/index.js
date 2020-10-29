@@ -48,6 +48,7 @@ class AddFromExistingForm extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.templates.length !== prevProps.templates.length) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ actionItemTemplates: this.props.templates });
     }
   }
@@ -184,7 +185,7 @@ class AddFromExistingForm extends React.Component {
         <Paper elevation={0} className={classes.formStyle}>
           <Grid container direction="column">
             <Grid item container direction="column" spacing={1}>
-              <Grid item>SEARCH BY CATEGORY</Grid>
+              <Typography variant="body1">SEARCH BY CATEGORY</Typography>
               <Grid item container justify="center" spacing={1}>
                 {categoryList.slice(0, 4)}
               </Grid>
@@ -194,7 +195,7 @@ class AddFromExistingForm extends React.Component {
             </Grid>
             <Grid item container direction="column" alignItems="stretch">
               <Grid item>
-                <div>SEARCH FOR ASSIGNMENT</div>
+                <Typography variant="body1">SEARCH FOR ASSIGNMENT</Typography>
                 <TextField
                   className={classes.searchBar}
                   onChange={this.filterActionItems}
