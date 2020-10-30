@@ -530,7 +530,7 @@ class ActionItemCreationPage extends React.Component {
           variant="extended"
           size="medium"
           aria-label="category"
-          disabled={forwardButtonEnabled}
+          disabled={!forwardButtonEnabled()}
           onClick={handleForwardButtonClick}
         >
           <Typography className={classes.categoryButtonStyle} align="center">
