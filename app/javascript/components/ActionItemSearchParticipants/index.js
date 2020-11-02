@@ -177,14 +177,13 @@ class ActionItemSearchParticipants extends React.Component {
         className={classes.boundaryBox}
         direction="column"
         alignItems="center"
-        justifyContent="space-evenly"
+        justifycontent="space-evenly"
+        justify="center"
       >
         {/* Filter By Category */}
         <Grid item className={classes.categoryItem}>
           <Typography variant="body1">FILTER BY CATEGORY</Typography>
-          <Grid justify="center" item>
-            {this.statusButtons()}
-          </Grid>
+          <Grid item>{this.statusButtons()}</Grid>
         </Grid>
 
         {/* Search for an individual */}
@@ -205,7 +204,7 @@ class ActionItemSearchParticipants extends React.Component {
         </Grid>
 
         {/* Select All Button */}
-        <Grid item alignItems="flex-end" className={classes.selectAll}>
+        <Grid item className={classes.selectAll}>
           <FormControlLabel
             control={
               <Checkbox

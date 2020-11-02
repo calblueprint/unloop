@@ -77,7 +77,7 @@ function LoadModal({
         <Grid item>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <Typography className={classes.textStyle}>{titleText}</Typography>
+              {titleText}
             </DialogContentText>
           </DialogContent>
         </Grid>

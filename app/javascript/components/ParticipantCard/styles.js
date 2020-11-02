@@ -34,7 +34,6 @@ const styles = theme => ({
         case 'Studio':
           return theme.palette.common.studio;
         default:
-          console.error('Participant has no status');
           return theme.palette.common.darkestBlue;
       }
     },

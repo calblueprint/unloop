@@ -253,7 +253,7 @@ function ActionItemCard({
             item
             container
             justify="flex-end"
-            style={{ 'padding-left': '16px', width: 'calc(100% - 100px)' }}
+            style={{ paddingLeft: '16px', width: 'calc(100% - 100px)' }}
           >
             {/* Make sure renderClose + participantShowPage are not both true, or else you get two edit buttons. */}
             <Grid item>{renderCompleteButton()}</Grid>
@@ -280,8 +280,8 @@ ActionItemCard.propTypes = {
   removeActionItem: PropTypes.func,
   addBorderBottom: PropTypes.bool,
   participantShowPage: PropTypes.bool,
-  initialCompletedStaff: PropTypes.bool.isRequired,
-  initialCompletedParticipant: PropTypes.bool.isRequired,
+  initialCompletedStaff: PropTypes.bool,
+  initialCompletedParticipant: PropTypes.bool,
   assignmentId: PropTypes.number,
 };
 

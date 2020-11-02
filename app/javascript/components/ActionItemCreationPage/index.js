@@ -512,7 +512,7 @@ class ActionItemCreationPage extends React.Component {
       </Grid>
     );
     const forwardButton = (
-      <Grid item style={{ 'padding-left': '16px' }}>
+      <Grid item style={{ paddingLeft: '16px' }}>
         <Fab
           className={classes.iconStyle}
           component="span"
@@ -631,7 +631,7 @@ class ActionItemCreationPage extends React.Component {
               item
               direction="row"
               alignItems="flex-start"
-              justifyContent="center"
+              justifycontent="center"
               className={classes.headerStyle}
             >
               <Grid item>
