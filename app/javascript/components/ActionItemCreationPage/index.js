@@ -378,6 +378,7 @@ class ActionItemCreationPage extends React.Component {
     let leftComponentText;
     let rightComponentText;
     let headerText;
+    let forwardButtonEnabled;
     switch (stepSize) {
       case steps.CHOOSE_ASSIGNMENT:
         leftComponentText = 'Assignments';
@@ -418,6 +419,7 @@ class ActionItemCreationPage extends React.Component {
             categories={this.props.categories}
           />
         );
+        forwardButtonEnabled = !!this.state.selectedActionItems.length;
         break;
       case steps.CHOOSE_PARTICIPANT:
         leftComponentText = 'Students';
@@ -445,6 +447,7 @@ class ActionItemCreationPage extends React.Component {
             removeAllUsers={this.removeAllUsersFromState}
           />
         );
+        forwardButtonEnabled = !!this.state.selectedParticipants.length;
         break;
       case steps.CONFIRM_SUBMIT:
         leftComponentText = 'Review Students';
@@ -465,6 +468,7 @@ class ActionItemCreationPage extends React.Component {
             handleOpenModal={this.handleOpenModal}
           />
         );
+        forwardButtonEnabled = true;
         break;
       default:
         leftComponent = null;
@@ -472,6 +476,7 @@ class ActionItemCreationPage extends React.Component {
         leftComponentText = null;
         rightComponentText = null;
         headerText = null;
+        forwardButtonEnabled = false;
     }
     return {
       leftComponent,
@@ -479,33 +484,17 @@ class ActionItemCreationPage extends React.Component {
       leftComponentText,
       rightComponentText,
       headerText,
+      forwardButtonEnabled,
     };
   }
 
-  getButtons(stepSize) {
+  getButtons(stepSize, forwardButtonEnabled) {
     const { classes } = this.props;
     const forwardButtonText =
       stepSize === steps.CONFIRM_SUBMIT ? 'ASSIGN' : 'SAVE & CONTINUE';
     const handleForwardButtonClick =
       stepSize === steps.CONFIRM_SUBMIT ? this.handleSubmit : this.nextStep;
-    const forwardButtonEnabled = () => {
-      if (
-        stepSize === steps.CHOOSE_ASSIGNMENT &&
-        this.state.selectedActionItems.length
-      ) {
-        return true;
-      }
-      if (
-        stepSize === steps.CHOOSE_PARTICIPANT &&
-        this.state.selectedParticipants.length
-      ) {
-        return true;
-      }
-      if (stepSize === steps.CONFIRM_SUBMIT) {
-        return true;
-      }
-      return false;
-    };
+
     const backButton = (
       <Grid item>
         <Fab
@@ -530,7 +519,7 @@ class ActionItemCreationPage extends React.Component {
           variant="extended"
           size="medium"
           aria-label="category"
-          disabled={!forwardButtonEnabled()}
+          disabled={!forwardButtonEnabled}
           onClick={handleForwardButtonClick}
         >
           <Typography className={classes.categoryButtonStyle} align="center">
@@ -557,8 +546,12 @@ class ActionItemCreationPage extends React.Component {
       rightComponent,
       rightComponentText,
       headerText,
+      forwardButtonEnabled,
     } = this.getMainComponents(this.state.step);
-    const buttonsGrid = this.getButtonsGrid(this.state.step);
+    const buttonsGrid = this.getButtonsGrid(
+      this.state.step,
+      forwardButtonEnabled,
+    );
 
     return (
       <div>
