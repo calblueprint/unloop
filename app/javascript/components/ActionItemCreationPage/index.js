@@ -18,11 +18,17 @@ import { apiPost, apiDelete } from 'utils/axios';
 import * as Sentry from '@sentry/browser';
 import styles from './styles';
 
+const steps = {
+  CHOOSE_ASSIGNMENT: 0,
+  CHOOSE_PARTICIPANT: 1,
+  CONFIRM_SUBMIT: 2,
+};
+
 class ActionItemCreationPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      step: 0,
+      step: steps.CHOOSE_ASSIGNMENT,
       participants: this.props.participants,
       selectedParticipants: [],
       actionItemTitle: '',
@@ -372,17 +378,23 @@ class ActionItemCreationPage extends React.Component {
     let leftComponentText;
     let rightComponentText;
     let headerText;
+    let forwardButtonEnabled;
     switch (stepSize) {
-      case 0:
+      case steps.CHOOSE_ASSIGNMENT:
         leftComponentText = 'Assignments';
         rightComponentText = 'Add Assignments';
         headerText = 'Add Assignments to List';
-        leftComponent = (
+        leftComponent = this.state.selectedActionItems.length ? (
           <ActionItemList
             selectedActionItems={this.state.selectedActionItems}
             removeSelectedActionItem={this.removeSelectedActionItem}
             handleOpenModal={this.handleOpenModal}
           />
+        ) : (
+          <Typography variant="body1">
+            Select or create from scratch at least one assignment to assign to
+            participants.
+          </Typography>
         );
         rightComponent = (
           <ActionItemCreationContainer
@@ -407,16 +419,22 @@ class ActionItemCreationPage extends React.Component {
             categories={this.props.categories}
           />
         );
+        forwardButtonEnabled = !!this.state.selectedActionItems.length;
         break;
-      case 1:
+      case steps.CHOOSE_PARTICIPANT:
         leftComponentText = 'Students';
         rightComponentText = 'Add Students';
         headerText = 'Add Students to Assignments';
 
-        leftComponent = (
+        leftComponent = this.state.selectedParticipants.length ? (
           <ActionItemDisplayParticipants
             selectedParticipants={this.state.selectedParticipants}
           />
+        ) : (
+          <Typography variant="body1">
+            Select at least one individual from the right to attach your
+            assignments to.
+          </Typography>
         );
         rightComponent = (
           <ActionItemSearchParticipants
@@ -429,8 +447,9 @@ class ActionItemCreationPage extends React.Component {
             removeAllUsers={this.removeAllUsersFromState}
           />
         );
+        forwardButtonEnabled = !!this.state.selectedParticipants.length;
         break;
-      case 2:
+      case steps.CONFIRM_SUBMIT:
         leftComponentText = 'Review Students';
         rightComponentText = this.state.submitErrored
           ? 'Failed Assignments'
@@ -449,6 +468,7 @@ class ActionItemCreationPage extends React.Component {
             handleOpenModal={this.handleOpenModal}
           />
         );
+        forwardButtonEnabled = true;
         break;
       default:
         leftComponent = null;
@@ -456,6 +476,7 @@ class ActionItemCreationPage extends React.Component {
         leftComponentText = null;
         rightComponentText = null;
         headerText = null;
+        forwardButtonEnabled = false;
     }
     return {
       leftComponent,
@@ -463,14 +484,16 @@ class ActionItemCreationPage extends React.Component {
       leftComponentText,
       rightComponentText,
       headerText,
+      forwardButtonEnabled,
     };
   }
 
-  getButtons(stepSize) {
+  getButtons(stepSize, forwardButtonEnabled) {
     const { classes } = this.props;
-    const forwardButtonText = stepSize === 2 ? 'ASSIGN' : 'SAVE & CONTINUE';
+    const forwardButtonText =
+      stepSize === steps.CONFIRM_SUBMIT ? 'ASSIGN' : 'SAVE & CONTINUE';
     const handleForwardButtonClick =
-      stepSize === 2 ? this.handleSubmit : this.nextStep;
+      stepSize === steps.CONFIRM_SUBMIT ? this.handleSubmit : this.nextStep;
 
     const backButton = (
       <Grid item>
@@ -496,6 +519,7 @@ class ActionItemCreationPage extends React.Component {
           variant="extended"
           size="medium"
           aria-label="category"
+          disabled={!forwardButtonEnabled}
           onClick={handleForwardButtonClick}
         >
           <Typography className={classes.categoryButtonStyle} align="center">
@@ -522,8 +546,12 @@ class ActionItemCreationPage extends React.Component {
       rightComponent,
       rightComponentText,
       headerText,
+      forwardButtonEnabled,
     } = this.getMainComponents(this.state.step);
-    const buttonsGrid = this.getButtonsGrid(this.state.step);
+    const buttonsGrid = this.getButtonsGrid(
+      this.state.step,
+      forwardButtonEnabled,
+    );
 
     return (
       <div>
