@@ -119,7 +119,7 @@ ViewMoreModal.propTypes = {
   classes: PropTypes.object.isRequired,
   description: PropTypes.string,
   title: PropTypes.string,
-  category: PropTypes.string.isRequired,
+  category: PropTypes.string,
   dueDate: PropTypes.string,
   open: PropTypes.bool.isRequired,
   isCaseNote: PropTypes.bool,

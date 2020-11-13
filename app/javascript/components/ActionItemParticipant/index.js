@@ -44,7 +44,7 @@ function ActionItemParticipant({
         container
         direction="row"
         alignItems="center"
-        justifyContent="flex-start"
+        justifycontent="flex-start"
         zeroMinWidth
         style={{ width: '80%' }}
       >

@@ -147,7 +147,7 @@ ParticipantShowPage.propTypes = {
   personalQuestionnaire: PropTypes.object.isRequired,
   professionalQuestionnaire: PropTypes.object.isRequired,
   studioAssessments: PropTypes.array.isRequired,
-  resumeURL: PropTypes.string.isRequired,
+  resumeURL: PropTypes.string,
   categories: PropTypes.array.isRequired,
   assignmentList: PropTypes.array,
 };

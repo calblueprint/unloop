@@ -88,7 +88,7 @@ export const StudioAssessmentForm = ({
 };
 
 StudioAssessmentForm.propTypes = {
-  studioAssessment: PropTypes.object.isRequired,
+  studioAssessment: PropTypes.object,
   participantId: PropTypes.number.isRequired,
   userType: PropTypes.oneOf(['staff', 'participant']).isRequired,
   onClose: PropTypes.func,

@@ -53,7 +53,6 @@ function EnhancedTableHead(props) {
           <TableCell
             key={headCell.id}
             align="left"
-            pointer-events={headCell.sortable}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             {headCell.sortable ? (
@@ -124,7 +123,7 @@ function EnhancedTable(props) {
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size="large"
+            size="medium"
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -180,7 +179,7 @@ EnhancedTable.propTypes = {
   headCells: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
   pageHandler: PropTypes.func.isRequired,
-  page: PropTypes.object.isRequired,
+  page: PropTypes.number.isRequired,
   type: PropTypes.string,
 };
 

@@ -61,7 +61,6 @@ function Main(props) {
     <ListItem
       button
       component="a"
-      disableFocusRipple
       disableTouchRipple
       className={classes.navBarItem}
       onClick={() => {
@@ -155,7 +154,6 @@ function Main(props) {
                 <ListItem
                   button
                   component="a"
-                  disableFocusRipple
                   disableTouchRipple
                   className={classes.navBarItem}
                   onClick={logout}
