@@ -29,9 +29,7 @@ RailsAdmin.config do |config|
 
   config.actions do
     dashboard                     # mandatory
-    index do 
-      except ['Participant', 'Staff']
-    end                       
+    index
     new
     export
     bulk_delete

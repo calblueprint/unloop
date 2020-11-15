@@ -5,6 +5,7 @@ import {
   InputBase,
   Fab,
   Grid,
+  Typography,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -176,19 +177,18 @@ class ActionItemSearchParticipants extends React.Component {
         className={classes.boundaryBox}
         direction="column"
         alignItems="center"
-        justifyContent="space-evenly"
+        justifycontent="space-evenly"
+        justify="center"
       >
         {/* Filter By Category */}
         <Grid item className={classes.categoryItem}>
-          FILTER BY CATEGORY
-          <Grid justify="center" item>
-            {this.statusButtons()}
-          </Grid>
+          <Typography variant="body1">FILTER BY CATEGORY</Typography>
+          <Grid item>{this.statusButtons()}</Grid>
         </Grid>
 
         {/* Search for an individual */}
         <Grid container direction="column" className={classes.searchIndividual}>
-          <Grid item>SEARCH FOR INDIVIDUAL</Grid>
+          <Typography variant="body1">SEARCH FOR INDIVIDUAL</Typography>
           <Grid item>
             <InputBase
               className={classes.searchBar}
@@ -204,7 +204,7 @@ class ActionItemSearchParticipants extends React.Component {
         </Grid>
 
         {/* Select All Button */}
-        <Grid item alignItems="flex-end" className={classes.selectAll}>
+        <Grid item className={classes.selectAll}>
           <FormControlLabel
             control={
               <Checkbox
