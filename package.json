@@ -88,7 +88,7 @@
     "stylelint-config-recommended": "^3.0.0",
     "trie-search": "^1.2.11",
     "turbolinks": "^5.2.0",
-    "validator": "^13.0.0",
+    "validator": "^13.7.0",
     "webpack": "^4.41.2"
   },
   "version": "0.1.0",
